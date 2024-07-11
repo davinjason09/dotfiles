@@ -1,0 +1,90 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version = 2
+final_space = true
+console_title_template = '{{if .Root}} ⚡ {{end}}{{.Folder | replace "~" "🏠"}} @ {{.HostName}}'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+
+  [[blocks.segments]]
+    type = 'os'
+    style = 'diamond'
+    foreground = '#FFFFFF'
+    background = '#0C212F'
+    leading_diamond = ''
+    trailing_diamond = ''
+    template = ' {{ .Icon }} '
+
+  [[blocks.segments]]
+    type = 'root'
+    style = 'diamond'
+    foreground = '#FFFFFF'
+    background = '#DE2121'
+    leading_diamond = '<transparent,#DE2121></>'
+    trailing_diamond = ''
+    template = '  '
+
+  [[blocks.segments]]
+    type = 'path'
+    style = 'diamond'
+    foreground = '#0C212F'
+    background = '#26BDBB'
+    leading_diamond = '<transparent,#26BDBB></>'
+    trailing_diamond = ''
+    template = ' {{ .Path }} '
+
+    [blocks.segments.properties]
+      folder_icon = '...'
+      folder_separator_icon = '<transparent>  </>'
+      home_icon = ''
+      style = 'agnoster_short'
+
+  [[blocks.segments]]
+    type = 'git'
+    style = 'powerline'
+    powerline_symbol = ''
+    foreground = '#FFFFFF'
+    background = '#280C2E'
+    background_templates = ['{{ if or (.Working.Changed) (.Staging.Changed) }}#7621DE{{ end }}', '{{ if and (gt .Ahead 0) (gt .Behind 0) }}#7621DE{{ end }}', '{{ if gt .Ahead 0 }}#7621DE{{ end }}', '{{ if gt .Behind 0 }}#7621DE{{ end }}']
+    template = ' {{ .UpstreamIcon }}{{ .HEAD }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+
+    [blocks.segments.properties]
+      fetch_stash_count = true
+      fetch_status = true
+      fetch_upstream_icon = true
+
+  [[blocks.segments]]
+    type = 'time'
+    style = 'diamond'
+    foreground = '#FFFFFF'
+    background = '#0C212F'
+    leading_diamond = '<transparent,#0C212F></>'
+    trailing_diamond = ''
+    template = ' {{ .CurrentDate | date .Format }} '
+
+    [blocks.segments.properties]
+      time_format = '15:04'
+
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'diamond'
+    foreground = '#0C212F'
+    background = '#26BDBB'
+    leading_diamond = '<transparent,#26BDBB></>'
+    trailing_diamond = ''
+    template = ' {{ .FormattedMs }}s '
+
+    [blocks.segments.properties]
+      style = 'dallas'
+      threshold = 0.0
+
+  [[blocks.segments]]
+    type = 'status'
+    style = 'diamond'
+    foreground = '#ffffff'
+    background = '#910000'
+    leading_diamond = '<transparent,background></>'
+    trailing_diamond = ''
+    template = '<transparent> </> {{ reason .Code }} '
