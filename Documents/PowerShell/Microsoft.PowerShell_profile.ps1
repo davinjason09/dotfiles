@@ -5,43 +5,47 @@ Import-Module CompletionPredictor
 # Import-Module "C:\Users\ASUS\Documents\PowerShell\PSFzf-Local\PSFzf-Local.psm1"
 Import-Module "$($env:USERPROFILE)\Documents\PowerShell\PsFzf-Local\PSFzf-Local.psm1"
 
-oh-my-posh init pwsh --config "$($env:USERPROFILE)\.config\powershell\theme\theme.toml" | Invoke-Expression
+oh-my-posh init pwsh --config "$($env:USERPROFILE)\.config\oh-my-posh\theme.toml" | Invoke-Expression
 # zoxide
 Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
 
 # gh completion
-Invoke-Expression (& { (gh completion -s powershell | Out-String) })
+Invoke-Expression -Command $(gh completion -s powershell | Out-String)
 
-Set-Alias c code
-Set-Alias g git
-Set-Alias lg lazygit
-Set-Alias -Name cc -Value Compile_Run_Cc -Option AllScope
-
-$env:logFile = "$($env:USERPROFILE)\.config\powershell\logs\log.txt"
+# $env:logFile = "$($env:USERPROFILE)\.config\powershell\logs\log.txt"
 
 # Check WIFI Password
-. "$($env:USERPROFILE)\.config\powershell\scripts\checkWifiPassword.ps1"
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\checkWifiPassword.ps1"
 
 # Compile CPP
-. "$($env:USERPROFILE)\.config\powershell\scripts\compileCPP.ps1"
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\compileCPP.ps1"
 
 # Clear Cache
-. "$($env:USERPROFILE)\.config\powershell\scripts\clearCache.ps1"
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\clearCache.ps1"
+
+# Check Battery
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\checkBattery.ps1"
 
 # Update Apps
-. "$($env:USERPROFILE)\.config\powershell\scripts\manageApps.ps1"
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\manageApps.ps1"
 
 # fzf
-. "$($env:USERPROFILE)\.config\powershell\scripts\fzf.ps1"
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\fzf.ps1"
 
 # eza
-. "$($env:USERPROFILE)\.config\powershell\scripts\eza.ps1"
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\eza.ps1"
+
+# linuxLike Command
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\linuxLike.ps1"
 
 # PSReadline
-. "$($env:USERPROFILE)\.config\powershell\scripts\PSReadline.ps1"
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\PSReadline.ps1"
+
+# Alias
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\setAlias.ps1"
 
 # Utils
-. "$($env:USERPROFILE)\.config\powershell\scripts\utils.ps1"
+. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\utils.ps1"
 
 # . C:\Users\ASUS\Documents\PowerShell\gh-copilot.ps1
 
