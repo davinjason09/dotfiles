@@ -1,60 +1,177 @@
+if (-not $Global:PSDefaultParameterValues) { $Global:PSDefaultParameterValues = @{} }
+
+$OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = [Text.Encoding]::UTF8
+$Global:PSDefaultParameterValues['*:Encoding'] = $Global:PSDefaultParameterValues['*:InputEncoding'] = $Global:PSDefaultParameterValues['*:OutputEncoding'] = $OutputEncoding
+
 Import-Module PSReadLine
 Import-Module posh-git
 Import-Module CompletionPredictor
+Import-Module "~\Documents\PowerShell\PsFzf-Local"
+# Import-Module PSFzf -Verbose
 
-# Import-Module "C:\Users\ASUS\Documents\PowerShell\PSFzf-Local\PSFzf-Local.psm1"
-Import-Module "$($env:USERPROFILE)\Documents\PowerShell\PsFzf-Local\PSFzf-Local.psm1"
-
-oh-my-posh init pwsh --config "$($env:USERPROFILE)\.config\oh-my-posh\theme.toml" | Invoke-Expression
-# zoxide
 Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
 
-# gh completion
-Invoke-Expression -Command $(gh completion -s powershell | Out-String)
+if (Get-Command starship -ErrorAction SilentlyContinue) {
+  $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship\starship.toml"
+  starship init powershell --print-full-init | Out-String | Invoke-Expression
+}
 
-# $env:logFile = "$($env:USERPROFILE)\.config\powershell\logs\log.txt"
+$env:PWSH_DEFERRED_LOAD = 1
+$LogDeferredLoad = $true
 
-# Check WIFI Password
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\checkWifiPassword.ps1"
+$DeferredLoad = {
+  "dot sourcing script" | Write-DeferredLoadLog
 
-# Compile CPP
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\compileCPP.ps1"
+  # PSReadline
+  . "~\Documents\PowerShell\Scripts\Personal\PSReadline.ps1"
+  
+  # fzf
+  . "~\Documents\PowerShell\Scripts\Personal\fzf.ps1"
+  
+  # eza
+  . "~\Documents\PowerShell\Scripts\Personal\eza.ps1"
+  
+  # Check WIFI Password
+  . "~\Documents\PowerShell\Scripts\Personal\checkWifiPassword.ps1"
+  
+  # Compile CPP
+  . "~\Documents\PowerShell\Scripts\Personal\compileCPP.ps1"
+  
+  # Clear Cache
+  . "~\Documents\PowerShell\Scripts\Personal\clearCache.ps1"
+  
+  # Check Battery
+  . "~\Documents\PowerShell\Scripts\Personal\checkBattery.ps1"
+  
+  # Update Apps
+  . "~\Documents\PowerShell\Scripts\Personal\manageApps.ps1"
+  
+  # linuxLike Command
+  . "~\Documents\PowerShell\Scripts\Personal\linuxLike.ps1"
+  
+  # Alias
+  . "~\Documents\PowerShell\Scripts\Personal\setAlias.ps1"
+  
+  # Utils
+  . "~\Documents\PowerShell\Scripts\Personal\utils.ps1"
 
-# Clear Cache
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\clearCache.ps1"
+  "completed dot-sourcing script" | Write-DeferredLoadLog
+}
 
-# Check Battery
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\checkBattery.ps1"
+function Write-DeferredLoadLog {
+  param (
+    [Parameter(Mandatory, ValueFromPipeline)]
+    [String]$Message
+  )
 
-# Update Apps
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\manageApps.ps1"
+  if (-not $LogDeferredLoad) { return }
 
-# fzf
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\fzf.ps1"
+  $LogPath = "~\Documents\PowerShell\Logs\DeferredLoad.log"
 
-# eza
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\eza.ps1"
+  $Now = [DateTime]::Now
+  if (-not $Start) {
+    $Global:Start = $Now
+  }
 
-# linuxLike Command
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\linuxLike.ps1"
+  $Timestamp = $Now.ToString('o')
+  (
+    $Timestamp,
+    ($Now - $Start).ToString('ss\.fff'),
+    [System.Environment]::CurrentManagedThreadId.ToString().PadLeft(3, ' '),
+    $Message
+  ) -join '  ' | Out-File -FilePath $LogPath -Append
+}
 
-# PSReadline
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\PSReadline.ps1"
+if ($env:PWSH_DEFERRED_LOAD -imatch '^(0|false|no)$') {
+  . $DeferredLoad
+  return
+}
 
-# Alias
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\setAlias.ps1"
+$LogDeferredLoad = $true
+"=== Starting deferred load ===" | Write-DeferredLoadLog
 
-# Utils
-. "$($env:USERPROFILE)\Documents\PowerShell\Scripts\Personal\utils.ps1"
+$GlobalState = [PSModuleInfo]::new($false)
+$GlobalState.SessionState = $ExecutionContext.SessionState
 
-# . C:\Users\ASUS\Documents\PowerShell\gh-copilot.ps1
+$Runspace = [RunspaceFactory]::CreateRunspace($Host)
+$Powershell = [PowerShell]::Create($Runspace)
+$Runspace.Open()
+$Runspace.SessionStateProxy.SetVariable('GlobalState', $GlobalState)
 
-fastfetch -l "$($env:USERPROFILE)\.config\fastfetch\logo.txt" `
---logo-color-1 "38;2;20;15;14" `
---logo-color-2 "38;2;38;29;26" `
---logo-color-3 "38;2;48;36;32" `
---logo-color-4 "38;2;64;49;44" `
---logo-color-5 "38;2;246;244;241" `
---logo-color-6 "38;2;13;105;9" `
---logo-color-7 "38;2;6;59;5" `
---logo-color-8 "38;2;230;181;144"
+$Private = [Reflection.BindingFlags]'Instance, NonPublic'
+$ContextField = [Management.Automation.EngineIntrinsics].GetField('_context', $Private)
+$Context = $ContextField.GetValue($ExecutionContext)
+
+$ContextCACProperty = $Context.GetType().GetProperty('CustomArgumentCompleters', $Private)
+$ContextNACProperty = $Context.GetType().GetProperty('NativeArgumentCompleters', $Private)
+$CAC = $ContextCACProperty.GetValue($Context)
+$NAC = $ContextNACProperty.GetValue($Context)
+
+if ($null -eq $CAC) {
+    $CAC = [Collections.Generic.Dictionary[String, ScriptBlock]]::new()
+    $ContextCACProperty.SetValue($Context, $CAC)
+}
+
+if ($null -eq $NAC) {
+    $NAC = [Collections.Generic.Dictionary[String, ScriptBlock]]::new()
+    $ContextNACProperty.SetValue($Context, $NAC)
+}
+
+$RSEngineField = $Runspace.GetType().GetField('_engine', $Private)
+$RSEngine = $RSEngineField.GetValue($Runspace)
+$EngineContextField = $RSEngine.GetType().GetFields($Private) | Where-Object {$_.FieldType.Name -eq 'ExecutionContext'}
+$RSContext = $EngineContextField.GetValue($RSEngine)
+
+$ContextCACProperty.SetValue($RSContext, $CAC)
+$ContextNACProperty.SetValue($RSContext, $NAC)
+
+Remove-Variable -ErrorAction Ignore (
+  'Private',
+  'GlobalContext',
+  'ContextField',
+  'ContextCACProperty',
+  'ContextNACProperty',
+  'CAC',
+  'NAC',
+  'RSEngineField',
+  'RSEngine',
+  'EngineContextField',
+  'RSContext',
+  'Runspace'
+)
+
+$Wrapper = {
+  Start-Sleep -Milliseconds 100
+
+  . $GlobalState {. $DeferredLoad; Remove-Variable DeferredLoad}
+}
+
+$AsyncResult = $Powershell.AddScript($Wrapper.ToString()).BeginInvoke()
+
+$null = Register-ObjectEvent -MessageData $AsyncResult -InputObject $Powershell -EventName InvocationStateChanged -SourceIdentifier __DeferredLoaderCleanup -Action {
+  $AsyncResult = $Event.MessageData
+  $Powershell = $Event.Sender
+
+  if ($Powershell.InvocationStateInfo.State -ge 2) {
+    if ($Powershell.Streams.Error) {
+      $Powershell.Streams.Error | Out-String | Write-Host -ForegroundColor Red
+    }
+
+    try {
+      $null = $Powershell.EndInvoke($AsyncResult)
+    } catch {
+      $_ | Out-String | Write-Host -ForegroundColor Red
+    }
+
+    $PowerShell.Dispose()
+    $Runspace.Dispose()
+    Unregister-Event __DeferredLoaderCleanup
+    Get-Job __DeferredLoaderCleanup | Remove-Job
+  }
+}
+
+Remove-Variable Wrapper, Powershell, AsyncResult, GlobalState
+
+"Synchronous load complete" | Write-DeferredLoadLog
+
+fastfetch 
