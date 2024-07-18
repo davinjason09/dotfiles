@@ -24,7 +24,7 @@ $env:_PSFZF_FZF_DEFAULT_OPTS = @"
 --bind ctrl-e:toggle-preview
 "@
 
-$env:FZF_ALT_C_COMMAND = "fd --type directory --hidden --follow --exclude .git --strip-cwd-prefix"
+$env:FZF_ALT_C_COMMAND = "fd --type d --hidden --follow --exclude .git --fixed-strings --strip-cwd-prefix --color always"
 $env:FZF_ALT_C_OPTS = @"
 --prompt='Directory  ' 
 --preview="eza --tree --level=1 --color=always --icons=always {}" 
