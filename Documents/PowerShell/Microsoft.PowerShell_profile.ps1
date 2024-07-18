@@ -24,7 +24,7 @@ $env:PWSH_DEFERRED_LOAD = 1
 $LogDeferredLoad = $false
 
 $DeferredLoad = {
-  "dot sourcing script" | Write-DeferredLoadLog
+  'dot sourcing script' | Write-DeferredLoadLog
 
   # PSReadline
   . "~\Documents\PowerShell\Scripts\Personal\PSReadline.ps1"
@@ -59,7 +59,7 @@ $DeferredLoad = {
   # Utils
   . "~\Documents\PowerShell\Scripts\Personal\utils.ps1"
 
-  "completed dot-sourcing script" | Write-DeferredLoadLog
+  'completed dot-sourcing script' | Write-DeferredLoadLog
 }
 
 function Write-DeferredLoadLog {
@@ -91,8 +91,8 @@ if ($env:PWSH_DEFERRED_LOAD -imatch '^(0|false|no)$') {
   return
 }
 
-"=== Starting deferred load ===" | Write-DeferredLoadLog
 $LogDeferredLoad = $false
+'=== Starting deferred load ===' | Write-DeferredLoadLog
 
 $GlobalState = [PSModuleInfo]::new($false)
 $GlobalState.SessionState = $ExecutionContext.SessionState
@@ -158,8 +158,6 @@ $null = Register-ObjectEvent -MessageData $AsyncResult -InputObject $Powershell 
   $Powershell = $Event.Sender
 
   if ($Powershell.InvocationStateInfo.State -ge 2) {
-    if ($Powershell.Streams.Error) {
-      $Powershell.Streams.Error | Out-String | Write-Host -ForegroundColor Red
     if ($Powershell.Streams.Error -and $logError) {
       $Powershell.Streams.Error | Out-String | Out-File -FilePath $env:errorLog -Append
     }
@@ -179,4 +177,4 @@ $null = Register-ObjectEvent -MessageData $AsyncResult -InputObject $Powershell 
 
 Remove-Variable Wrapper, Powershell, AsyncResult, GlobalState
 
-"Synchronous load complete" | Write-DeferredLoadLog
+'Synchronous load complete' | Write-DeferredLoadLog
