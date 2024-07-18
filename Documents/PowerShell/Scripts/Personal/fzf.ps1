@@ -3,10 +3,10 @@ $env:FZF_DEFAULT_OPTS = @"
 --color=hl:#91B4D5,hl+:#88DDFF,info:#FFDC96,marker:#AAE682
 --color=prompt:#CF679D,spinner:#5DE4C7,pointer:#9696FF,header:#5FB3A0
 --color=gutter:#121212,border:#42675A,scrollbar:#5DE4C7,preview-scrollbar:#5DE4C7
---color=label:#aeaeae,query:#FFFFFF
+--color=label:#aeaeae,query:#FFFFFF --layout=reverse
 --cycle --height=50% --border="rounded"
---prompt=" " --marker=" " --pointer=" "  
---separator="─" --scrollbar="│"
+--prompt=" " --marker="" --pointer="󰜴"
+--separator="─" --scrollbar="│"             
 --bind alt-w:toggle-preview-wrap
 --bind ctrl-e:toggle-preview
 "@
