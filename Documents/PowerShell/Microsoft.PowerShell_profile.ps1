@@ -3,18 +3,14 @@ if (-not $Global:PSDefaultParameterValues) { $Global:PSDefaultParameterValues = 
 $OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = [Text.Encoding]::UTF8
 $Global:PSDefaultParameterValues['*:Encoding'] = $Global:PSDefaultParameterValues['*:InputEncoding'] = $Global:PSDefaultParameterValues['*:OutputEncoding'] = $OutputEncoding
 
-Import-Module PSReadLine
-Import-Module posh-git
-Import-Module CompletionPredictor
-Import-Module "~\Documents\PowerShell\PsFzf-Local"
-# Import-Module PSFzf -Verbose
-
+oh-my-posh init pwsh --config "$env:USERPROFILE\.config\oh-my-posh\theme.toml" | Invoke-Expression
 Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
 
-if (Get-Command starship -ErrorAction SilentlyContinue) {
-  $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship\starship.toml"
-  starship init powershell --print-full-init | Out-String | Invoke-Expression
-}
+Import-Module PSReadLine
+Import-Module '~\Documents\PowerShell\PsFzf-Local'
+Import-Module CompletionPredictor
+Import-Module posh-git
+# Import-Module PSFzf
 
 $env:PWSH_DEFERRED_LOAD = 1
 $LogDeferredLoad = $true
