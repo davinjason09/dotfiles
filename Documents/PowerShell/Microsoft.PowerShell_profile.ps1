@@ -5,6 +5,7 @@ $Global:PSDefaultParameterValues['*:Encoding'] = $Global:PSDefaultParameterValue
 
 oh-my-posh init pwsh --config "$env:USERPROFILE\.config\oh-my-posh\theme.toml" | Invoke-Expression
 Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+fastfetch
 
 Import-Module PSReadLine
 Import-Module '~\Documents\PowerShell\PsFzf-Local'
@@ -179,5 +180,3 @@ $null = Register-ObjectEvent -MessageData $AsyncResult -InputObject $Powershell 
 Remove-Variable Wrapper, Powershell, AsyncResult, GlobalState
 
 "Synchronous load complete" | Write-DeferredLoadLog
-
-fastfetch 
