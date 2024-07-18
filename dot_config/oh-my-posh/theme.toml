@@ -2,89 +2,214 @@
 
 version = 2
 final_space = true
-console_title_template = '{{if .Root}} ⚡ {{end}}{{.Folder | replace "~" "🏠"}} @ {{.HostName}}'
+console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "🏠"}} @ {{.HostName}}'
+
+[palette]
+  eucalyptus = "#49e9a6"
+  mountain_meadow = "#16b673"
+  horizon = "#5b858b"
+  eastern_blue = "#16a3b6"
+  turquoise = "#49d6e9"
+  picton_blue = "#49ace9"
+  cornflower_blue = "#eba0ac"
+  pale_violet_red = "#f38ba8"
+  cinnabar = "#e66533"
+  japonica = "#d67e5c"
+  galliano = "#d5971a"
+  gold_sand = "#e4b781"
+  rosewater = "#f5e0dc"
+  flamingo = "#f2cdcd"
+  pink = "#f5c2e7"
+  mauve = "#cba6f7"
+  red = "#f38ba8"
+  maroon = "#eba0ac"
+  peach = "#fab387"
+  yellow = "#f9e2af"
+  green = "#a6e3a1"
+  teal = "#94e2d5"
+  sky = "#89dceb"
+  sapphire = "#74c7ec"
+  blue = "#89b4fa"
+  lavender = "#b4befe"
+  text = "#cdd6f4"
+  subtext1 = "#bac2de"
+  subtext0 = "#a6adc8"
+  overlay2 = "#9399b2"
+  overlay1 = "#7f849c"
+  overlay0 = "#6c7086"
+  surface2 = "#585b70"
+  surface1 = "#45475a"
+  surface0 = "#313244"
+  base = "#1e1e2e"
+  mantle = "#181825"
+  crust = "#11111b"
 
 [[blocks]]
   type = 'prompt'
   alignment = 'left'
+  newline = true
 
   [[blocks.segments]]
     type = 'os'
     style = 'diamond'
-    foreground = '#FFFFFF'
-    background = '#0C212F'
     leading_diamond = ''
     trailing_diamond = ''
-    template = ' {{ .Icon }} '
+    template = ' {{ .Icon }} {{ if .Root }}  {{ end }} {{ .UserName }} '
+    background = 'p:surface0'
+    foreground = 'p:text'
 
-  [[blocks.segments]]
-    type = 'root'
-    style = 'diamond'
-    foreground = '#FFFFFF'
-    background = '#DE2121'
-    leading_diamond = '<transparent,#DE2121></>'
-    trailing_diamond = ''
-    template = '  '
+    [blocks.segments.properties]
+      alpine = ""
+      amazon = ""
+      android = ""
+      arch = "󰣇"
+      artix = "󰣇"
+      centos = ""
+      debian = "󰣚"
+      elementary = ''
+      fedora = "󰣛"
+      gentoo = "󰣨"
+      linux = "󰌽"
+      macos = ""
+      manjaro = ""
+      mint = "󰣭"
+      opensuse = ''
+      raspbian = "󰐿"
+      redhat = "󱄛"
+      redhatenterprise = "󱄛"
+      suse = ""
+      ubuntu = "󰕈"
+      windows = ""
 
   [[blocks.segments]]
     type = 'path'
     style = 'diamond'
-    foreground = '#0C212F'
-    background = '#26BDBB'
-    leading_diamond = '<transparent,#26BDBB></>'
-    trailing_diamond = ''
+    powerline_symbol = ''
     template = ' {{ .Path }} '
+    background = 'p:peach'
+    foreground = 'p:base'
 
     [blocks.segments.properties]
-      folder_icon = '...'
-      folder_separator_icon = '<transparent>  </>'
-      home_icon = ''
+      folder_icon = '…'
+      folder_separator_icon = '/'
+      home_icon = '~'
+      max_width = 25
+      hide_root_location = true
       style = 'agnoster_short'
 
   [[blocks.segments]]
     type = 'git'
-    style = 'powerline'
+    style = 'accordion'
     powerline_symbol = ''
-    foreground = '#FFFFFF'
-    background = '#280C2E'
-    background_templates = ['{{ if or (.Working.Changed) (.Staging.Changed) }}#7621DE{{ end }}', '{{ if and (gt .Ahead 0) (gt .Behind 0) }}#7621DE{{ end }}', '{{ if gt .Ahead 0 }}#7621DE{{ end }}', '{{ if gt .Behind 0 }}#7621DE{{ end }}']
-    template = ' {{ .UpstreamIcon }}{{ .HEAD }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+    template = ' {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+    background = 'p:green'
+    foreground = 'p:base'
 
     [blocks.segments.properties]
+      branch_max_length = 25.0
       fetch_stash_count = true
       fetch_status = true
       fetch_upstream_icon = true
 
   [[blocks.segments]]
+    type = 'text'
+    style = 'accordion'
+    powerline_symbol = ''
+    background = 'p:sky'
+    foreground = 'p:base'
+
+  [[blocks.segments]]
+    type = 'text'
+    style = 'accordion'
+    powerline_symbol = ''
+    background = 'p:blue'
+    foreground = 'p:base'
+
+  [[blocks.segments]]
     type = 'time'
     style = 'diamond'
-    foreground = '#FFFFFF'
-    background = '#0C212F'
-    leading_diamond = '<transparent,#0C212F></>'
-    trailing_diamond = ''
-    template = ' {{ .CurrentDate | date .Format }} '
+    trailing_diamond = ''
+    template = '  {{ .CurrentDate | date .Format }} '
+    background = 'p:pink'
+    foreground = 'p:mantle'
 
     [blocks.segments.properties]
       time_format = '15:04'
+      always_enabled = true
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'right'
+  overflow = 'hide'
+  
+  [[blocks.segments]]
+    type = 'status'
+    style = 'diamond'
+    leading_diamond = ' '
+    template = '{{if gt .Code 0}}<#e90000> </>{{else}}<p:eucalyptus> </>{{end}}'
+    foreground = 'p:sky'
+
+    [blocks.segments.properties]
+      always_enabled = true
 
   [[blocks.segments]]
     type = 'executiontime'
-    style = 'diamond'
-    foreground = '#0C212F'
-    background = '#26BDBB'
-    leading_diamond = '<transparent,#26BDBB></>'
-    trailing_diamond = ''
-    template = ' {{ .FormattedMs }}s '
+    style = 'plain'
+    template = '<p:text></> {{ .FormattedMs }}s'
+    foreground = 'p:sky'
 
     [blocks.segments.properties]
       style = 'dallas'
       threshold = 0.0
 
   [[blocks.segments]]
-    type = 'status'
-    style = 'diamond'
-    foreground = '#ffffff'
-    background = '#910000'
-    leading_diamond = '<transparent,background></>'
-    trailing_diamond = ''
-    template = '<transparent> </> {{ reason .Code }} '
+    type = 'sysinfo'
+    style = 'plain'
+    template = "<p:cornflower_blue> | </><p:text> MEM:</> {{ round .PhysicalPercentUsed .Precision }}% ({{ (div ((sub .PhysicalTotalMemory .PhysicalAvailableMemory)|float64) 1073741824.0) }}/{{ (div .PhysicalTotalMemory 1073741824.0) }}GB)"
+    foreground = 'p:sky'
+  
+  [[blocks.segments]]
+    type = 'battery'
+    style = 'plain'
+    template = "<p:cornflower_blue> | </>{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }}%"
+    foreground = 'p:sky'
+    foreground_templates = [
+      "{{if gt .Percentage 20}}p:yellow{{end}}",
+      "{{if le .Percentage 20}}p:red{{end}}",
+      "{{if eq .Percentage 100}}p:eucalyptus{{end}}",
+    ]
+
+    [blocks.segments.properties]
+      charged_icon = '<p:text> </><p:yellow>󱐋</>'
+      charging_icon = '<p:text> </><p:lavender></>'
+      discharging_icon = '<p:text> </><p:picton_blue> </>'
+      not_charging_icon = '<p:text> </><#e90000> </>'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'text'
+    style = 'plain'
+    foreground_templates = [
+      "{{if gt .Code 0}}red{{end}}",
+      "{{if eq .Code 0}}green{{end}}",
+    ]
+    background = 'transparent'
+    template = '❯'
+
+[transient_prompt]
+  background = 'transparent'
+  template = '❯ '
+  newline = true
+  foreground_templates = [
+    "{{if gt .Code 0}}red{{end}}",
+    "{{if eq .Code 0}}green{{end}}",
+  ]
+
+[secondary_prompt]
+  foreground = 'p:subtext0'
+  background = 'transparent'
+  template = '❯❯'
