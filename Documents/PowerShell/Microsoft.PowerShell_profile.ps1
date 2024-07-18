@@ -145,7 +145,7 @@ Remove-Variable -ErrorAction Ignore (
 )
 
 $Wrapper = {
-  Start-Sleep -Milliseconds 100
+  Start-Sleep -Milliseconds 200
 
   . $GlobalState {. $DeferredLoad; Remove-Variable DeferredLoad}
 }
