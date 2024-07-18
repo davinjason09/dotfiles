@@ -26,38 +26,27 @@ $LogDeferredLoad = $false
 $DeferredLoad = {
   'dot sourcing script' | Write-DeferredLoadLog
 
-  # PSReadline
-  . "~\Documents\PowerShell\Scripts\Personal\PSReadline.ps1"
-  
-  # fzf
-  . "~\Documents\PowerShell\Scripts\Personal\fzf.ps1"
-  
-  # eza
-  . "~\Documents\PowerShell\Scripts\Personal\eza.ps1"
-  
-  # Check WIFI Password
-  . "~\Documents\PowerShell\Scripts\Personal\checkWifiPassword.ps1"
-  
-  # Compile CPP
-  . "~\Documents\PowerShell\Scripts\Personal\compileCPP.ps1"
-  
-  # Clear Cache
-  . "~\Documents\PowerShell\Scripts\Personal\clearCache.ps1"
-  
-  # Check Battery
-  . "~\Documents\PowerShell\Scripts\Personal\checkBattery.ps1"
-  
-  # Update Apps
-  . "~\Documents\PowerShell\Scripts\Personal\manageApps.ps1"
-  
-  # linuxLike Command
-  . "~\Documents\PowerShell\Scripts\Personal\linuxLike.ps1"
-  
-  # Alias
-  . "~\Documents\PowerShell\Scripts\Personal\setAlias.ps1"
-  
-  # Utils
-  . "~\Documents\PowerShell\Scripts\Personal\utils.ps1"
+  $scripts = @(
+    'PSReadline.ps1',
+    'fzf.ps1',
+    'eza.ps1',
+    'checkWifiPassword.ps1',
+    'compileCPP.ps1',
+    'clearCache.ps1',
+    'checkBattery.ps1',
+    'manageApps.ps1',
+    'linuxLike.ps1',
+    'setAlias.ps1',
+    'utils.ps1'
+  )
+
+  foreach ($script in $scripts) {
+    try {
+      . "~\Documents\PowerShell\Scripts\Personal\$script"
+    } catch {
+      $_ | Out-String | Out-File -FilePath $env:errorLog -Append
+    }
+  }
 
   'completed dot-sourcing script' | Write-DeferredLoadLog
 }
