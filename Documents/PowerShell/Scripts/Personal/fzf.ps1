@@ -28,7 +28,7 @@ $env:FZF_ALT_C_COMMAND = "fd --type d --hidden --follow --exclude .git --fixed-s
 $env:FZF_ALT_C_OPTS = @"
 --prompt='Directory  ' 
 --preview="eza --tree --level=1 --color=always --icons=always {}" 
---preview-window=right:50%:border-rounded
+--preview-window=right:50%:border-left
 "@
 
 $commandOverride = [ScriptBlock]{ param($Location) cd $Location }
