@@ -1,70 +1,72 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "logo": {
-    "type": "file",
-    "source": "C:/Users/ASUS/.config/fastfetch/logo.txt",
-    "padding": {
-      "top": 1,
-      "left": 2
-    },
-    "color": {
-      "1": "38;2;20;15;14",
-      "2": "38;2;38;29;26",
-      "3": "38;2;48;36;32",
-      "4": "38;2;64;49;44",
-      "5": "38;2;246;244;241",
-      "6": "38;2;13;105;9",
-      "7": "38;2;6;59;5",
-      "8": "38;2;230;181;144"
-    }
+    "source": "C:/Users/ASUS/.config/fastfetch/full-body.png",
+    "type": "iterm",
+    "width": 32,
+    "height": 18
   },
   "display": {
-    "separator": "",
-    "keyWidth": 15
+    "separator": "  ➜  "
   },
   "modules": [
+    "break",
     {
-      "key": "╭───────────╮",
-      "type": "custom"
+      "type": "custom",
+      "format": "\u001b[90m  \u001b[31m  \u001b[32m  \u001b[33m  \u001b[34m  \u001b[35m  \u001b[36m  \u001b[37m"
     },
+    "break",
     {
-      "key": "│           │\u001b[11D\u001b[31m user",
       "type": "title",
-      "format": "{1}"
+      "keyWidth": 10
+    },
+    "break",
+    {
+      "type": "os",
+      "key": "\u001b[34m "
     },
     {
-      "key": "│           │\u001b[11D\u001b[32m󰇅 hname",
-      "type": "title",
-      "format": "{2}"
+      "type": "kernel",
+      "key": "\u001b[34m "
     },
     {
-      "key": "│           │\u001b[11D\u001b[33m󰅐 uptime",
-      "type": "uptime"
+      "type": "packages",
+      "key": "\u001b[34m "
     },
     {
-      "key": "│           │\u001b[11D\u001b[34m term",
-      "type": "terminal"
+      "type": "shell",
+      "key": "\u001b[34m "
     },
     {
-      "key": "│           │\u001b[11D\u001b[35m shell",
-      "type": "shell"
+      "type": "terminal",
+      "key": "\u001b[34m "
     },
     {
-      "key": "│           │\u001b[11D\u001b[36m apps",
-      "type": "packages"
+      "type": "terminalfont",
+      "key": "\u001b[34m "
     },
     {
-      "key": "├───────────┤",
-      "type": "custom"
+      "type": "uptime",
+      "key": "\u001b[34m "
     },
     {
-      "key": "│           │\u001b[11D\u001b[m colors",
-      "type": "colors",
-      "symbol": "circle"
+      "type": "datetime",
+      "format": "{11} {6} {1} {14}:{18}:{20} UTC{21}",
+      "key": "\u001b[34m "
     },
     {
-      "key": "╰───────────╯",
-      "type": "custom"
-    }
+      "type": "media",
+      "key": "\u001b[34m󰝚 "
+    },
+    {
+      "type": "player",
+      "key": "\u001b[34m "
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "\u001b[90m  \u001b[31m  \u001b[32m  \u001b[33m  \u001b[34m  \u001b[35m  \u001b[36m  \u001b[37m"
+    },
+    "break"
   ]
 }
