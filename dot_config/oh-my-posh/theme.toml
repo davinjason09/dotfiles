@@ -5,6 +5,7 @@ final_space = true
 console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "🏠"}} @ {{.HostName}}'
 
 [palette]
+  error = "#df0000"
   eucalyptus = "#49e9a6"
   mountain_meadow = "#16b673"
   horizon = "#5b858b"
@@ -101,8 +102,8 @@ console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "�
     type = 'git'
     style = 'accordion'
     powerline_symbol = ''
-    template = ' {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
-    background = 'p:green'
+    template = ' {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+    background = 'p:yellow'
     foreground = 'p:base'
 
     [blocks.segments.properties]
@@ -112,16 +113,26 @@ console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "�
       fetch_upstream_icon = true
 
   [[blocks.segments]]
-    type = 'text'
+    type = 'spotify'
+    style= 'accordion'
+    powerline_symbol = ''
+    template = '  {{ .Artist }} - {{ .Track }} '
+    background = 'p:green'
+    foreground = 'p:base'
+  
+  [[blocks.segments]]
+    type = 'upgrade'
     style = 'accordion'
     powerline_symbol = ''
+    template = '   '
     background = 'p:sky'
     foreground = 'p:base'
 
   [[blocks.segments]]
-    type = 'text'
+    type = 'docker'
     style = 'accordion'
     powerline_symbol = ''
+    template = '  {{ .Context }} '
     background = 'p:blue'
     foreground = 'p:base'
 
@@ -146,7 +157,7 @@ console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "�
     type = 'status'
     style = 'diamond'
     leading_diamond = ' '
-    template = '{{if gt .Code 0}}<#e90000> </>{{else}}<p:eucalyptus> </>{{end}}'
+    template = '{{if gt .Code 0}}<p:error>  </>{{else}}<p:eucalyptus> </>{{end}}'
     foreground = 'p:sky'
 
     [blocks.segments.properties]
@@ -181,9 +192,9 @@ console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "�
 
     [blocks.segments.properties]
       charged_icon = '<p:text> </><p:yellow>󱐋</>'
-      charging_icon = '<p:text> </><p:lavender></>'
+      charging_icon = '<p:text> </><p:eucalyptus> </>'
       discharging_icon = '<p:text> </><p:picton_blue> </>'
-      not_charging_icon = '<p:text> </><#e90000> </>'
+      not_charging_icon = '<p:text> </><p:error> </>'
 
 [[blocks]]
   type = 'prompt'
