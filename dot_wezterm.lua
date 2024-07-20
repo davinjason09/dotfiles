@@ -23,9 +23,9 @@ config.initial_rows = 45
 config.default_prog = { 'pwsh.exe', '-NoLogo' }
 
 config.launch_menu = {
-	{ label = 'Powershell', 				args = { 'pwsh.exe', '-NoLogo' }, },
+	{ label = 'Powershell',         args = { 'pwsh.exe', '-NoLogo' }, },
 	{ label = 'Windows Powershell', args = { 'powershell.exe', '-NoLogo'}, },
-	{ label = 'CMD',								args = { 'cmd.exe' }, }
+	{ label = 'CMD',                args = { 'cmd.exe' }, }
 }
 
 config.window_frame = {
