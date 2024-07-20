@@ -7,6 +7,8 @@ oh-my-posh init pwsh --config "$env:USERPROFILE\.config\oh-my-posh\theme.toml" |
 Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
 fastfetch
 
+Import-Module Microsoft.PowerShell.Management -Force
+Import-Module Microsoft.PowerShell.Utility -Force
 Import-Module PSReadLine
 Import-Module '~\Documents\PowerShell\PsFzf-Local'
 Import-Module CompletionPredictor
