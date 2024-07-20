@@ -18,6 +18,10 @@ Import-Module posh-git
   #   starship init powershell --print-full-init | Out-String | Invoke-Expression
   # }
   
+function fortune {
+  [System.IO.File]::ReadAllText((Split-Path $profile)+'\fortune.txt') -replace "`r`n", "`n" -split "`n%`n" | Get-Random
+}
+
 $env:fzfLog = '~\Documents\PowerShell\Logs\PSFzf.log'
 $env:errorLog = '~\Documents\PowerShell\Logs\Error.log'
 $env:PWSH_DEFERRED_LOAD = 1
