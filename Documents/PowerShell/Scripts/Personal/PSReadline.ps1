@@ -24,7 +24,6 @@ $PSReadLineOptions = @{
 }
 
 Set-PSReadLineOption @PSReadLineOptions
-
 Set-PSReadLineOption -Colors @{ InlinePrediction = "#86b567"}
 
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward

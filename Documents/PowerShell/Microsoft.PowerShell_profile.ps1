@@ -5,21 +5,20 @@ $Global:PSDefaultParameterValues['*:Encoding'] = $Global:PSDefaultParameterValue
 
 oh-my-posh init pwsh --config "$env:USERPROFILE\.config\oh-my-posh\theme.toml" | Invoke-Expression
 Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
-fastfetch
 
 Import-Module Microsoft.PowerShell.Management -Force
 Import-Module Microsoft.PowerShell.Utility -Force
 Import-Module PSReadLine
 Import-Module '~\Documents\PowerShell\PsFzf-Local'
 Import-Module CompletionPredictor
-Import-Module posh-git
-# Import-Module PSFzf
+
+fastfetch
 
 # if (Get-Command starship -ErrorAction SilentlyContinue) {
   #   $env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship\starship.toml"
   #   starship init powershell --print-full-init | Out-String | Invoke-Expression
   # }
-  
+
 function fortune {
   [System.IO.File]::ReadAllText((Split-Path $profile)+'\fortune.txt') -replace "`r`n", "`n" -split "`n%`n" | Get-Random
 }
@@ -29,12 +28,13 @@ $env:errorLog = '~\Documents\PowerShell\Logs\Error.log'
 $env:PWSH_DEFERRED_LOAD = 1
 $LogDeferredLoad = $false
 
+. "~\Documents\PowerShell\Scripts\Personal\PSReadline.ps1"
+. "~\Documents\PowerShell\Scripts\Personal\fzf.ps1"
+
 $DeferredLoad = {
   'dot sourcing script' | Write-DeferredLoadLog
 
   $scripts = @(
-    'PSReadline.ps1',
-    'fzf.ps1',
     'eza.ps1',
     'checkWifiPassword.ps1',
     'compileCPP.ps1',
