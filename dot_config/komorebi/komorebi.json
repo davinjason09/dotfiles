@@ -1,10 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.28/schema.json",
-  "app_specific_configuration_path": "$env:KOMOREBI_CONFIG_HOME/applications.yaml",
+  "app_specific_configuration_path": "$Env:KOMOREBI_CONFIG_HOME/applications.yaml",
   "window_hiding_behaviour": "Cloak",
   "cross_monitor_move_behaviour": "Insert",
   "default_workspace_padding": 5,
   "default_container_padding": 5,
+  "mouse_follows_focus": true,
   "border": true,
   "border_width": 5,
   "border_offset": -2,
@@ -29,7 +30,17 @@
       "workspaces": [
         {
           "name": "0",
-          "layout": "BSP"
+          "layout": "BSP",
+          "workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "chrome.exe"
+            },
+            {
+              "kind": "Exe",
+              "id": "wezterm.exe"
+            }
+          ]
         },
         {
           "layout": "BSP",
@@ -42,12 +53,12 @@
           ]
         },
         {
-          "layout": "BSP",
           "name": "2",
+          "layout": "BSP",
           "workspace_rules": [
             {
               "kind": "Exe",
-              "id": "code.exe"   
+              "id": "Code.exe"   
             }
           ]
         },
