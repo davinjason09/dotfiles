@@ -80,6 +80,10 @@ The prompt uses Catppuccino Mocha color scheme with some modifications. The left
 | :--------------------------------------------: | :-----------------------------------------------: |
 | ![Manage Apps](images/update-scoop-select.png) | ![Manage Apps](images/uninstall-scoop-select.png) |
 
+> [!IMPORTANT]
+>
+> Requires fzf to work.
+
 ## 📦 Installation
 soon™
 
