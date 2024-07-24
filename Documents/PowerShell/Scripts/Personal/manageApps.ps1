@@ -6,7 +6,7 @@ function Select-Apps {
   $header = "`n  CTRL+A-Select All   CTRL+D-Deselect All   CTRL+T-Toggle All`n" +
             "`nName" + "`n" + ("─" * 15)
 
-  $apps = $apps | fzf --prompt="Select Apps  " --height=~80% --layout=reverse --cycle `
+  $apps = $apps | fzf --prompt="Select Apps  " --height=80% --layout=reverse --cycle `
                       --margin="1,15" --multi --header=$header --padding=1 `
                       --bind="ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all" `
 
@@ -53,7 +53,7 @@ function Uninstall-ScoopApps {
   $appsSet = New-Object System.Collections.Generic.HashSet[[String]]
   $installedApps = List-ScoopApps
 
-  Write-Host -NoNewline "`e[1A`e[0K`e[1A`e[0K"
+  Write-Host -NoNewline "`e[1A`e[0K"
   foreach ($app in Select-Apps $installedApps) {
     if ($app) {
       $app = $app.Split(" ")[0]
