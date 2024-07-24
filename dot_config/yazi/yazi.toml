@@ -1,0 +1,5 @@
+[preview]
+  tab_size = 2
+  max_width = 500
+  max_height = 650
+  image_filter = 'nearest'
