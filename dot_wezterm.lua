@@ -87,7 +87,9 @@ config.keys = {
   { key = 'X',            mods = 'SHIFT|CTRL',  action = act.ActivateCopyMode },
 }
 
-config.window_background_opacity = 0.95
+config.window_background_opacity = 0.8
+config.win32_system_backdrop = 'Acrylic'
+-- config.windows_decorations = 'RESIZE'
 config.default_cursor_style = 'BlinkingBar'
 config.hide_tab_bar_if_only_one_tab = true
 config.colors = colors
@@ -97,6 +99,12 @@ config.animation_fps = 1
 config.cursor_blink_ease_in = 'Constant'
 config.cursor_blink_ease_out = 'Constant'
 config.cursor_blink_rate = 500 
+
+config.inactive_pane_hsb = {
+  hue = 0.9,
+  saturation = 0.4,
+  brightness = 0.2,
+}
 
 config.scrollback_lines = 10000
 config.adjust_window_size_when_changing_font_size = false
