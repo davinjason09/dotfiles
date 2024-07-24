@@ -3,7 +3,7 @@ $env:FZF_DEFAULT_OPTS = @"
 --color=hl:#ed8796,hl+:#5fd7ff,info:#c6a0f6,marker:#AAE682
 --color=prompt:#c6a0f6,spinner:#f4dbd6,pointer:#f4dbd6,header:#ed8796
 --color=border:#585b70,label:#aeaeae,query:#d9d9d9 
---layout=reverse --cycle --height=50% --border="rounded"
+--layout=reverse --cycle --height=~80% --border="rounded"
 --prompt=" " --marker="" --pointer="󰜴" --padding=1
 --separator="─" --scrollbar="│"             
 --bind alt-w:toggle-preview-wrap
