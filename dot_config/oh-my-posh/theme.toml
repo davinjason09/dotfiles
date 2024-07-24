@@ -1,3 +1,5 @@
+# This config is heavily based on typecraft's starship prompt
+# Ref = https://github.com/typecraft-dev/dotfiles/blob/master/starship/.config/starship.toml
 #:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
 
 version = 2
@@ -102,7 +104,7 @@ console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "�
     type = 'git'
     style = 'accordion'
     powerline_symbol = ''
-    template = ' {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
+    template = ' {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} '
     background = 'p:yellow'
     foreground = 'p:base'
 
@@ -185,9 +187,9 @@ console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "�
     template = "<p:cornflower_blue> | </>{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }}%"
     foreground = 'p:sky'
     foreground_templates = [
+      "{{if gt .Percentage 95}}p:eucalyptus{{end}}",
       "{{if gt .Percentage 20}}p:yellow{{end}}",
       "{{if le .Percentage 20}}p:red{{end}}",
-      "{{if eq .Percentage 100}}p:eucalyptus{{end}}",
     ]
 
     [blocks.segments.properties]
