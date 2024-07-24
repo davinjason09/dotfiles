@@ -54,6 +54,14 @@ function Check-WiFiPassword {
 		Write-Host "No password found."
 	}
 }
+
+function Get-CurrentWiFiPassword {
+	$wifiName = ((netsh wlan show interfaces | Select-String -Pattern "Profile" -Context 0,1) -split ":")[1].Trim()
+	$wlanProfile = netsh wlan show profile name="$wifiName" key=clear
+	$password = $wlanProfile | Select-String -Pattern "Key Content\s+:\s+(.*)" | ForEach-Object { $_.Matches.Groups[1].Value }
+
+	Write-Host "Wi-Fi network: $wifiName"
+	
 	if ($password) {
 		Write-Host "Password: $password"
 	} else {
