@@ -1,11 +1,10 @@
 $env:FZF_DEFAULT_OPTS = @"
---color=fg:#E4F0FB,fg+:#FFFFFF,bg:-1,bg+:#262626
---color=hl:#91B4D5,hl+:#88DDFF,info:#FFDC96,marker:#AAE682
---color=prompt:#CF679D,spinner:#5DE4C7,pointer:#9696FF,header:#5FB3A0
---color=gutter:#121212,border:#42675A,scrollbar:#5DE4C7,preview-scrollbar:#5DE4C7
---color=label:#aeaeae,query:#FFFFFF --layout=reverse
---cycle --height=50% --border="rounded"
---prompt=" " --marker="" --pointer="󰜴"
+--color=fg:#cad3f5,fg+:#d0d0d0,bg:-1,bg+:#262626
+--color=hl:#ed8796,hl+:#5fd7ff,info:#c6a0f6,marker:#AAE682
+--color=prompt:#c6a0f6,spinner:#f4dbd6,pointer:#f4dbd6,header:#ed8796
+--color=border:#585b70,label:#aeaeae,query:#d9d9d9 
+--layout=reverse --cycle --height=50% --border="rounded"
+--prompt=" " --marker="" --pointer="󰜴" --padding=1
 --separator="─" --scrollbar="│"             
 --bind alt-w:toggle-preview-wrap
 --bind ctrl-e:toggle-preview
