@@ -7,7 +7,7 @@ function Select-Apps {
             "`nName" + "`n" + ("─" * 15)
 
   $apps = $apps | fzf --prompt="Select Apps  " --height=~80% --layout=reverse --cycle `
-                      --margin="0,5" --multi --header=$header `
+                      --margin="1,15" --multi --header=$header --padding=1 `
                       --bind="ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all" `
 
   return $apps
