@@ -6,6 +6,7 @@
   "default_workspace_padding": 5,
   "default_container_padding": 5,
   "mouse_follows_focus": true,
+  "focus_follows_mouse": "Windows",
   "border": true,
   "border_width": 5,
   "border_offset": -2,
@@ -31,7 +32,7 @@
         {
           "name": "0",
           "layout": "BSP",
-          "workspace_rules": [
+          "initial_workspace_rules": [
             {
               "kind": "Exe",
               "id": "chrome.exe"
@@ -45,27 +46,31 @@
         {
           "layout": "BSP",
           "name": "1",
-          "workspace_rules": [
+          "initial_workspace_rules": [
             {
               "kind": "Exe",
               "id": "explorer.exe"
+            },
+            {
+              "kind": "Exe",
+              "id": "Code.exe"
             }
           ]
         },
         {
           "name": "2",
           "layout": "BSP",
-          "workspace_rules": [
+          "initial_workspace_rules": [
             {
               "kind": "Exe",
-              "id": "Code.exe"   
+              "id": "discord.exe"   
             }
           ]
         },
         {
           "name": "3",
           "layout": "BSP",
-          "workspace_rules": [
+          "initial_workspace_rules": [
             {
               "id": "Spotify.exe",
               "kind": "Exe"
