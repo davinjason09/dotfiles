@@ -4,6 +4,7 @@
 
 version = 2
 final_space = true
+disable_notice = true
 console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "🏠"}} @ {{.HostName}}'
 
 [palette]
@@ -225,4 +226,4 @@ console_title_template = '{{if .Root}} ⚙️ {{end}}{{.Folder | replace "~" "�
 [secondary_prompt]
   foreground = 'p:subtext0'
   background = 'transparent'
-  template = '❯❯'
+  template = '❯❯ '
