@@ -20,7 +20,6 @@ $env:FZF_ALT_C_OPTS = @"
 "@
 
 $commandOverride = [ScriptBlock]{ param($Location) cd $Location }
-
 Set-PsFzfOption -AltCCommand $commandOverride
 
 Set-PSReadlineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }

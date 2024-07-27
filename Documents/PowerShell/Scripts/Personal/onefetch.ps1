@@ -18,15 +18,15 @@ function cd-onefetch {
   )
 
   if ($Location -eq $null) {
-    $path = "~"
+    $path = @()
   } else {
-    $path = $Location | ForEach-Object { $_.ToString() }
+    $path = $Location
   }
 
   if (Get-Command zoxide.exe -ErrorAction SilentlyContinue) {
     __zoxide_z @path
   } else {
-    Set-Location $path
+    Set-Location @path
   }
 
   Check-DirectoryForNewRepository
