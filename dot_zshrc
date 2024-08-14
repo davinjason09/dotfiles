@@ -1,0 +1,51 @@
+# ----------------------------
+# @davinjason's config files
+# ----------------------------
+
+# zinit
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+source "${ZINIT_HOME}/zinit.zsh"
+
+source ~/.config/zsh/functions.zsh
+source ~/.config/zsh/aliases.zsh
+source ~/.config/zsh/exports.zsh
+source ~/.config/zsh/keybind.zsh
+source ~/.config/zsh/plugins.zsh
+source ~/.local/share/zinit/plugins/lincheney---fzf-tab-completion/zsh/fzf-zsh-completion.sh
+
+HISTFILE=~/.histfile
+HISTSIZE=110000
+SAVEHIST=100000
+HISTDUP=erase
+
+autoload -Uz compinit && compinit
+
+# Opts
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+setopt inc_append_history
+setopt nobeep
+setopt nocheckjobs
+
+clear
+fastfetch
+
+eval "$(oh-my-posh init zsh --config "~/.config/oh-my-posh/theme.toml")"
+eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
