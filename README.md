@@ -15,3 +15,10 @@
 - **File Manager**: Yazi
 - **Colorscheme**: Catppuccin Mocha
 
+## TODO
+
+- [ ] Use either stow or chezmoi to manage dotfiles
+- [ ] Add configs to the repo
+- [ ] Add a script to install all the dependencies
+- [ ] Add a script to copy files to the windows side
+
