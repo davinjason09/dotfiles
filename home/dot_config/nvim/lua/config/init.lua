@@ -44,6 +44,14 @@ M.setup = function()
       M.load("keymaps")
     end,
   })
+
+  local U = require("lazy.core.util")
+  U.track("colorscheme")
+  U.try(
+    function() vim.cmd.colorscheme("catppuccin") end,
+    { msg = "Failed to load colorscheme", on_error = function(msg) U.error(msg) end }
+  )
+  U.track()
 end
 
 return M
