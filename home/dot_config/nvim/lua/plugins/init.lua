@@ -5,7 +5,17 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    config = function(_, opts) require("snacks").setup(opts) end,
+    config = function(_, opts)
+      require("snacks").setup(opts)
+
+      -- Customize default picker layout
+      local layout = require("snacks.picker.config.layouts")
+      layout.default.layout.min_width = 100
+      layout.default.layout[2].width = 0.65
+
+      layout.dropdown.layout.min_width = 100
+      layout.dropdown.layout.width = 0.65
+    end,
     keys = {
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
