@@ -1,1 +1,1 @@
-print("I use neovim btw")
+require("config").setup()
