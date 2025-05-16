@@ -39,6 +39,7 @@ require("lazy").setup({
     notify = false,
   },
   rocks = { enabled = false },
+  ui = { icons = Defaults.lazy_nvim_icons },
   performance = {
     rtp = {
       disabled_plugins = {
