@@ -11,4 +11,48 @@ return {
       { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session", },
     },
   },
+  {
+    "snacks.nvim",
+    opts = {
+      bigfile = { enabled = true },
+      indent = {
+        enabled = true,
+        scope = { enabled = true },
+        chunk = {
+          enabled = true,
+          char = {
+            corner_top = "╭",
+            corner_bottom = "╰",
+            arrow = "",
+          },
+        },
+        priority = 20,
+        filter = function(buf)
+          local filetype = vim.bo[buf].filetype
+
+          return vim.g.snacks_indent ~= false
+            and vim.b[buf].snacks_indent ~= false
+            and vim.bo[buf].buftype == ""
+            and not vim.tbl_contains(Defaults.excluded_filetypes, filetype)
+        end,
+      },
+      input = {
+        win = {
+          relative = "cursor",
+          row = 1,
+          keys = {
+            i_esc = { "<ESC>", { "cmp_close", "cancel" }, mode = "i" },
+            i_ctrl_bs = { "<C-BS>", "<C-S-W>", mode = { "i" }, expr = true },
+          },
+        },
+      },
+      notifier = {
+        enabled = true,
+        style = "fancy",
+      },
+      quickfile = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+    },
+  },
 }

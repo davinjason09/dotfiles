@@ -90,4 +90,32 @@ M.lazy_nvim_icons = {
 
 -- stylua: ignore end
 
+-- Excluded filetypes for scope indent
+M.excluded_filetypes = {
+  "",
+  "grug-far",
+  "grug-far-help",
+  "grug-far-history",
+  "help",
+  "lazy",
+  "lspinfo",
+  "mason",
+  "markdown",
+  "neo-tree",
+  "netrw",
+  "nofile",
+  "notify",
+  "prompt",
+  "qf",
+  "snacks_picker_list",
+  "snacks_picker_input",
+  "snacks_picker_preview",
+  "terminal",
+  "toggleterm",
+  "trouble",
+  "tutor",
+  "vim",
+  "wk",
+}
+
 return M
