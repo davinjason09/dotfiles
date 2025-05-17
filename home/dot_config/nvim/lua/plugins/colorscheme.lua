@@ -23,6 +23,7 @@ return {
           indent_scope_color = "sky",
         },
         treesitter = true,
+        which_key = true,
       },
     })
 
