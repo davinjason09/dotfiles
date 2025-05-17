@@ -16,6 +16,14 @@ return {
         booleans = { "bold" },
       },
       default_integrations = false,
+      integrations = {
+        mini = { enabled = true },
+        snacks = {
+          enabled = true,
+          indent_scope_color = "sky",
+        },
+        treesitter = true,
+      },
     })
 
     local palette = require("catppuccin.palettes").get_palette()
