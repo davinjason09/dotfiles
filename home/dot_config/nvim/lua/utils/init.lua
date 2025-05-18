@@ -8,6 +8,13 @@ setmetatable(M, {
   end,
 })
 
+---Get current nvim version
+---@return string #The current nvim version
+function M.nvim_version()
+  local v = vim.version()
+  return string.format("%d.%d.%d", v.major, v.minor, v.patch)
+end
+
 ---Load a module lazily
 ---@param modname string The path to the module
 ---@return table #A table that lazily loads the module
