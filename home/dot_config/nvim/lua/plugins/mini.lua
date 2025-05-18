@@ -6,6 +6,31 @@ return {
     opts = { n_lines = 50 },
   },
   {
+    "echasnovski/mini.align",
+    version = "*",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {},
+  },
+  {
+    "echasnovski/mini.move",
+    version = "*",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "<", "<CMD>lua MiniMove.move_selection('left')<CR>", desc = "Move selection left", mode = { "v", "x" }, },
+      { ">", "<CMD>lua MiniMove.move_selection('right')<CR>", desc = "Move selection right", mode = { "v", "x" }, },
+      { "<<", "<CMD>lua MiniMove.move_line('left')<CR>", desc = "Move line left" },
+      { ">>", "<CMD>lua MiniMove.move_line('right')<CR>", desc = "Move line right" },
+    },
+  },
+  {
+    "echasnovski/mini.pairs",
+    version = "*",
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
     "echasnovski/mini.ai",
     version = "*",
     event = { "BufReadPost", "BufNewFile" },
