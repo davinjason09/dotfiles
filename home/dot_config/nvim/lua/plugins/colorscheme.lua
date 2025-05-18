@@ -17,6 +17,7 @@ return {
       },
       default_integrations = false,
       integrations = {
+        blink_cmp = true,
         mini = { enabled = true },
         native_lsp = {
           enabled = true,
@@ -48,19 +49,31 @@ return {
       custom_highlights = function(colors)
         -- stylua: ignore
         return {
-          NoiceCmdlinePopupBorderCmdline = { fg = colors.sky },
-          NoiceCmdlinePopupBorderSearch = { fg = colors.yellow },
-          NoiceCmdlinePopupBorderFilter = { fg = colors.peach },
-          NoiceCmdlinePopupBorderCalculator = { fg = colors.green },
-          NoiceCmdlinePopupBorderHelp = { fg = colors.blue },
-          NoiceCmdlinePopupBorderLua = { fg = colors.mauve },
+          -- blink.cmp
+          BlinkCmpMenu                = { fg = colors.none,     bg = colors.base },
+          BlinkCmpMenuBorder          = { fg = colors.overlay1, bg = colors.base },
+          BlinkCmpDoc                 = { fg = colors.none,     bg = colors.base },
+          BlinkCmpDocBorder           = { fg = colors.overlay1, bg = colors.base },
+          BlinkCmpSignatureHelp       = { fg = colors.none,     bg = colors.base },
+          BlinkCmpSignatureHelpBorder = { fg = colors.overlay1, bg = colors.base },
+          BlinkCmpLabelMatch          = { fg = colors.green,    bg = colors.none, style = { "bold" } },
+          BlinkCmpMenuSelection       = { fg = colors.mantle,   bg = colors.green },
+          BlinkCmpKindKeyword         = { link = "Keyword" },
 
-          NoiceCmdlinePopupTitleCmdline = { fg = colors.mantle, bg = colors.sky },
-          NoiceCmdlinePopupTitleSearch = { fg = colors.mantle, bg = colors.yellow },
-          NoiceCmdlinePopupTitleFilter = { fg = colors.mantle, bg = colors.peach },
-          NoiceCmdlinePopupTitleCalculator = { fg = colors.mantle, bg = colors.green },
-          NoiceCmdlinePopupTitleHelp = { fg = colors.mantle, bg = colors.blue },
-          NoiceCmdlinePopupTitleLua = { fg = colors.mantle, bg = colors.mauve },
+          -- noice.nvim
+          NoiceCmdlinePopupBorderCmdline    = { fg = colors.sky },
+          NoiceCmdlinePopupBorderSearch     = { fg = colors.yellow },
+          NoiceCmdlinePopupBorderFilter     = { fg = colors.peach },
+          NoiceCmdlinePopupBorderCalculator = { fg = colors.green },
+          NoiceCmdlinePopupBorderHelp       = { fg = colors.blue },
+          NoiceCmdlinePopupBorderLua        = { fg = colors.mauve },
+
+          NoiceCmdlinePopupTitleCmdline     = { fg = colors.mantle, bg = colors.sky },
+          NoiceCmdlinePopupTitleSearch      = { fg = colors.mantle, bg = colors.yellow },
+          NoiceCmdlinePopupTitleFilter      = { fg = colors.mantle, bg = colors.peach },
+          NoiceCmdlinePopupTitleCalculator  = { fg = colors.mantle, bg = colors.green },
+          NoiceCmdlinePopupTitleHelp        = { fg = colors.mantle, bg = colors.blue },
+          NoiceCmdlinePopupTitleLua         = { fg = colors.mantle, bg = colors.mauve },
         }
       end,
     })
