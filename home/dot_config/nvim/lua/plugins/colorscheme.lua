@@ -45,6 +45,24 @@ return {
         treesitter = true,
         which_key = true,
       },
+      custom_highlights = function(colors)
+        -- stylua: ignore
+        return {
+          NoiceCmdlinePopupBorderCmdline = { fg = colors.sky },
+          NoiceCmdlinePopupBorderSearch = { fg = colors.yellow },
+          NoiceCmdlinePopupBorderFilter = { fg = colors.peach },
+          NoiceCmdlinePopupBorderCalculator = { fg = colors.green },
+          NoiceCmdlinePopupBorderHelp = { fg = colors.blue },
+          NoiceCmdlinePopupBorderLua = { fg = colors.mauve },
+
+          NoiceCmdlinePopupTitleCmdline = { fg = colors.mantle, bg = colors.sky },
+          NoiceCmdlinePopupTitleSearch = { fg = colors.mantle, bg = colors.yellow },
+          NoiceCmdlinePopupTitleFilter = { fg = colors.mantle, bg = colors.peach },
+          NoiceCmdlinePopupTitleCalculator = { fg = colors.mantle, bg = colors.green },
+          NoiceCmdlinePopupTitleHelp = { fg = colors.mantle, bg = colors.blue },
+          NoiceCmdlinePopupTitleLua = { fg = colors.mantle, bg = colors.mauve },
+        }
+      end,
     })
 
     local palette = require("catppuccin.palettes").get_palette()
