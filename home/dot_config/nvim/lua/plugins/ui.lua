@@ -29,9 +29,9 @@ return {
         format = {
           calculator  = { pattern = "^=", icon = "=", lang = "vimnormal", title = title("  Calculator ", "calculator") },
           cmdline     = { pattern = "^:", icon = "", lang = "vim", title = title(nvim_version, "cmdline") },
-          filter      = { pattern = "^:%s*!", icon = "", lang = "bash", title = title("  Command ", "filter") },
+          filter      = { pattern = "^:%s*!", icon = "", lang = "bash", title = title("  Shell ", "filter") },
           help        = { pattern = "^:%s*he?l?p?%s+", icon = "", title = title("  Help ", "help") },
-          input       = false,
+          input       = { icon = " ", opts = { border = { text = { top_align = "center" } } } },
           lua         = false,
           lua_command = { kind = "lua", pattern = "^:%s*lua%s+", icon = "", lang = "lua", title = title(lua_version, "lua") },
           lua_value   = { kind = "cmdline", pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua", title = title(nvim_version, "cmdline") },
