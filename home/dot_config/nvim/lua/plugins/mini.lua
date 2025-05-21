@@ -28,7 +28,19 @@ return {
     "echasnovski/mini.pairs",
     version = "*",
     event = "InsertEnter",
-    opts = {},
+    opts = {
+      modes = { command = true },
+      -- stylua: ignore
+      mappings = {
+        ["["] = { action = "open", pair = "[]", neigh_pattern = "[^\\][%s%z%)}%]]", register = { cr = false } },
+        ["{"] = { action = "open", pair = "{}", neigh_pattern = "[^\\][%s%z%)}%]]", register = { cr = false } },
+        ["("] = { action = "open", pair = "()", neigh_pattern = "[^\\][%s%z%)}%]]", register = { cr = false } },
+        [' '] = { action = "open", pair = "  ", neigh_pattern = '[%(%[{][%)%]}]' },
+        ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
+        ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
+        ['`'] = { action = "closeopen", pair = "``", neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
+      },
+    },
   },
   {
     "echasnovski/mini.ai",
@@ -40,13 +52,9 @@ return {
       return {
         n_lines = 500,
         custom_textobjects = {
-          o = ai.gen_spec.treesitter({ -- code block
-            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-          }),
-          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
+          b = { { "%b()", "%b[]", "%b{}" }, "^.%s*().-()%s*.$" }, -- remove whitespace from `i` textobject
+          B = { { "%b()", "%b[]", "%b{}" }, "^.().*().$" },
           c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
-          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
           d = { "%f[%d]%d+" }, -- digits
           e = { -- Word with case
             {
@@ -57,6 +65,12 @@ return {
             },
             "^().*()$",
           },
+          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
+          o = ai.gen_spec.treesitter({ -- code block
+            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+          }),
+          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
           u = ai.gen_spec.function_call(), -- u for "Usage"
           U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
         },
