@@ -65,7 +65,7 @@ return {
         virtual_text = Defaults.icons.kind.Color,
       },
       patterns = {
-        hex = { priority = -1, "()%f[%w%p%s%c%z]#%x%x%x+%f[%W%p%s%c%z]()" },
+        hex = { priority = -1, "%f[^\"'%s]()#%x%x%x+%f[%W%p%s%c%z]()" },
         hex_literal = { priority = -1, "()0x%x%x%x%x%x%x+%f[%W%p%s%c%z]()" },
         css_rgb = { priority = -1, "()rgba?%(.-%)()" },
         css_hsl = { priority = -1, "()hsla?%(.-%)()" },
@@ -73,7 +73,6 @@ return {
         tailwind = { priority = -2, "%f[%w][%l%-]-%-()%l-%-%d%d%d?%f[%W]()" },
         numbers_in_brackets = { priority = -10, "%(()[%d.,%s]+()%)" },
       },
-      wsl_use_windows_app = true,
     },
   },
 }
