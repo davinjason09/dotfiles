@@ -61,12 +61,15 @@ return {
           BlinkCmpKindKeyword         = { link = "Keyword" },
 
           -- noice.nvim
+          NoiceConfirmBorder = { fg = colors.sky },
+
           NoiceCmdlinePopupBorderCmdline    = { fg = colors.sky },
           NoiceCmdlinePopupBorderSearch     = { fg = colors.yellow },
           NoiceCmdlinePopupBorderFilter     = { fg = colors.peach },
           NoiceCmdlinePopupBorderCalculator = { fg = colors.green },
           NoiceCmdlinePopupBorderHelp       = { fg = colors.blue },
           NoiceCmdlinePopupBorderLua        = { fg = colors.mauve },
+          NoiceCmdlinePopupBorderInput      = { fg = colors.lavender },
 
           NoiceCmdlinePopupTitleCmdline     = { fg = colors.mantle, bg = colors.sky },
           NoiceCmdlinePopupTitleSearch      = { fg = colors.mantle, bg = colors.yellow },
@@ -74,6 +77,7 @@ return {
           NoiceCmdlinePopupTitleCalculator  = { fg = colors.mantle, bg = colors.green },
           NoiceCmdlinePopupTitleHelp        = { fg = colors.mantle, bg = colors.blue },
           NoiceCmdlinePopupTitleLua         = { fg = colors.mantle, bg = colors.mauve },
+          NoiceCmdlinePopupTitleInput       = { fg = colors.mantle, bg = colors.lavender },
         }
       end,
     })

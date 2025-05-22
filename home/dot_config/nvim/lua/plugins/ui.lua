@@ -1,3 +1,4 @@
+---Add powerline symbols to the title of cmdline_popup
 ---@param msg string
 ---@param kind string
 local function title(msg, kind)
@@ -27,15 +28,14 @@ return {
         },
         -- stylua: ignore
         format = {
-          calculator  = { pattern = "^=", icon = "=", lang = "vimnormal", title = title("  Calculator ", "calculator") },
-          cmdline     = { pattern = "^:", icon = "", lang = "vim", title = title(nvim_version, "cmdline") },
-          filter      = { pattern = "^:%s*!", icon = "", lang = "bash", title = title("  Shell ", "filter") },
-          help        = { pattern = "^:%s*he?l?p?%s+", icon = "", title = title("  Help ", "help") },
-          input       = { icon = " ", opts = { border = { text = { top_align = "center" } } } },
-          lua         = false,
-          lua_command = { kind = "lua", pattern = "^:%s*lua%s+", icon = "", lang = "lua", title = title(lua_version, "lua") },
-          lua_value   = { kind = "cmdline", pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua", title = title(nvim_version, "cmdline") },
-          replace     = { kind = "search", pattern = "^.*s/", icon = "", lang = "regex", title = title(" 󰛔 Replace ", "search"), conceal = false },
+          calculator = { pattern = "^=", icon = "=", lang = "vimnormal", title = title("  Calculator ", "calculator") },
+          cmdline    = { pattern = "^:", icon = "❯", icon_hl_group = "MiniIconsGreen", lang = "vim", title = title(nvim_version, "cmdline") },
+          filter     = { pattern = "^:%s*!", icon = "", icon_hl_group = "MiniIconsGreen", lang = "bash", title = title("  Shell ", "filter") },
+          help       = { pattern = "^:%s*he?l?p?%s+", icon = "", title = title("  Help ", "help") },
+          input      = { icon = " ", opts = { border = { text = { top_align = "center" } } } },
+          lua        = { kind = "lua", pattern = "^:%s*lua%s+", icon = "", icon_hl_group = "MiniIconsAzure", lang = "lua", title = title(lua_version, "lua") },
+          lua_eval   = { kind = "cmdline", pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua", title = title(nvim_version, "cmdline") },
+          replace    = { kind = "search", pattern = "^.*s/", icon = "", lang = "regex", title = title(" 󰛔 Replace ", "search"), conceal = false },
         },
       },
       lsp = {
@@ -45,7 +45,6 @@ return {
         hover = { enabled = false },
       },
       popupmenu = { enabled = false },
-      ---@type NoiceRouteConfig[]
       routes = {
         {
           filter = {
