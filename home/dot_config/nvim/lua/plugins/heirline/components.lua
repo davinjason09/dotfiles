@@ -287,6 +287,7 @@ M.Ruler = {
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
   M.Separator("", { fg = "surface0", bg = "mantle" }),
   {
+    init = U.update_events({ { "User", pattern = "ForceRedraw", callback = U.redraw() } }),
     provider = "  %l  %c ",
     hl = function(self) return { fg = self:mode_color(), bg = "surface0" } end,
     update = { "CursorMoved", "CursorMovedI", "BufEnter" },
