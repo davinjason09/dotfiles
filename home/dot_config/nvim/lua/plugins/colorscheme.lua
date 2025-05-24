@@ -62,6 +62,7 @@ return {
 
           -- noice.nvim
           NoiceConfirmBorder = { fg = colors.sky },
+          NoiceConfirmTitle  = { fg = colors.mantle, bg = colors.sky },
 
           NoiceCmdlinePopupBorderCmdline    = { fg = colors.sky },
           NoiceCmdlinePopupBorderSearch     = { fg = colors.yellow },
