@@ -2,6 +2,10 @@ return {
   "Saghen/blink.cmp",
   version = "1.*",
   event = { "InsertEnter", "CmdlineEnter" },
+  dependencies = {
+    { "L3MON4D3/LuaSnip", version = "v2.0" },
+    { "rafamadriz/friendly-snippets" },
+  },
   opts = {
     appearance = { kind_icons = Defaults.icons.kind },
     completion = {
@@ -30,6 +34,7 @@ return {
       enabled = true,
       window = { border = "rounded" },
     },
+    snippets = { preset = "luasnip" },
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
       providers = {
