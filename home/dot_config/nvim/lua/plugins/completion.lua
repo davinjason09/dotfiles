@@ -43,12 +43,6 @@ return {
           opts = { tailwind_color_icon = Defaults.icons.kind.Color },
         },
         buffer = { max_items = 5 },
-        cmdline = {
-          min_keyword_length = function(ctx)
-            if ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil then return 3 end
-            return 0
-          end,
-        },
       },
     },
     keymap = {
@@ -56,11 +50,12 @@ return {
       ["<C-h>"] = { "show", "show_documentation", "hide_documentation" },
       ["<CR>"] = { "accept", "fallback" },
       ["<BS>"] = {
+        ---@param cmp blink.cmp.API
         function(cmp)
           if cmp.is_menu_visible() then cmp.cancel() end
 
           local BS = Snacks.util.keycode("<BS>")
-          vim.defer_fn(function() vim.fn.feedkeys(BS, "n") end, 1)
+          vim.fn.feedkeys(BS, "n")
         end,
       },
 
@@ -76,7 +71,12 @@ return {
     },
     cmdline = {
       completion = {
-        list = { selection = { auto_insert = false } },
+        list = {
+          selection = {
+            preselect = false,
+            auto_insert = false,
+          },
+        },
         menu = {
           auto_show = function() return vim.fn.getcmdtype() == ":" end,
           draw = {
@@ -101,7 +101,17 @@ return {
         ["<C-h>"] = { "show", "fallback" },
         ["<Tab>"] = { "show_and_insert", "accept" },
         ["<C-Right>"] = { "accept", "fallback" },
-        ["<CR>"] = { "select_and_accept", "fallback" },
+        ["<CR>"] = {
+          ---@param cmp blink.cmp.API
+          function(cmp)
+            if cmp.get_selected_item() and cmp.is_menu_visible() then
+              cmp.accept()
+            else
+              local CR = Snacks.util.keycode("<CR>")
+              vim.fn.feedkeys(CR, "n")
+            end
+          end,
+        },
 
         ["<Up>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
