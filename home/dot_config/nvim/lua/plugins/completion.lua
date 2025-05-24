@@ -53,14 +53,14 @@ return {
     },
     keymap = {
       preset = "none",
-      ["<A-Space>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-h>"] = { "show", "show_documentation", "hide_documentation" },
       ["<CR>"] = { "accept", "fallback" },
       ["<BS>"] = {
         function(cmp)
           if cmp.is_menu_visible() then cmp.cancel() end
 
-          local bs = vim.api.nvim_replace_termcodes("<BS>", true, false, true)
-          vim.defer_fn(function() vim.fn.feedkeys(bs, "n") end, 1)
+          local BS = Snacks.util.keycode("<BS>")
+          vim.defer_fn(function() vim.fn.feedkeys(BS, "n") end, 1)
         end,
       },
 
@@ -98,7 +98,7 @@ return {
       end,
       keymap = {
         preset = "none",
-        ["<A-Space>"] = { "show", "fallback" },
+        ["<C-h>"] = { "show", "fallback" },
         ["<Tab>"] = { "show_and_insert", "accept" },
         ["<C-Right>"] = { "accept", "fallback" },
         ["<CR>"] = { "select_and_accept", "fallback" },
