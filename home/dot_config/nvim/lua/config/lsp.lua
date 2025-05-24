@@ -50,21 +50,32 @@ local function on_attach(client, bufnr)
       vim.lsp.buf.signature_help()
     end, "Signature Help", "i")
   end
-end
 
--- Override default LSP hover and signature help to use a custom border and max size
----@diagnostic disable: duplicate-set-field
-local hover = vim.lsp.buf.hover
-local signature_help = vim.lsp.buf.signature_help
+  -- Override default LSP hover and signature help to use a custom border and max size
+  ---@diagnostic disable: duplicate-set-field
+  local hover = vim.lsp.buf.hover
+  local signature_help = vim.lsp.buf.signature_help
 
-vim.lsp.buf.hover = function()
-  return hover(Defaults.hover_opts --[[@as vim.lsp.buf.hover.Opts]])
-end
-vim.lsp.buf.signature_help = function()
-  return signature_help(Defaults.hover_opts --[[@as vim.lsp.buf.signature_help.Opts]])
-end
+  vim.lsp.buf.hover = function()
+    local opts = Defaults.hover_opts --[[@as vim.lsp.buf.hover.Opts]]
+    local ft = vim.bo[bufnr].filetype
+    local ft_icon, color = Snacks.util.icon(ft, "filetype")
 
----@diagnostic enable: duplicate-set-field
+    opts.title = {
+      { "╼ ", "LSPHoverBorder" },
+      { ft_icon, color },
+      { " " .. client.name },
+      { " ╾", "LSPHoverBorder" },
+    }
+    opts.title_pos = "right"
+    return hover(opts)
+  end
+  vim.lsp.buf.signature_help = function()
+    return signature_help(Defaults.hover_opts --[[@as vim.lsp.buf.signature_help.Opts]])
+  end
+
+  ---@diagnostic enable: duplicate-set-field
+end
 
 local register_capability = vim.lsp.handlers[methods.client_registerCapability]
 vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
