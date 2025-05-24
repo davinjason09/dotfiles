@@ -24,6 +24,46 @@ local lua_version = ("  %s "):format(_VERSION)
 return {
   { "MunifTanjim/nui.nvim" },
   {
+    "snacks.nvim",
+    opts = {
+      styles = {
+        float = { backdrop = 80 },
+        notification = { wo = { wrap = true } },
+        notification_history = {
+          width = 0.8,
+          wo = {
+            signcolumn = "no",
+            winhighlight = {
+              NormalFloat = "SnacksNormal",
+              FloatBorder = "SnacksWinBorder",
+            },
+          },
+        },
+        scratch = {
+          height = 0.6,
+          width = 0.8,
+          wo = {
+            winhighlight = {
+              NormalFloat = "SnacksNormal",
+              FloatBorder = "SnacksWinBorder",
+            },
+          },
+        },
+      },
+      win = {
+        wo = {
+          winhighlight = {
+            Normal = "SnacksNormal",
+            NormalNC = "SnacksNormalNC",
+            WinBar = "SnacksWinBar",
+            WinBarNC = "SnacksWinBarNC",
+            FloatBorder = "SnacksWinBorder",
+          },
+        },
+      },
+    },
+  },
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim" },
@@ -52,6 +92,7 @@ return {
         signature = { enabled = false },
         hover = { enabled = false },
       },
+      popupmenu = { enabled = false },
       routes = {
         {
           filter = {

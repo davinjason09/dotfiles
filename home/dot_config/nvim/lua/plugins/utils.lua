@@ -17,16 +17,17 @@ return {
       bigfile = { enabled = true },
       indent = {
         enabled = true,
-        scope = { enabled = true },
+        scope = { enabled = false },
         chunk = {
           enabled = true,
+          priority = 20,
           char = {
             corner_top = "╭",
             corner_bottom = "╰",
             arrow = "",
           },
         },
-        priority = 20,
+        animate = { easing = "inOutSine" },
         filter = function(buf)
           local filetype = vim.bo[buf].filetype
 
