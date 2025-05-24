@@ -109,35 +109,26 @@ return {
         static = {
           -- stylua: ignore
           mode_colors = {
-            n       = { "blue",   Defaults.icons.modes.Normal },
-            nt      = { "yellow", Defaults.icons.modes.Terminal },
-            i       = { "green",  Defaults.icons.modes.Insert },
-            v       = { "mauve",  Defaults.icons.modes.Visual },
-            V       = { "mauve",  Defaults.icons.modes.Visual },
-            ["\22"] = { "mauve",  Defaults.icons.modes.Visual },
-            c       = { "peach",  Defaults.icons.modes.Command },
-            s       = { "mauve",  Defaults.icons.modes.Select },
-            S       = { "mauve",  Defaults.icons.modes.Select },
-            ["\19"] = { "mauve",  Defaults.icons.modes.Select },
-            R       = { "red",    Defaults.icons.modes.Replace },
-            r       = { "red",    Defaults.icons.modes.Replace },
-            ["!"]   = { "peach",  Defaults.icons.modes.Shell },
-            t       = { "sky",    Defaults.icons.modes.Terminal },
+            n       = { "blue",  Defaults.icons.modes.Normal },
+            i       = { "green", Defaults.icons.modes.Insert },
+            v       = { "mauve", Defaults.icons.modes.Visual },
+            V       = { "mauve", Defaults.icons.modes.Visual },
+            ["\22"] = { "mauve", Defaults.icons.modes.Visual },
+            c       = { "peach", Defaults.icons.modes.Command },
+            s       = { "mauve", Defaults.icons.modes.Select },
+            S       = { "mauve", Defaults.icons.modes.Select },
+            ["\19"] = { "mauve", Defaults.icons.modes.Select },
+            R       = { "red",   Defaults.icons.modes.Replace },
+            r       = { "red",   Defaults.icons.modes.Replace },
+            ["!"]   = { "peach", Defaults.icons.modes.Shell },
+            t       = { "sky",   Defaults.icons.modes.Terminal },
           },
           mode_color = function(self)
             local mode = cond.is_active() and vim.fn.mode() or "n"
-            if mode == "n" then
-              mode = vim.fn.mode(1):sub(1, 2)
-              return self.mode_colors[mode][1] or self.mode_colors.n[1]
-            end
             return self.mode_colors[mode][1]
           end,
           mode_icon = function(self)
             local mode = cond.is_active() and vim.fn.mode() or "n"
-            if mode == "n" then
-              mode = vim.fn.mode(1):sub(1, 2)
-              return self.mode_colors[mode][2] or self.mode_colors.n[2]
-            end
             return self.mode_colors[mode][2]
           end,
         },

@@ -101,9 +101,12 @@ end
 -- Get all LSP clients attached to the current buffer
 ---@return string[] #A list of LSP client names
 function M.get_lsp_clients()
-  local attached = vim.tbl_map(function(c)
-    if c.name ~= "copilot" then return c.name end
-  end, vim.lsp.get_clients({ bufnr = 0 }))
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  local attached = {}
+
+  for _, client in ipairs(clients) do
+    if client.name ~= "copilot" then table.insert(attached, client.name) end
+  end
 
   Utils.dedup(attached)
   return attached
