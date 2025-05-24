@@ -52,6 +52,51 @@ return {
       custom_highlights = function(colors)
         -- stylua: ignore
         return {
+          -- Syntax
+          Identifier   = { fg = colors.text },
+          PreProc      = { fg = colors.pink },
+          Label        = { fg = colors.rosewater },
+          Keyword      = { fg = colors.red },
+          Exception    = { fg = colors.peach },
+          Include      = { fg = colors.teal },
+          Delimiter    = { fg = colors.teal },
+          StorageClass = { link = "Keyword" },
+          Structure    = { link = "Keyword" },
+          Macro        = { link = "Constant" },
+
+          ["@variable"]            = { link = "Identifier" },
+          ["@variable.builtin"]    = { link = "Keyword" },
+          ["@function.macro"]      = { link = "Constant" },
+          ["@keyword.operator"]    = { link = "Operator" },
+
+          ["@variable.parameter"]  = { fg = colors.rosewater },
+          ["@variable.member"]     = { fg = colors.rosewater },
+          ["@constant.builtin"]    = { fg = colors.lavender },
+          ["@module"]              = { fg = colors.rosewater },
+          ["@keyword.function"]    = { fg = colors.maroon },
+          ["@keyword.return"]      = { fg = colors.pink },
+          ["@variable.member.lua"] = { fg = colors.lavender },
+          ["@namespace.builtin"]   = { fg = colors.red },
+
+          ["@lsp.type.class"]                        = { link = "@type" },
+          ["@lsp.type.event"]                        = { link = "@event" },
+          ["@lsp.type.formatSpecifier"]              = { link = "@markup.link.label" },
+          ["@lsp.type.interface"]                    = { link = "@type" },
+          ["@lsp.type.modifier"]                     = { link = "@keyword" },
+          ["@lsp.type.namespace"]                    = { link = "@module" },
+          ["@lsp.type.parameter"]                    = { link = "@variable.parameter" },
+          ["@lsp.type.property.cpp"]                 = { link = "@property.cpp" },
+          ["@lsp.type.regex"]                        = { link = "@string.regexp" },
+          ["@lsp.type.struct"]                       = { link = "@type" },
+          ["@lsp.type.typeParameter"]                = { link = "@type" },
+          ["@lsp.typemod.enum.defaultLibrary"]       = { link = "@type" },
+          ["@lsp.typemod.enumMember.defaultLibrary"] = { link = "@constant" },
+          ["@lsp.typemod.function.defaultLibrary"]   = { link = "@function" },
+          ["@lsp.typemod.keyword.async"]             = { link = "@keyword" },
+          ["@lsp.typemod.macro.defaultLibrary"]      = { link = "@constant.macro" },
+          ["@lsp.typemod.method.defaultLibrary"]     = { link = "@function" },
+          ["@lsp.typemod.type.defaultLibrary"]       = { link = "@type" },
+
           -- blink.cmp
           BlinkCmpMenu                = { fg = colors.none,     bg = colors.base },
           BlinkCmpMenuBorder          = { fg = colors.overlay1, bg = colors.base },
