@@ -1,4 +1,5 @@
 ---@class Utils
+---@field format Utils.format
 local M = {}
 
 setmetatable(M, {
@@ -95,6 +96,47 @@ function M.dedup(list)
   end
 
   return ret
+end
+
+-- Get all LSP clients attached to the current buffer
+---@return string[] #A list of LSP client names
+function M.get_lsp_clients()
+  local attached = vim.tbl_map(function(c)
+    if c.name ~= "copilot" then return c.name end
+  end, vim.lsp.get_clients({ bufnr = 0 }))
+
+  Utils.dedup(attached)
+  return attached
+end
+
+M.CREATE_UNDO = vim.api.nvim_replace_termcodes("<C-g>u", true, true, true)
+function M.create_undo()
+  if vim.api.nvim_get_mode().mode == "i" then vim.api.nvim_feedkeys(M.CREATE_UNDO, "n", false) end
+end
+
+---Save the current cursor position
+function M.save_cursor_pos() vim.b[0].cursor_pos = vim.api.nvim_win_get_cursor(0) end
+
+---Restore the cursor position
+---@param offset? {row: number, col: number} The offset to move the cursor
+function M.restore_cursor(offset)
+  if vim.b.cursor_pos then
+    local cursor_pos = vim.b.cursor_pos
+
+    if offset then
+      cursor_pos[1] = cursor_pos[1] + (offset.row or 0)
+      cursor_pos[2] = cursor_pos[2] + (offset.col or 0)
+    end
+
+    -- Ensure the cursor position is within the buffer's line count
+    local line_count = vim.api.nvim_buf_line_count(0)
+    if cursor_pos[1] < 1 or cursor_pos[1] > line_count then
+      cursor_pos[1] = math.max(1, math.min(line_count, cursor_pos[1]))
+    end
+
+    vim.api.nvim_win_set_cursor(0, cursor_pos)
+    vim.b.cursor_pos = nil
+  end
 end
 
 -- Optimized treesitter foldexpr

@@ -265,19 +265,20 @@ M.ActiveLSP = {
   flexible = 1,
   {
     provider = function(self)
-      local attached = U.get_lsp_clients()
+      local attached = Utils.get_lsp_clients()
 
       if #attached == 0 then
         return ""
       elseif #attached == 1 then
         return (" %s%s "):format(self.icon, attached[1])
       end
+
       return (" %s[%s] "):format(self.icon, table.concat(attached, ", "))
     end,
   },
   {
     provider = function(self)
-      local attached = U.get_lsp_clients()
+      local attached = Utils.get_lsp_clients()
       return #attached >= 1 and string.format(" %s%s LSP ", self.icon, #attached) or ""
     end,
   },

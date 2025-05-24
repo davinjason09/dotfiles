@@ -91,20 +91,6 @@ function M.is_table_of_tables(item)
   return true
 end
 
--- Get all LSP clients attached to the current buffer
----@return string[] #A list of LSP client names
-function M.get_lsp_clients()
-  local clients = vim.lsp.get_clients({ bufnr = 0 })
-  local attached = {}
-
-  for _, client in ipairs(clients) do
-    if client.name ~= "copilot" then table.insert(attached, client.name) end
-  end
-
-  Utils.dedup(attached)
-  return attached
-end
-
 ---Check if the current buffer is a location list
 function M.is_loclist() return vim.fn.getloclist(0, { filewinid = 0 }).filewinid ~= 0 end
 
