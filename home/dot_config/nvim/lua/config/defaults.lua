@@ -88,6 +88,13 @@ M.lazy_nvim_icons = {
   list       = { "●", "○", "", "" },
 }
 
+-- Mason default icons
+M.mason_icons = {
+  package_installed   = " ",
+  package_pending     = " ",
+  package_uninstalled = "󰊠 ",
+}
+
 -- stylua: ignore end
 
 -- Excluded filetypes for scope indent
