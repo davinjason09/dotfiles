@@ -227,7 +227,7 @@ M.Copilot = {
   static = {
     icon = {
       normal = " ",
-      inprogress = "󱥸 ",
+      inprogress = " ",
       sleep = " ",
       warning = " ",
       disabled = " ",
@@ -242,7 +242,15 @@ M.Copilot = {
     },
   },
   condition = function() return Utils.is_loaded("copilot.lua") and U.copilot_attached end,
-  provider = function(self) return (" %s "):format(self.icon[U.get_copilot_state()]) end,
+  provider = function(self)
+    local state = U.get_copilot_state()
+
+    if state == "inprogress" then
+      return (" %s %s "):format(Snacks.util.spinner(), self.icon[state])
+    end
+    return (" %s "):format(self.icon[state])
+  end,
+  update = { "User", pattern = "UpdateSpinner" },
   hl = function(self)
     local status = U.copilot_status.data.status
 
@@ -377,13 +385,13 @@ M.TermCommand = {
 
       if #split == 1 then
         cmd_running = false
-        U.stop_timer()
+        U.stop_spinner()
         return ""
       end
 
       local cmd = vim.trim(split[2])
       cmd_running = true
-      U.start_timer()
+      U.start_spinner()
       return (" %s "):format(cmd)
     end,
   },

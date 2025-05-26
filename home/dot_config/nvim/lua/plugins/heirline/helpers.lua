@@ -98,7 +98,7 @@ function M.is_loclist() return vim.fn.getloclist(0, { filewinid = 0 }).filewinid
 local timer
 local timer_running = false
 
-function M.start_timer()
+function M.start_spinner()
   if timer_running then return end
 
   timer = assert(vim.uv.new_timer())
@@ -113,7 +113,7 @@ function M.start_timer()
   )
 end
 
-function M.stop_timer()
+function M.stop_spinner()
   if not timer_running then return end
 
   timer:close()
@@ -178,6 +178,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
         if new_state ~= current_state then
           current_state = new_state
           vim.cmd.redrawstatus()
+        end
+        -- Start or stop the spinner based on the state
+        if new_state == "inprogress" and not vim.b.copilot_suggestion_hidden then
+          M.start_spinner()
+        elseif
+          (current_state == "inprogress" and new_state ~= "inprogress")
+          or vim.b.copilot_suggestion_hidden
+        then
+          M.stop_spinner()
         end
       end)
     end
