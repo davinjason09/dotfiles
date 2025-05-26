@@ -70,7 +70,6 @@ return {
     -- Top Pickers
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-    { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
     -- Find
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "[F]ind [B]uffers" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "[F]ind by [G]rep" },
@@ -103,5 +102,7 @@ return {
     { "<leader>xD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
     -- Misc
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+    -- Custom
+    { "<leader>so", function() Utils.picker.options() end, desc = "[S]earch [O]ption" },
   },
 }
