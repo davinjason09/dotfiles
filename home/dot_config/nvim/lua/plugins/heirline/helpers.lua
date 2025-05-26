@@ -118,9 +118,10 @@ function M.stop_spinner()
 
   timer:close()
   timer_running = false
-  vim.schedule_wrap(
-    function() vim.api.nvim_exec_autocmds("User", { pattern = "UpdateSpinner" }) end
-  )
+  vim.schedule_wrap(function()
+    vim.api.nvim_exec_autocmds("User", { pattern = "UpdateSpinner" })
+    M.redraw()
+  end)
 end
 
 -- ╾╼ Copilot Utilities ╾─────────────────────────────────────────────╼
@@ -175,18 +176,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
       M.copilot_attached = true
       M.copilot_status.register_status_notification_handler(function()
         local new_state = M.get_copilot_state()
+        -- Start or stop the spinner based on the state
+        if new_state == "inprogress" then
+          M.start_spinner()
+        elseif current_state == "inprogress" and new_state ~= "inprogress" then
+          M.stop_spinner()
+        end
+
         if new_state ~= current_state then
           current_state = new_state
-          vim.cmd.redrawstatus()
-        end
-        -- Start or stop the spinner based on the state
-        if new_state == "inprogress" and not vim.b.copilot_suggestion_hidden then
-          M.start_spinner()
-        elseif
-          (current_state == "inprogress" and new_state ~= "inprogress")
-          or vim.b.copilot_suggestion_hidden
-        then
-          M.stop_spinner()
+          vim.api.nvim_exec_autocmds("User", { pattern = "UpdateCopilotStatus" })
+          M.redraw()
         end
       end)
     end

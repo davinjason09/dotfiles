@@ -241,6 +241,10 @@ M.Copilot = {
       ["Disabled"] = "overlay2",
     },
   },
+  init = U.update_events({
+    { "User", pattern = "UpdateSpinner" },
+    { "User", pattern = "UpdateCopilotStatus" },
+  }),
   condition = function() return Utils.is_loaded("copilot.lua") and U.copilot_attached end,
   provider = function(self)
     local state = U.get_copilot_state()
@@ -250,7 +254,6 @@ M.Copilot = {
     end
     return (" %s "):format(self.icon[state])
   end,
-  update = { "User", pattern = "UpdateSpinner" },
   hl = function(self)
     local status = U.copilot_status.data.status
 
