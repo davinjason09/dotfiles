@@ -30,17 +30,22 @@ return {
     event = "InsertEnter",
     opts = {
       modes = { command = true },
+      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+      skip_ts = { "string" },
+      skip_unbalanced = true,
+      code_blocks = true,
       -- stylua: ignore
       mappings = {
         ["["] = { action = "open", pair = "[]", neigh_pattern = "[^\\][%s%z,%)}%]]", register = { cr = false } },
         ["{"] = { action = "open", pair = "{}", neigh_pattern = "[^\\][%s%z,%)}%]]", register = { cr = false } },
         ["("] = { action = "open", pair = "()", neigh_pattern = "[^\\][%s%z,%)}%]]", register = { cr = false } },
-        [' '] = { action = "open", pair = "  ", neigh_pattern = '[%(%[{][%)%]}]' },
+        [" "] = { action = "open", pair = "  ", neigh_pattern = '[%(%[{][%)%]}]' },
         ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
         ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
         ['`'] = { action = "closeopen", pair = "``", neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
       },
     },
+    config = function(_, opts) Utils.mini.pairs.setup(opts) end,
   },
   {
     "echasnovski/mini.ai",

@@ -1,5 +1,6 @@
 ---@class Utils
 ---@field format Utils.format
+---@field mini   Utils.mini
 local M = {}
 
 setmetatable(M, {
