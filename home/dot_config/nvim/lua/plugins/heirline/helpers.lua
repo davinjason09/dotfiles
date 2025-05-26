@@ -72,7 +72,7 @@ function M.get_icon(filename, extension)
     icon, color = MiniIcons.get("filetype", extension)
   end
 
-  return icon, color
+  return icon, Snacks.util.color(color)
 end
 
 ---Redraw the statusline

@@ -31,22 +31,10 @@ return {
     event = "VeryLazy",
     config = function()
       local cond = require("heirline.conditions")
-      local utils = require("heirline.utils")
       local C = require("plugins.heirline.components")
       local U = require("plugins.heirline.helpers")
-
       local colors = require("catppuccin.palettes").get_palette("mocha")
-      colors = vim.tbl_extend("force", colors, {
-        MiniIconsRed = utils.get_highlight("MiniIconsRed").fg,
-        MiniIconsBlue = utils.get_highlight("MiniIconsBlue").fg,
-        MiniIconsCyan = utils.get_highlight("MiniIconsCyan").fg,
-        MiniIconsGrey = utils.get_highlight("MiniIconsGrey").fg,
-        MiniIconsAzure = utils.get_highlight("MiniIconsAzure").fg,
-        MiniIconsGreen = utils.get_highlight("MiniIconsGreen").fg,
-        MiniIconsOrange = utils.get_highlight("MiniIconsOrange").fg,
-        MiniIconsPurple = utils.get_highlight("MiniIconsPurple").fg,
-        MiniIconsYellow = utils.get_highlight("MiniIconsYellow").fg,
-      })
+      local icons = Defaults.icons.modes
 
       local SpecialStatusLine = {
         condition = function()
@@ -136,19 +124,19 @@ return {
         static = {
           -- stylua: ignore
           mode_colors = {
-            n       = { "blue",  Defaults.icons.modes.Normal },
-            i       = { "green", Defaults.icons.modes.Insert },
-            v       = { "mauve", Defaults.icons.modes.Visual },
-            V       = { "mauve", Defaults.icons.modes.Visual },
-            ["\22"] = { "mauve", Defaults.icons.modes.Visual },
-            c       = { "peach", Defaults.icons.modes.Command },
-            s       = { "mauve", Defaults.icons.modes.Select },
-            S       = { "mauve", Defaults.icons.modes.Select },
-            ["\19"] = { "mauve", Defaults.icons.modes.Select },
-            R       = { "red",   Defaults.icons.modes.Replace },
-            r       = { "red",   Defaults.icons.modes.Replace },
-            ["!"]   = { "peach", Defaults.icons.modes.Shell },
-            t       = { "sky",   Defaults.icons.modes.Terminal },
+            n       = { "blue",  icons.Normal },
+            i       = { "green", icons.Insert },
+            v       = { "mauve", icons.Visual },
+            V       = { "mauve", icons.Visual },
+            ["\22"] = { "mauve", icons.Visual },
+            c       = { "peach", icons.Command },
+            s       = { "mauve", icons.Select },
+            S       = { "mauve", icons.Select },
+            ["\19"] = { "mauve", icons.Select },
+            R       = { "red",   icons.Replace },
+            r       = { "red",   icons.Replace },
+            ["!"]   = { "peach", icons.Shell },
+            t       = { "sky",   icons.Terminal },
           },
           mode_color = function(self)
             local mode = cond.is_active() and vim.fn.mode() or "n"
