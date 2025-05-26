@@ -1,5 +1,32 @@
 return {
   {
+    "b0o/incline.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      window = { padding = 0, margin = { horizontal = 0, vertical = 0 } },
+      render = function(props)
+        local C = require("plugins.incline.components")
+        local mode = vim.fn.mode()
+        local palette = Defaults.palette
+        local file_info = C.file(props)
+
+        return {
+          { " ", guifg = C.get_mode_color(mode, props.focused) },
+          { " ", guibg = C.get_mode_color(mode, props.focused) },
+          {
+            { C.get_diagnostics(props) },
+            { C.get_diff(props) },
+            { (" %s"):format(file_info.icon[1]), guifg = file_info.icon.guifg },
+            { (" %s"):format(file_info.name[1]), guifg = file_info.name.guifg },
+            { ("%s"):format(file_info.modified[1]), guifg = file_info.modified.guifg },
+            guibg = palette.mantle,
+          },
+          { " ", guibg = C.get_mode_color(mode, props.focused) },
+        }
+      end,
+    },
+  },
+  {
     "rebelot/heirline.nvim",
     event = "VeryLazy",
     config = function()
