@@ -47,9 +47,9 @@ return {
           if #details > 0 then
             table.insert(details, 1, string.format("```%s", vim.bo[src_buf].ft or ""))
             table.insert(details, "```")
-          end
 
-          if #lines > 0 and lines[1] ~= "---" then table.insert(lines, 1, "---") end
+            if #lines > 0 and lines[1] ~= "---" then table.insert(lines, 1, "---") end
+          end
 
           local visible_lines = vim.list_extend(details, lines)
           vim.api.nvim_buf_set_lines(buf, 0, -1, false, visible_lines)
