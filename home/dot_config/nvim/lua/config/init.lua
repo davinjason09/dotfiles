@@ -1,6 +1,6 @@
 local M = {}
 
----@param name "autocmds" | "commands" | "filetypes" | "keymaps" | "lsp" | "options"
+---@param name "autocmds" | "commands" | "keymaps" | "lsp" | "options"
 M.load = function(name)
   ---@param mod string
   local function _load(mod)
@@ -27,7 +27,6 @@ M.setup = function()
   -- Boostrap lazy.nvim
   require("config.lazy")
   M.load("commands")
-  M.load("filetypes")
   M.load("lsp")
 
   -- Lazy load autocmds when not opening a file
