@@ -6,6 +6,7 @@ return {
     { "L3MON4D3/LuaSnip", version = "v2.0" },
     { "rafamadriz/friendly-snippets" },
   },
+  ---@type blink.cmp.Config
   opts = {
     appearance = { kind_icons = Defaults.icons.kind },
     completion = {
@@ -25,8 +26,52 @@ return {
       },
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 200,
-        window = { border = "rounded" },
+        auto_show_delay_ms = 250,
+        window = {
+          scrollbar = false,
+          border = "rounded",
+        },
+        draw = function(opts)
+          -- Modified from: https://github.com/OXY2DEV/nvim/blob/main/lua/plugins/lsp.lua#L168
+          local buf = opts.window.buf ---@type integer
+          local src_buf = vim.api.nvim_get_current_buf()
+
+          local lines = {}
+
+          if opts.item and opts.item.documentation then
+            lines = vim.split(opts.item.documentation.value or "", "\n", { trimempty = true })
+          end
+
+          local details = vim.split(opts.item.detail or "", "\n", { trimempty = true })
+
+          if #details > 0 then
+            table.insert(details, 1, string.format("```%s", vim.bo[src_buf].ft or ""))
+            table.insert(details, "```")
+          end
+
+          if #lines > 0 and lines[1] ~= "---" then table.insert(lines, 1, "---") end
+
+          local visible_lines = vim.list_extend(details, lines)
+          vim.api.nvim_buf_set_lines(buf, 0, -1, false, visible_lines)
+
+          local win = opts.window:get_win()
+          local render = require("render-markdown.core.ui").update
+
+          if win then
+            vim.bo[buf].ft = "markdown"
+            render(buf, win, "BlinkDraw", true)
+            vim.bo[buf].ft = "blink-cmp-documentation"
+          end
+
+          vim.defer_fn(function()
+            win = opts.window:get_win()
+            if win then
+              vim.bo[buf].ft = "markdown"
+              render(buf, win, "BlinkDraw", true)
+              vim.bo[buf].ft = "blink-cmp-documentation"
+            end
+          end, 25)
+        end,
       },
       ghost_text = { enabled = true },
     },
@@ -79,9 +124,7 @@ return {
         },
         menu = {
           auto_show = function() return vim.fn.getcmdtype() == ":" end,
-          draw = {
-            columns = { { "kind_icon" }, { "label" }, { "kind" } },
-          },
+          draw = { columns = { { "kind_icon" }, { "label" }, { "kind" } } },
         },
       },
       sources = function()
@@ -118,4 +161,10 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    local blink = require("blink.cmp")
+    blink.setup(opts)
+
+    vim.lsp.config("*", { capabilities = blink.get_lsp_capabilities(Defaults.capabilities, true) })
+  end,
 }

@@ -102,8 +102,9 @@ return {
       overrides = {
         buftype = {
           nofile = {
+            anti_conceal = { enabled = false },
             code = {
-              border = "hide",
+              border = "thick",
               position = "left",
               width = "full",
               left_margin = 0,
@@ -113,6 +114,7 @@ return {
             },
             win_options = {
               concealcursor = { rendered = "nvic" },
+              conceallevel = { default = 0, rendered = 3 },
             },
           },
         },
