@@ -94,15 +94,6 @@ return {
       preset = "none",
       ["<C-h>"] = { "show", "show_documentation", "hide_documentation" },
       ["<CR>"] = { "accept", "fallback" },
-      ["<BS>"] = {
-        ---@param cmp blink.cmp.API
-        function(cmp)
-          if cmp.is_menu_visible() then cmp.cancel() end
-
-          local BS = Snacks.util.keycode("<BS>")
-          vim.fn.feedkeys(BS, "n")
-        end,
-      },
 
       ["<Tab>"] = { "snippet_forward", "fallback" },
       ["<S-Tab>"] = { "snippet_backward", "fallback" },
