@@ -14,7 +14,7 @@ return {
   settings = {
     Lua = {
       completion = {
-        callSnippet = "Both",
+        callSnippet = "Replace",
       },
       doc = {
         privateName = { "^_" },
