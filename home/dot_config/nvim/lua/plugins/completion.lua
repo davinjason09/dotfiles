@@ -81,11 +81,20 @@ return {
     },
     snippets = { preset = "luasnip" },
     sources = {
+      per_filetype = {
+        lua = { "lazydev", "lsp", "path", "snippets" },
+      },
       default = { "lsp", "path", "snippets", "buffer" },
       providers = {
         lsp = {
           timeout_ms = 500,
           opts = { tailwind_color_icon = Defaults.icons.kind.Color },
+        },
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          fallbacks = { "lsp" },
+          score_offset = 100,
         },
         buffer = { max_items = 5 },
       },
