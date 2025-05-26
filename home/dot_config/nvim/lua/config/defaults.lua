@@ -97,6 +97,59 @@ M.mason_icons = {
 
 -- stylua: ignore end
 
+-- Default vim.diagnostic config
+---@type vim.diagnostic.Opts
+M.diagnostics = {
+  signs = {
+    -- stylua: ignore
+    text = {
+      [vim.diagnostic.severity.ERROR] = M.icons.diagnostics.ERROR,
+      [vim.diagnostic.severity.WARN]  = M.icons.diagnostics.WARN,
+      [vim.diagnostic.severity.INFO]  = M.icons.diagnostics.INFO,
+      [vim.diagnostic.severity.HINT]  = M.icons.diagnostics.HINT,
+    },
+  },
+  underline = true,
+  update_in_insert = false,
+  virtual_text = { prefix = "", spacing = 0 },
+  virtual_lines = { current_line = true },
+}
+
+local border = {
+  { "╭", "LSPHoverBorder" },
+  { "─", "LSPHoverBorder" },
+  { "╮", "LSPHoverBorder" },
+  { "│", "LSPHoverBorder" },
+  { "╯", "LSPHoverBorder" },
+  { "─", "LSPHoverBorder" },
+  { "╰", "LSPHoverBorder" },
+  { "│", "LSPHoverBorder" },
+}
+
+---@type vim.lsp.util.open_floating_preview.Opts
+M.hover_opts = {
+  border = border,
+  max_width = math.max(vim.o.columns * 0.6, 100),
+  max_height = math.min(vim.o.lines * 0.4, 20),
+}
+
+-- Default LSP capabilities
+---@type lsp.ClientCapabilities
+M.capabilities = {
+  textDocument = {
+    foldingRange = {
+      dynamicRegistration = true,
+      lineFoldingOnly = true,
+    },
+  },
+  workspace = {
+    fileOperations = {
+      didRename = true,
+      willRename = true,
+    },
+  },
+}
+
 -- Excluded filetypes for scope indent
 M.excluded_filetypes = {
   "",
