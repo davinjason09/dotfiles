@@ -241,26 +241,26 @@ M.Copilot = {
       ["Disabled"] = "overlay2",
     },
   },
-  init = U.update_events({
-    { "User", pattern = "UpdateSpinner" },
-    { "User", pattern = "UpdateCopilotStatus" },
-  }),
   condition = function() return Utils.is_loaded("copilot.lua") and U.copilot_attached end,
-  provider = function(self)
-    local state = U.get_copilot_state()
+  {
+    condition = function() return U.get_copilot_state() == "inprogress" end,
+    update = { "User", pattern = "UpdateSpinner" },
+    provider = function() return Snacks.util.spinner() end,
+    hl = { fg = "green" },
+  },
+  {
+    update = { "User", pattern = "UpdateCopilotStatus" },
+    provider = function(self)
+      local state = U.get_copilot_state()
+      return (" %s "):format(self.icon[state])
+    end,
+    hl = function(self)
+      if not U.is_enabled() then return { fg = self.color["Disabled"] } end
 
-    if state == "inprogress" then
-      return (" %s %s "):format(Snacks.util.spinner(), self.icon[state])
-    end
-    return (" %s "):format(self.icon[state])
-  end,
-  hl = function(self)
-    local status = U.copilot_status.data.status
-
-    if not U.is_enabled() then return { fg = self.color["Disabled"] } end
-
-    return { fg = status and self.color[status] or self.color[""] }
-  end,
+      local status = U.copilot_status.data.status
+      return { fg = status and self.color[status] or self.color[""] }
+    end,
+  },
 }
 
 M.ActiveLSP = {
