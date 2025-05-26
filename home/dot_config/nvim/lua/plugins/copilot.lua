@@ -26,5 +26,31 @@ return {
         ["grug-far-history"] = false,
       },
     },
+    keys = {
+      {
+        "<C-Right>",
+        function()
+          if require("copilot.suggestion").is_visible() then
+            require("copilot.suggestion").accept_word()
+            return true
+          end
+          return "<C-Right>"
+        end,
+        mode = { "i" },
+        expr = true,
+      },
+      {
+        "<C-Down>",
+        function()
+          if require("copilot.suggestion").is_visible() then
+            require("copilot.suggestion").accept_line()
+            return true
+          end
+          return "<C-Down>"
+        end,
+        mode = { "i" },
+        expr = true,
+      },
+    },
   },
 }

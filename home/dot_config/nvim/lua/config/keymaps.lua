@@ -154,25 +154,6 @@ for _, key_opts in pairs(keys) do
   end
 end
 
--- Accept copilot suggestions
-local suggestion = require("copilot.suggestion")
-
-map("i", "<C-Right>", function()
-  if suggestion.is_visible() then
-    suggestion.accept_word()
-    return true
-  end
-
-  return "<C-Right>"
-end, { expr = true })
-
-map("i", "<C-Down>", function()
-  if suggestion.is_visible() then
-    suggestion.accept_line()
-    return true
-  end
-end, { expr = true })
-
 -- ╭─────────────────────────────────────────────────────────╮
 -- │                        Utilities                        │
 -- ╰─────────────────────────────────────────────────────────╯
