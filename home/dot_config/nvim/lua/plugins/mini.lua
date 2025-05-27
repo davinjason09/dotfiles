@@ -27,7 +27,7 @@ return {
   {
     "echasnovski/mini.pairs",
     version = "*",
-    event = "InsertEnter",
+    event = { "BufReadPost", "BufNewFile", "InsertEnter" },
     opts = {
       modes = { command = true },
       skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
@@ -36,13 +36,13 @@ return {
       code_blocks = true,
       -- stylua: ignore
       mappings = {
-        ["["] = { action = "open", pair = "[]", neigh_pattern = "[^\\][%s%z,%)}%]]", register = { cr = false } },
-        ["{"] = { action = "open", pair = "{}", neigh_pattern = "[^\\][%s%z,%)}%]]", register = { cr = false } },
-        ["("] = { action = "open", pair = "()", neigh_pattern = "[^\\][%s%z,%)}%]]", register = { cr = false } },
+        ["("] = { action = "open", pair = "()", neigh_pattern = ".[%s,%)%]%}]" },
+        ["["] = { action = "open", pair = "[]", neigh_pattern = ".[%s,%)%]%}]" },
+        ["{"] = { action = "open", pair = "{}", neigh_pattern = ".[%s,%)%]%}]" },
         [" "] = { action = "open", pair = "  ", neigh_pattern = '[%(%[{][%)%]}]' },
-        ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
-        ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
-        ['`'] = { action = "closeopen", pair = "``", neigh_pattern = "[^%w\\][^%w]", register = { cr = false } },
+        ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^\\][^%d%w]", register = { cr = false } },
+        ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^\\][^%d%w]", register = { cr = false } },
+        ["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\][^%d%w]", register = { cr = false } },
       },
     },
     config = function(_, opts) Utils.mini.pairs.setup(opts) end,
@@ -71,6 +71,7 @@ return {
             "^().*()$",
           },
           f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
+          g = Utils.mini.ai.buffer, -- whole buffer
           o = ai.gen_spec.treesitter({ -- code block
             a = { "@block.outer", "@conditional.outer", "@loop.outer" },
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
@@ -80,6 +81,12 @@ return {
           U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
         },
       }
+    end,
+    config = function(_, opts)
+      require("mini.ai").setup(opts)
+      Utils.on_load("which-key.nvim", function()
+        vim.schedule(function() Utils.mini.ai.whichkey(opts) end)
+      end)
     end,
   },
   {
@@ -101,6 +108,7 @@ return {
         [".yarnrc.yml"]         = { glyph = "", hl = "MiniIconsBlue" },
         ["devcontainer.json"]   = { glyph = "", hl = "MiniIconsAzure" },
         ["eslint.config.js"]    = { glyph = "󰱺", hl = "MiniIconsYellow" },
+        ['init.lua']            = { glyph = "", hl = "MiniIconsGreen" },
         ["package.json"]        = { glyph = "", hl = "MiniIconsGreen" },
         ["tsconfig.build.json"] = { glyph = "", hl = "MiniIconsAzure" },
         ["tsconfig.json"]       = { glyph = "", hl = "MiniIconsAzure" },
