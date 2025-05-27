@@ -144,6 +144,12 @@ function M.restore_cursor(offset)
   end
 end
 
+---Check if the current screen is small based on the default threshold
+function M.is_small_screen()
+  local height = vim.o.lines
+  return height <= Defaults.small_screen_threshold
+end
+
 -- Optimized treesitter foldexpr
 function M.foldexpr()
   local buf = vim.api.nvim_get_current_buf()

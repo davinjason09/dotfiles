@@ -9,6 +9,8 @@ M.palette = {}
 ---@param palette CtpColors<string> | CtpColor
 function M.filling_palette(palette) M.palette = palette end
 
+M.small_screen_threshold = 30
+
 -- stylua: ignore start
 
 -- Default icons

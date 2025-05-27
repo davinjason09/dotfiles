@@ -18,8 +18,7 @@ return {
       },
       sections = {
         function()
-          local height = vim.o.lines
-          local is_small_screen = height <= 30
+          local is_small_screen = Utils.is_small_screen()
           local logo = is_small_screen and "logo-small" or "logo-large"
 
           return {
@@ -33,8 +32,7 @@ return {
           }
         end,
         function()
-          local version = vim.version()
-          version = ("v%d.%d.%d"):format(version.major, version.minor, version.patch)
+          local version = ("v%s"):format(Utils.nvim_version())
           local date = os.date("%d.%m.%Y")
 
           return {
@@ -54,15 +52,17 @@ return {
           indent = 2,
           padding = 1,
         },
-        {
-          section = "recent_files",
-          icon = " ",
-          title = "Recent Files",
-          indent = 2,
-          padding = 1,
-          limit = 10,
-          enabled = vim.o.lines > 30,
-        },
+        function()
+          return {
+            section = "recent_files",
+            icon = " ",
+            title = "Recent Files",
+            indent = 2,
+            padding = 1,
+            limit = 10,
+            enabled = not Utils.is_small_screen(),
+          }
+        end,
         {
           section = "startup",
           icon = " ",
