@@ -95,17 +95,6 @@ vim.o.foldexpr   = "v:lua.require('utils').foldexpr()" -- Custom fold expression
 vim.o.spelllang    = "en"          -- Default spelling dictionary
 vim.o.spelloptions = "camel"       -- Treat camel case words as separate words
 
--- ╾╼ Title ╾─────────────────────────────────────────────────────────╼
-function GetFtIcon()
-  local MiniIcons = require("mini.icons")
-  local filename = vim.fn.expand("%:t")
-  local icon, _, is_default = MiniIcons.get("file", filename)
-  return is_default and "" or icon .. " "
-end
-
-vim.o.title = true
-vim.o.titlestring = '%{v:lua.GetFtIcon()}%{expand("%:t")} -  %{fnamemodify(getcwd(), ":t")}'
-
 -- ╾╼ Clipboard ╾─────────────────────────────────────────────────────╼
 vim.o.clipboard = "unnamedplus" -- Use system clipboard for all operations
 vim.g.clipboard = {             -- WSL clipboard (win32yank) 

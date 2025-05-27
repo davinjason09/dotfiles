@@ -1,5 +1,29 @@
 local M = {}
 
+local function GetFtIcon()
+  local MiniIcons = require("mini.icons")
+  local filename = vim.fn.expand("%:t")
+  local icon, _, is_default = MiniIcons.get("file", filename)
+  return is_default and " " or icon .. " "
+end
+
+local title_ignore_ft = {
+  "snacks_dashboard",
+  "mini.files",
+}
+
+M.title = function()
+  local icon = GetFtIcon()
+  local ft = vim.bo.filetype
+
+  local filename = vim.fn.expand("%:t")
+  filename = filename == "" and "[No File]" or filename
+  filename = vim.tbl_contains(title_ignore_ft, ft) and "" or filename .. " "
+
+  local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+  return string.format("%s%s-  %s", icon, filename, cwd)
+end
+
 ---@param name "autocmds" | "commands" | "keymaps" | "lsp" | "options"
 M.load = function(name)
   ---@param mod string
@@ -38,6 +62,12 @@ M.setup = function()
     group = vim.api.nvim_create_augroup("CustomSetup", { clear = true }),
     pattern = "VeryLazy",
     callback = function()
+      -- HACK:
+      -- Declaring `vim.o.titlestring` in options.lua will emit E5108 for MiniIcons if `vim.fn.argc(-1) == 1`
+      -- To combat this, we set the title here after lazy has sourced all plugin modules
+      vim.o.title = true
+      vim.o.titlestring = "%{v:lua.require('config').title()}"
+
       if lazy_autocmds then M.load("autocmds") end
 
       M.load("keymaps")
