@@ -124,6 +124,30 @@ function M.stop_spinner()
   end)
 end
 
+---Get the pretty path for a file
+---@param filename string
+---@param type "absolute" | "relative"
+function M.pretty_path(filename, type)
+  if type == "absolute" then
+    filename = vim.fn.fnamemodify(filename, ":~")
+  else
+    filename = vim.fn.fnamemodify(filename, ":.")
+  end
+
+  local splits = vim.split(filename, "/")
+  local output = ""
+  if #splits > 3 then
+    output = ("%s/…/%s"):format(
+      table.concat(splits, "/", 1, 2),
+      table.concat(splits, "/", #splits - 1, #splits)
+    )
+  else
+    output = table.concat(splits, "/")
+  end
+
+  return output
+end
+
 -- ╾╼ Copilot Utilities ╾─────────────────────────────────────────────╼
 
 M.copilot_status = Utils.lazy_require("copilot.status")
@@ -199,9 +223,10 @@ local function qf_title()
   if M.is_loclist() then return vim.fn.getloclist(0, { title = 0 }).title end
   return vim.fn.getqflist({ title = 0 }).title
 end
+
 local function lazy_stats()
-  local lazy = require("lazy")
-  return "Loaded: " .. lazy.stats().loaded .. "/" .. lazy.stats().count
+  local stats = require("lazy").stats()
+  return ("Loaded: %s/%s"):format(stats.loaded, stats.count)
 end
 
 local function mason_stats()
@@ -218,17 +243,17 @@ local function picker_stats()
   if not picker then return end
 
   if filetype == "snacks_picker_list" then
-    return " " .. vim.fn.fnamemodify(picker:dir(), ":~")
+    return " " .. M.pretty_path(picker:dir(), "absolute")
   elseif filetype == "snacks_picker_input" then
     local input = picker.input and picker.input:get() or ""
     local count = #picker:items()
-    return input ~= "" and (" " .. input .. ": " .. count .. " results") or (count .. " results")
+    return input ~= "" and (" %s: %s results"):format(input, count) or (count .. " results")
   else
     local path = picker:current().file
     local filename = vim.fn.fnamemodify(path, ":t")
     local extension = vim.fn.fnamemodify(path, ":e")
     local icon = M.get_icon(filename, extension)
-    return "Preview: " .. icon .. " " .. vim.fn.fnamemodify(path, ":~")
+    return ("Preview: %s %s"):format(icon, M.pretty_path(path, "absolute"))
   end
 end
 
@@ -238,7 +263,7 @@ local function minifiles_cwd()
   if vim.bo.filetype:match("help") then return " Help" end
 
   local cwd = (MiniFiles.get_fs_entry() or {}).path
-  return " " .. vim.fn.fnamemodify(cwd, ":~:h")
+  return " " .. M.pretty_path(vim.fn.fnamemodify(cwd, ":h"), "absolute")
 end
 
 M.SpecialInfo = {
