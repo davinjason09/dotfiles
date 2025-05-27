@@ -50,32 +50,33 @@ local function on_attach(client, bufnr)
       vim.lsp.buf.signature_help()
     end, "Signature Help", "i")
   end
-
-  -- Override default LSP hover and signature help to use a custom border and max size
-  ---@diagnostic disable: duplicate-set-field
-  local hover = vim.lsp.buf.hover
-  local signature_help = vim.lsp.buf.signature_help
-
-  vim.lsp.buf.hover = function()
-    local opts = Defaults.hover_opts --[[@as vim.lsp.buf.hover.Opts]]
-    local ft = vim.bo[bufnr].filetype
-    local ft_icon, color = Snacks.util.icon(ft, "filetype")
-
-    opts.title = {
-      { "╼ ", "LSPHoverBorder" },
-      { ft_icon, color },
-      { " " .. client.name },
-      { " ╾", "LSPHoverBorder" },
-    }
-    opts.title_pos = "right"
-    return hover(opts)
-  end
-  vim.lsp.buf.signature_help = function()
-    return signature_help(Defaults.hover_opts --[[@as vim.lsp.buf.signature_help.Opts]])
-  end
-
-  ---@diagnostic enable: duplicate-set-field
 end
+
+-- Override default LSP hover and signature help to use a custom border and max size
+---@diagnostic disable: duplicate-set-field
+local hover = vim.lsp.buf.hover
+local signature_help = vim.lsp.buf.signature_help
+
+vim.lsp.buf.hover = function()
+  local client = assert(vim.lsp.get_clients({ bufnr = 0, method = "textDocument/hover" })[1])
+  local opts = Defaults.hover_opts --[[@as vim.lsp.buf.hover.Opts]]
+  local ft = vim.bo[0].filetype
+  local ft_icon, color = Snacks.util.icon(ft, "filetype")
+
+  opts.title = {
+    { "╼ ", "LSPHoverBorder" },
+    { ft_icon, color },
+    { " " .. (client.name or "LSP"), "@text" },
+    { " ╾", "LSPHoverBorder" },
+  }
+  opts.title_pos = "right"
+  return hover(opts)
+end
+vim.lsp.buf.signature_help = function()
+  return signature_help(Defaults.hover_opts --[[@as vim.lsp.buf.signature_help.Opts]])
+end
+
+---@diagnostic enable: duplicate-set-field
 
 local register_capability = vim.lsp.handlers[methods.client_registerCapability]
 vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
@@ -94,9 +95,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
       .iter(vim.api.nvim_get_runtime_file("lsp/*.lua", true))
       :map(function(file)
         -- Disable lsp if the first line starts with `-- disable`
-        local f = io.open(file, "r")
-        local first_line = f and f:read("*l") or ""
-        if f then f:close() end
+        local first_line = vim.fn.readfile(file, "", 1)[1] or ""
 
         if first_line:match("^%-%- disable") then return end
         return vim.fn.fnamemodify(file, ":t:r")
@@ -109,6 +108,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+    if client.name == "copilot" then return end
 
     on_attach(client, args.buf)
   end,

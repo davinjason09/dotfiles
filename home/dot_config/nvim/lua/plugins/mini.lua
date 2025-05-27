@@ -127,6 +127,8 @@ return {
         psxml  = { glyph = "", hl = "MiniIconsAzure" },
         sh     = { glyph = "", hl = "MiniIconsGrey" },
         tcsh   = { glyph = "󱄽", hl = "MiniIconsAzure" },
+        typ    = { glyph = "󰬛", hl = "MiniIconsAzure" },
+        typc   = { glyph = "󰬛", hl = "MiniIconsAzure" },
         zsh    = { glyph = "", hl = "MiniIconsGreen" },
       },
     },
