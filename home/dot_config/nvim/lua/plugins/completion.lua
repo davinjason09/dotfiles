@@ -31,6 +31,7 @@ return {
           scrollbar = false,
           border = "rounded",
         },
+        -- TODO: better parsing of documentation
         draw = function(opts)
           -- Modified from: https://github.com/OXY2DEV/nvim/blob/main/lua/plugins/lsp.lua#L168
           local buf = opts.window.buf ---@type integer
@@ -101,7 +102,7 @@ return {
     },
     keymap = {
       preset = "none",
-      ["<C-h>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-l>"] = { "show", "show_documentation", "hide_documentation" },
       ["<CR>"] = { "accept", "fallback" },
 
       ["<Tab>"] = { "snippet_forward", "fallback" },
@@ -141,8 +142,10 @@ return {
       end,
       keymap = {
         preset = "none",
-        ["<C-h>"] = { "show", "fallback" },
-        ["<Tab>"] = { "show_and_insert", "accept" },
+        ["<C-l>"] = { "show", "fallback" },
+        ["<Tab>"] = { "show_and_insert", "select_prev", "fallback" },
+        ["<S-Tab>"] = { "select_next", "fallback" },
+
         ["<C-Right>"] = { "accept", "fallback" },
         ["<CR>"] = {
           ---@param cmp blink.cmp.API
