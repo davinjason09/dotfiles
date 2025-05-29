@@ -1,5 +1,33 @@
 return {
   {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {
+      check_ts = true,
+      ignored_next_char = "[%w%.]",
+    },
+    config = function(_, opts)
+      local npairs = require("nvim-autopairs")
+      local rule = require("nvim-autopairs.rule")
+      local ts_conds = require("nvim-autopairs.ts-conds")
+
+      npairs.setup(opts)
+
+      npairs.add_rules({
+        rule("{", "},", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
+        rule("'", "',", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
+        rule('"', '",', "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
+        rule('"""', '"""'),
+        rule("'''", "'''"),
+        rule("```", "```", { "markdown", "typst" }),
+        rule("$", "$", { "typst", "latex" }),
+        rule("_", "_", "typst"),
+        rule("*", "*", "typst"),
+        rule("~", "~", "typst"),
+      })
+    end,
+  },
+  {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts_extend = { "spec" },

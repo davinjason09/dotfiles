@@ -25,29 +25,6 @@ return {
     },
   },
   {
-    "echasnovski/mini.pairs",
-    version = "*",
-    event = { "BufReadPost", "BufNewFile", "InsertEnter" },
-    opts = {
-      modes = { command = true },
-      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
-      skip_ts = { "string" },
-      skip_unbalanced = true,
-      code_blocks = true,
-      -- stylua: ignore
-      mappings = {
-        ["("] = { action = "open", pair = "()", neigh_pattern = ".[%s,%)%]%}]" },
-        ["["] = { action = "open", pair = "[]", neigh_pattern = ".[%s,%)%]%}]" },
-        ["{"] = { action = "open", pair = "{}", neigh_pattern = ".[%s,%)%]%}]" },
-        [" "] = { action = "open", pair = "  ", neigh_pattern = '[%(%[{][%)%]}]' },
-        ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^\\][^%d%w]", register = { cr = false } },
-        ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^\\][^%d%w]", register = { cr = false } },
-        ["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\][^%d%w]", register = { cr = false } },
-      },
-    },
-    config = function(_, opts) Utils.mini.pairs.setup(opts) end,
-  },
-  {
     "echasnovski/mini.ai",
     version = "*",
     event = { "BufReadPost", "BufNewFile" },
