@@ -18,10 +18,7 @@ return {
       },
     },
   },
-  {
-    "justinsgithub/wezterm-types",
-    ft = "lua",
-  },
+  { "gonstoll/wezterm-types" },
   {
     "folke/lazydev.nvim",
     ft = "lua",
