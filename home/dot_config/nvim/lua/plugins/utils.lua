@@ -47,10 +47,7 @@ return {
           },
         },
       },
-      notifier = {
-        enabled = true,
-        style = "fancy",
-      },
+      notifier = { enabled = true, style = "fancy" },
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
       words = { enabled = true },

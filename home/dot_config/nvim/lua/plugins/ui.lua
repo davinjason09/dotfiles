@@ -28,9 +28,14 @@ return {
     opts = {
       styles = {
         float = { backdrop = 80 },
-        notification = { wo = { wrap = true } },
+        notification = {
+          wo = {
+            winblend = 0,
+            wrap = true,
+          },
+        },
         notification_history = {
-          width = 0.8,
+          width = 0.85,
           wo = {
             signcolumn = "no",
             winhighlight = {
@@ -41,7 +46,7 @@ return {
         },
         scratch = {
           height = 0.6,
-          width = 0.8,
+          width = 0.85,
           wo = {
             winhighlight = {
               NormalFloat = "SnacksNormal",
@@ -79,7 +84,7 @@ return {
           calculator = { pattern = "^=", icon = "=", lang = "vimnormal", title = title({ msg = "  Calculator ", kind = "calculator" }) },
           cmdline    = { pattern = "^:", icon = "❯", icon_hl_group = "MiniIconsGreen", lang = "vim", title = title({ msg = nvim_version, kind = "cmdline" }) },
           filter     = { pattern = "^:%s*!", icon = "", icon_hl_group = "MiniIconsGreen", lang = "bash", title = title({ msg = "  Shell ", kind = "filter" }) },
-          help       = { pattern = "^:%s*he?l?p?%s+", icon = "", title = title({ msh = "  Help ", kind = "help" }) },
+          help       = { pattern = "^:%s*he?l?p?%s+", icon = "", title = title({ msg = "  Help ", kind = "help" }) },
           input      = { icon = " ", opts = { border = { text = { top_align = "center" } } } },
           lua        = { kind = "lua", pattern = "^:%s*lua%s+", icon = "", icon_hl_group = "MiniIconsAzure", lang = "lua", title = title({ msg = lua_version, kind = "lua" }) },
           lua_eval   = { kind = "cmdline", pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua", title = title({ msg = nvim_version, kind = "cmdline" }) },
@@ -112,6 +117,16 @@ return {
             cond = function(msg) return msg.opts and (msg.opts.title or ""):find("tinymist") end,
           },
           view = "mini",
+        },
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "Agent service not initialized" },
+              { find = "Request getCompletions failed with" },
+            },
+          },
+          opts = { skip = true },
         },
       },
       views = {
