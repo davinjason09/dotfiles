@@ -21,9 +21,10 @@
 - [x] Use chezmoi
 - [~] Add configs to the repo
   - [~] Add nvim from scratch (ongoing)
-    - [~] Bisect what plugin slowing down buffer opening
-    - [ ] Fix dependencies of plugins
-    - [ ] Modularize some plugins with heavy customization into its separate folder (eg. heirline, incline)
+    - [x] Bisect what plugin slowing down buffer opening
+    - [~] Fix dependencies of plugins
+    - [~] Modularize some plugins with heavy customization into its separate folder (eg. heirline, incline)
+  - [ ] zsh
 - [ ] Add a script to install all the dependencies
 - [ ] Add a script to copy files to the windows side
 
