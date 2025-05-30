@@ -5,25 +5,29 @@ return {
     opts = {
       check_ts = true,
       ignored_next_char = "[%w%.]",
+      fast_wrap = {},
     },
     config = function(_, opts)
       local npairs = require("nvim-autopairs")
-      local rule = require("nvim-autopairs.rule")
+      local Rule = require("nvim-autopairs.rule")
       local ts_conds = require("nvim-autopairs.ts-conds")
+      local cond = require("nvim-autopairs.conds")
 
       npairs.setup(opts)
 
       npairs.add_rules({
-        rule("{", "},", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
-        rule("'", "',", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
-        rule('"', '",', "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
-        rule('"""', '"""'),
-        rule("'''", "'''"),
-        rule("```", "```", { "markdown", "typst" }),
-        rule("$", "$", { "typst", "latex" }),
-        rule("_", "_", "typst"),
-        rule("*", "*", "typst"),
-        rule("~", "~", "typst"),
+        Rule("{", "},", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
+        Rule("'", "',", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
+        Rule('"', '",', "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
+        Rule("%", "%", "lua"):with_pair(ts_conds.is_ts_node({ "string", "comment" })),
+        Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({ "function" })),
+        Rule("<", ">", "lua"):with_pair(ts_conds.is_ts_node({ "string", "string_content" })),
+        -- add space on both sides if inside a bracket
+        Rule(" ", " "):with_pair(function(args)
+          local after_cond = cond.after_regex("[%}%]%)]")
+          local before_cond = cond.before_regex("[%{%[%(]")
+          return after_cond(args) and before_cond(args)
+        end),
       })
     end,
   },
