@@ -94,9 +94,7 @@ M.ViMode = {
   hl = function(self) return { fg = "mantle", bg = self:mode_color(), bold = true } end,
   M.Separator(
     "",
-    function(self)
-      return { fg = self:mode_color(), bg = C.is_git_repo() and "surface0" or "mantle" }
-    end,
+    function(self) return { fg = self:mode_color(), bg = C.is_git_repo() and "surface0" or "crust" } end,
     nil,
     {
       { "User", pattern = "GitSignsUpdate", callback = U.redraw() },
@@ -117,7 +115,7 @@ M.GitBranch = {
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
   provider = function(self) return string.format(" %s %s ", self.branch_icon, vim.b.gitsigns_head) end,
   hl = function(self) return { fg = self:mode_color(), bg = "surface0" } end,
-  M.Separator("", { fg = "surface0", bg = "mantle" }),
+  M.Separator("", { fg = "surface0", bg = "crust" }),
 }
 
 -- File Name, contains icons, pretty path and flags
@@ -131,7 +129,7 @@ M.FileNameBlock = {
       self.icon, self.color = U.get_icon(filename, extension)
     end,
     provider = function(self) return (" %s "):format(self.icon) end,
-    hl = function(self) return { fg = self.color, bg = "mantle" } end,
+    hl = function(self) return { fg = self.color, bg = "crust" } end,
   },
   -- File pretty path
   {
@@ -157,7 +155,7 @@ M.FileNameBlock = {
           return concat_path ~= "" and string.format("%s/", concat_path) or ""
         end
       end,
-      hl = { fg = "text", bg = "mantle" },
+      hl = { fg = "text", bg = "crust" },
     },
     {
       provider = function(self)
@@ -165,7 +163,7 @@ M.FileNameBlock = {
 
         return self.path_split and self.path_split[#self.path_split]
       end,
-      hl = { fg = "text", bg = "mantle", bold = true },
+      hl = { fg = "text", bg = "crust", bold = true },
     },
   },
   -- File Flags
@@ -297,7 +295,7 @@ M.ActiveLSP = {
 
 M.Ruler = {
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
-  M.Separator("", { fg = "surface0", bg = "mantle" }),
+  M.Separator("", { fg = "surface0", bg = "crust" }),
   {
     init = U.update_events({ { "User", pattern = "ForceRedraw", callback = U.redraw() } }),
     provider = "  %l  %c ",
@@ -341,7 +339,7 @@ M.TerminalMode = {
     function(self)
       return {
         fg = self:mode_color(),
-        bg = not vim.b.term_title:find("term://") and "surface0" or "mantle",
+        bg = not vim.b.term_title:find("term://") and "surface0" or "crust",
       }
     end,
     function() return not vim.b.term_title:find("term://") end,
@@ -449,7 +447,7 @@ M.SpecialInfo = {
     return (" %s "):format(U.SpecialInfo[filetype]())
   end,
   hl = function(self) return { fg = self:mode_color(), bg = "surface0" } end,
-  M.Separator("", { fg = "surface0", bg = "mantle" }),
+  M.Separator("", { fg = "surface0", bg = "crust" }),
 }
 
 return M

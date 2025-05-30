@@ -161,7 +161,7 @@ return {
       }
 
       local statusline = {
-        hl = { bg = "mantle" },
+        hl = { bg = "crust" },
         static = {
           -- stylua: ignore
           mode_colors = {
