@@ -1,7 +1,16 @@
 return {
   {
+    "folke/which-key.nvim",
+    opts = {
+      spec = {
+        { "<C-CR>", desc = "Start TS Node Selection" },
+        { "<BS>", desc = "Decrement Selection", mode = "x" },
+        { "<Tab>", desc = "Increment Selection", mode = "x" },
+      },
+    },
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
-    priority = 200,
     version = false,
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
@@ -13,16 +22,20 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     opts_extend = { "ensure_installed" },
     opts = {
-      highlight = { enabled = true },
+      highlight = { enable = true },
       indent = { enable = true },
       ensure_installed = {
-        "c",
-        "lua",
+        "bash",
+        "diff",
+        "gitignore",
+        "html",
+        "printf",
+        "query",
+        "regex",
+        "toml",
         "vim",
         "vimdoc",
-        "query",
-        "markdown",
-        "markdown_inline",
+        "yaml",
       },
       incremental_selection = {
         enable = true,
