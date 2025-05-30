@@ -32,8 +32,11 @@ map({ "n", "x" }, "gl", "$", { desc = "End of line" })
 map({ "i", "c", "t" }, "<C-BS>", "<C-w>")
 map({ "i", "c", "t" }, "<C-w>",  "<NOP>") -- disable default behavior, rewiring my brain
 
+-- Delete selection with <BS> instead of entering normal mode
+map("s", "<BS>", '<C-g>"_c', { desc = "Delete selection in insert mode" })
+
 -- Add new line without entering insert mode
----@param dir "down"|"up"
+---@param dir "down" | "up"
 local function add_line(dir)
   local ft = vim.bo.filetype
   local buftype = vim.bo.buftype
@@ -87,7 +90,7 @@ map("i",          "<C-/>",     comment, { desc = "Comment / Uncomment" })
 -- stylua: ignore end
 
 -- Emacs paste behavior
----@param key "p"|"P"
+---@param key "p" | "P"
 local function paste(key)
   local count = vim.v.count1
   local reg_type = vim.fn.getregtype('"')
@@ -196,6 +199,15 @@ map({ "n", "v" }, "<Right>", "<NOP>")
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
 
+-- Clear search and stop snippet
+map({ "n", "i", "s" }, "<ESC>", function()
+  local ls = Utils.lazy_require("luasnip")
+  if ls.expand_or_jumpable() then ls.unlink_current() end
+
+  vim.cmd("noh")
+  return "<ESC>"
+end, { expr = true, desc = "Escape, clear hlsearch, and stop snippet session" })
+
 -- Increment / Decrement
 map({ "n", "x" }, "+",  "<C-a>",  { desc = "Increment number" })
 map({ "n", "x" }, "-",  "<C-x>",  { desc = "Decrement number" })
@@ -207,6 +219,7 @@ map({ "n", "i", "v" }, "<C-a>", "<ESC>ggVG", { desc = "Select all" })
 
 -- Search inside selection
 map("x", "/", "<ESC>/\\%V", { desc = "Search inside selection" })
+map("x", "?", "<ESC>?\\%V", { desc = "Search inside selection" })
 
 -- Redo with U
 map("n", "U", "<C-r>", { desc = "Redo" })
@@ -290,7 +303,7 @@ map("n", "<leader>gb", function() Snacks.picker.git_log_line() end, { desc = "Gi
 map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse (open)" })
 map({ "n", "x" }, "<leader>gY", function()
   ---@diagnostic disable-next-line: missing-fields
-  Snacks.gitbrowse({ open = function(url) vim.fn.sereg("+", url) end, notify = false })
+  Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
 end, { desc = "Git Browse (copy)" })
 
 -- stylua: ignore end
