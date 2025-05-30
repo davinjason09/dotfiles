@@ -2,6 +2,17 @@ return {
   "catppuccin/nvim",
   name = "catppuccin",
   priority = 1000,
+  specs = {
+    {
+      "akinsho/bufferline.nvim",
+      optional = true,
+      opts = function(_, opts)
+        if (vim.g.colors_name or ""):find("catppuccin") then
+          opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
+        end
+      end,
+    },
+  },
   config = function()
     require("catppuccin").setup({
       flavour = "mocha",
@@ -173,6 +184,13 @@ return {
           -- LSP Hover
           LSPHoverBorder = { fg = colors.overlay1, bg = colors.base },
           NormalFloat    = { bg = colors.base },
+
+          -- Search
+          Search    = { fg = colors.sky,      bg = colors.surface1, style = { "bold" } },
+          IncSearch = { fg = colors.surface1, bg = colors.sky },
+
+          -- BufferLine underline
+          TabLineSel   = { fg = colors.sky },
         }
       end,
     })

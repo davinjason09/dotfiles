@@ -1,5 +1,46 @@
 return {
   {
+    "akinsho/bufferline.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    -- stylua: ignore
+    keys = {
+      { "<leader>bp", "<CMD>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+      { "<leader>bP", "<CMD>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers", },
+      { "<leader>br", "<CMD>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
+      { "<leader>bl", "<CMD>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
+      { "H", "<CMD>BufferLineCyclePrev<CR>", desc = "Prev Buffer" },
+      { "L", "<CMD>BufferLineCycleNext<CR>", desc = "Next Buffer" },
+      { "[b", "<CMD>BufferLineCyclePrev<CR>", desc = "Prev Buffer" },
+      { "]b", "<CMD>BufferLineCycleNext<CR>", desc = "Next Buffer" },
+      { "[B", "<CMD>BufferLineMovePrev<CR>", desc = "Move buffer prev" },
+      { "]B", "<CMD>BufferLineMoveNext<CR>", desc = "Move buffer next" },
+    },
+    opts = {
+      options = {
+        close_command = function(buf) Snacks.bufdelete(buf) end,
+        right_mouse_command = function(buf) Snacks.bufdelete(buf) end,
+        separator_style = "slope",
+        indicator = { style = "underline" },
+        diagnostics = "nvim_lsp",
+        always_show_bufferline = false,
+        diagnostics_indicator = function(_, _, diag)
+          local diag_icons = Defaults.icons.diagnostics
+          local ret = (diag.error and diag_icons.ERROR or "")
+            .. (diag.warning and diag_icons.WARN or "")
+          return vim.trim(ret)
+        end,
+        offsets = {
+          {
+            filetype = "snacks_layout_box",
+            text = "󰙅 File Explorer",
+            highlight = "SnacksExplorerTitle",
+            text_align = "center",
+          },
+        },
+      },
+    },
+  },
+  {
     "b0o/incline.nvim",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
