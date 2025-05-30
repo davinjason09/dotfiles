@@ -76,9 +76,28 @@ return {
       },
       formatters = {
         injected = { options = { ignore_errors = true } },
+        ["clang-format"] = {
+          prepend_args = function(_, ctx)
+            if not Utils.format.has_config(ctx.dirname, "clang-format") then
+              return { "-style=file:" .. vim.fn.stdpath("config") .. "/rules/.clang-format" }
+            end
+          end,
+        },
+        stylua = {
+          prepend_args = function(_, ctx)
+            if not Utils.format.has_config(ctx.dirname, "stylua") then
+              return { "--config-path", vim.fn.stdpath("config") .. "/rules/stylua.toml" }
+            end
+          end,
+        },
       },
       formatters_by_ft = {
+        bib = { "bibtex-tidy" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
         lua = { "stylua" },
+        markdown = { "prettier" },
+        typst = { "typstyle", lsp_format = "prefer" },
       },
       format_on_save = function()
         -- Don't format when minifiles is open

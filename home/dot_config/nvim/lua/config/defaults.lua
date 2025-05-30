@@ -251,4 +251,9 @@ M.which_key_rules = {
   },
 }
 
+M.formatter_rules = {
+  stylua = { ".stylua.toml", "stylua.toml" },
+  ["clang-format"] = { ".clang-format", ".clangd", "clang-format" },
+}
+
 return M
