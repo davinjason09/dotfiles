@@ -439,7 +439,7 @@ M.SpecialMode = {
 }
 
 M.SpecialInfo = {
-  update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
+  init = U.update_events({ { "User", pattern = "ForceRedraw", callback = U.redraw() } }),
   provider = function()
     local filetype = vim.bo.filetype
     if filetype:match("snacks_picker*") then return (" %s "):format(U.SpecialInfo.picker()) end
