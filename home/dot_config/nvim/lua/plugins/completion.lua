@@ -143,8 +143,8 @@ return {
       keymap = {
         preset = "none",
         ["<C-l>"] = { "show", "fallback" },
-        ["<Tab>"] = { "show_and_insert", "select_prev", "fallback" },
-        ["<S-Tab>"] = { "select_next", "fallback" },
+        ["<Tab>"] = { "show_and_insert", "select_next", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "fallback" },
 
         ["<C-Right>"] = { "accept", "fallback" },
         ["<CR>"] = {
