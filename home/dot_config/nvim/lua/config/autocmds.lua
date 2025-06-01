@@ -38,14 +38,16 @@ vim.api.nvim_create_autocmd("FileType", {
     "query",
     "qf",
   },
-  callback = function(event)
-    vim.bo[event.buf].buflisted = false
+  callback = function(args)
+    if vim.bo[args.buf].filetype == "query" and vim.bo[args.buf].buftype ~= "nofile" then return end
+
+    vim.bo[args.buf].buflisted = false
     vim.schedule(function()
       vim.keymap.set("n", "q", function()
         vim.cmd("close")
-        pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+        pcall(vim.api.nvim_buf_delete, args.buf, { force = true })
       end, {
-        buffer = event.buf,
+        buffer = args.buf,
         silent = true,
         desc = "Quit buffer",
       })
