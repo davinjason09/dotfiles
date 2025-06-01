@@ -92,6 +92,9 @@ return {
         ["yarn.lock"]           = { glyph = "", hl = "MiniIconsBlue" },
         ["README.md"]           = { glyph = "󰂺", hl = "MiniIconsYellow" },
         ["README.txt"]          = { glyph = "󰂺", hl = "MiniIconsYellow" },
+        -- tui
+        lazygit = { glyph = "󰒲", hl = "MiniIconsOrange" },
+        btop    = { glyph = "", hl = "MiniIconsRed" },
       },
       filetype = {
         awk    = { glyph = "", hl = "MiniIconsGrey" },

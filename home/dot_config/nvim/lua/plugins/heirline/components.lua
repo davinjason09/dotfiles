@@ -125,6 +125,11 @@ M.FileNameBlock = {
   {
     init = function(self)
       local filename = self.filename
+      if vim.bo.buftype == "terminal" then
+        local split = vim.split(filename, "/")
+        filename = split[#split]
+      end
+
       local extension = vim.fn.fnamemodify(filename, ":e")
       self.icon, self.color = U.get_icon(filename, extension)
     end,
