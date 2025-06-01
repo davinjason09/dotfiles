@@ -148,12 +148,11 @@ return {
     config = function(_, opts)
       local hint = require("inlay-hint")
       hint.setup(opts)
-      if not hint.is_enabled() then hint.enable() end
 
       -- Force the inlay hints to refresh on Cursor Move.
       vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        callback = function()
-          if hint.is_enabled() then hint.enable() end
+        callback = function(args)
+          if hint.is_enabled({ bufnr = args.buf }) then hint.enable(true, { bufnr = args.buf }) end
         end,
       })
     end,
