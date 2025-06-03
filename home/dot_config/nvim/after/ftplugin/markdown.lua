@@ -5,6 +5,7 @@ vim.opt_local.linebreak = true
 vim.opt_local.spell = not is_nofile
 
 local Rule = require("nvim-autopairs.rule")
+local cond = require("nvim-autopairs.conds")
 local npairs = require("nvim-autopairs")
 local ts_conds = require("nvim-autopairs.ts-conds")
 
@@ -16,13 +17,26 @@ local not_inside_code_block = ts_conds.is_not_ts_node({
 
 npairs.add_rules({
   Rule("```", "```", "markdown"),
-  Rule("$", "$", "markdown"),
-  Rule("*", "*", "markdown"),
   Rule("![", "]()", "markdown"):set_end_pair_length(1),
+  Rule("$", "$", "markdown")
+    :with_pair(cond.not_before_regex("[%w]"))
+    :with_pair(cond.not_after_regex("[%w]")),
   -- italics
-  Rule("_", "_", "markdown"):with_pair(not_inside_code_block),
-  Rule("*", "*", "markdown"):with_pair(not_inside_code_block),
+  Rule("_", "_", "markdown")
+    :with_pair(not_inside_code_block)
+    :with_pair(cond.not_before_regex("[%w]"))
+    :with_pair(cond.not_after_regex("[%w]")),
+  Rule("*", "*", "markdown")
+    :with_pair(not_inside_code_block)
+    :with_pair(cond.not_before_regex("[%w]"))
+    :with_pair(cond.not_after_regex("[%w]")),
   -- bold
-  Rule("__", "__", "markdown"):with_pair(not_inside_code_block),
-  Rule("**", "**", "markdown"):with_pair(not_inside_code_block),
+  Rule("__", "__", "markdown")
+    :with_pair(not_inside_code_block)
+    :with_pair(cond.not_before_regex("[%w]"))
+    :with_pair(cond.not_after_regex("[%w]")),
+  Rule("**", "**", "markdown")
+    :with_pair(not_inside_code_block)
+    :with_pair(cond.not_before_regex("[%w]"))
+    :with_pair(cond.not_after_regex("[%w]")),
 })

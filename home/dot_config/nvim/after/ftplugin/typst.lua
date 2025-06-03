@@ -10,13 +10,19 @@ local ts_conds = require("nvim-autopairs.ts-conds")
 npairs.add_rules({
   Rule("```", "```", "typst"),
   Rule("$", "$", "typst")
-    :with_pair(cond.not_after_regex("[%w%.]"))
+    :with_pair(cond.not_after_regex("[%w]"))
     :with_pair(ts_conds.is_not_ts_node("math"))
     :with_move(ts_conds.is_ts_node("math"))
     :replace_map_cr(function() return "<C-g>u<CR><ESC>O<Tab>" end),
-  Rule("_", "_", "typst"),
-  Rule("*", "*", "typst"),
-  Rule("~", "~", "typst"),
+  Rule("_", "_", "typst")
+    :with_pair(cond.not_before_regex("[%w]"))
+    :with_pair(cond.not_after_regex("[%w]")),
+  Rule("*", "*", "typst")
+    :with_pair(cond.not_before_regex("[%w]"))
+    :with_pair(cond.not_after_regex("[%w]")),
+  Rule("~", "~", "typst")
+    :with_pair(cond.not_before_regex("[%w]"))
+    :with_pair(cond.not_after_regex("[%w]")),
 })
 
 -- Custom export picker
