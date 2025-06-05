@@ -27,6 +27,7 @@ return {
         vim.keymap.set(mode, lhs, rhs, { buffer = buffer, desc = desc })
       end
 
+      -- stylua: ignore start
       -- Navigation
       map("n", "[h", function()
         if vim.wo.diff then
@@ -45,13 +46,14 @@ return {
       map("n", "[H", function() gs.nav_hunk("first") end, "First Hunk")
       map("n", "]H", function() gs.nav_hunk("last") end, "Last Hunk")
       -- Actions
-      map("n", "<leader>gp", gs.preview_hunk_inline, "[G]it: [P]review Hunk")
-      map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, "[G]it: [B]lame Line")
-      map("n", "<leader>gB", gs.blame_line, "[G]it: [B]lame Buffer")
-      map("n", "<leader>gd", gs.diffthis, "[G]it: [D]iff This")
-      map("n", "<leader>gD", function() gs.diffthis("~") end, "[G]it: [D]iff This (~)")
+      map("n", "<leader>ghp", gs.preview_hunk_inline, "[G]it [H]unk: [P]review Hunk")
+      map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "[G]it [H]unk: [B]lame Line")
+      map("n", "<leader>ghB", gs.blame, "[G]it [H]unk: [B]lame Buffer")
+      map("n", "<leader>ghd", gs.diffthis, "[G]it [H]unk: [D]iff This")
+      map("n", "<leader>ghD", function() gs.diffthis("~") end, "[G]it [H]unk: [D]iff This (~)")
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "Select Git Hunk")
+      -- stylua: ignore end
     end,
   },
 }

@@ -62,6 +62,7 @@ return {
       icons = {
         files = { dir = "", dir_open = "", file = "" },
         kinds = Defaults.icons.kind,
+        git = Defaults.icons.git,
       },
     },
   },
@@ -97,6 +98,13 @@ return {
     { "<leader>sq", function() Snacks.picker.qflist() end, desc = "[S]earch [Q]uickfix List" },
     { "<leader>sR", function() Snacks.picker.resume() end, desc = "[S]earch: [R]esume Search" },
     { "<leader>su", function() Snacks.picker.undo() end, desc = "[S]earch [U]ndo History" },
+    -- Git
+    { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "[G]it [B]ranches" },
+    { "<leader>gl", function() Snacks.picker.git_log() end, desc = "[G]it [L]og" },
+    { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "[G]it [L]og Line" },
+    { "<leader>gs", function() Snacks.picker.git_status() end, desc = "[G]it [S]tatus" },
+    { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "[G]it [S]tash" },
+    { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "[G]it Log [F]ile" },
     -- Diagnostics
     { "<leader>xd", function() Snacks.picker.diagnostics() end, desc = "Global Diagnostics" },
     { "<leader>xD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },

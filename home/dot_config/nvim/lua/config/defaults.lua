@@ -9,7 +9,7 @@ M.palette = {}
 ---@param palette CtpColors<string> | CtpColor
 function M.filling_palette(palette) M.palette = palette end
 
-M.small_screen_threshold = 30
+M.small_screen_threshold = 45
 
 -- stylua: ignore start
 
@@ -71,6 +71,17 @@ M.icons = {
     Confirm  = "",
     Shell    = "",
     Prompt   = "󰗧",
+  },
+  git = {
+    commit    = "󰜘 ",
+    staged    = "●",
+    added     = "",
+    deleted   = "",
+    ignored   = "",
+    modified  = "",
+    renamed   = "",
+    unmerged  = " ",
+    untracked = "",
   },
 }
 
@@ -252,8 +263,8 @@ M.which_key_rules = {
 }
 
 M.formatter_rules = {
-  stylua = { ".stylua.toml", "stylua.toml" },
   ["clang-format"] = { ".clang-format", ".clangd", "clang-format" },
+  stylua = { ".stylua.toml", "stylua.toml" },
 }
 
 return M
