@@ -20,11 +20,16 @@
 
 - [x] Use chezmoi
 - [~] Add configs to the repo
-  - [~] Add nvim from scratch (ongoing)
+  - [x] Add nvim from scratch
     - [x] Bisect what plugin slowing down buffer opening
-    - [~] Fix dependencies of plugins
-    - [~] Modularize some plugins with heavy customization into its separate folder (eg. heirline, incline)
+    - [x] Fix dependencies of plugins
+    - [x] Modularize some plugins with heavy customization into its separate folder (eg. heirline, incline)
   - [ ] zsh
+  - [ ] yazi
+  - [ ] wezterm
+  - [ ] glazewm
+  - [ ] yasb
+  - [ ] zen-browser
 - [ ] Add a script to install all the dependencies
 - [ ] Add a script to copy files to the windows side
 
