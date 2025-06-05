@@ -53,6 +53,21 @@ return {
             p:install():once("closed", handle_closed)
           end
         end
+
+        -- remove installed package that are no longer in the ensure_installed list
+        for _, tool in ipairs(mr.get_installed_package_names()) do
+          if not vim.tbl_contains(opts.ensure_installed, tool) then
+            local p = mr.get_package(tool)
+            if p:is_installed() then
+              local handle_closed = function()
+                notify(("%s was successfully uninstalled."):format(p.name))
+              end
+
+              notify(("%s is no longer used. Uninstalling..."):format(p.name))
+              p:uninstall():once("closed", handle_closed)
+            end
+          end
+        end
       end)
     end,
   },
@@ -65,7 +80,7 @@ return {
       Utils.on_very_lazy(function()
         Utils.format.formatter = {
           name = "conform.nvim",
-          format = function() require("conform").format({ bufnr = 0 }) end,
+          format = function(buf) require("conform").format({ async = true, bufnr = buf }) end,
         }
       end)
     end,
@@ -96,8 +111,9 @@ return {
         c = { "clang-format" },
         cpp = { "clang-format" },
         lua = { "stylua" },
-        markdown = { "prettier" },
+        markdown = { "mdformat", "injected" },
         typst = { "typstyle", lsp_format = "prefer" },
+        ["_"] = { "trim_whitespace" },
       },
       format_on_save = function()
         -- Don't format when minifiles is open
@@ -106,7 +122,7 @@ return {
         -- Stop if we disabled auto-formatting.
         if not vim.g.autoformat then return nil end
 
-        return {}
+        return { lsp_format = "fallback" }
       end,
     },
   },
