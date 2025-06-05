@@ -1,7 +1,7 @@
 return {
   {
     "windwp/nvim-autopairs",
-    event = "InsertEnter",
+    event = { "BufReadPost", "BufNewFile", "InsertEnter" },
     opts = {
       check_ts = true,
       ignored_next_char = "[%w%.]",
@@ -16,17 +16,17 @@ return {
       npairs.setup(opts)
 
       npairs.add_rules({
-        Rule("{", "},", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
-        Rule("'", "',", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
-        Rule('"', '",', "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
-        Rule("%", "%", "lua"):with_pair(ts_conds.is_ts_node({ "string", "comment" })),
-        Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({ "function" })),
-        Rule("<", ">", "lua"):with_pair(ts_conds.is_ts_node({ "string", "string_content" })),
+        Rule("{", "},", "lua"):with_pair(ts_conds.is_ts_node({ "field", "table_constructor" })),
+        Rule("'", "',", "lua"):with_pair(ts_conds.is_ts_node({ "field", "table_constructor" })),
+        Rule('"', '",', "lua"):with_pair(ts_conds.is_ts_node({ "field", "table_constructor" })),
+        Rule("<", ">", "lua")
+          :with_pair(ts_conds.is_ts_node({ "string", "string_content" }))
+          :with_move(function(o) return o.char == ">" end),
         -- add space on both sides if inside a bracket
-        Rule(" ", " "):with_pair(function(args)
+        Rule(" ", " "):with_pair(function(o)
           local after_cond = cond.after_regex("[%}%]%)]")
           local before_cond = cond.before_regex("[%{%[%(]")
-          return after_cond(args) and before_cond(args)
+          return after_cond(o) and before_cond(o)
         end),
       })
     end,
