@@ -48,6 +48,33 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.typ",
   group = vim.api.nvim_create_augroup("TypstExportOnSave", { clear = true }),
   callback = function()
+    if vim.g.typst_main_file then
+      local client = vim.lsp.get_clients({ bufnr = 0, name = "tinymist" })[1]
+      if not client then
+        vim.notify("Tinymist is not attached", vim.log.levels.WARN)
+        return
+      end
+
+      -- Check if we're stil in the same root directory
+      local root_dir = assert(client.config.root_dir)
+      if not vim.startswith(vim.fn.expand("%:p"), root_dir) then
+        vim.notify("File not in the same root directory", vim.log.levels.WARN)
+        return
+      end
+
+      client:exec_cmd({
+        title = "Export PDF on save",
+        command = "tinymist.exportPdf",
+        arguments = { vim.g.typst_main_file },
+      }, { bufnr = 0 }, function(err)
+        if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
+
+        vim.notify("Exported PDF successfully", vim.log.levels.INFO, { title = "tinymist" })
+      end)
+      return
+    end
+
+    -- If no main file is set, export the current file
     if not vim.tbl_contains(ignored_files, vim.fn.expand("%:t")) then
       vim.cmd.LspTinymistExportPdf()
     end

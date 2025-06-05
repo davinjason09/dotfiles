@@ -47,12 +47,12 @@ return {
   cmd = { "tinymist" },
   filetypes = { "typst" },
   root_markers = { ".git", "template.typ", "main.typ" },
+  root_dir = vim.fs.root(0, ".git") or vim.fn.getcwd(),
   single_file_support = true,
   settings = {
-    formatterMode = "typstyle",
     exportPdf = "never",
   },
-  on_attach = function(_)
+  on_attach = function(client, bufnr)
     for _, command in ipairs({
       "tinymist.exportSvg",
       "tinymist.exportPng",
@@ -70,5 +70,52 @@ return {
       local cmd_func, cmd_name, cmd_desc = create_tinymist_command(command)
       vim.api.nvim_create_user_command(cmd_name, cmd_func, { nargs = 0, desc = cmd_desc })
     end
+
+    local map = vim.keymap.set
+    map("n", "<leader>cp", function()
+      if not client then
+        vim.notify("Tinymist is not attached", vim.log.levels.WARN)
+        return
+      end
+
+      local file = vim.api.nvim_buf_get_name(bufnr)
+
+      client:exec_cmd({
+        title = "pin",
+        command = "tinymist.pinMain",
+        arguments = { file },
+      }, { bufnr = bufnr }, function(err)
+        if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
+
+        vim.notify("Successfully pinned " .. file, vim.log.levels.INFO, { title = "tinymist" })
+        vim.g.typst_main_file = file
+      end)
+    end, { desc = "[C]ode: [P]in", buffer = bufnr })
+
+    map("n", "<leader>cu", function()
+      if not client then
+        vim.notify("Tinymist is not attached", vim.log.levels.WARN)
+        return
+      end
+
+      if not vim.g.typst_main_file then
+        return vim.notify("No main file pinned", vim.log.levels.WARN, { title = "tinymist" })
+      end
+
+      client:exec_cmd({
+        title = "unpin",
+        command = "tinymist.pinMain",
+        arguments = { vim.v.null },
+      }, { bufnr = bufnr }, function(err)
+        if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
+
+        vim.notify(
+          "Unpinned " .. vim.g.typst_main_file,
+          vim.log.levels.INFO,
+          { title = "tinymist" }
+        )
+        vim.g.typst_main_file = nil
+      end)
+    end, { desc = "[C]ode: [U]npin", buffer = bufnr })
   end,
 }
