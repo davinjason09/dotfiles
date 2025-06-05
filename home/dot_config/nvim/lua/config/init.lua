@@ -47,6 +47,8 @@ M.init = function()
   if M.did_init then return end
 
   M.did_init = true
+
+  Utils.clear_lsp_log()
   M.load("options")
 end
 

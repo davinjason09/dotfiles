@@ -168,4 +168,17 @@ function M.foldexpr()
   return vim.b[buf].ts_folds and vim.treesitter.foldexpr() or "0"
 end
 
+function M.clear_lsp_log()
+  local log_path = vim.lsp.get_log_path()
+
+  if log_path and vim.fn.filereadable(log_path) then
+    local file_size = vim.fn.getfsize(log_path)
+
+    if file_size > Defaults.max_lsp_log_size then
+      os.remove(log_path)
+      vim.notify("LSP log file exceeded size limit and was deleted")
+    end
+  end
+end
+
 return M
