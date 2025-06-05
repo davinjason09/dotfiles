@@ -48,6 +48,7 @@ M.init = function()
 
   M.did_init = true
 
+  Utils.lazy_notify()
   Utils.clear_lsp_log()
   M.load("options")
 end
