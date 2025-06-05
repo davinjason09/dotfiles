@@ -1,8 +1,11 @@
 local M = {}
 
-local function GetFtIcon()
+local function GetFtIcon(filename)
   local MiniIcons = require("mini.icons")
-  local filename = vim.fn.expand("%:t")
+  local buftype = vim.bo.buftype
+
+  if buftype == "prompt" or buftype == "nofile" then return " " end
+
   local icon, _, is_default = MiniIcons.get("file", filename)
   return is_default and " " or icon .. " "
 end
@@ -13,10 +16,10 @@ local title_ignore_ft = {
 }
 
 M.title = function()
-  local icon = GetFtIcon()
   local ft = vim.bo.filetype
-
   local filename = vim.fn.expand("%:t")
+
+  local icon = filename ~= "" and GetFtIcon(filename) or " "
   filename = filename == "" and "[No File]" or filename
   filename = vim.tbl_contains(title_ignore_ft, ft) and "" or filename .. " "
 
