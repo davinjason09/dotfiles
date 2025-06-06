@@ -269,7 +269,7 @@ M.Copilot = {
 M.ActiveLSP = {
   static = { icon = " " },
   condition = C.lsp_attached,
-  update = { "LspAttach", "LspDetach", "VimResized" },
+  update = { "LspAttach", "LspDetach", "VimResized", "BufEnter" },
   on_click = {
     callback = function()
       vim.defer_fn(function() vim.cmd("LspInfo") end, 100)
@@ -368,7 +368,7 @@ M.TermCwd = {
       folder = ""
     end
 
-    path = vim.trim(vim.split(path, "-")[1])
+    path = vim.trim(vim.split(path, " - ")[1])
 
     return (" %s %s "):format(folder, path)
   end,
@@ -387,7 +387,7 @@ M.TermCommand = {
   },
   {
     provider = function()
-      local split = vim.split(vim.b.term_title, "-")
+      local split = vim.split(vim.b.term_title, " - ")
 
       if #split == 1 then
         cmd_running = false
