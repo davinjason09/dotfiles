@@ -10,7 +10,7 @@ M.palette = {}
 function M.filling_palette(palette) M.palette = palette end
 
 M.small_screen_threshold = 45
-M.max_lsp_log_size = 1024 * 1024 * 1.5 -- 1.5MB
+M.max_lsp_log_size = 1024 * 1024 * 5 -- 5MB
 
 -- stylua: ignore start
 

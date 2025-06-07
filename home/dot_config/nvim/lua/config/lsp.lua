@@ -72,6 +72,7 @@ vim.lsp.buf.hover = function()
   opts.title_pos = "right"
   return hover(opts)
 end
+
 vim.lsp.buf.signature_help = function()
   return signature_help(Defaults.hover_opts --[[@as vim.lsp.buf.signature_help.Opts]])
 end
