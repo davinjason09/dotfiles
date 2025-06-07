@@ -297,13 +297,11 @@ map("n", "<C-l>", "<C-w>l", { remap = true, desc = "Go to Right Window" })
 -- │                           Git                           │
 -- ╰─────────────────────────────────────────────────────────╯
 
-map("n", "<leader>gf", function() Snacks.picker.git_log_file() end, { desc = "Git Current File History" })
-map("n", "<leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
-map("n", "<leader>gb", function() Snacks.picker.git_log_line() end, { desc = "Git Blame Line" })
-map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse (open)" })
+map("n", "<leader>gg", function() Snacks.lazygit() end, { desc = "[G]it: Lazy[G]it" })
+map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "[G]it: [B]rowse (open)" })
 map({ "n", "x" }, "<leader>gY", function()
   ---@diagnostic disable-next-line: missing-fields
   Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
-end, { desc = "Git Browse (copy)" })
+end, { desc = "[G]it: Browse [Y]ank" })
 
 -- stylua: ignore end
