@@ -20,7 +20,10 @@ M.title = function()
   local filename = vim.fn.expand("%:t")
 
   local icon = filename ~= "" and GetFtIcon(filename) or " "
-  filename = filename == "" and "[No File]" or filename
+  if filename == "" then
+    filename, icon = Defaults.title_name(ft, vim.bo.buftype)
+  end
+
   filename = vim.tbl_contains(title_ignore_ft, ft) and "" or filename .. " "
 
   local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")

@@ -268,4 +268,28 @@ M.formatter_rules = {
   stylua = { ".stylua.toml", "stylua.toml" },
 }
 
+---@param filetype string
+---@param buftype string?
+---@return string, string
+function M.title_name(filetype, buftype)
+  local map = {
+    filetype = {
+      snacks_picker_list = { name = "Picker", icon = " " },
+      snacks_picker_input = { name = "Picker", icon = " " },
+      snacks_picker_preview = { name = "Picker", icon = " " },
+      lazy = { name = "Lazy", icon = "󰒲 " },
+      mason = { name = "Mason", icon = " " },
+    },
+    buftype = {
+      prompt = { name = "[Prompt]", icon = " " },
+      nofile = { name = "[No Name]" },
+    },
+  }
+
+  local res = map.filetype[filetype] or map.buftype[buftype]
+  if not res then return "[No Name]", " " end
+
+  return res.name, res.icon or " "
+end
+
 return M
