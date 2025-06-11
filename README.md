@@ -24,12 +24,21 @@
     - [x] Bisect what plugin slowing down buffer opening
     - [x] Fix dependencies of plugins
     - [x] Modularize some plugins with heavy customization into its separate folder (eg. heirline, incline)
+    - [~] Custom picker (terminal, code action)
+    - [ ] Custom blink-documentation parser for better docs (esp. typst)
   - [ ] zsh
+    - [ ] Optimize startup time
+    - [ ] Polish scripts
   - [ ] yazi
+    - [ ] Custom catppuccin
+    - [ ] Yatline
   - [ ] wezterm
+    - [ ] Modularize config
   - [ ] glazewm
   - [ ] yasb
   - [ ] zen-browser
+    - [ ] userChrome.css
+    - [ ] user.js
 - [ ] Add a script to install all the dependencies
 - [ ] Add a script to copy files to the windows side
 
