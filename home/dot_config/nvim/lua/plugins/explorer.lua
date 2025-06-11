@@ -43,7 +43,7 @@ return {
       },
       {
         "<leader>ET",
-        function() MiniFiles.open("~/.local/share/nvim-test/mini.files/trash", true) end,
+        function() MiniFiles.open(vim.fn.stdpath("data") .. "/mini.files/trash", true) end,
         desc = "[E]xplorer: [T]rash",
         silent = true,
       },
@@ -69,18 +69,49 @@ return {
         desc = "LSP integrated file rename",
       })
 
+      -- Yank the path of the current file in MiniFiles
+      local yank_path = function()
+        local path = (MiniFiles.get_fs_entry() or {}).path
+        if path == nil then return vim.notify("Cursor is not on valid entry") end
+        vim.fn.setreg(vim.v.register, path)
+      end
+
+      -- Toggle visibility of dotfiles in MiniFiles
+      local show_dotfiles = true
+
+      local filter_show = function() return true end
+      local filter_hide = function(fs_entry) return not vim.startswith(fs_entry.name, ".") end
+
+      local toggle_dotfiles = function()
+        show_dotfiles = not show_dotfiles
+        local new_filter = show_dotfiles and filter_show or filter_hide
+        MiniFiles.refresh({ content = { filter = new_filter } })
+      end
+
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesBufferCreate",
         callback = function(args)
           local bufnr = args.data.buf_id
           local map = vim.keymap.set
-          local ESC = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+          local ESC = Snacks.util.keycode("<Esc>")
 
           map({ "n", "i", "x" }, "<C-s>", function()
             if vim.fn.mode() ~= "n" then vim.api.nvim_feedkeys(ESC, "n", false) end
             vim.defer_fn(MiniFiles.synchronize, 0)
           end, { buffer = bufnr, desc = "Synchronize" })
-          -- TODO: add more mappings
+          map("n", "gy", yank_path, { buffer = bufnr, desc = "Yank path" })
+          map("n", "g.", toggle_dotfiles, { buffer = bufnr, desc = "Toggle dotfiles" })
+        end,
+      })
+
+      local set_mark = function(id, path, desc) MiniFiles.set_bookmark(id, path, { desc = desc }) end
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "MiniFilesExplorerOpen",
+        callback = function()
+          set_mark("d", "~/dotfiles", "Dotfiles")
+          set_mark("w", vim.fn.getcwd, "Working directory")
+          set_mark("~", "~", "Home directory")
         end,
       })
     end,
