@@ -52,17 +52,19 @@ return {
         local file_info = C.file(props)
 
         return {
-          { " ", guifg = C.get_mode_color(mode, props.focused) },
-          { " ", guibg = C.get_mode_color(mode, props.focused) },
+          { " ▓", guifg = C.get_mode_color(mode, props.focused) },
           {
             { C.get_diagnostics(props) },
             { C.get_diff(props) },
             { (" %s"):format(file_info.icon[1]), guifg = file_info.icon.guifg },
-            { (" %s"):format(file_info.name[1]), guifg = file_info.name.guifg },
-            { ("%s"):format(file_info.modified[1]), guifg = file_info.modified.guifg },
+            {
+              (" %s "):format(file_info.name[1]),
+              guifg = file_info.name.guifg,
+              gui = file_info.modified.gui,
+            },
             guibg = palette.mantle,
           },
-          { " ", guibg = C.get_mode_color(mode, props.focused) },
+          { "▓", guifg = C.get_mode_color(mode, props.focused) },
         }
       end,
     },
@@ -85,7 +87,6 @@ return {
           })
         end,
         { condition = cond.is_active, C.SpecialMode },
-        -- C.SpecialMode,
         C.SpecialInfo,
         C.Align,
         { condition = function() return vim.bo.filetype == "qf" end, C.Ruler },
