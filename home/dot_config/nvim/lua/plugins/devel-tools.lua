@@ -112,6 +112,7 @@ return {
         cpp = { "clang-format" },
         lua = { "stylua" },
         markdown = { "mdformat", "injected" },
+        python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         typst = { "typstyle", lsp_format = "prefer" },
         ["_"] = { "trim_whitespace" },
       },
