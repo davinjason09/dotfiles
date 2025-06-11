@@ -272,6 +272,7 @@ M.SpecialInfo = {
   qf = qf_title,
   picker = picker_stats,
   minifiles = minifiles_cwd,
+  ["minifiles-help"] = minifiles_cwd,
 }
 
 return M
