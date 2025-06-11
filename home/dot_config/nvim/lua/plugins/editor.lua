@@ -23,7 +23,7 @@ return {
           :with_pair(ts_conds.is_ts_node({ "string", "string_content" }))
           :with_move(function(o) return o.char == ">" end),
         -- add space on both sides if inside a bracket
-        Rule(" ", " "):with_pair(function(o)
+        Rule(" ", " "):with_pair(cond.not_filetypes({ "markdown" })):with_pair(function(o)
           local after_cond = cond.after_regex("[%}%]%)]")
           local before_cond = cond.before_regex("[%{%[%(]")
           return after_cond(o) and before_cond(o)
