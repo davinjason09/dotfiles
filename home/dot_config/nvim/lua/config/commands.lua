@@ -1,3 +1,23 @@
+-- https://github.com/neovim/nvim-lspconfig/blob/a182334ba933e58240c2c45e6ae2d9c7ae313e00/plugin/lspconfig.lua#L76
+
+local function complete_clients(arg)
+  return vim
+    .iter(vim.lsp.get_clients())
+    :map(function(client) return client.name end)
+    :filter(function(name) return name:sub(1, #arg) == arg end)
+    :totable()
+end
+
+local function complete_configs(arg)
+  return vim
+    .iter(vim.api.nvim_get_runtime_file(("lsp/%s*.lua"):format(arg), true))
+    :map(function(path)
+      local file_name = path:match("[^/]*.lua$")
+      return file_name:sub(0, #file_name - 4)
+    end)
+    :totable()
+end
+
 vim.api.nvim_create_user_command(
   "LspInfo",
   function() vim.cmd("silent! checkhealth vim.lsp") end,
@@ -15,51 +35,67 @@ vim.api.nvim_create_user_command(
   { desc = "LSP Log" }
 )
 
-vim.api.nvim_create_user_command(
-  "LspStart",
-  function() vim.cmd.e() end,
-  { desc = "Starts LSP clients in the current buffer " }
-)
+vim.api.nvim_create_user_command("LspStart", function(ctx)
+  local servers = ctx.fargs
+
+  if #servers == 0 then
+    local ft = vim.bo.filetype
+    ---@diagnostic disable-next-line: invisible
+    for name, _ in pairs(vim.lsp.config._configs) do
+      local fts = vim.lsp.config[name].filetypes
+      if fts and vim.tbl_contains(fts, ft) then table.insert(servers, name) end
+    end
+  end
+
+  vim.lsp.enable(servers)
+end, {
+  desc = "Enable and launch LSP client(s)",
+  nargs = "?",
+  complete = complete_configs,
+})
 
 vim.api.nvim_create_user_command("LspStop", function(ctx)
-  for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
-    if ctx.args == "" or ctx.args == client.name then
-      client:stop(true)
-      vim.notify(client.name .. ": stopped", vim.log.levels.INFO, { title = "LSP" })
+  local clients = ctx.fargs
+
+  if #clients == 0 then
+    clients = vim
+      .iter(vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() }))
+      :map(function(client)
+        if client.name ~= "copilot" then return client.name end
+      end)
+      :totable()
+  end
+
+  for _, name in ipairs(clients) do
+    if vim.lsp.config[name] == nil then
+      vim.notify(("Invalid LSP client name: %s"):format(name), "warn", { title = "LSP" })
+    else
+      vim.lsp.enable(name, false)
     end
   end
 end, {
-  desc = "Stop all LSP clients or a specific client attached to the current buffer",
+  desc = "Disable and stop the given LSP client(s)",
   nargs = "?",
-  complete = Utils.get_lsp_clients,
+  complete = complete_clients,
 })
 
 vim.api.nvim_create_user_command("LspRestart", function(ctx)
-  local bufnr = vim.api.nvim_get_current_buf()
-  local clients = vim.lsp.get_clients({ bufnr = bufnr })
-
-  for _, client in ipairs(clients) do
-    if ctx.args == "" and client.name ~= "copilot" or ctx.args == client.name then
-      vim.api.nvim_create_autocmd("LspDetach", {
-        once = true,
-        callback = function(args)
-          if args.data and args.data.client_id == client.id then
-            vim.notify("Restarting " .. client.name, vim.log.levels.INFO, { title = "LSP" })
-            vim.lsp.start(vim.lsp.config[client.name], {
-              bufnr = bufnr,
-              reuse_client = function() return false end,
-            })
-          end
-        end,
-      })
-
-      vim.cmd("LspStop " .. client.name)
+  for _, name in ipairs(ctx.fargs) do
+    if vim.lsp.config[name] == nil then
+      vim.notify(("Invalid LSP client name: %s"):format(name), "warn", { title = "LSP" })
+    else
+      vim.lsp.enable(name, false)
     end
   end
 
-  vim.defer_fn(function() vim.cmd.e() end, 500)
+  local timer = assert(vim.uv.new_timer())
+  timer:start(500, 0, function()
+    for _, name in ipairs(ctx.fargs) do
+      vim.schedule_wrap(function(x) vim.lsp.enable(x) end)(name)
+    end
+  end)
 end, {
-  desc = "Restart all LSP clients or a specific client attached to the current buffer",
-  nargs = "?",
-  complete = Utils.get_lsp_clients,
+  desc = "Restart the given LSP client(s)",
+  nargs = "+",
+  complete = complete_clients,
 })
