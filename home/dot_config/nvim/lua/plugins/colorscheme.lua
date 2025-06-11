@@ -149,6 +149,7 @@ return {
           SnacksWinBorder           = { fg = colors.sky,       bg = colors.mantle },
           SnacksTerminalNormal      = { fg = colors.text,      bg = colors.mantle },
           SnacksTerminalBorder      = { fg = colors.sky,       bg = colors.mantle },
+          SnacksExplorerTitle       = { fg = colors.blue,      bg = colors.mantle,   style = { "bold" } },
           SnacksNotifierInfo        = { fg = colors.blue,      bg = colors.mantle },
           SnacksNotifierWarn        = { fg = colors.yellow,    bg = colors.mantle },
           SnacksNotifierError       = { fg = colors.red,       bg = colors.mantle },
