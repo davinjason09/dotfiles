@@ -68,14 +68,22 @@ return {
         border = "thin",
       },
       heading = {
-        icons = { "󰎥 ", "󰎨 ", "󰎫 ", "󰎲 ", "󰎯 ", "󰎴 " },
+        icons = function(ctx)
+          local icons = { "󰎥 ", "󰎨 ", "󰎫 ", "󰎲 ", "󰎯 ", "󰎴 " }
+
+          -- Disable icons for setex heading
+          if ctx.sections[0] then return "" end
+
+          return icons[ctx.level] or "󱧓 "
+        end,
         border = true,
+        border_virtual = true,
       },
       bullet = {
         -- stylua: ignore
         icons = {
           { "󰯫", "󰯮", "󰯱", "󰯴", "󰯷", "󰯺", "󰯽", "󰰀", "󰰃", "󰰆", "󰰉", "󰰌", "󰰏", "󰰒", "󰰕", "󰰘", "󰰛", "󰰞", "󰰡", "󰰤", "󰰧", "󰰪", "󰰭", "󰰰", "󰰳", "󰰶" },
-          "", "●", "○", "◆", "◇",
+          "●", "○", "◆", "◇", "󰨓", "󰨔"
         },
       },
       pipe_table = {
@@ -83,6 +91,7 @@ return {
         min_width = 2,
       },
       quote = { repeat_linebreak = true },
+      html = { comment = { conceal = false } },
       win_options = {
         showbreak = {
           default = "",
@@ -113,7 +122,7 @@ return {
               right_pad = 0,
             },
             win_options = {
-              concealcursor = { rendered = "nvic" },
+              concealcursor = { default = "", rendered = "nvic" },
               conceallevel = { default = 0, rendered = 3 },
             },
           },
