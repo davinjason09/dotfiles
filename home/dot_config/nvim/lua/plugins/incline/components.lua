@@ -1,19 +1,22 @@
 local M = {}
 
+local C_v = Snacks.util.keycode("<C-v>")
+local C_s = Snacks.util.keycode("<C-s>")
+
 -- stylua: ignore
 M.mode_colors = {
-  n       = Defaults.palette.blue,
-  i       = Defaults.palette.green,
-  v       = Defaults.palette.mauve,
-  V       = Defaults.palette.mauve,
-  ["\22"] = Defaults.palette.mauve,
-  c       = Defaults.palette.peach,
-  s       = Defaults.palette.mauve,
-  S       = Defaults.palette.mauve,
-  ["\19"] = Defaults.palette.mauve,
-  R       = Defaults.palette.red,
-  r       = Defaults.palette.red,
-  ["!"]   = Defaults.palette.peach,
+  n     = Defaults.palette.blue,
+  i     = Defaults.palette.green,
+  v     = Defaults.palette.mauve,
+  V     = Defaults.palette.mauve,
+  [C_v] = Defaults.palette.mauve,
+  c     = Defaults.palette.peach,
+  s     = Defaults.palette.mauve,
+  S     = Defaults.palette.mauve,
+  [C_s] = Defaults.palette.mauve,
+  R     = Defaults.palette.red,
+  r     = Defaults.palette.red,
+  ["!"] = Defaults.palette.peach,
 }
 
 ---Get color based on mode and focussed state
@@ -77,7 +80,7 @@ end
 
 ---Get buffer info
 ---@param props { buf: number, win: number, focused: bool }
----@return { icon: Info, name: Info, modified: Info }
+---@return { icon: Info, name: Info, modified: { gui: string } }
 function M.file(props)
   local palette = Defaults.palette
   local buf_name = vim.api.nvim_buf_get_name(props.buf)
@@ -90,13 +93,12 @@ function M.file(props)
   ft_hl = props.focused and Snacks.util.color(ft_hl --[[@as string]]) or palette.overlay2
 
   local modified = vim.bo[props.buf].modified
-  local modified_icon = modified and "  " or " "
-  local modified_hl = props.focused and palette.peach or palette.overlay2
+  local modified_gui = modified and "bold,italic" or "bold"
 
   return {
     icon = { ft_icon, guifg = ft_hl },
     name = { file_name, guifg = file_hl },
-    modified = { modified_icon, guifg = modified_hl },
+    modified = { gui = modified_gui },
   }
 end
 
