@@ -205,11 +205,10 @@ M.Keystroke = {
   hl = { fg = "mauve" },
 }
 
----@diagnostic enable: undefined-field
 M.MacroRecording = {
   condition = function() return vim.fn.reg_recording() ~= "" end,
   update = { "RecordingEnter", "RecordingLeave" },
-  provider = function() return (" recording @%s "):format(vim.fn.reg_recording()) end,
+  provider = function() return (" 󰻃 Rec @%s "):format(vim.fn.reg_recording()) end,
   hl = { fg = "peach" },
 }
 
@@ -267,7 +266,6 @@ M.Copilot = {
 }
 
 M.ActiveLSP = {
-  static = { icon = " " },
   condition = C.lsp_attached,
   update = { "LspAttach", "LspDetach", "VimResized", "BufEnter" },
   on_click = {
@@ -276,24 +274,25 @@ M.ActiveLSP = {
     end,
     name = "lsp_info",
   },
-  flexible = 1,
   {
-    provider = function(self)
+    provider = function()
       local attached = Utils.get_lsp_clients()
 
+      local lsp_info = ""
       if #attached == 0 then
-        return ""
+        lsp_info = ""
       elseif #attached == 1 then
-        return (" %s%s "):format(self.icon, attached[1])
+        lsp_info = ("  %s "):format(attached[1])
+      else
+        lsp_info = ("  [%s] "):format(table.concat(attached, ", "))
       end
 
-      return (" %s[%s] "):format(self.icon, table.concat(attached, ", "))
-    end,
-  },
-  {
-    provider = function(self)
-      local attached = Utils.get_lsp_clients()
-      return #attached >= 1 and string.format(" %s%s LSP ", self.icon, #attached) or ""
+      if C.width_percent_below(#lsp_info, 0.2) then
+        return lsp_info
+      else
+        local n = #attached
+        return n >= 1 and ("  %s LSP%s "):format(n, n == 1 and "" or "s") or ""
+      end
     end,
   },
 }
@@ -352,6 +351,10 @@ M.TerminalMode = {
   ),
 }
 
+-- NOTE:
+-- The TermCwd and TermCommand components relies on the OSC invoked by the zsh configuration.
+-- If you are using a different shell, you may need to adjust the way the terminal title is set.
+-- Title is set with this format: <cwd> - <command>
 M.TermCwd = {
   init = U.update_events({ { "User", pattern = "ForceRedraw", callback = U.redraw() } }),
   condition = function() return not vim.b.term_title:find("term://") end,
