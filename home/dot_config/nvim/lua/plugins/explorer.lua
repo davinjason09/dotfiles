@@ -142,6 +142,27 @@ return {
         },
       },
     },
-    keys = { { "<leader>Et", function() Snacks.explorer() end, desc = "[E]xplorer: [T]ree" } },
+    keys = {
+      {
+        "<leader>Et",
+        function()
+          -- If its open and unfocused, focus it
+          -- If its focused, close it
+          -- If its closed, open it
+          -- https://github.com/folke/snacks.nvim/discussions/1273
+          local explorers = Snacks.picker.get({ source = "explorer" })
+          for _, v in pairs(explorers) do
+            if v:is_focused() then
+              v:close()
+            else
+              v:focus()
+            end
+          end
+
+          if #explorers == 0 then Snacks.explorer() end
+        end,
+        desc = "[E]xplorer: [T]ree",
+      },
+    },
   },
 }
