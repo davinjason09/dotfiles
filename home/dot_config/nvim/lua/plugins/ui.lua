@@ -85,11 +85,11 @@ return {
           calculator = { pattern = "^=", icon = "=", lang = "vimnormal", title = title({ msg = "  Calculator ", kind = "calculator" }) },
           cmdline    = { pattern = "^:", icon = "❯", icon_hl_group = "MiniIconsGreen", lang = "vim", title = title({ msg = nvim_version, kind = "cmdline" }) },
           filter     = { pattern = "^:%s*!", icon = "", icon_hl_group = "MiniIconsGreen", lang = "bash", title = title({ msg = "  Shell ", kind = "filter" }) },
-          help       = { pattern = "^:%s*he?l?p?%s+", icon = "", title = title({ msg = "  Help ", kind = "help" }) },
+          help       = { pattern = "^:%s*[hH]e?l?p?%s+", icon = "", title = title({ msg = "  Help ", kind = "help" }) },
           input      = { icon = " ", opts = { border = { text = { top_align = "center" } } } },
           lua        = { kind = "lua", pattern = "^:%s*lua%s+", icon = "", icon_hl_group = "MiniIconsAzure", lang = "lua", title = title({ msg = lua_version, kind = "lua" }) },
           lua_eval   = { kind = "cmdline", pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua", title = title({ msg = nvim_version, kind = "cmdline" }) },
-          replace    = { kind = "search", pattern = "^.*s/", icon = "", lang = "regex", title = title({ msg = " 󰛔 Replace ", kind = "search" }), conceal = false },
+          replace    = { kind = "search", pattern = { "^:%%?s/", "^:%s*%'<,%'>%s*s/", "^:s/" }, icon = "", lang = "regex", title = title({ msg = " 󰛔 Replace ", kind = "search" }) },
         },
       },
       lsp = {
