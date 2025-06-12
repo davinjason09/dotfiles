@@ -32,8 +32,13 @@ map({ "n", "x" }, "gl", "$", { desc = "End of line" })
 map({ "i", "c", "t" }, "<C-BS>", "<C-w>")
 map({ "i", "c", "t" }, "<C-w>",  "<NOP>") -- disable default behavior, rewiring my brain
 
--- Delete selection with <BS> instead of entering normal mode
-map("s", "<BS>", '<C-g>"_c', { desc = "Delete selection in insert mode" })
+-- Better keymaps on select mode
+map("s", "<BS>", '<C-g>"_c')
+map("s", "<Left>", "<ESC>i")
+map("s", "<Right>", "<C-g>o<ESC>a")
+
+-- Don't include trailing whitespace on visual mode
+map("x", "$", "g_", { silent = true })
 
 -- Add new line without entering insert mode
 ---@param dir "down" | "up"
@@ -190,10 +195,10 @@ end
 map({ "n", "x" }, "s", "<NOP>", { silent = true })
 
 -- Disable Arrow Keys
-map({ "n", "v" }, "<Up>",    "<NOP>")
-map({ "n", "v" }, "<Down>",  "<NOP>")
-map({ "n", "v" }, "<Left>",  "<NOP>")
-map({ "n", "v" }, "<Right>", "<NOP>")
+map({ "n", "x" }, "<Up>",    "<NOP>")
+map({ "n", "x" }, "<Down>",  "<NOP>")
+map({ "n", "x" }, "<Left>",  "<NOP>")
+map({ "n", "x" }, "<Right>", "<NOP>")
 
 -- Center cursor when scrolling
 map("n", "<C-d>", "<C-d>zz")
@@ -266,6 +271,33 @@ end, { desc = "Inspect Tree" })
 
 -- Code Format
 map({ "n", "v" }, "<leader>cf", function() Utils.format.format({ force = true }) end, { desc = "[C]ode: [F]ormat" })
+
+-- stylua: ignore end
+
+-- HACK: Override gx
+-- When using the builtin gx on WSL, it will always result in a timeout because wslview takes ~2s to open the URL/URI.
+-- This was caused by the `cmd:wait(1000)` that only waits for 1000ms, and any action that takes longer than that will
+-- result in a timeout.
+
+-- Open with system app
+local function do_open(uri) vim.ui.open(uri) end
+
+map("n", "gx", function()
+  for _, url in ipairs(vim.ui._get_urls()) do
+    local err = do_open(url)
+    if err then vim.notify(err, vim.log.levels.ERROR) end
+  end
+end, { desc = "Open with system app" })
+
+map("x", "gx", function()
+  local lines = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { type = vim.fn.mode() })
+
+  local err = do_open(table.concat(vim.iter(lines):map(vim.trim):totable()))
+
+  if err then vim.notify(err, vim.log.levels.ERROR) end
+end, { desc = "Open selection with system app" })
+
+-- stylua: ignore start
 
 -- ╭─────────────────────────────────────────────────────────╮
 -- │                 Windows, Split, Buffers                 │
