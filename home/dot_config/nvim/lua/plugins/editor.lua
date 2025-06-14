@@ -10,18 +10,11 @@ return {
     config = function(_, opts)
       local npairs = require("nvim-autopairs")
       local Rule = require("nvim-autopairs.rule")
-      local ts_conds = require("nvim-autopairs.ts-conds")
       local cond = require("nvim-autopairs.conds")
 
       npairs.setup(opts)
 
       npairs.add_rules({
-        Rule("{", "},", "lua"):with_pair(ts_conds.is_ts_node({ "field", "table_constructor" })),
-        Rule("'", "',", "lua"):with_pair(ts_conds.is_ts_node({ "field", "table_constructor" })),
-        Rule('"', '",', "lua"):with_pair(ts_conds.is_ts_node({ "field", "table_constructor" })),
-        Rule("<", ">", "lua")
-          :with_pair(ts_conds.is_ts_node({ "string", "string_content" }))
-          :with_move(function(o) return o.char == ">" end),
         -- add space on both sides if inside a bracket
         Rule(" ", " "):with_pair(cond.not_filetypes({ "markdown" })):with_pair(function(o)
           local after_cond = cond.after_regex("[%}%]%)]")
