@@ -33,4 +33,27 @@ return {
       },
     },
   },
+  { "nvzone/volt" },
+  {
+    "nvzone/showkeys",
+    cmd = "ShowkeysToggle",
+    opts = {
+      timeout = 1,
+      maxkeys = 5,
+      show_count = true,
+      winopts = { border = "rounded" },
+      keyformat = {
+        ["<CR>"] = "󰌑",
+        ["<C>"] = "󰘴",
+        ["<M>"] = "󰘵",
+        ["<D>"] = "󰘳",
+      },
+    },
+  },
+  {
+    "nvzone/typr",
+    dependencies = "nvzone/volt",
+    opts = {},
+    cmd = { "Typr", "TyprStats" },
+  },
 }
