@@ -246,7 +246,7 @@ local function picker_stats()
     return " " .. M.pretty_path(picker:dir(), "absolute")
   elseif filetype == "snacks_picker_input" then
     local input = picker.input and picker.input:get() or ""
-    local count = picker:count()
+    local count = input == "" and picker:count() or #picker:items()
     return input ~= "" and (" %s: %s results"):format(input, count) or (count .. " results")
   else
     local path = picker:current().file
