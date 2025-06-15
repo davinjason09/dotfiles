@@ -18,7 +18,7 @@ return {
       },
       sections = {
         function()
-          local is_small_screen = Utils.is_small_screen()
+          local is_small_screen = Utils.ui.is_small_screen()
           local logo = is_small_screen and "logo-small" or "logo-large"
 
           return {
@@ -60,7 +60,7 @@ return {
             indent = 2,
             padding = 1,
             limit = 10,
-            enabled = not Utils.is_small_screen(),
+            enabled = not Utils.ui.is_small_screen(),
           }
         end,
         {

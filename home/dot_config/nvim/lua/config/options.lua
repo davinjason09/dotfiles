@@ -12,6 +12,7 @@ vim.o.switchbuf      = "usetab"    -- Use already opened buffers when switching
 vim.o.writebackup    = false       -- Don't store backup files
 vim.o.timeoutlen     = 300         -- Time to wait for mapped sequence to complete
 vim.o.undofile       = true        -- Enable persistent undo
+vim.o.undolevels     = 10000       -- Number of undo levels to keep
 vim.o.updatetime     = 250         -- Time to wait before writing swap file and triggering CursorHold
 
 vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit what is stored in ShaDa file
@@ -89,7 +90,7 @@ vim.o.foldtext   = ""              -- Use underlying text with its highlighting
 vim.o.foldenable = false           -- Disable folding by default
 vim.g.markdown_filding = 1         -- Use folding by heading in markdown files
 
-vim.o.foldexpr   = "v:lua.require('utils').foldexpr()" -- Custom fold expression
+vim.o.foldexpr   = "v:lua.require('utils').ui.foldexpr()" -- Custom fold expression
 
 -- ╾╼ Spelling ╾──────────────────────────────────────────────────────╼
 vim.o.spelllang    = "en"          -- Default spelling dictionary
