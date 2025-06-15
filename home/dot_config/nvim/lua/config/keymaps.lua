@@ -46,20 +46,22 @@ local function add_line(dir)
   local ft = vim.bo.filetype
   local buftype = vim.bo.buftype
 
+  if not vim.bo.modifiable then return end
+
   -- In Vim command mode, execute the command with enter
   if ft == "vim" and buftype == "nofile" then
     local CR = Snacks.util.keycode("<CR>")
     vim.fn.feedkeys(CR, "n")
   end
 
-  local cmd = dir == "down" and "] %sj" or "[ %sk"
+  local cmd = dir == "down" and "%s] %sj" or "%s[ %sk"
   local count = vim.v.count1
 
-  vim.fn.feedkeys(cmd:format(count))
+  vim.fn.feedkeys(cmd:format(count, count))
 end
 
-map("n", "<S-CR>", function() add_line("up") end )
-map("n", "<CR>",   function() add_line("down") end )
+map("n", "<S-CR>", function() add_line("up") end, { silent = true } )
+map("n", "<CR>",   function() add_line("down") end, { silent = true } )
 
 -- stylua: ignore end
 
@@ -142,19 +144,18 @@ end
 
 local keys = {
   { "d", desc = "Delete" },
-  { "dd", mode = "n", desc = "which_key_ignore" },
+  { "dd", mode = "n" },
   { "c", desc = "Change" },
-  { "C", desc = "which_key_ignore" },
-  { "x", desc = "which_key_ignore" },
-  { "X", desc = "which_key_ignore" },
+  { "C" },
+  { "x" },
+  { "X" },
 }
 
 for _, key_opts in pairs(keys) do
-  local mode = { "n", "v" }
-  mode = { key_opts.mode } or mode
+  local mode = { key_opts.mode } or { "n", "v" }
 
   local opts = { expr = true }
-  if key_opts.desc then opts.desc = key_opts.desc end
+  if key_opts.desc then opts.desc = key_opts.desc or "which_key_ignore" end
 
   local key = key_opts[1]
   for _, m in ipairs(mode) do
