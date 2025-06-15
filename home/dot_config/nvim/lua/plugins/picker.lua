@@ -27,10 +27,6 @@ return {
         buffers = {
           on_show = function() vim.cmd.stopinsert() end,
           layout = "ivy",
-          win = {
-            input = { keys = { ["d"] = "bufdelete" } },
-            list = { keys = { ["d"] = "bufdelete" } },
-          },
         },
         diagnostics = { layout = "dropdown" },
         diagnostics_buffer = { layout = "dropdown" },

@@ -12,14 +12,22 @@ return {
       -- this is needed to have early notifications show up in noice history
       if Utils.has("noice.nvim") then vim.notify = notify end
 
-
       -- Customize default picker layout
       local layout = require("snacks.picker.config.layouts")
       layout.default.layout.min_width = 100
+      layout.default.layout.zindex = 100
       layout.default.layout[2].width = 0.65
 
       layout.dropdown.layout.min_width = 100
+      layout.dropdown.layout.zindex = 100
       layout.dropdown.layout.width = 0.65
+
+      layout.ivy.layout.zindex = 100
+      layout.ivy_split.layout.zindex = 100
+      layout.select.layout.zindex = 100
+      layout.sidebar.layout.zindex = 100
+      layout.telescope.layout.zindex = 100
+      layout.vertical.layout.zindex = 100
     end,
     keys = {
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
