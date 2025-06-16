@@ -143,8 +143,8 @@ local border = {
 ---@type vim.lsp.util.open_floating_preview.Opts
 M.hover_opts = {
   border = border,
-  max_width = math.max(vim.o.columns * 0.6, 100),
-  max_height = math.min(vim.o.lines * 0.4, 20),
+  max_width = math.max(math.floor(vim.o.columns * 0.6), 100),
+  max_height = math.min(math.floor(vim.o.lines * 0.4), 20),
 }
 
 -- Default LSP capabilities
