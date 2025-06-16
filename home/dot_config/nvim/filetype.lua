@@ -16,5 +16,3 @@ vim.filetype.add({
     end,
   },
 })
-
-vim.treesitter.language.register("markdown", "blink-cmp-documentation")

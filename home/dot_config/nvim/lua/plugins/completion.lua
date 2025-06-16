@@ -5,6 +5,7 @@ return {
   dependencies = {
     { "L3MON4D3/LuaSnip", version = "v2.0" },
     { "rafamadriz/friendly-snippets" },
+    { "MeanderingProgrammer/render-markdown.nvim" },
   },
   ---@type blink.cmp.Config
   opts = {
@@ -26,38 +27,25 @@ return {
       },
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 250,
+        auto_show_delay_ms = 100,
         window = {
           scrollbar = false,
+          min_width = 30,
           border = "rounded",
         },
-        -- TODO: better parsing of documentation
         draw = function(opts)
-          -- Modified from: https://github.com/OXY2DEV/nvim/blob/main/lua/plugins/lsp.lua#L168
+          if vim.g.__reg_doc ~= true then
+            vim.treesitter.language.register("markdown", "blink-cmp-documentation")
+            vim.g.__reg_doc = true
+          end
+
           local buf = opts.window.buf ---@type integer
-          local src_buf = vim.api.nvim_get_current_buf()
-
-          local lines = {}
-
-          if opts.item and opts.item.documentation then
-            lines = vim.split(opts.item.documentation.value or "", "\n", { trimempty = true })
-          end
-
-          local details = vim.split(opts.item.detail or "", "\n", { trimempty = true })
-
-          if #details > 0 then
-            table.insert(details, 1, string.format("```%s", vim.bo[src_buf].ft or ""))
-            table.insert(details, "```")
-
-            if #lines > 0 and lines[1] ~= "---" then table.insert(lines, 1, "---") end
-          end
-
-          local visible_lines = vim.list_extend(details, lines)
-          vim.api.nvim_buf_set_lines(buf, 0, -1, false, visible_lines)
-
           local win = opts.window:get_win()
-          local render = require("render-markdown.core.ui").update
 
+          local parsed = Utils.ui.parse_doc(opts)
+          vim.api.nvim_buf_set_lines(buf, 0, -1, false, parsed)
+
+          local render = require("render-markdown.core.ui").update
           if win then
             vim.bo[buf].ft = "markdown"
             render(buf, win, "BlinkDraw", true)
@@ -65,7 +53,6 @@ return {
           end
 
           vim.defer_fn(function()
-            win = opts.window:get_win()
             if win then
               vim.bo[buf].ft = "markdown"
               render(buf, win, "BlinkDraw", true)
