@@ -81,7 +81,45 @@ local lang_parse = {
 
     return details, new_lines
   end,
-  typst = function(details, lines) return details, lines end,
+  typst = function(details, lines)
+    local pattern = "%((.*)%) => (%w+)"
+    local new_lines = nil
+
+    if #details > 0 then
+      local args, item = details[1]:match(pattern)
+      new_lines = {}
+
+      if args and item then
+        table.insert(new_lines, "```typst")
+        table.insert(new_lines, ("#let %s("):format(item))
+
+        local args_list = vim.split(args, ", ", { trimempty = true })
+        for _, arg in ipairs(args_list) do
+          if #arg > 80 then
+            local arg_split = vim.split(arg, " | ", { trimempty = true })
+            local first_arg = arg:match("(%w+):")
+
+            table.insert(new_lines, "  " .. arg_split[1])
+            for i = 2, #arg_split do
+              table.insert(
+                new_lines,
+                ("  %s| %s"):format(string.rep(" ", #first_arg), arg_split[i])
+              )
+            end
+            new_lines[#new_lines] = new_lines[#new_lines] .. ","
+          else
+            table.insert(new_lines, "  " .. arg .. ",")
+          end
+        end
+
+        table.insert(new_lines, ");")
+        table.insert(new_lines, "```")
+
+        details = new_lines
+      end
+    end
+    return details, lines
+  end,
   default = function(details, lines)
     if #details > 0 then
       local buf = vim.api.nvim_get_current_buf()
