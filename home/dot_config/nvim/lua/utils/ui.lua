@@ -31,7 +31,7 @@ local lang_parse = {
     local new_lines = {}
 
     if #details > 0 then
-      table.insert(details, 1, string.format("```%s", vim.bo[0].filetype or "lua"))
+      table.insert(details, 1, "```lua")
       table.insert(details, "```")
 
       if #lines > 0 then
@@ -45,13 +45,13 @@ local lang_parse = {
           local cur_line = line
 
           if match_2 then
-            splits = vim.split(cur_line, vimdoc_pat[2], { trimempty = true })
             if not cur_line:find("<%w+>") and not cur_line:find("%w%s<%s%w") then
+              splits = vim.split(cur_line, vimdoc_pat[2], { trimempty = true })
               table.insert(new_lines, " ```")
               in_vimdoc = false
             else
-              print(cur_line)
               table.insert(new_lines, " " .. cur_line)
+              cur_line = ""
             end
           end
 
@@ -69,9 +69,9 @@ local lang_parse = {
           if cur_line ~= "" then
             if not in_vimdoc then
               cur_line = cur_line:gsub("%s%s", " ")
-              cur_line = " " .. vim.trim(cur_line)
+              cur_line = vim.trim(cur_line)
             end
-            table.insert(new_lines, cur_line)
+            table.insert(new_lines, " " .. cur_line)
           end
         end
 
@@ -81,6 +81,7 @@ local lang_parse = {
 
     return details, new_lines
   end,
+  typst = function(details, lines) return details, lines end,
   default = function(details, lines)
     if #details > 0 then
       local buf = vim.api.nvim_get_current_buf()
@@ -107,6 +108,7 @@ function M.parse_doc(opts)
   local details = vim.split(opts.item.detail or "", "\n", { trimempty = true })
   local parser = lang_parse[ft] or lang_parse.default
   details, lines = parser(details, lines)
+  -- vim.print(lines)
   local combined_lines = vim.list_extend(details, lines)
 
   return combined_lines

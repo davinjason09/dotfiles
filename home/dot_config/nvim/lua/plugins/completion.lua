@@ -135,8 +135,7 @@ return {
 
         ["<C-Right>"] = { "accept", "fallback" },
         ["<CR>"] = {
-          ---@param cmp blink.cmp.API
-          function(cmp)
+          function(cmp) ---@param cmp blink.cmp.API
             if cmp.get_selected_item() and cmp.is_menu_visible() then
               cmp.accept()
             else
