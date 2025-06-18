@@ -25,7 +25,8 @@
     - [x] Fix dependencies of plugins
     - [x] Modularize some plugins with heavy customization into its separate folder (eg. heirline, incline)
     - [~] Custom picker (terminal, code action)
-    - [ ] Custom blink-documentation parser for better docs (esp. typst)
+    - [x] Custom blink-documentation parser for better docs (esp. typst)
+    - [ ] Migrate nvim-treesitter to main branch
   - [ ] zsh
     - [ ] Optimize startup time
     - [ ] Polish scripts
@@ -35,7 +36,7 @@
   - [ ] wezterm
     - [ ] Modularize config
   - [ ] glazewm
-  - [ ] yasb
+  - [x] yasb
   - [ ] zen-browser
     - [ ] userChrome.css
     - [ ] user.js
