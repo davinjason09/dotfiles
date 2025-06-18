@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("HighlightYank"),
   callback = function()
     vim.hl.on_yank()
-    Utils.restore_cursor()
+    Utils.coding.restore_cursor()
   end,
   desc = "Highlight on yank and preserve cursor position",
 })

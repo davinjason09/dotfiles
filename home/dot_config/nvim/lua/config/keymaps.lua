@@ -41,107 +41,36 @@ map("s", "<Right>", "<C-g>o<ESC>a")
 map("x", "$", "g_", { silent = true })
 
 -- Add new line without entering insert mode
----@param dir "down" | "up"
-local function add_line(dir)
-  local ft = vim.bo.filetype
-  local buftype = vim.bo.buftype
-
-  if not vim.bo.modifiable then return end
-
-  -- In Vim command mode, execute the command with enter
-  if ft == "vim" and buftype == "nofile" then
-    local CR = Snacks.util.keycode("<CR>")
-    vim.fn.feedkeys(CR, "n")
-  end
-
-  local cmd = dir == "down" and "%s] %sj" or "%s[ %sk"
-  local count = vim.v.count1
-
-  vim.fn.feedkeys(cmd:format(count, count))
-end
-
-map("n", "<S-CR>", function() add_line("up") end, { silent = true } )
-map("n", "<CR>",   function() add_line("down") end, { silent = true } )
+map("n", "<S-CR>", function() Utils.coding.add_line("up") end, { silent = true } )
+map("n", "<CR>",   function() Utils.coding.add_line("down") end, { silent = true } )
 
 -- stylua: ignore end
 
 -- Save position on yank
 map({ "n", "x" }, "y", function()
-  Utils.save_cursor_pos()
+  Utils.coding.save_cursor_pos()
   return "y"
 end, { expr = true, desc = "Yank" })
 map("n", "Y", function()
-  Utils.save_cursor_pos()
+  Utils.coding.save_cursor_pos()
   return "yg_" -- yank without trailing newline
 end, { expr = true, desc = "Yank until the end" })
 
--- Preserve cursor when commenting
-local function comment()
-  Utils.save_cursor_pos()
-  local mode = vim.fn.mode()
-
-  if mode == "n" or mode == "i" then
-    vim.cmd.norm("gcc")
-  elseif mode == "v" or mode == "V" or mode == "\22" then
-    vim.cmd.norm("gc")
-  end
-
-  Utils.restore_cursor()
-end
-
 -- stylua: ignore start
 
-map({ "n", "v" }, "<leader>/", comment, { desc = "Comment / Uncomment" })
-map("i",          "<C-/>",     comment, { desc = "Comment / Uncomment" })
-
--- stylua: ignore end
+-- Preserve cursor when commenting
+map({ "n", "v" }, "<leader>/", Utils.coding.comment, { desc = "Comment / Uncomment" })
+map("i",          "<C-/>",     Utils.coding.comment, { desc = "Comment / Uncomment" })
 
 -- Emacs paste behavior
----@param key "p" | "P"
-local function paste(key)
-  local count = vim.v.count1
-  local reg_type = vim.fn.getregtype('"')
-  local opts = nil
-
-  if vim.fn.getreg('"') == "" then return end
-
-  if reg_type == "V" then Utils.save_cursor_pos() end
-
-  if key == "p" then opts = { row = 1 } end
-
-  vim.cmd("normal! " .. count .. key)
-  Utils.restore_cursor(opts)
-end
-
--- stylua: ignore start
-
-map("n", "p", function() paste("p") end, { noremap = true, silent = true, desc = "Paste (After)" })
-map("n", "P", function() paste("P") end, { noremap = true, silent = true, desc = "Paste (Before)" })
-map("x", "p", function() paste("P") end, { noremap = true, silent = true, desc = "Paste without yanking" })
-map("x", "P", function() paste("p") end, { noremap = true, silent = true, desc = "Paste with yank" })
+map("n", "p", function() Utils.coding.paste("p") end, { noremap = true, silent = true, desc = "Paste (After)" })
+map("n", "P", function() Utils.coding.paste("P") end, { noremap = true, silent = true, desc = "Paste (Before)" })
+map("x", "p", function() Utils.coding.paste("P") end, { noremap = true, silent = true, desc = "Paste without yanking" })
+map("x", "P", function() Utils.coding.paste("p") end, { noremap = true, silent = true, desc = "Paste with yank" })
 
 -- stylua: ignore end
 
 -- Smart delete
----@param key string
----@param mode string
-local function smart_delete(key, mode)
-  if mode == "n" then
-    local line = vim.api.nvim_get_current_line()
-    return (line:match("^%s*$") and '"_' or "") .. key
-  elseif mode == "v" then
-    local lines = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { type = vim.fn.mode() })
-    local all_space = true
-    for _, line in ipairs(lines) do
-      if not line:match("^%s*$") then
-        all_space = false
-        break
-      end
-    end
-    return (all_space and '"_' or "") .. key
-  end
-end
-
 local keys = {
   { "d", desc = "Delete" },
   { "dd", mode = "n" },
@@ -159,7 +88,7 @@ for _, key_opts in pairs(keys) do
 
   local key = key_opts[1]
   for _, m in ipairs(mode) do
-    map(m, key, function() return smart_delete(key, m) end, opts)
+    map(m, key, function() return Utils.coding.smart_delete(key, m) end, opts)
   end
 end
 
