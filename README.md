@@ -49,3 +49,7 @@ Checkbox Items:
 - "~" = In Progress
 - " " = Not Started
 - "-" = Cancelled
+
+## Gallery
+
+![Desktop](/assets/Screenshot_2025-06-19_002340.jpg)
