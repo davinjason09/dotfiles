@@ -44,7 +44,11 @@ return {
     "b0o/incline.nvim",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
-      window = { padding = 0, margin = { horizontal = 0, vertical = 0 } },
+      window = {
+        padding = 0,
+        margin = { horizontal = 0, vertical = 0 },
+        zindex = 105,
+      },
       render = function(props)
         local C = require("plugins.incline.components")
         local mode = vim.fn.mode()
