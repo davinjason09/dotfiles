@@ -135,6 +135,46 @@ function M.dedup(list)
   return ret
 end
 
+---Get the icon and color for a file based on its filename and extension
+---@param entry { fs_type: string, path: string } #The file entry containing type and path
+---@return string, string #The icon and color for the file
+function M.get_icon(entry)
+  local MiniIcons = require("mini.icons")
+  local icon, color, is_default = MiniIcons.get(entry.fs_type, entry.path)
+
+  local name = vim.fn.fnamemodify(entry.path, ":t")
+  local runtime_path = vim.api.nvim_list_runtime_paths()
+  if name == "init.lua" and entry.fs_type == "file" then
+    local is_in_runtime_path = false
+    for _, path in ipairs(runtime_path) do
+      path = path:gsub("-", "%%-")
+      if entry.path:find(path) then
+        is_in_runtime_path = true
+        break
+      end
+    end
+
+    -- If the file is not in the runtime path, check for special icons
+    -- Currently this is a workaround due to limitation of mini.icons
+    if not is_in_runtime_path then
+      is_default = true
+      for key, value in pairs(Defaults.special_ft_icons) do
+        if entry.path:find(key) then
+          icon, color, is_default = value[1], value[2], false
+          break
+        end
+      end
+    end
+  end
+
+  if is_default and entry.fs_type ~= "directory" then
+    local ext = vim.fn.fnamemodify(entry.path, ":e")
+    icon, color = MiniIcons.get("filetype", ext)
+  end
+
+  return icon .. " ", color
+end
+
 -- Get all LSP clients attached to the current buffer
 ---@return string[] #A list of LSP client names
 function M.get_lsp_clients()

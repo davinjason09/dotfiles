@@ -109,6 +109,10 @@ M.mason_icons = {
   package_uninstalled = "󰊠 ",
 }
 
+M.special_ft_icons = {
+  yazi = { "󰇥", "MiniIconsYellow" },
+}
+
 -- stylua: ignore end
 
 -- Default vim.diagnostic config

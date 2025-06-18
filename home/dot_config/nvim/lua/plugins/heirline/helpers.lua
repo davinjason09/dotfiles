@@ -1,9 +1,5 @@
 local M = {}
 
-M.special_icons = {
-  yazi = { "󰇥", "MiniIconsYellow" },
-}
-
 -- ╾╼ General Utilities ╾─────────────────────────────────────────────╼
 
 ---An `init` function to build multiple update events which is not supported yet by Heirline's update field
@@ -33,46 +29,6 @@ function M.update_events(opts)
       self.once = true
     end
   end
-end
-
----Get the icon and color for a file based on its filename and extension
----@param filename string The filename to get the icon for
----@param extension string The file extension to get the icon for
----@return string, string #The icon and color for the file
-function M.get_icon(filename, extension)
-  local MiniIcons = require("mini.icons")
-  local icon, color, is_default = MiniIcons.get("file", filename)
-
-  local name = vim.fn.fnamemodify(filename, ":t")
-  local runtime_path = vim.api.nvim_list_runtime_paths()
-  if name == "init.lua" then
-    local is_in_runtime_path = false
-    for _, path in ipairs(runtime_path) do
-      path = path:gsub("-", "%%-")
-      if filename:find(path) then
-        is_in_runtime_path = true
-        break
-      end
-    end
-
-    -- If the file is not in the runtime path, check for special icons
-    -- Currently this is a workaround due to limitation of mini.icons
-    if not is_in_runtime_path then
-      is_default = true
-      for key, value in pairs(M.special_icons) do
-        if filename:find(key) then
-          icon, color, is_default = value[1], value[2], false
-          break
-        end
-      end
-    end
-  end
-
-  if is_default then
-    icon, color = MiniIcons.get("filetype", extension)
-  end
-
-  return icon, Snacks.util.color(color)
 end
 
 ---Redraw the statusline

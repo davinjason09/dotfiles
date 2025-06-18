@@ -130,10 +130,10 @@ M.FileNameBlock = {
         filename = split[#split]
       end
 
-      local extension = vim.fn.fnamemodify(filename, ":e")
-      self.icon, self.color = U.get_icon(filename, extension)
+      self.icon, self.color = Utils.get_icon({ fs_type = "file", path = filename })
+      self.color = Snacks.util.color(self.color)
     end,
-    provider = function(self) return (" %s "):format(self.icon) end,
+    provider = function(self) return (" %s"):format(self.icon) end,
     hl = function(self) return { fg = self.color, bg = "crust" } end,
   },
   -- File pretty path

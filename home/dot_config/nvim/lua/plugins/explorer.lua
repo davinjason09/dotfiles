@@ -18,6 +18,7 @@ return {
         width_focus = 30,
         width_nofocus = 20,
       },
+      content = { prefix = Utils.get_icon },
     },
     keys = {
       {
