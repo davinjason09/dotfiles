@@ -130,48 +130,6 @@ return {
   {
     "felpafel/inlay-hint.nvim",
     event = "LspAttach",
-    opts = {
-      virt_text_pos = "inline",
-      display_callback = function(line_hints, _, _)
-        local lhint = {}
-        local line = vim.api.nvim_win_get_cursor(0)[1] - 1
-
-        for _, hint in pairs(line_hints) do
-          if hint.position.line ~= line then
-            local text = ""
-            local label = hint.label
-
-            if type(label) == "string" then
-              text = label
-            else
-              for _, part in ipairs(label) do
-                text = text .. part.value
-              end
-            end
-
-            if hint.paddingLeft then text = " " .. text end
-            if hint.paddingRight then text = text .. " " end
-
-            lhint[#lhint + 1] = {
-              text = text,
-              col = hint.position.character,
-            }
-          end
-        end
-
-        return lhint
-      end,
-    },
-    config = function(_, opts)
-      local hint = require("inlay-hint")
-      hint.setup(opts)
-
-      -- Force the inlay hints to refresh on Cursor Move.
-      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        callback = function(args)
-          if hint.is_enabled({ bufnr = args.buf }) then hint.enable(true, { bufnr = args.buf }) end
-        end,
-      })
-    end,
+    opts = { virt_text_pos = "eol" },
   },
 }
