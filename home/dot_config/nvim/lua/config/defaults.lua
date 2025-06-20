@@ -111,6 +111,7 @@ M.mason_icons = {
 
 M.special_ft_icons = {
   yazi = { "󰇥", "MiniIconsYellow" },
+  vim  = { "", "MiniIconsGreen" },
 }
 
 -- stylua: ignore end
