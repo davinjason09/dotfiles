@@ -245,7 +245,7 @@ widgets:
     type: "yasb.wallpapers.WallpapersWidget"
     options:
       label: "<span>󰸉</span>"
-      image_path: "C:/Users/ASUS/Pictures/Wallpaper"
+      image_path: "$env:USERPROFILE/Pictures/Wallpaper"
       change_automatically: false
       update_interval: 60
       gallery:
