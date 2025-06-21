@@ -1,0 +1,13 @@
+;; Kanata configuration to map caps to esc on tap and ctrl on hold 
+
+(defsrc
+  caps
+)
+
+(defalias
+  escctrl (tap-hold-press 200 200 esc lctl) 
+)
+
+(deflayer base
+  @escctrl
+)
