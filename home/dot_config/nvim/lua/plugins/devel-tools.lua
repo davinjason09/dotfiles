@@ -114,6 +114,7 @@ return {
         markdown = { "prettier" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         typst = { "typstyle", lsp_format = "prefer" },
+        yaml = { "prettier" },
         ["_"] = { "trim_whitespace" },
       },
       format_on_save = function()
