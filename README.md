@@ -35,13 +35,15 @@
     - [ ] Yatline
   - [ ] wezterm
     - [ ] Modularize config
-  - [ ] glazewm
+  - [x] glazewm
   - [x] yasb
+  - [x] windhawk
+  - [x] kanata
   - [ ] zen-browser
     - [ ] userChrome.css
     - [ ] user.js
 - [ ] Add a script to install all the dependencies
-- [ ] Add a script to copy files to the windows side
+- [x] Add a script to copy files to the windows side
 
 Checkbox Items:
 
