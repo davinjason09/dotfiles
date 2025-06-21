@@ -1,0 +1,48 @@
+{
+  "theme": "",
+  "controlStyles[0].target": "Grid#NotificationCenterGrid",
+  "controlStyles[0].styles[0]": "Background=Transparent",
+  "controlStyles[0].styles[1]": "BorderThickness=0",
+  "controlStyles[0].styles[2]": "Shadow:=",
+
+  "controlStyles[1].target": "Grid#CalendarCenterGrid",
+  "controlStyles[1].styles[0]": "CornerRadius=16",
+  "controlStyles[1].styles[1]": "Visibility=Collapsed",
+  
+  "controlStyles[2].target": "Grid#ControlCenterRegion",
+  "controlStyles[2].styles[0]": "CornerRadius=16",
+  
+  "controlStyles[3].target": "Border#ToastBackgroundBorder2",
+  "controlStyles[3].styles[0]": "Background:=#1e1e2e",
+  
+  "controlStyles[4].target": "Windows.UI.Xaml.Controls.Border#ItemOpaquePlating",
+  "controlStyles[4].styles[0]": "CornerRadius=14",
+  "controlStyles[4].styles[1]": "Margin=5,-3,5,8",
+  "controlStyles[4].styles[2]": "Background:=<AcrylicBrush TintColor=\"{ThemeResource SystemChromeAltHighColor}\" TintOpacity=\"0.5\" FallbackColor=\"{ThemeResource SystemChromeLowColor}\" />",
+  "controlStyles[4].styles[3]": "BorderThickness=1",
+  "controlStyles[4].styles[4]": "BorderBrush:=<SolidColorBrush Color=\"{ThemeResource SurfaceStrokeColorDefault}\" />",
+
+  "controlStyles[5].target": "ActionCenter.GroupView > Windows.UI.Xaml.Controls.Grid",
+  "controlStyles[5].styles[0]": "CornerRadius=16,16,0,0",
+  "controlStyles[5].styles[1]": "Margin=15,0,15,0",
+  "controlStyles[5].styles[2]": "Background:=<AcrylicBrush TintColor=\"{ThemeResource CardStrokeColorDefaultSolid}\" FallbackColor=\"{ThemeResource CardStrokeColorDefaultSolid}\" TintOpacity=\"0\" TintLuminosityOpacity=\".85\" Opacity=\"1\"/>",
+  "controlStyles[5].styles[3]": "BorderBrush:=<SolidColorBrush Color=\"{ThemeResource SurfaceStrokeColorDefault}\" />",
+  "controlStyles[5].styles[4]": "BorderThickness=1",
+
+  "controlStyles[6].target": "TextBlock#NotificationsTextBlock",
+  "controlStyles[6].styles[0]": "Foreground:=White",
+  
+  "controlStyles[7].target": "ActionCenter.FlexibleItemView",
+  "controlStyles[7].styles[0]": "CornerRadius=14",
+  
+  "controlStyles[8].target": "Grid#MediaTransportControlsRegion",
+  "controlStyles[8].styles[0]": "CornerRadius=16",
+  "controlStyles[8].styles[1]": "Visibility=Collapsed",
+  
+  "controlStyles[9].target": "Grid#NotificationCenterTopBanner",
+  "controlStyles[9].styles[0]": "Background=#1e1e2e",
+  "controlStyles[9].styles[1]": "Margin:=0,0,0,10",
+  "controlStyles[9].styles[2]": "CornerRadius:=16",
+  "controlStyles[9].styles[3]": "BorderBrush=#89dce4",
+  "controlStyles[9].styles[4]": "BorderThickness=1.5"
+}
