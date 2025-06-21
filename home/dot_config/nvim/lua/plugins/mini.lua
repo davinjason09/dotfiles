@@ -22,6 +22,8 @@ return {
       { ">", "<CMD>lua MiniMove.move_selection('right')<CR>", desc = "Move selection right", mode = { "v", "x" }, },
       { "<<", "<CMD>lua MiniMove.move_line('left')<CR>", desc = "Move line left" },
       { ">>", "<CMD>lua MiniMove.move_line('right')<CR>", desc = "Move line right" },
+      { "<A-Down>", "<CMD>lua MiniMove.move_line('down')<CR>", desc = "Move line down", mode = "i" },
+      { "<A-Up>", "<CMD>lua MiniMove.move_line('up')<CR>", desc = "Move line up", mode = "i" },
     },
   },
   {

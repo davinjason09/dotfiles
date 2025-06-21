@@ -152,9 +152,10 @@ map("x",          "g-", "g<C-x>", { desc = "Decrement number" })
 -- Select all text
 map({ "n", "i", "v" }, "<C-a>", "<ESC>ggVG", { desc = "Select all" })
 
--- Search inside selection
+-- Search inside selection / when in insert mode
 map("x", "/", "<ESC>/\\%V", { desc = "Search inside selection" })
 map("x", "?", "<ESC>?\\%V", { desc = "Search inside selection" })
+map("i", "<C-f>", "<C-o>/", { desc = "Search in insert mode" })
 
 -- Redo with U
 map("n", "U", "<C-r>", { desc = "Redo" })
