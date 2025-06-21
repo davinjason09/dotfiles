@@ -1,0 +1,18 @@
+#!{{ lookPath "bash" }}
+
+set -euo pipefail
+
+{{ $config_root := joinPath .chezmoi.workingTree "home/dot_config/yasb" }}
+# yasb hash: {{ output "bash" "-c" (print "find " $config_root " -type f -exec sha256sum -b {} \\; | sort | sha256sum | cut -d \" \" -f1") }}
+
+if [ -z "${WIN_HOME:-}" ]; then
+  echo "WIN_HOME is not set. Please set it to your Windows home directory."
+  exit 1
+fi
+
+if [ -d "$WIN_HOME/.config/yasb/" ]; then
+  echo "Updating yasb configuration..."
+  cp -r {{ joinPath .chezmoi.sourceDir "dot_config" "yasb" | quote }} "$WIN_HOME/.config/yasb"
+else
+  echo "yasb directory not found."
+fi

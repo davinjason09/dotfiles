@@ -1,0 +1,19 @@
+#!{{ lookPath "bash" }}
+
+set -euo pipefail
+
+{{ $config_root := joinPath .chezmoi.workingTree "home/dot_config/kanata" }}
+# kanata hash: {{ output "bash" "-c" (print "find " $config_root " -type f -exec sha256sum -b {} \\; | sort | sha256sum | cut -d \" \" -f1") }}
+
+if [ -z "${WIN_HOME:-}" ]; then
+  echo "WIN_HOME is not set. Please set it to your Windows home directory."
+  exit 1
+fi
+
+if [ -d "$WIN_HOME/.config/kanata/" ]; then
+  echo "Updating kanata configuration..."
+  cp -r {{ joinPath .chezmoi.sourceDir "dot_config" "kanata" | quote }} "$WIN_HOME/.config/kanata"
+else
+  echo "kanata directory not found."
+fi
+
