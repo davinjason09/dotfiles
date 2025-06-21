@@ -146,10 +146,30 @@ function M.parse_doc(opts)
   local details = vim.split(opts.item.detail or "", "\n", { trimempty = true })
   local parser = lang_parse[ft] or lang_parse.default
   details, lines = parser(details, lines)
-  -- vim.print(lines)
+  -- vim.print(details, lines)
   local combined_lines = vim.list_extend(details, lines)
 
   return combined_lines
+end
+
+---Add powerline symbols to the title of popups
+---@alias title_opts { msg: string, views?: string, kind?: string }
+---@param opts title_opts
+function M.noice_title(opts)
+  opts.views = opts.views or "cmdline_popup"
+
+  local powerline_hl = ""
+  if opts.views == "confirm" then
+    powerline_hl = "NoiceConfirmBorder"
+  elseif opts.kind then
+    powerline_hl = "NoiceCmdlinePopupBorder" .. opts.kind:sub(1, 1):upper() .. opts.kind:sub(2)
+  end
+
+  return {
+    { "", powerline_hl },
+    { opts.msg },
+    { "", powerline_hl },
+  }
 end
 
 return M

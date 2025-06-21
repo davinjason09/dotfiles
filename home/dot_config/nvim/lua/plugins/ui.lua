@@ -1,26 +1,3 @@
----Add powerline symbols to the title of popups
----@alias title_opts { msg: string, views?: string, kind?: string }
----@param opts title_opts
-local function title(opts)
-  opts.views = opts.views or "cmdline_popup"
-
-  local powerline_hl = ""
-  if opts.views == "confirm" then
-    powerline_hl = "NoiceConfirmBorder"
-  elseif opts.kind then
-    powerline_hl = "NoiceCmdlinePopupBorder" .. opts.kind:sub(1, 1):upper() .. opts.kind:sub(2)
-  end
-
-  return {
-    { "", powerline_hl },
-    { opts.msg },
-    { "", powerline_hl },
-  }
-end
-
-local nvim_version = ("  v%s "):format(Utils.nvim_version())
-local lua_version = ("  %s "):format(_VERSION)
-
 return {
   { "MunifTanjim/nui.nvim" },
   {
@@ -30,10 +7,8 @@ return {
       styles = {
         float = { backdrop = 80 },
         notification = {
-          wo = {
-            winblend = 0,
-            wrap = true,
-          },
+          zindex = 101,
+          wo = { winblend = 0, wrap = true },
         },
         notification_history = {
           width = 0.85,
@@ -48,6 +23,7 @@ return {
         scratch = {
           height = 0.6,
           width = 0.85,
+          bo = { buflisted = false, bufhidden = "wipe" },
           wo = {
             winhighlight = {
               NormalFloat = "SnacksNormal",
@@ -75,22 +51,8 @@ return {
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {
       cmdline = {
-        opts = {
-          border = {
-            text = { top_align = "right" },
-          },
-        },
-        -- stylua: ignore
-        format = {
-          calculator = { pattern = "^=", icon = "=", lang = "vimnormal", title = title({ msg = "  Calculator ", kind = "calculator" }) },
-          cmdline    = { pattern = "^:", icon = "❯", icon_hl_group = "MiniIconsGreen", lang = "vim", title = title({ msg = nvim_version, kind = "cmdline" }) },
-          filter     = { pattern = "^:%s*!", icon = "", icon_hl_group = "MiniIconsGreen", lang = "bash", title = title({ msg = "  Shell ", kind = "filter" }) },
-          help       = { pattern = "^:%s*[hH]e?l?p?%s+", icon = "", title = title({ msg = "  Help ", kind = "help" }) },
-          input      = { icon = " ", opts = { border = { text = { top_align = "center" } } } },
-          lua        = { kind = "lua", pattern = "^:%s*lua%s+", icon = "", icon_hl_group = "MiniIconsAzure", lang = "lua", title = title({ msg = lua_version, kind = "lua" }) },
-          lua_eval   = { kind = "cmdline", pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua", title = title({ msg = nvim_version, kind = "cmdline" }) },
-          replace    = { kind = "search", pattern = { "^:%%?s/", "^:%s*%'<,%'>%s*s/", "^:s/" }, icon = "", lang = "regex", title = title({ msg = " 󰛔 Replace ", kind = "search" }) },
-        },
+        opts = { border = { text = { top_align = "right" } } },
+        format = Defaults.noice_cmdline_format,
       },
       lsp = {
         documentation = { enabled = false },
@@ -108,6 +70,11 @@ return {
               { find = "; after #%d+" },
               { find = "; before #%d+" },
               { find = "%(mini%.*" },
+              { find = "No lines in buffer" },
+              { find = "^%d+ fewer lines;?" },
+              { find = "^%d+ more lines?;?" },
+              { find = "^%d+ line less;?" },
+              { find = "^Already at newest change" },
             },
           },
           view = "mini",
@@ -132,7 +99,8 @@ return {
       },
       views = {
         confirm = {
-          border = { text = { top = title({ msg = "  Confirm ", views = "confirm" }) } },
+          -- stylua: ignore
+          border = { text = { top = Utils.ui.noice_title({ msg = "  Confirm ", views = "confirm" }) }, },
           win_options = { winhighlight = { FloatTitle = "NoiceConfirmTitle" } },
         },
       },
