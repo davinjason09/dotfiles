@@ -2,6 +2,8 @@ README.md
 
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+.config/glazewm
+.config/windhawk
 .config/yasb
 {{   end }}
 {{ end }}
