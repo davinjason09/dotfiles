@@ -105,6 +105,13 @@ return {
             end
           end,
         },
+        taplo = {
+          append_args = function(_, ctx)
+            if not Utils.format.has_config(ctx.dirname, "taplo") then
+              return { "--config", vim.fn.stdpath("config") .. "/rules/taplo.toml" }
+            end
+          end,
+        },
       },
       formatters_by_ft = {
         bib = { "bibtex-tidy" },
@@ -113,6 +120,7 @@ return {
         lua = { "stylua" },
         markdown = { "prettier" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+        toml = { "taplo" },
         typst = { "typstyle", lsp_format = "prefer" },
         yaml = { "prettier" },
         ["_"] = { "trim_whitespace" },
