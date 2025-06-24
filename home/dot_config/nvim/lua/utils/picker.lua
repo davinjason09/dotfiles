@@ -86,8 +86,6 @@ M.options = function()
   })
 end
 
-M.code_action = function() end
-
 M.terminal = function()
   local term_list = Snacks.terminal.list()
   local terms = {}

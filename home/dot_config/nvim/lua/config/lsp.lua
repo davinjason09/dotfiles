@@ -24,7 +24,7 @@ local function on_attach(client, bufnr)
   map("gD", Snacks.picker.lsp_declarations, "[G]oto [D]eclaration")
   map("gO", vim.lsp.buf.document_symbol, "[G]oto [O]utline")
 
-  map("<leader>ca", vim.lsp.buf.code_action, "[C]ode: [A]ction", { "n", "v" })
+  map("<leader>ca", require("tiny-code-action").code_action, "[C]ode: [A]ction", { "n", "v" })
   map("<leader>cr", vim.lsp.buf.rename, "[C]ode: [R]ename (Symbol)")
   map("<leader>cR", Snacks.rename.rename_file, "[C]ode: [R]ename (File)")
   map("<leader>cd", Snacks.picker.diagnostics_buffer, "[C]ode: [D]iagnostics")

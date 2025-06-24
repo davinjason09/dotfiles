@@ -143,4 +143,18 @@ return {
     event = "LspAttach",
     opts = { virt_text_pos = "eol" },
   },
+  {
+    "rachartier/tiny-code-action.nvim",
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "folke/snacks.nvim" },
+    },
+    opts = {
+      backend = "vim",
+      picker = {
+        "snacks",
+        opts = { layout = "dropdown" },
+      },
+    },
+  },
 }
