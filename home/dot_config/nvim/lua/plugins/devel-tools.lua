@@ -114,6 +114,7 @@ return {
         },
       },
       formatters_by_ft = {
+        bash = { "shfmt" },
         bib = { "bibtex-tidy" },
         c = { "clang-format" },
         cpp = { "clang-format" },
@@ -123,6 +124,7 @@ return {
         toml = { "taplo" },
         typst = { "typstyle", lsp_format = "prefer" },
         yaml = { "prettier" },
+        zsh = { "shfmt" },
         ["_"] = { "trim_whitespace" },
       },
       format_on_save = function()
