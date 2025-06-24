@@ -108,5 +108,6 @@ return {
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
     -- Custom
     { "<leader>so", function() Utils.picker.options() end, desc = "[S]earch [O]ption" },
+    { "<leader>dr", function() Utils.picker.reload() end, desc = "[D]ebug: [R]eload Plugins" },
   },
 }

@@ -182,4 +182,33 @@ M.terminal = function()
   })
 end
 
+M.reload = function()
+  local plugins = require("lazy").plugins()
+  local plugin_names = vim.tbl_map(function(plugin) return plugin.name end, plugins)
+
+  local items = vim.tbl_map(
+    function(name)
+      return {
+        text = name,
+        item = name,
+      }
+    end,
+    plugin_names
+  )
+
+  Snacks.picker.pick({
+    title = "Reload Plugins",
+    format = "text",
+    items = items,
+    layout = { preset = "vscode" },
+    confirm = {
+      action = function(picker, selection)
+        picker:close()
+        local plugin_name = selection.item
+        require("lazy").reload({ plugins = { plugin_name } })
+      end,
+    },
+  })
+end
+
 return M
