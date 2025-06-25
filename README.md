@@ -24,12 +24,14 @@
     - [x] Bisect what plugin slowing down buffer opening
     - [x] Fix dependencies of plugins
     - [x] Modularize some plugins with heavy customization into its separate folder (eg. heirline, incline)
-    - [~] Custom picker (terminal, code action)
+    - [x] Custom picker (terminal, code action)
     - [x] Custom blink-documentation parser for better docs (esp. typst)
     - [ ] Migrate nvim-treesitter to main branch
-  - [ ] zsh
-    - [ ] Optimize startup time
+    - [ ] Custom terminal manager
+  - [~] zsh
+    - [~] Optimize startup time
     - [ ] Polish scripts
+    - [x] migrate from zap to znap
   - [ ] yazi
     - [ ] Custom catppuccin
     - [ ] Yatline
@@ -44,6 +46,9 @@
     - [ ] user.js
 - [ ] Add a script to install all the dependencies
 - [x] Add a script to copy files to the windows side
+- [ ] Gallery
+  - [ ] Add more screenshots of my setup
+  - [ ] Individual README for each config
 
 Checkbox Items:
 
