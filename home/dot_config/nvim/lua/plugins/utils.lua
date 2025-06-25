@@ -14,7 +14,6 @@ return {
   {
     "snacks.nvim",
     opts = {
-      bigfile = { enabled = true },
       indent = {
         enabled = true,
         scope = { enabled = false },

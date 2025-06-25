@@ -196,7 +196,7 @@ function M.clear_lsp_log()
   if log_path and vim.fn.filereadable(log_path) then
     local file_size = vim.fn.getfsize(log_path)
 
-    if file_size > Defaults.max_lsp_log_size then
+    if file_size > Defaults.bigfile.size then
       os.remove(log_path)
       vim.notify("LSP log file exceeded size limit and was deleted")
     end

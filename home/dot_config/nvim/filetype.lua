@@ -10,13 +10,21 @@ vim.filetype.add({
   },
   pattern = {
     ["tsconfig*.json"] = "jsonc",
-    [".*"] = function(path, bufnr)
-      return vim.bo[bufnr]
-          and vim.bo[bufnr].filetype ~= "bigfile"
-          and path
-          and vim.fn.getfsize(path) > (1024 * 1024 * 10)
-          and "bigfile"
-        or nil
+    [".*"] = function(path, buf)
+      if not path or not buf or vim.bo[buf].filetype == "bigfile" then return end
+      if path ~= vim.api.nvim_buf_get_name(buf) then return end
+
+      local size = vim.fn.getfsize(path)
+      if size <= 0 then return end
+
+      local bigfile_opts = Defaults.bigfile
+
+      if size > bigfile_opts.size then return "bigfile" end
+
+      local lines = vim.api.nvim_buf_line_count(buf)
+      if lines <= 0 then return end
+
+      return (size - lines) / lines > bigfile_opts.line_length and "bigfile" or nil
     end,
     ["${HOME}/.local/share/chezmoi/.*"] = {
       function(path, buf)

@@ -10,8 +10,12 @@ M.palette = {}
 function M.filling_palette(palette) M.palette = palette end
 
 M.small_screen_threshold = 45
-M.max_lsp_log_size = 1024 * 1024 * 5 -- 5MB
+M.bigfile = {
+  size = 1024 * 1024 * 5,
+  line_length = 1000,
+}
 
+---Store states for various plugins
 -- stylua: ignore start
 
 -- Default icons

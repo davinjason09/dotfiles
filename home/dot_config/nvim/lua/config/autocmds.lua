@@ -84,6 +84,33 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Ensure proper 'formatoptions'",
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("BigfileSettings"),
+  pattern = "bigfile",
+  callback = function(args)
+    local buf = args.buf
+    local ft = vim.filetype.match({ buf = args.buf }) or ""
+    local path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":p:~:.")
+
+    vim.print(("Big file detected `%s` with filetype `%s`."):format(path, ft))
+
+    Snacks.notify.warn({
+      ("Big file detected `%s`."):format(path),
+      "Some Neovim features have been **disabled**.",
+    }, { title = "Big File" })
+
+    vim.api.nvim_buf_call(args.buf, function()
+      if vim.fn.exists(":NoMatchParen") ~= 0 then vim.cmd([[NoMatchParen]]) end
+
+      Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
+      vim.b.minianimate_disable = true
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(buf) then vim.bo[buf].syntax = ft end
+      end)
+    end)
+  end,
+})
+
 vim.api.nvim_create_autocmd("User", {
   group = augroup("HideCopilotSuggestion"),
   pattern = "BlinkCmpMenuOpen",
