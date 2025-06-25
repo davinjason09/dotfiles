@@ -34,9 +34,11 @@ local lang_parse = {
       table.insert(details, 1, "```lua")
       table.insert(details, "```")
 
+      -- TODO: make this logic actually readable
       if #lines > 0 then
         local vimdoc_pat = { "%s>(.*)", "<" }
         local in_vimdoc = false
+        local in_lua_block = false
 
         for _, line in ipairs(lines) do
           local splits = {}
@@ -44,37 +46,59 @@ local lang_parse = {
           local match_2 = line:match(vimdoc_pat[2])
           local cur_line = line
 
-          if match_2 then
-            if not cur_line:find("<%w+>") and not cur_line:find("%w%s<%s%w") then
-              splits = vim.split(cur_line, vimdoc_pat[2], { trimempty = true })
-              table.insert(new_lines, " ```")
-              in_vimdoc = false
-            else
-              table.insert(new_lines, " " .. cur_line)
-              cur_line = ""
+          -- skip for lua codeblocks
+          if line:match("^%s*```lua") then
+            table.insert(new_lines, line)
+            in_lua_block = true
+          elseif line:match("^%s*```") and in_lua_block then
+            table.insert(new_lines, line)
+            in_lua_block = false
+          elseif in_lua_block then
+            table.insert(new_lines, line)
+            cur_line = ""
+          else
+            if match_2 then
+              if
+                (not cur_line:find("\\?<[%w%-]+>") and not cur_line:find("[%w%]%)]%s<[%<%=]?%s%w"))
+                or cur_line:find("^%s*<%s-%w")
+              then
+                splits = vim.split(cur_line, vimdoc_pat[2], { trimempty = true })
+                table.insert(new_lines, " ```")
+                cur_line = vim.trim(splits[1]) .. table.concat(splits, "<", 2)
+                in_vimdoc = false
+              else
+                table.insert(new_lines, cur_line)
+                cur_line = ""
+              end
             end
-          end
 
-          cur_line = splits[#splits] or cur_line
-          if match_1 then
-            splits = vim.split(cur_line, vimdoc_pat[1], { trimempty = true })
-            local split_1 = vim.trim(splits[1]:gsub("%s%s", " "))
+            -- cur_line = splits[#splits] or cur_line
+            if match_1 then
+              if not cur_line:find("[%w%]%)]%s>[%>%=]?%s%w") then
+                splits = vim.split(cur_line, vimdoc_pat[1], { trimempty = true }) or {}
+                local split_1 = splits[1] and vim.trim(splits[1]:gsub("%s%s", " ")) or ""
 
-            table.insert(new_lines, " " .. split_1)
-            table.insert(new_lines, " ```" .. match_1)
-            cur_line = splits[2] or ""
-            in_vimdoc = true
-          end
-
-          if cur_line ~= "" then
-            if not in_vimdoc then
-              cur_line = cur_line:gsub("%s%s", " ")
-              cur_line = vim.trim(cur_line)
+                table.insert(new_lines, " " .. split_1)
+                table.insert(new_lines, " ```" .. match_1)
+                cur_line = table.concat(splits, " >", 2) or ""
+                in_vimdoc = true
+              end
             end
-            table.insert(new_lines, " " .. cur_line)
+
+            if cur_line ~= "" then
+              if not in_vimdoc then
+                if cur_line:sub(1, 2) ~= "  " then
+                  cur_line = " " .. vim.trim(cur_line:gsub("%s%s", " "))
+                end
+                cur_line = cur_line:gsub("|([%w%(%)%-:_]+)|", "`|%1|`")
+                if cur_line:find("%-%-%-") then cur_line = cur_line:gsub("%-%-%-", "___") end
+              end
+              table.insert(new_lines, cur_line)
+            end
           end
         end
 
+        if in_vimdoc then table.insert(new_lines, " ```") end
         if lines[1] ~= "---" then table.insert(new_lines, 1, "---") end
       end
     end
