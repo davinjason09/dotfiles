@@ -71,6 +71,37 @@ return {
         css_oklch = { priority = -1, "()oklch%([^,]-%)()" },
         tailwind = { priority = -2, "%f[%w][%l%-]-%-()%l-%-%d%d%d?%f[%W]()" },
         numbers_in_brackets = { priority = -10, "%(()[%d.,%s]+()%)" },
+  {
+    "stevearc/quicker.nvim",
+    ft = "qf",
+    opts = {
+      type_icons = {
+        E = " ",
+        W = " ",
+        I = " ",
+        N = " ",
+        H = " ",
+      },
+      borders = {
+        vert = "│",
+        strong_header = "─",
+        strong_cross = "┼",
+        strong_end = "┤",
+        soft_header = "╌",
+        soft_cross = "┼",
+        soft_end = "┤",
+      },
+    },
+  },
+  {
+    "kevinhwang91/nvim-bqf",
+    ft = "qf",
+    opts = {
+      auto_enable = true,
+      auto_resize_height = true,
+      preview = {
+        delay_syntax = 25,
+        winblend = 1,
       },
     },
   },
