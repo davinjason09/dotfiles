@@ -1,0 +1,61 @@
+#!/usr/bin/env zsh
+#                                       ███ ██ ███
+#                                      ██░ ░░ ░░██
+#      ██████ ██████  ██████  █████   ░██   ██ ░██   █████
+#     ░░░░██ ░██░░░██░░██░░█ ██░░░██ ██████░██ ░██  ██░░░██
+#        ██  ░██  ░██ ░██ ░ ░██  ░██░░░██░ ░██ ░██ ░███████
+#       ██   ░██████  ░██   ░██  ░██  ░██  ░██ ░██ ░██░░░░
+#  ██  ██████░██░░░   ███   ░░█████   ░██  ░██ ░██ ░░█████
+# ░░  ░░░░░░ ░██     ░░░     ░░░░░    ░░   ░░  ░░   ░░░░░
+#            ░░
+#
+# Executes commands at login pre-zshrc.
+
+export WORDCHARS='*?[]~=&;!#$%^(){}<>'
+export DOTFILES="$HOME/.local/share/chezmoi"
+
+{{ if .isWSL -}}
+# Windows Environment Variables for WSL
+export WIN_C="/mnt/c"
+export WIN_D="/mnt/d"
+export WIN_SYSTEM="${WIN_C}/WINDOWS/system32"
+export WIN_HOME="$WIN/Users/{{ .windowsUsername }}"
+export SOL="${WIN_D}/UGM/Programming/Comprog/sol.cpp"
+{{- end }}
+
+typeset -gU path fpath
+
+function has() { command -v "$1" > /dev/null; }
+function safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH; }
+function safe_source() { [[ -s $1 ]] && source $1; }
+
+safe_export_path "$HOME/.local/bin"
+{{ if .isWSL -}}
+safe_export_path "$WIN_SYSTEM"
+{{- end }}
+
+if has nvim; then
+  export EDITOR="nvim"
+  export VISUAL="$EDITOR"
+else
+  export EDITOR="vim"
+fi
+
+if has go; then
+  export GOPATH="$HOME/code/go"
+  safe_export_path "$GOPATH"
+fi
+
+if has bun; then
+  export BUN_INSTALL="$HOME/.bun"
+  safe_export_path "$BUN_INSTALL/bin"
+fi
+
+if has bat; then
+  export BAT_THEME="Catppuccin Mocha"
+fi
+
+if has cargo; then
+  export CARGO_HOME="$HOME/.cargo"
+  safe_export_path "$CARGO_HOME/bin"
+fi
