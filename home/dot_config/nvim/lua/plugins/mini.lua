@@ -101,9 +101,11 @@ return {
       filetype = {
         awk    = { glyph = "", hl = "MiniIconsGrey" },
         bash   = { glyph = "", hl = "MiniIconsGreen" },
+        css    = { glyph = "", hl = "MiniIconsPurple" },
         dotenv = { glyph = "", hl = "MiniIconsYellow" },
         elvish = { glyph = "󰘧", hl = "MiniIconsGreen" },
         fish   = { glyph = "", hl = "MiniIconsGreen" },
+        gotmpl = { glyph = "", hl = "MiniIconsGrey" },
         nu     = { glyph = "", hl = "MiniIconsGreen" },
         ps1    = { glyph = "", hl = "MiniIconsBlue" },
         psxml  = { glyph = "", hl = "MiniIconsAzure" },

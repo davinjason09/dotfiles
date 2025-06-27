@@ -42,6 +42,7 @@ return {
         -- Chezmoi tmpl files
         ["dot_zshrc.tmpl"]      = { glyph = "", hl = "MiniIconsGrey" },
         ["dot_zshenv.tmpl"]     = { glyph = "", hl = "MiniIconsGrey" },
+        ["dot_zprofile.tmpl"]   = { glyph = "", hl = "MiniIconsGrey" },
         [".chezmoiignore.tmpl"] = { glyph = "", hl = "MiniIconsGrey" },
       },
       extension = {
