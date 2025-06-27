@@ -1,0 +1,146 @@
+#!/usr/bin/env zsh
+#
+#                     ██
+#                    ░██
+#      ██████  ██████░██████  ██████  █████
+#     ░░░░██  ██░░░░ ░██░░░██░░██░░█ ██░░░██
+#        ██  ░░█████ ░██  ░██ ░██ ░ ░██  ░░
+#       ██    ░░░░░██░██  ░██ ░██   ░██   ██
+#  ██  ██████ ██████ ░██  ░██░███   ░░█████
+# ░░  ░░░░░░ ░░░░░░  ░░   ░░ ░░░     ░░░░░
+#
+
+# ╾╼ Profiling ╾─────────────────────────────────────────────────────────╼
+# To profile:
+#   ZSH_DEBUG=1 zsh -i -c exit
+#   /usr/bin/time zsh -c 'for i in {1..50}; do zsh -i -c exit; done'
+if [[ -n "$ZSH_DEBUG" ]]; then
+  zmodload zsh/zprof
+fi
+
+# ╾╼ Paths and Environment Variables ╾───────────────────────────────────╼
+ZSH_HOME="${HOME}/.zsh"
+
+if has vivid; then
+  export LS_COLORS="$(vivid generate catppuccin-mocha)"
+fi
+
+# ╾╼ General Settings ╾──────────────────────────────────────────────────╼
+setopt AUTO_PUSHD             # Push the old directory onto the stack on cd.
+setopt GLOBDOTS               # Allow globbing of dotfiles.
+setopt INTERACTIVE_COMMENTS   # Allow comments in interactive shells.
+setopt PROMPT_SUBST           # Enable prompt expansion for dynamic updates.
+setopt PUSHD_IGNORE_DUPS      # Do not store duplicates in the stack.
+setopt PUSHD_SILENT           # Do not print the directory after pushd or popd.
+setopt PUSHD_TO_HOME          # Have pushd with no arguments act like ‘pushd $HOME’.
+unsetopt AUTO_REMOVE_SLASH    # Remove completed slash after delimiter character.
+unsetopt BANG_HIST            # Disable exclamation point history expansion.
+unsetopt BEEP                 # Turn off terminal bells.
+unsetopt CHECK_JOBS           # Don't report on jobs when shell exit.
+unsetopt FLOW_CONTROL         # Display output flow control characters.
+unsetopt LIST_AMBIGUOUS       # Auto-listing behaviour only works when nothing would be inserted.
+unsetopt LIST_BEEP            # Turn off autocomplete beeps.
+unsetopt PATH_DIRS            # Perform a path search even on command names with slashes.
+
+# ╾╼ Plugin Manager ╾──────────────────────────────────────────────────╼
+[[ -r $ZSH_HOME/znap/znap.zsh ]] || {
+  git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git $ZSH_HOME/znap >/dev/null 2>&1 || {
+    echo "Failed to clone znap repository."
+    exit 1
+  }
+}
+
+# Load znap
+safe_source $ZSH_HOME/znap/znap.zsh
+
+# ╾╼ Prompt ╾─────────────────────────────────────────────────────────────╼
+if [[ "${widgets[zle - keymap - select]#user:}" == "starship_zle-keymap-select" ||
+  "${widgets[zle - keymap - select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
+  zle -N zle-keymap-select ""
+fi
+
+zle-line-init() {
+  emulate -L zsh
+
+  [[ $CONTEXT == start ]] || return 0
+
+  while true; do
+    zle .recursive-edit
+    local -i ret=$?
+    [[ $ret == 0 && $KEYS == $'\4' ]] || break
+    [[ -o ignore_eof ]] || exit 0
+  done
+
+  local saved_prompt=$PROMPT
+  local saved_rprompt=$RPROMPT
+
+  # Set prompt value from character module
+  PROMPT="$(starship module -s ${STARSHIP_CMD_STATUS:-0} character)"
+  RPROMPT=''
+  zle .reset-prompt
+  starship module line_break
+  PROMPT=$saved_prompt
+  RPROMPT=$saved_rprompt
+
+  if (( ret )); then
+    zle .send-break
+  else
+    zle .accept-line
+  fi
+  return ret
+}
+
+znap eval starship 'starship init zsh'
+znap prompt
+zle -N zle-line-init
+
+# ╾╼ History ╾───────────────────────────────────────────────────────────╼
+HISTFILE=~/.histfile
+HISTSIZE=110000
+SAVEHIST=100000
+HISTDUP=erase
+
+setopt APPEND_HISTORY         # Append new commands to histfile.
+setopt EXTENDED_HISTORY       # Save command timestamps to histfile.
+setopt HIST_EXPIRE_DUPS_FIRST # Delete dupes when histfile exceeds histsize.
+setopt HIST_FIND_NO_DUPS      # Don't display duplicates when searching histfile.
+setopt HIST_IGNORE_ALL_DUPS   # Overwrite duplicate commands in histfile.
+setopt HIST_IGNORE_DUPS       # Ignore duplicated commands history list.
+setopt HIST_IGNORE_SPACE      # Ignore commands that start with space.
+setopt HIST_NO_STORE          # Do not store commands that start with a space.
+setopt HIST_REDUCE_BLANKS     # Remove leading blanks from history lines.
+setopt HIST_SAVE_NO_DUPS      # Ignore duplicates when saving to histfile.
+setopt HIST_VERIFY            # Expand command history for user before running.
+
+# ╾╼ Custom Configurations ╾─────────────────────────────────────────────╼
+safe_source "$HOME/.config/zsh/functions.zsh"
+safe_source "$HOME/.config/zsh/aliases.zsh"
+safe_source "$HOME/.config/zsh/keybinds.zsh"
+safe_source "$HOME/.config/zsh/completion.zsh"
+safe_source "$HOME/.config/zsh/wezterm-integration.sh"
+safe_source "$HOME/.config/zsh/zsh-titles.zsh"
+
+# ╾╼ Plugins ╾───────────────────────────────────────────────────────────╼
+znap eval fzf 'fzf --zsh'
+znap eval atuin 'atuin init zsh --disable-up-arrow'
+znap eval zoxide 'zoxide init zsh'
+znap eval wsl2-ssh-agent '/usr/sbin/wsl2-ssh-agent'
+
+znap source Aloxaf/fzf-tab
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-history-substring-search
+znap source zdharma-continuum/fast-syntax-highlighting
+znap source jirutka/zsh-shift-select
+
+# ╾╼ # Functions to run on startup ╾─────────────────────────────────────╼
+update_title "$(get_cwd_style)" " - $cmd" # update terminal title
+__wezterm_osc7 # osc7 integration
+
+# ╾╼ Debugging ╾─────────────────────────────────────────────────────────╼
+if [[ -n $ZSH_DEBUG ]]; then
+  zprof
+  # Show zsh latency of each cmd.
+  precmd() { start=$(date '+%s.%N'); }
+  zle-line-init () { PREDISPLAY="[$(printf %.3f $(( $(date '+%s.%N') - $start )))] "; }
+  zle -N zle-line-init
+fi
