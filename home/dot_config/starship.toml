@@ -1,0 +1,165 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[](surface0)\
+$os\
+$username\
+[](bg:peach fg:surface0)\
+$directory\
+[](fg:peach bg:yellow)\
+$git_branch\
+$git_status\
+[](fg:yellow bg:green)\
+[](fg:green bg:sky)\
+$c\
+$conda\
+$rust\
+$golang\
+$nodejs\
+$python\
+[](fg:sky bg:blue)\
+$docker_context\
+[](fg:blue bg:purple)\
+$time\
+[ ](fg:purple)\
+$line_break\
+$character
+"""
+
+continuation_prompt = "[❯❯](bright-black) "
+
+palette = 'catppuccin_mocha'
+
+[palettes.catppuccin_mocha]
+  base      = "#1E1E2E"
+  blue      = "#89B4FA"
+  crust     = "#11111B"
+  flamingo  = "#F2CDCD"
+  green     = "#A6E3A1"
+  lavender  = "#B4BEFE"
+  mantle    = "#181825"
+  maroon    = "#EBA0AC"
+  orange    = "#CBA6F7"
+  overlay0  = "#6C7086"
+  overlay1  = "#7F849C"
+  overlay2  = "#9399B2"
+  peach     = "#FAB387"
+  pink      = "#F5C2E7"
+  red       = "#F38BA8"
+  rosewater = "#F5E0DC"
+  sapphire  = "#74C7EC"
+  sky       = "#89DCEB"
+  subtext0  = "#A6ADC8"
+  subtext1  = "#BAC2DE"
+  surface0  = "#313244"
+  surface1  = "#45475A"
+  surface2  = "#585B70"
+  teal      = "#94E2D5"
+  text      = "#CDD6F4"
+  yellow    = "#F9E2AF"
+
+[os]
+  disabled = false
+  style    = "bg:surface0 fg:text"
+
+[os.symbols]
+  Alpine           = ""
+  Amazon           = ""
+  Android          = ""
+  Arch             = "󰣇"
+  Artix            = ""
+  CentOS           = ""
+  Debian           = "󰣚"
+  Fedora           = "󰣛"
+  Gentoo           = "󰣨"
+  Linux            = "󰌽"
+  Macos            = ""
+  Manjaro          = ""
+  Mint             = "󰣭"
+  Raspbian         = "󰐿"
+  RedHatEnterprise = "󱄛"
+  Redhat           = "󱄛"
+  SUSE             = ""
+  Ubuntu           = "󰕈"
+  Windows          = ""
+
+[username]
+  format      = '[ $user ]($style)'
+  show_always = true
+  style_root  = "bg:surface0 fg:text"
+  style_user  = "bg:surface0 fg:text"
+
+[directory]
+  format            = "[ $path ]($style)"
+  style             = "fg:mantle bg:peach"
+  truncation_length = 1
+  truncation_symbol = "…/"
+
+[git_branch]
+  format = '[[ $symbol $branch ](fg:base bg:yellow)]($style)'
+  style  = "bg:yellow"
+  symbol = ""
+
+[git_status]
+  ahead    = '󱦲${count}'
+  behind   = '󱦳${count}'
+  diverged = '󱦲${ahead_count}󱦳${behind_count}'
+  format   = '[[($all_status$ahead_behind) ](fg:base bg:yellow)]($style)'
+  style    = "bg:yellow"
+
+[nodejs]
+  format = '[[ $symbol( $version) ](fg:base bg:sky)]($style)'
+  style  = "bg:sky"
+  symbol = ""
+
+[c]
+  format = '[[ $symbol( $version) ](fg:base bg:sky)]($style)'
+  style  = "bg:sky"
+  symbol = ""
+
+[cpp]
+  format = '[[ $symbol( $version) ](fg:base bg:sky)]($style)'
+  style  = "bg:sky"
+  symbol = ""
+
+[conda]
+  format      = '[[ $symbol $environment ](fg:base bg:sky)]($style)'
+  ignore_base = false
+  style       = "bg:sky"
+  symbol      = ""
+
+[rust]
+  format = '[[ $symbol( $version) ](fg:base bg:sky)]($style)'
+  style  = "bg:sky"
+  symbol = ""
+
+[golang]
+  format = '[[ $symbol( $version) ](fg:base bg:sky)]($style)'
+  style  = "bg:sky"
+  symbol = ""
+
+[python]
+  format = '[[ $symbol( $version) ](fg:base bg:sky)]($style)'
+  style  = "bg:sky"
+  symbol = ""
+
+[docker_context]
+  format = '[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)'
+  style  = "bg:mantle"
+  symbol = ""
+
+[time]
+  disabled    = false
+  format      = '[[  $time ](fg:mantle bg:purple)]($style)'
+  style       = "bg:peach"
+  time_format = "%R"
+
+[fill]
+  symbol = " "
+
+[cmd_duration]
+  format   = "[took $duration](italic bright-yellow)"
+  min_time = 0
+
+[line_break]
+  disabled = false
