@@ -28,9 +28,9 @@
     - [x] Custom blink-documentation parser for better docs (esp. typst)
     - [ ] Migrate nvim-treesitter to main branch
     - [ ] Custom terminal manager
-  - [~] zsh
-    - [~] Optimize startup time
-    - [ ] Polish scripts
+  - [x] zsh
+    - [x] Optimize startup time (~780ms to ~300ms)
+    - [x] Polish scripts
     - [x] migrate from zap to znap
   - [ ] yazi
     - [ ] Custom catppuccin
