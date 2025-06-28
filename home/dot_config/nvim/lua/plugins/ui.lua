@@ -14,10 +14,7 @@ return {
           width = 0.85,
           wo = {
             signcolumn = "no",
-            winhighlight = {
-              NormalFloat = "SnacksNormal",
-              FloatBorder = "SnacksWinBorder",
-            },
+            winhighlight = "Normal:SnacksNormal,FloatBorder:SnacksWinBorder",
           },
         },
         scratch = {
@@ -25,22 +22,13 @@ return {
           width = 0.85,
           bo = { buflisted = false, bufhidden = "wipe" },
           wo = {
-            winhighlight = {
-              NormalFloat = "SnacksNormal",
-              FloatBorder = "SnacksWinBorder",
-            },
+            winhighlight = "Normal:SnacksNormal,FloatBorder:SnacksWinBorder",
           },
         },
       },
       win = {
         wo = {
-          winhighlight = {
-            Normal = "SnacksNormal",
-            NormalNC = "SnacksNormalNC",
-            WinBar = "SnacksWinBar",
-            WinBarNC = "SnacksWinBarNC",
-            FloatBorder = "SnacksWinBorder",
-          },
+          winhighlight = "Normal:SnacksNormal,NormalNC:SnacksNormalNC,WinBar:SnacksWinBar,WinBarNC:SnacksWinBarNC,FloatBorder:SnacksWinBorder",
         },
       },
     },

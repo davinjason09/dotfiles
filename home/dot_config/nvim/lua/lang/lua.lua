@@ -19,6 +19,7 @@ return {
     },
   },
   { "gonstoll/wezterm-types" },
+  { "MaJinjie/yazi-meta.nvim" },
   {
     "folke/lazydev.nvim",
     ft = "lua",
@@ -27,8 +28,9 @@ return {
       library = {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
         { path = "snacks.nvim", words = { "Snacks" } },
-        { path = "wezterm-types", modes = { "wezterm" } },
         { path = "blink.cmp", words = { "blink.cmp" } },
+        { path = "wezterm-types", modes = { "wezterm" } },
+        { path = "yazi-meta.nvim", words = { "ya", "cx", "ui" } },
         { path = "catppuccin" },
       },
     },

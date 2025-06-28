@@ -33,10 +33,11 @@ return {
       layout.telescope.layout.zindex = 100
       layout.vertical.layout.zindex = 100
     end,
+    -- stylua: ignore
     keys = {
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-      { "<leader>dps", function() Snacks.profiler.scratch() end, desc = "Profiler Scratch Buffer" },
+      { "<leader>dps", function() Snacks.profiler.scratch() end, desc = "[D]ebug: [P]rofiler [S]cratch Buffer" },
       { "<leader>n", function() Snacks.notifier.show_history() end, desc = "Notification History" },
       { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
       { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },

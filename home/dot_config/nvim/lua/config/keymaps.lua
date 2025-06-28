@@ -116,7 +116,7 @@ end
 -- Unmap default gr
 if vim.fn.maparg("grr", "n") then
   unmap("n", "grn")
-  unmap("n", "gra")
+  unmap({ "n", "x" }, "gra")
   unmap("n", "grr")
   unmap("n", "gri")
 end

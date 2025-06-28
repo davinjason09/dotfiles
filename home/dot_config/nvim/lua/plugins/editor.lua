@@ -82,6 +82,8 @@ return {
           { "]", group = "next" },
           { "g", group = "goto" },
           { "gc", group = "comment" },
+          { "gx", desc = "Open with system app", icon = { icon = " ", color = "red" } },
+          { "g%", desc = "Matching (){}[]" },
           { "s", group = "surround" },
           { "z", group = "fold" },
         },

@@ -43,6 +43,7 @@ return {
           keys = {
             i_esc = { "<ESC>", { "cmp_close", "cancel" }, mode = "i" },
             i_ctrl_bs = { "<C-BS>", "<C-S-W>", mode = { "i" }, expr = true },
+            i_ctrl_s = { "<C-S>", { "confirm" }, mode = { "i" }, expr = true },
           },
         },
       },
@@ -54,7 +55,7 @@ return {
   },
   {
     "eero-lehtinen/oklch-color-picker.nvim",
-    event = { "BufReadPost", "BufNewFile" },
+    event = "VeryLazy",
     version = "*",
     opts = {
       highlight = {
@@ -63,13 +64,16 @@ return {
         ignore_ft = { "blink-cmp-menu", "noice" },
       },
       patterns = {
-        hex = { priority = -1, "%f[^\"'%s]()#%x%x%x+%f[%W%p%s%c%z]()" },
+        hex = { priority = -1, "%f[^\"':%s>]()#%x%x%x+%f[%W%p%s%c%z]()" },
         hex_literal = { priority = -1, "()0x%x%x%x%x%x%x+%f[%W%p%s%c%z]()" },
         css_rgb = { priority = -1, "()rgba?%(.-%)()" },
         css_hsl = { priority = -1, "()hsla?%(.-%)()" },
         css_oklch = { priority = -1, "()oklch%([^,]-%)()" },
         tailwind = { priority = -2, "%f[%w][%l%-]-%-()%l-%-%d%d%d?%f[%W]()" },
-        numbers_in_brackets = { priority = -10, "%(()[%d.,%s]+()%)" },
+        numbers_in_brackets = false,
+      },
+    },
+  },
   {
     "stevearc/quicker.nvim",
     ft = "qf",
