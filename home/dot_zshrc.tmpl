@@ -124,7 +124,9 @@ safe_source "$HOME/.config/zsh/zsh-titles.zsh"
 znap eval fzf 'fzf --zsh'
 znap eval atuin 'atuin init zsh --disable-up-arrow'
 znap eval zoxide 'zoxide init zsh'
+{{ if .isWSL  -}}
 znap eval wsl2-ssh-agent '/usr/sbin/wsl2-ssh-agent'
+{{- end }}
 
 znap source Aloxaf/fzf-tab
 znap source zsh-users/zsh-autosuggestions
