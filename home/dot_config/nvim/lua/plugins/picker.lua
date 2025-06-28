@@ -106,6 +106,7 @@ return {
     { "<leader>xD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
     -- Misc
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+    { "z=", function() Snacks.picker.spelling() end, desc = "Spelling Suggestions" },
     -- Custom
     { "<leader>so", function() Utils.picker.options() end, desc = "[S]earch [O]ption" },
     { "<leader>dr", function() Utils.picker.reload() end, desc = "[D]ebug: [R]eload Plugins" },

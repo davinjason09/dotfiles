@@ -46,6 +46,11 @@ return {
       layout = {
         width = { min = 10, max = 40 },
       },
+      plugins = {
+        marks = true,
+        registers = true,
+        spelling = { enabled = false },
+      },
       icons = Defaults.which_key_rules,
       spec = {
         {
