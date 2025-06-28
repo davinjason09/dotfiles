@@ -139,6 +139,8 @@ return {
           NoiceCmdlinePopupTitleLua         = { fg = colors.mantle, bg = colors.mauve },
           NoiceCmdlinePopupTitleInput       = { fg = colors.mantle, bg = colors.lavender },
 
+          NoiceCmdline = { bg = colors.crust },
+
           -- snacks.nvim
           SnacksNormal              = { fg = colors.text,      bg = colors.mantle },
           SnacksPicker              = { fg = colors.none,      bg = colors.mantle },
@@ -184,6 +186,7 @@ return {
 
           -- LSP Hover
           LSPHoverBorder = { fg = colors.overlay1, bg = colors.base },
+          FloatBorder    = { fg = colors.sky,      bg = colors.base },
           NormalFloat    = { bg = colors.base },
 
           -- Search
@@ -191,7 +194,12 @@ return {
           IncSearch = { fg = colors.surface1, bg = colors.sky },
 
           -- BufferLine underline
-          TabLineSel   = { fg = colors.sky },
+          TabLineSel = { fg = colors.sky },
+
+          -- QuickFix
+          BqfPreviewSbar  = { bg = colors.sky },
+          BqfPreviewTitle = { fg = colors.subtext0, style = { "bold" } },
+          QuickFixLineNr  = { link = "qfLineNr" },
         }
       end,
     })
