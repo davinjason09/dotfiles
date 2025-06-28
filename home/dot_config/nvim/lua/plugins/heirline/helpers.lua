@@ -207,8 +207,7 @@ local function picker_stats()
   else
     local path = picker:current().file
     local filename = vim.fn.fnamemodify(path, ":t")
-    local extension = vim.fn.fnamemodify(path, ":e")
-    local icon = M.get_icon(filename, extension)
+    local icon = Utils.get_icon({ fs_type = "file", path = filename })
     return ("Preview: %s %s"):format(icon, M.pretty_path(path, "absolute"))
   end
 end

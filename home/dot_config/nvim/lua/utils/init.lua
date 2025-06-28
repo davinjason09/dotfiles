@@ -141,9 +141,9 @@ end
 ---@return string, string #The icon and color for the file
 function M.get_icon(entry)
   local MiniIcons = require("mini.icons")
-  local icon, color, is_default = MiniIcons.get(entry.fs_type, entry.path)
-
   local name = vim.fn.fnamemodify(entry.path, ":t")
+  local icon, color, is_default = MiniIcons.get(entry.fs_type, name)
+
   local runtime_path = vim.api.nvim_list_runtime_paths()
   if name == "init.lua" and entry.fs_type == "file" then
     local is_in_runtime_path = false
