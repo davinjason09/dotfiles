@@ -47,7 +47,7 @@ return {
       window = {
         padding = 0,
         margin = { horizontal = 0, vertical = 0 },
-        zindex = 105,
+        zindex = 100,
       },
       render = function(props)
         local C = require("plugins.incline.components")

@@ -17,6 +17,10 @@ return {
       layout.default.layout.min_width = 100
       layout.default.layout.zindex = 100
       layout.default.layout[2].width = 0.65
+      layout.default.layout.backdrop = {
+        blend = 80,
+        win = { relative = "editor", zindex = 99 },
+      }
 
       layout.dropdown.layout.min_width = 100
       layout.dropdown.layout.zindex = 100
