@@ -34,7 +34,7 @@ add-zsh-hook precmd _add_globdots
 # ╾╼ Completions ╾─────────────────────────────────────────────────────╼
 FUNCTION_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions"
 
-function add_completion() {
+add_completion() {
   local function="$1"
   local command="$2"
 
