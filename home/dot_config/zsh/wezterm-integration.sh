@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # shellcheck shell=bash
 
 # This file hooks up shell integration for wezterm.
@@ -51,14 +52,14 @@ __wezterm_set_user_var() {
 }
 
 __urlencode() {
-	local length="${#1}"
-	for (( i = 0; i < length; i++ )); do
-		local c="${1:$i:1}"
-		case $c in
-			%) printf '%%%02X' "'$c" ;;
-			*) printf "%s" "$c" ;;
-		esac
-	done
+  local length="${#1}"
+  for (( i = 0; i < length; i++ )); do
+    local c="${1:$i:1}"
+    case $c in
+      %) printf '%%%02X' "'$c" ;;
+      *) printf "%s" "$c" ;;
+    esac
+  done
 }
 # This function emits an OSC 7 sequence to inform the terminal
 # of the current working directory.  It prefers to use a helper
@@ -101,9 +102,9 @@ __wezterm_semantic_precmd() {
 function __wezterm_semantic_preexec() {
   # Restore the original PS1/PS2 if set
   if [[ -n "${__wezterm_save_ps1+1}" && "${__wezterm_check_ps1-}" == "${PS1}" ]]; then
-	  PS1="$__wezterm_save_ps1"
-	  PS2="$__wezterm_save_ps2"
-	  unset __wezterm_save_ps1
+    PS1="$__wezterm_save_ps1"
+    PS2="$__wezterm_save_ps2"
+    unset __wezterm_save_ps1
   fi
   # Indicate that the command output begins here
   printf "\033]133;C;\007"

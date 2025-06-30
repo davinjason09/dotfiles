@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+
 # Pulled from https://gist.github.com/tyalie/7e13cfe2ec62d99fa341a07ed12ef7c0
 ##############################################################################
 #

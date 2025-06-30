@@ -58,8 +58,8 @@ function _zsh_title__preexec() {
 
   # Construct a command that will output the desired job number.
   case $cmd[1] in
-    fg)	cmd="${(z)jobtexts[${(Q)cmd[2]:-%+}]}" ;;
-    %*)	cmd="${(z)jobtexts[${(Q)cmd[1]:-%+}]}" ;;
+    fg) cmd="${(z)jobtexts[${(Q)cmd[2]:-%+}]}" ;;
+    %*) cmd="${(z)jobtexts[${(Q)cmd[1]:-%+}]}" ;;
   esac
 
   if [[ "${cmd[1]}" == "exec" ]]; then
