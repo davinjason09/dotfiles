@@ -184,14 +184,6 @@ window_rules:
     enabled: False
 
   - match: Title
-    name: "komorebi-bar"
-    enabled: False
-
-  - match: Title
-    name: "keyviz"
-    enabled: False
-
-  - match: Title
     name: "Picture-in-Picture"
     enabled: False
 
@@ -199,8 +191,12 @@ window_rules:
     name: "yasb"
     enabled: False
 
-  - match: Process
+  - match: Title
     name: "Flow.Launcher"
+    enabled: False
+
+  - match: Process
+    name: "tacky-borders"
     enabled: False
 
   - match: Title
