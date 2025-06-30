@@ -1,9 +1,8 @@
 README.md
 
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{ if .isWSL }}
 .config/glazewm
+.config/tacky-borders
 .config/windhawk
 .config/yasb
-{{   end }}
 {{ end }}
