@@ -27,9 +27,9 @@ if ! has_cmd eza chafa pdftotext exiftool jq bat glow; then
   exit 1
 fi
 
-mime=$(file -Lbs --mime-type "$1")
-category=${mime%%/*}
-kind=${mime##*/}
+mime=$(mimetype -b "$1" 2>/dev/null || echo "")
+category=$(echo "$mime" | cut -d'/' -f1)
+kind=$(echo "$mime" | cut -d'/' -f2)
 
 if [[ -d "$1" ]]; then
   eza -lAXhT -L 1 --group-directories-first --color=always --icons --git --no-user "$1"
@@ -42,6 +42,10 @@ elif [[ $kind == rfc822 ]]; then
   bat --color=always -plEmail "$1"
 elif [[ $kind == json ]]; then
   jq -r . "$1" | bat --color=always -pljson
+elif [[ $kind == toml ]]; then
+  bat --color=always -pltoml "$1"
+elif [[ $kind == x-shellscript ]]; then
+  bat --color=always -plsh "$1"
 elif [[ $category == text ]]; then
   case $1 in
     *.md) CLICOLOR_FORCE=1 COLORTERM=truecolor glow -s dark "$1" ;;
