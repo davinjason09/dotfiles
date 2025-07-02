@@ -1,5 +1,6 @@
 _G.Config = os.getenv("HOME") .. "/.config/yazi/config"
 
+---@diagnostic disable-next-line: undefined-field
 require("full-border"):setup({ type = ui.Border.ROUNDED })
 
 -- Statusline
