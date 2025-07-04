@@ -1,0 +1,7 @@
+dialect       = "uk"
+inline_height = 20
+invert        = true
+style         = "full"
+
+[theme]
+  name = "catppuccin-mocha-sky"
