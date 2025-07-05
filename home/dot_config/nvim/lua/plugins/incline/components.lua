@@ -89,7 +89,7 @@ function M.file(props)
   local file_hl = props.focused and palette.text or palette.overlay2
   if file_name == "" then file_name = "[No Name]" end
 
-  local ft_icon, ft_hl = Snacks.util.icon(file_name, "file")
+  local ft_icon, ft_hl = Snacks.util.icon(buf_name, "file")
   ft_hl = props.focused and Snacks.util.color(ft_hl --[[@as string]]) or palette.overlay2
 
   local modified = vim.bo[props.buf].modified

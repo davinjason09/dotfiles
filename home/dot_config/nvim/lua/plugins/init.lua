@@ -32,6 +32,11 @@ return {
       layout.sidebar.layout.zindex = 100
       layout.telescope.layout.zindex = 100
       layout.vertical.layout.zindex = 100
+
+      -- NOTE: Override Snacks.util.icon with our own implementation
+      Snacks.util.icon = function(name, cat, _)
+        return Utils.get_icon({ fs_type = cat or "file", path = name })
+      end
     end,
     -- stylua: ignore
     keys = {
