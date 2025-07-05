@@ -72,6 +72,9 @@ add_completion tldr      'curl -fsSL https://raw.githubusercontent.com/tealdeer-
 add_completion tokei     'curl -fsSL https://raw.githubusercontent.com/Aloxaf/dotfiles/refs/heads/master/zsh/.config/zsh/completions/_tokei'
 add_completion fastfetch 'curl -fsSL https://raw.githubusercontent.com/fastfetch-cli/fastfetch/refs/heads/dev/completions/fastfetch.zsh'
 
+# compile completions
+znap compile $FUNCTION_DIR
+
 # ╾╼ fzf Style ╾───────────────────────────────────────────────────────╼
 _fzf_compgen_path() {
   fd . --hidden --exclude=".git" --exclude="node_modules" --color=always --no-ignore-parent "$1"
@@ -83,34 +86,25 @@ _fzf_compgen_dir() {
 
 export FZF_DEFAULT_OPTS="
   --color='
-    fg:#CDD6F4,     fg+:#D0D0D0,     bg+:#262626,     bg:-1
-    hl:#F38BA8,     hl+:#89DCEB,     info:#89DCEB,    marker:#F5E0DC
-    prompt:#F5BDE6, spinner:#F5E0DC, pointer:#F5E0DC, header:#F38BA8
-    border:#585B70, label:#AEAEAE,   query:#CDD6F4
+    fg:#CDD6F4,     fg+:#BAC2DE,     bg+:#181825,     bg:-1
+    hl:#F38BA8,     hl+:#89DCEB,     info:#89DCEB,    marker:#A6E3A1
+    prompt:#F5BDE6, spinner:#F5C2E7, pointer:#F5E0DC, header:#F38BA8
+    border:#6C7086, label:#AEAEAE,   query:#CDD6F4
   '
   --ansi --border=top --cycle --layout=reverse
-  --prompt=' ' --marker='' --pointer='󰁔'
+  --prompt=' ' --marker='✓' --marker-multi-line='▖▌▘'
+  --pointer='󰁔' --scrollbar='┃' --separator='─'
   --preview-window=right:60%:border-rounded
-  --separator='─' --scrollbar='┃'
   --bind='ctrl-d:preview-half-page-down'
   --bind='ctrl-u:preview-half-page-up'
-  --bind='ctrl-h:backward-kill-word'
 "
 
 export FZF_DEFAULT_COMMAND='fd . --strip-cwd-prefix --exclude=".git" --exclude="node_modules" --color=always --no-ignore-parent --max-depth=1 --unrestricted'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd . --type=d --strip-cwd-prefix --exclude=".git" --exclude="node_modules" --color=always --no-ignore-parent --unrestricted'
 
-show_file_or_dir_preview="
-  if [ -d {} ]; then
-    eza --tree --level 1 --icons=always --color=always {} | head -200;
-  else
-    bat -n --color=always --line-range :500 {};
-  fi
-"
-
 export FZF_CTRL_T_OPTS="
-  --preview '$show_file_or_dir_preview'
+  --preview 'bash $HOME/.config/zsh/file-preview.sh {}'
   --padding=0,1,0
   --bind='ctrl-/:change-preview-window(hidden|)'
 "
@@ -143,7 +137,7 @@ zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
 zstyle ':completion:*:rm:*' file-patterns '*:all-files'
 
 # fzf-tab
-zstyle ':fzf-tab:*' fzf-min-height 10
+zstyle ':fzf-tab:*' fzf-min-height 15
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
@@ -153,8 +147,13 @@ zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
 
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
-  '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+  'case $group in
+    "[process ID]") ps --pid=$word -o cmd --no-headers -w -w ;;
+    "[process-group]") ps --group=$word -o pid,user,comm -w -w ;;
+    "[option]") echo "Options: $desc" ;;
+    *) echo "" ;;
+  esac'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:8:wrap
 
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -lAXhT -L 1 --group-directories-first --color=always --icons --git --no-user $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -lAXhT -L 1 --group-directories-first --color=always --icons --git --no-user $realpath'
