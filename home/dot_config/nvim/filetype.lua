@@ -2,11 +2,17 @@ vim.filetype.add({
   filename = {
     [".chezmoiignore"] = "gitignore",
     [".chezmoiremove"] = "gitignore",
+    [".prettierignore"] = "gitignore",
+    [".styluaignore"] = "gitignore",
+    [".zshenv"] = "sh",
+    [".zprofile"] = "sh",
+    [".zshrc"] = "sh",
   },
   extension = {
     mdx = "mdx",
     pyx = "cython",
     pxd = "cython",
+    zsh = "sh",
   },
   pattern = {
     ["tsconfig*.json"] = "jsonc",
