@@ -21,7 +21,7 @@
   border_style  = { fg = "#7F849C" }
   border_symbol = "│"
 
-  syntect_theme = "~/.config/yazi/Catppuccin-mocha.tmTheme"
+  syntect_theme = "~/.config/yazi/Catppuccin-mocha-custom.tmTheme"
 
 [mode]
   normal_alt  = { fg = "#89DCEB", bg = "#313244" }
@@ -40,7 +40,7 @@
 
   perm_exec  = { fg = "#A6E3A1" }
   perm_read  = { fg = "#F9E2AF" }
-  perm_sep   = { fg = "#7F849C" }
+  perm_sep   = { fg = "#B4BEFE" }
   perm_type  = { fg = "#89B4FA" }
   perm_write = { fg = "#F38BA8" }
 
@@ -72,18 +72,18 @@
   title   = {}
 
 [which]
-  cand            = { fg = "#94E2D5" }
+  cand            = { fg = "#89DCEB" }
   desc            = { fg = "#F5C2E7" }
-  mask            = { bg = "#313244" }
+  mask            = { bg = "#181825" }
   rest            = { fg = "#9399B2" }
-  separator       = "  "
-  separator_style = { fg = "#585B70" }
+  separator       = " ➜ "
+  separator_style = { fg = "#6C7086" }
 
 [help]
   desc    = { fg = "#9399B2" }
-  footer  = { fg = "#CDD6F4", bg = "#45475A" }
+  footer  = { fg = "#CDD6F4", bg = "#11111B" }
   hovered = { bg = "#585B70", bold = true }
-  on      = { fg = "#94E2D5" }
+  on      = { fg = "#89DCEB" }
   run     = { fg = "#F5C2E7" }
 
 [notify]
