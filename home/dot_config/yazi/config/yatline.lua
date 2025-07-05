@@ -38,6 +38,7 @@ M.yatline = {
   selected  = { icon = "󰻭", fg = palette.yellow },
   copied    = { icon = "", fg = palette.green },
   cut       = { icon = "", fg = palette.red },
+
   total     = { icon = "󰮍", fg = palette.yellow },
   succ      = { icon = "", fg = palette.green },
   fail      = { icon = "", fg = palette.red },
@@ -49,7 +50,7 @@ M.yatline = {
   header_line = {
     left = {
       section_a = {
-        { type = "coloreds", custom = true, name = { { " 󰇥 ", palette.crust } } },
+        { type = "string", custom = true, name = " 󰇥 " },
         { type = "line", custom = false, name = "tabs", params = { "left" } },
       },
       section_b = {},
@@ -89,6 +90,7 @@ M.yatline = {
     right = {
       section_a = {
         { type = "string", custom = false, name = "date", params = { "%H:%M" } },
+        { type = "string", custom = true, name = "" },
       },
       section_b = {
         { type = "string", custom = false, name = "hovered_size" },
