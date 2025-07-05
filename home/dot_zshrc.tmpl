@@ -42,7 +42,7 @@ unsetopt LIST_AMBIGUOUS       # Auto-listing behaviour only works when nothing w
 unsetopt LIST_BEEP            # Turn off autocomplete beeps.
 unsetopt PATH_DIRS            # Perform a path search even on command names with slashes.
 
-# ╾╼ Plugin Manager ╾──────────────────────────────────────────────────╼
+# ╾╼ Plugin Manager ╾────────────────────────────────────────────────────╼
 [[ -r $ZSH_HOME/znap/znap.zsh ]] || {
   git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git $ZSH_HOME/znap >/dev/null 2>&1 || {
     echo "Failed to clone znap repository."
@@ -51,9 +51,9 @@ unsetopt PATH_DIRS            # Perform a path search even on command names with
 }
 
 # Load znap
-safe_source $ZSH_HOME/znap/znap.zsh
+source $ZSH_HOME/znap/znap.zsh
 
-# ╾╼ Prompt ╾─────────────────────────────────────────────────────────────╼
+# ╾╼ Prompt ╾────────────────────────────────────────────────────────────╼
 if [[ "${widgets[zle - keymap - select]#user:}" == "starship_zle-keymap-select" ||
   "${widgets[zle - keymap - select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
   zle -N zle-keymap-select ""
@@ -90,9 +90,17 @@ zle-line-init() {
   return ret
 }
 
+zle -N zle-line-init
 znap eval starship 'starship init zsh'
 znap prompt
-zle -N zle-line-init
+
+# ╾╼ Custom Configurations ╾─────────────────────────────────────────────╼
+. "$HOME/.config/zsh/functions.zsh"
+. "$HOME/.config/zsh/aliases.zsh"
+. "$HOME/.config/zsh/keybinds.zsh"
+. "$HOME/.config/zsh/completion.zsh"
+. "$HOME/.config/zsh/wezterm-integration.sh"
+. "$HOME/.config/zsh/zsh-titles.zsh"
 
 # ╾╼ History ╾───────────────────────────────────────────────────────────╼
 HISTFILE=~/.histfile
@@ -112,30 +120,21 @@ setopt HIST_REDUCE_BLANKS     # Remove leading blanks from history lines.
 setopt HIST_SAVE_NO_DUPS      # Ignore duplicates when saving to histfile.
 setopt HIST_VERIFY            # Expand command history for user before running.
 
-# ╾╼ Custom Configurations ╾─────────────────────────────────────────────╼
-safe_source "$HOME/.config/zsh/functions.zsh"
-safe_source "$HOME/.config/zsh/aliases.zsh"
-safe_source "$HOME/.config/zsh/keybinds.zsh"
-safe_source "$HOME/.config/zsh/completion.zsh"
-safe_source "$HOME/.config/zsh/wezterm-integration.sh"
-safe_source "$HOME/.config/zsh/zsh-titles.zsh"
-
 # ╾╼ Plugins ╾───────────────────────────────────────────────────────────╼
 znap eval fzf 'fzf --zsh'
 znap eval atuin 'atuin init zsh --disable-up-arrow'
 znap eval zoxide 'zoxide init zsh'
-{{ if .isWSL  -}}
+{{ if .isWSL -}}
 znap eval wsl2-ssh-agent '/usr/sbin/wsl2-ssh-agent'
 {{- end }}
 
 znap source Aloxaf/fzf-tab
 znap source zsh-users/zsh-autosuggestions
-znap source zsh-users/zsh-history-substring-search
 znap source zdharma-continuum/fast-syntax-highlighting
 znap source jirutka/zsh-shift-select
 
 # ╾╼ # Functions to run on startup ╾─────────────────────────────────────╼
-update_title "$(get_cwd_style)" " - $cmd" # update terminal title
+update_title "$(get_cwd_style)" "" # update terminal title
 __wezterm_osc7 # osc7 integration
 
 # ╾╼ Debugging ╾─────────────────────────────────────────────────────────╼
@@ -143,6 +142,6 @@ if [[ -n $ZSH_DEBUG ]]; then
   zprof
   # Show zsh latency of each cmd.
   precmd() { start=$(date '+%s.%N'); }
-  zle-line-init () { PREDISPLAY="[$(printf %.3f $(( $(date '+%s.%N') - $start )))] "; }
+  zle-line-init() { PREDISPLAY="[$(printf %.3f $(( $(date '+%s.%N') - $start )))] "; }
   zle -N zle-line-init
 fi
