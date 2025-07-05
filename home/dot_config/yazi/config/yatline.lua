@@ -4,7 +4,7 @@ local palette = dofile(Config .. "/palette.lua")
 
 M.yatline = {
   section_separator = { open = "", close = "" },
-  part_separator = { open = "", close = "" },
+  part_separator = { open = "", close = "" },
   inverse_separator = { open = "", close = "" },
   show_background = true,
 
@@ -49,7 +49,7 @@ M.yatline = {
   header_line = {
     left = {
       section_a = {
-        { type = "coloreds", custom = true, name = { { " 󰇥 ", palette.yellow } } },
+        { type = "coloreds", custom = true, name = { { " 󰇥 ", palette.crust } } },
         { type = "line", custom = false, name = "tabs", params = { "left" } },
       },
       section_b = {},
