@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+PREVIEW_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/preview"
+
+input="${1}"
+mime=$(mimetype -b "$input" 2>/dev/null || echo "")
+kind=$(echo "$mime" | cut -d'/' -f2)
+
 if [ -n "$FZF_PREVIEW_LINES" ]; then
   C=$((FZF_PREVIEW_COLUMNS - 2))
   L=$FZF_PREVIEW_LINES
@@ -17,42 +23,113 @@ has_cmd() {
     if command -v "$opt" >/dev/null; then
       continue
     else
+      echo "Command '$opt' is not available." >&2
       return $?
     fi
   done
 }
 
-if ! has_cmd eza chafa pdftotext exiftool jq bat glow; then
-  echo "Required commands are not available." >&2
+if ! has_cmd eza chafa pdftoppm exiftool jq bat glow magick hexyl; then
   exit 1
 fi
 
-mime=$(mimetype -b "$1" 2>/dev/null || echo "")
-category=$(echo "$mime" | cut -d'/' -f1)
-kind=$(echo "$mime" | cut -d'/' -f2)
+view_image() {
+  local img="${1:-$input}"
+  if [[ "$img" == *.gif ]]; then
+    filename=$(printf '%s' "$input" | tr ' ' '_')
+    SHA=$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$input")" | sha256sum | awk '{print $1}')
+    if [[ ! -d "$PREVIEW_DIR" ]]; then
+      mkdir -p "$PREVIEW_DIR"
+    fi
 
-if [[ -d "$1" ]]; then
-  eza -lAXhT -L 1 --group-directories-first --color=always --icons --git --no-user "$1"
-elif [[ $category == image ]]; then
-  chafa -f sixel -s ${C}x${L} "$1"
-  exiftool "$1" | bat --color=always -plyaml
-elif [[ $kind == pdf ]]; then
-  pdftotext -q "$1" - | sed "s/\f/$(printf '─%.0s' $(seq 1 $C))\n/g"
-elif [[ $kind == rfc822 ]]; then
-  bat --color=always -plEmail "$1"
-elif [[ $kind == json ]]; then
-  jq -r . "$1" | bat --color=always -pljson
-elif [[ $kind == toml ]]; then
-  bat --color=always -pltoml "$1"
-elif [[ $kind == x-shellscript ]]; then
-  bat --color=always -plsh "$1"
-elif [[ $category == text ]]; then
-  case $1 in
-    *.md) CLICOLOR_FORCE=1 COLORTERM=truecolor glow -s dark "$1" ;;
-    *) bat --color=always -p "$1" ;;
+    magick "$input"[0] -coalesce "${PREVIEW_DIR}/${SHA}.jpg"
+    img="${PREVIEW_DIR}/${SHA}.jpg"
+  fi
+
+  chafa -f sixel -s "${C}x${L}" "$img"
+  exiftool "$img" | bat --color=always -plyaml
+  return $?
+}
+
+view_gif() {
+  filename=$(printf '%s' "$input" | tr ' ' '_')
+  SHA=$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$input")" | sha256sum | awk '{print $1}')
+  if [[ ! -d "$PREVIEW_DIR" ]]; then
+    mkdir -p "$PREVIEW_DIR"
+  fi
+
+  magick "$input"[0] -coalesce "${PREVIEW_DIR}/${SHA}.jpg"
+  view_image "${PREVIEW_DIR}/${SHA}.jpg"
+  rm -f "${PREVIEW_DIR}/${SHA}.jpg"
+  return $?
+}
+
+view_pdf() {
+  SHA=$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$input")" | sha256sum | awk '{print $1}')
+  THUMB="${PREVIEW_DIR}/${SHA}.jpg"
+
+  if [[ ! -d "$PREVIEW_DIR" ]]; then
+    mkdir -p "$PREVIEW_DIR"
+  fi
+
+  pdftoppm -f 1 -l 1 -singlefile -jpeg -tiffcompression jpeg -- "$input" >"$THUMB"
+  view_image "$THUMB"
+  rm -f "$THUMB"
+  return $?
+}
+
+view_opendocument() {
+  glow -s dark -w "${C}" <(pandoc "$input" --to=markdown || odt2txt "$input")
+  return $?
+}
+
+view_binary() {
+  local len=$((C * L))
+  hexyl --border none -n $len --terminal-width "${C}" "$input"
+  return $?
+}
+
+view_text() {
+  case $kind in
+  plain)
+    case $input in
+    *clang-format) bat --color=always -plyaml "$input" ;;
+    *) bat --color=always -p "$input" ;;
+    esac
+    ;;
+  *) bat --color=always -p "$input" ;;
   esac
-else
+}
+
+if [[ -d "$input" ]]; then
+  eza -lAXhT -L 1 --group-directories-first --color=always --icons --git --no-user "$1"
+  exit 0
+fi
+
+case "${input}" in
+*.md) CLICOLOR_FORCE=1 COLORTERM=truecolor glow -s dark -w "${C}" "$input" && exit 0 ;;
+*.json) jq -r . "$input" | bat --color=always -pljson && exit 0 ;;
+*.zip) ouch list "$input" && exit 0 ;;
+*.cat) view_text && exit 0 ;;
+esac
+
+case "$mime" in
+image/*) view_image || view_binary ;;
+application/pdf) view_pdf || view_binary ;;
+application/octet-stream | application/x-*-binary | application/*executable) view_binary ;;
+application/vnd.*-officedocument* | application/vnd.*.opendocument*) view_opendocument || view_binary ;;
+application/toml) bat --color=always -pltoml "$input" ;;
+application/x-shellscript) bat --color=always -plsh "$input" ;;
+text/*) view_text ;;
+*)
   echo "Unsupported file type: $mime" >&2
   exit 1
-fi
+  ;;
+esac
 
+# check $?
+if [[ $? -ne 0 ]]; then
+  echo "Failed to preview file: $input" >&2
+  echo "Mime: $mime" >&2
+  exit 1
+fi
