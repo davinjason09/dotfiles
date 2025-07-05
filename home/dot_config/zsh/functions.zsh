@@ -81,7 +81,6 @@ cc() {
 
 # compile, execute, then delete
 cc_once() {
-  # g++ -std=c++20 -Wall -O3 -mtune=native -march=native -DDEBUG -o "${1%.*}" "$1" && ./"${1%.*}" && rm -f "${1%.*}"
   echo "Compiling $1..."
   clang++ -std=c++20 -Wall -O3 -mtune=native -march=native -DDEBUG -o "${1%.*}" "$1" && \
   if [ $# -eq 1 ]; then
@@ -154,4 +153,15 @@ yeet() {
 # ╾╼ Avtivate conda environment ╾──────────────────────────────────────╼
 activate_conda() {
   source ~/miniconda3/bin/activate
+}
+
+# ╾╼ Extract archives based on file extension ╾────────────────────────╼
+extract() {
+  case $1 in
+    *.tar.gz|*.tgz) tar -xzf "$1";;
+    *.tar.bz2|*.tbz2) tar -xjf "$1";;
+    *.zip) unzip "$1";;
+    *.rar) unrar x "$1";;
+    *) echo "Unknown archive format";;
+  esac
 }
