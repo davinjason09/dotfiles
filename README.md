@@ -45,9 +45,9 @@
     - [x] Optimize startup time (~780ms to ~300ms)
     - [x] Polish scripts
     - [x] migrate from zap to znap
-  - [ ] yazi
-    - [ ] Custom catppuccin
-    - [ ] Yatline
+  - [x] yazi
+    - [x] Custom catppuccin
+    - [x] Yatline
   - [ ] wezterm
     - [ ] Modularize config
   - [x] glazewm
