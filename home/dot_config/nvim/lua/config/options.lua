@@ -16,6 +16,7 @@ vim.o.undolevels     = 10000       -- Number of undo levels to keep
 vim.o.updatetime     = 250         -- Time to wait before writing swap file and triggering CursorHold
 
 vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit what is stored in ShaDa file
+vim.o.shell = "/usr/bin/zsh -l"
 
 vim.g.markdown_recommended_style = 0 -- Don't use recommended style for markdown
 vim.o.sessionoptions = table.concat( -- Options to save in session files
@@ -35,6 +36,7 @@ vim.o.ruler          = false       -- Don't show cursor position
 vim.o.shortmess      = 'FOWaco'    -- Disable certain messages from |ins-completion-menu|
 vim.o.showmode       = false       -- Don't show mode in command line
 vim.o.signcolumn     = 'yes'       -- Always show signcolumn or it would frequently shift
+vim.o.smoothscroll   = true        -- Smooth scrolling
 vim.o.splitbelow     = true        -- Horizontal splits will be below
 vim.o.splitright     = true        -- Vertical splits will be to the right
 vim.o.splitkeep      = "screen"    -- Keep the text on the same screen line 
@@ -69,7 +71,9 @@ vim.o.smartindent   = true         -- Make indenting smarter
 vim.o.tabstop       = 2            -- Number of spaces for a tab
 vim.o.virtualedit   = "block"      -- Allow going past the end of line in V-BLOCK mode
 
-vim.o.iskeyword     = '@,48-57,_,192-255,-'              -- Treat dash separated words as a word text object
+vim.o.grepprg       = "rg --vimgrep"                  -- Use ripgrep for searching
+vim.o.grepformat    = "%f:%l:%c:%m"                   -- Format for grep results
+vim.o.iskeyword     = '@,48-57,_,192-255,-'           -- Treat dash separated words as a word text object
 vim.o.scrolloff     = math.floor(0.3 * vim.o.lines)   -- Keep 30% of the screen height above and below the cursor
 vim.o.sidescrolloff = math.floor(0.3 * vim.o.columns) -- Keep 30% of the screen width to the left and right of the cursor
 
@@ -88,7 +92,7 @@ vim.o.foldlevel  = 99              -- Display all folds
 vim.o.foldmethod = "expr"          -- Use expression for folding
 vim.o.foldtext   = ""              -- Use underlying text with its highlighting
 vim.o.foldenable = false           -- Disable folding by default
-vim.g.markdown_filding = 1         -- Use folding by heading in markdown files
+vim.g.markdown_folding = 1         -- Use folding by heading in markdown files
 
 vim.o.foldexpr   = "v:lua.require('utils').ui.foldexpr()" -- Custom fold expression
 
