@@ -19,14 +19,13 @@ export DOTFILES="$HOME/.local/share/chezmoi"
 export WIN_C="/mnt/c"
 export WIN_D="/mnt/d"
 export WIN_SYSTEM="${WIN_C}/WINDOWS/system32"
-export WIN_HOME="$WIN/Users/{{ .windowsUsername }}"
+export WIN_HOME="${WIN_C}/Users/{{ .windowsUsername }}"
 export SOL="${WIN_D}/UGM/Programming/Comprog/sol.cpp"
 {{- end }}
 
 # ╾╼ Functions ╾─────────────────────────────────────────────────────────╼
 has() { command -v "$1" > /dev/null; }
 safe_export_path() { [[ -d $1 ]] && export PATH=$1:$PATH; }
-safe_source() { [[ -s $1 ]] && source $1; }
 
 typeset -gU path fpath
 
