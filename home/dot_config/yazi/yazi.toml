@@ -1,0 +1,16 @@
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+[mgr]
+  linemode       = "size"
+  ratio          = [1, 4, 3]
+  show_hidden    = true
+  sort_by        = "natural"
+  sort_dir_first = true
+  sort_sensitive = true
+  title_format   = "󰇥 - {cwd}"
+
+[preview]
+  image_quality = 75
+  max_height    = 1000
+  max_width     = 1000
+  tab_size      = 2
