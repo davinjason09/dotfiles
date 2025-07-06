@@ -51,10 +51,6 @@ if has bun; then
   safe_export_path "$BUN_INSTALL/bin"
 fi
 
-if has bat; then
-  export BAT_THEME="Catppuccin Mocha"
-fi
-
 if has cargo; then
   export CARGO_HOME="$HOME/.cargo"
   safe_export_path "$CARGO_HOME/bin"

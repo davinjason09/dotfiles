@@ -22,8 +22,8 @@ zstyle ':completion:*' cache-path "$zcompdump"
 # so we need to add it manually, and at the moment the best I can think of is to add it in the precmd hook
 # this will ensure that `globdots` is always added to the completion options and will not be duplicated
 _add_globdots() {
-  _comp_options=("${(@u)_comp_options}")
   if [[ -n "$_comp_options" && ! "${_comp_options[(r)globdots]}" ]]; then
+    _comp_options=("${(@u)_comp_options}")
     _comp_options+=('globdots')
   fi
 }
@@ -40,7 +40,6 @@ add_completion() {
 
   if (( $+commands[${function}] )) && [ ! -f "$FUNCTION_DIR/_$function" ]; then
     znap fpath "_${function}" "$command"
-    znap compile $FUNCTION_DIR
   fi
 }
 
