@@ -37,10 +37,10 @@
     - [x] Bisect what plugin slowing down buffer opening
     - [x] Fix dependencies of plugins
     - [x] Modularize some plugins with heavy customization into its separate folder (eg. heirline, incline)
-    - [x] Custom picker (terminal, code action)
+    - [x] Custom picker (nvim_options, reload plugin, chezmoi files)
     - [x] Custom blink-documentation parser for better docs (esp. typst)
+    - [~] Custom terminal manager
     - [ ] Migrate nvim-treesitter to main branch
-    - [ ] Custom terminal manager
   - [x] zsh
     - [x] Optimize startup time (~780ms to ~300ms)
     - [x] Polish scripts
