@@ -269,9 +269,9 @@ widgets:
       label_alt: "<span>{wifi_icon}</span> {wifi_name} {wifi_strength}%"
       update_interval: 5000
       callbacks:
-        on_left: "toggle_label"
+        on_left: "toggle_menu"
         on_middle: "do_nothing"
-        on_right: "exec cmd.exe /c start ms-settings:network"
+        on_right: "toggle_label"
       ethernet_icon: ""
       wifi_icons: [
           "󰤯", # Icon for 0% strength
@@ -280,6 +280,17 @@ widgets:
           "󰤥", # Icon for 50-74% strength
           "󰤨", # Icon for 75-100% strength
         ]
+    menu_config:
+      blur: true
+      round_corners: true
+      round_corners_type: "normal"
+      border_color: "System"
+      alignment: "right"
+      direction: "down"
+      offset_top: 6
+      offset_left: 0
+      wifi_icons_secured: ["\ue670", "\ue671", "\ue672", "\ue673"]
+      wifi_icons_unsecured: ["\uec3c", "\uec3d", "\uec3e", "\uec3f"]
 
   volume:
     type: "yasb.volume.VolumeWidget"
