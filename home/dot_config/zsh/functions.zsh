@@ -117,7 +117,7 @@ gen() {
 yeet() {
   installed_pkgs=$(yay -Q)
   if [ $# -eq 0 ]; then
-    removed_pkgs=$(echo "$installed_pkgs" | awk '{print $1}' | fzf --height 15 --multi --preview "yay -Qi {}" | paste -sd' ')
+    removed_pkgs=$(echo "$installed_pkgs" | awk '{print $1}' | fzf --height 15 --multi --preview "yay -Qi {} | bat -plyaml" | paste -sd' ')
     if [ -z "$removed_pkgs" ]; then
       gum log --level info "No packages selected, exiting..."
       return 0
