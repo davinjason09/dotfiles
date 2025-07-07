@@ -43,15 +43,13 @@ fi
 
 if has go; then
   export GOPATH="$HOME/code/go"
-  safe_export_path "$GOPATH"
-fi
-
-if has bun; then
-  export BUN_INSTALL="$HOME/.bun"
-  safe_export_path "$BUN_INSTALL/bin"
+  safe_export_path "$GOPATH/bin"
 fi
 
 if has cargo; then
   export CARGO_HOME="$HOME/.cargo"
   safe_export_path "$CARGO_HOME/bin"
 fi
+
+export BUN_INSTALL="$HOME/.bun"
+safe_export_path "$BUN_INSTALL/bin"
