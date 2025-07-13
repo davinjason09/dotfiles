@@ -1,0 +1,52 @@
+[user]
+  email = {{ .gitEmail }}
+  name = {{ .gitUsername }}
+
+[alias]
+  edit = commit --ammend --only
+  undo = reset --soft HEAD^
+
+[core]
+  autocrlf = false
+  editor = nvim
+  pager = delta
+  whitespace = -trailing-space
+
+[credential "https://github.com"]
+  helper =
+  helper = !/usr/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+  helper =
+  helper = !/usr/bin/gh auth git-credential
+
+[delta]
+  dark = true
+  features = catppuccin-mocha
+  hyperlinks = true
+  line-numbers = true
+  navigate = true
+  show-syntax-themes = true
+
+[diff]
+  algorithm = histogram
+  colorMoved = default
+  mnemonicPrefix = true
+  renamed = true
+
+[include]
+  path = ~/.config/delta/themes/catppuccin.gitconfig
+
+[init]
+  defaultBranch = main
+
+[interactive]
+  diffFilter = delta --color-only
+
+[merge]
+  conflictStyle = zdiff3
+
+[push]
+  autoSetupRemote = true
+  default = simple
+  followTags = true

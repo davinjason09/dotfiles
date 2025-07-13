@@ -1,11 +1,11 @@
-{{- $email := promptStringOnce . "email" "What is your email address? " -}}
-{{- $name := promptStringOnce . "name" "What is your name? " -}}
+{{- $gitEmail := promptStringOnce . "email" "What is your git email address? " -}}
+{{- $gitUsername := promptStringOnce . "name" "What is your git username? " -}}
 
 {{- $isWSL := (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 
 [data]
-  email = {{ $email | quote }}
-  name = {{ $name | quote }}
+  gitEmail = {{ $gitEmail | quote }}
+  gitUsername = {{ $gitUsername | quote }}
   isWSL = {{ $isWSL | toToml }}
   {{- if .isWSL }}
   {{- $windowsUsername := promptStringOnce . "windowsUsername" "What is your Windows username? " }}
