@@ -1,9 +1,15 @@
----@class Utils.coding
+---@class Utils.edit
 local M = {}
 
-M.CREATE_UNDO = vim.api.nvim_replace_termcodes("<C-g>u", true, true, true)
+M.CREATE_UNDO = Snacks.util.keycode("<C-g>u")
+
 function M.create_undo()
   if vim.api.nvim_get_mode().mode == "i" then vim.api.nvim_feedkeys(M.CREATE_UNDO, "n", false) end
+end
+
+function M.escape()
+  local ESC = Snacks.util.keycode("<ESC>")
+  vim.fn.feedkeys(ESC, "n")
 end
 
 ---Save the current cursor position

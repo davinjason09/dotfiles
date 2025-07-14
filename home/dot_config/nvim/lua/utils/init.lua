@@ -1,9 +1,9 @@
 ---@class Utils
----@field coding Utils.coding
----@field format Utils.format
----@field mini   Utils.mini
----@field picker Utils.picker
----@field ui     Utils.ui
+---@field edit     Utils.edit
+---@field format   Utils.format
+---@field mini     Utils.mini
+---@field picker   Utils.picker
+---@field ui       Utils.ui
 local M = {}
 
 setmetatable(M, {

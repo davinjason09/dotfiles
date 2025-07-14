@@ -41,32 +41,32 @@ map("s", "<Right>", "<C-g>o<ESC>a")
 map("x", "$", "g_", { silent = true })
 
 -- Add new line without entering insert mode
-map("n", "<S-CR>", function() Utils.coding.add_line("up") end, { silent = true } )
-map("n", "<CR>",   function() Utils.coding.add_line("down") end, { silent = true } )
+map("n", "<S-CR>", function() Utils.edit.add_line("up") end, { silent = true } )
+map("n", "<CR>",   function() Utils.edit.add_line("down") end, { silent = true } )
 
 -- stylua: ignore end
 
 -- Save position on yank
 map({ "n", "x" }, "y", function()
-  Utils.coding.save_cursor_pos()
+  Utils.edit.save_cursor_pos()
   return "y"
 end, { expr = true, desc = "Yank" })
 map("n", "Y", function()
-  Utils.coding.save_cursor_pos()
+  Utils.edit.save_cursor_pos()
   return "yg_" -- yank without trailing newline
 end, { expr = true, desc = "Yank until the end" })
 
 -- stylua: ignore start
 
 -- Preserve cursor when commenting
-map({ "n", "v" }, "<leader>/", Utils.coding.comment, { desc = "Comment / Uncomment" })
-map("i",          "<C-/>",     Utils.coding.comment, { desc = "Comment / Uncomment" })
+map({ "n", "v" }, "<leader>/", Utils.edit.comment, { desc = "Comment / Uncomment" })
+map("i",          "<C-/>",     Utils.edit.comment, { desc = "Comment / Uncomment" })
 
 -- Emacs paste behavior
-map("n", "p", function() Utils.coding.paste("p") end, { noremap = true, silent = true, desc = "Paste (After)" })
-map("n", "P", function() Utils.coding.paste("P") end, { noremap = true, silent = true, desc = "Paste (Before)" })
-map("x", "p", function() Utils.coding.paste("P") end, { noremap = true, silent = true, desc = "Paste without yanking" })
-map("x", "P", function() Utils.coding.paste("p") end, { noremap = true, silent = true, desc = "Paste with yank" })
+map("n", "p", function() Utils.edit.paste("p") end, { noremap = true, silent = true, desc = "Paste (After)" })
+map("n", "P", function() Utils.edit.paste("P") end, { noremap = true, silent = true, desc = "Paste (Before)" })
+map("x", "p", function() Utils.edit.paste("P") end, { noremap = true, silent = true, desc = "Paste without yanking" })
+map("x", "P", function() Utils.edit.paste("p") end, { noremap = true, silent = true, desc = "Paste with yank" })
 
 -- stylua: ignore end
 
@@ -88,7 +88,7 @@ for _, key_opts in pairs(keys) do
 
   local key = key_opts[1]
   for _, m in ipairs(mode) do
-    map(m, key, function() return Utils.coding.smart_delete(key, m) end, opts)
+    map(m, key, function() return Utils.edit.smart_delete(key, m) end, opts)
   end
 end
 
