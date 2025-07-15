@@ -425,25 +425,32 @@ M.SpecialMode = {
       minifiles = " MiniFiles",
       ["minifiles-help"] = " MiniFiles",
       qf = "󰅖 Quickfix List",
-      snacks_picker_list = "🍿Explorer",
-      snacks_picker_input = "🍿Picker",
-      snacks_picker_preview = "🍿Picker",
+      snacks_picker_list = "🍿%s",
+      snacks_picker_input = "🍿%s",
+      snacks_picker_preview = "🍿%s",
     },
   },
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
   provider = function(self)
-    local filetype = vim.bo.filetype
-    local title = self.filetype[filetype]
+    local ft = vim.bo.filetype
+    local title = self.filetype[ft]
 
     local picker = nil
-    if filetype:match("snacks_picker*") then picker = Snacks.picker.get()[1] end
+    if ft:match("snacks_picker*") then picker = Snacks.picker.get()[1] end
 
-    if (filetype == "snacks_picker_input" or filetype == "snacks_picker_preview") and picker then
-      local picker_title = picker.title or ""
-      if picker_title ~= "" then return (" %s (%s) "):format(title, picker_title) end
+    if picker then
+      local name = (" (%s)"):format(picker.title)
+      local type = "Picker"
+
+      if ft == "snacks_picker_list" and picker.title == "Explorer" then
+        type = "Explorer"
+        name = ""
+      end
+
+      return (" %s%s "):format(title:format(type), name)
     end
 
-    if filetype == "qf" then
+    if ft == "qf" then
       if U.is_loclist() then title = " Location List" end
     end
 

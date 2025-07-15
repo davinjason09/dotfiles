@@ -136,7 +136,7 @@ return {
         { condition = cond.is_active, C.TerminalMode },
         C.TermCwd,
         {
-          condition = function() return not vim.b.term_title:find("term://") end,
+          condition = function() return not (vim.b.term_title or ""):find("term://") end,
           C.Separator("", { fg = "surface0" }),
         },
         C.Align,
