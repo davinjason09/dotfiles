@@ -112,15 +112,18 @@ for _, key in ipairs(mode_keys) do
   end)
 end
 
--- stylua: ignore start
 -- Unmap default gr
-if vim.fn.maparg("grr", "n") then
-  unmap("n", "grn")
-  unmap({ "n", "x" }, "gra")
-  unmap("n", "grr")
-  unmap("n", "gri")
+local function remove(mode, key)
+  if vim.fn.maparg(key, mode[1] or mode) then unmap(mode, key) end
 end
 
+remove("n", "grn")
+remove({ "n", "x" }, "gra")
+remove("n", "grr")
+remove("n", "gri")
+remove("n", "grt")
+
+-- stylua: ignore start
 -- Removed functionality
 map({ "n", "x" }, "s", "<NOP>", { silent = true })
 
@@ -169,24 +172,19 @@ map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev search r
 map("x", "N", "'nN'[v:searchforward]",      { expr = true, desc = "Prev search result" })
 map("o", "N", "'nN'[v:searchforward]",      { expr = true, desc = "Prev search result" })
 
--- stylua: ignore end
 
 -- Location and Quickfix List
 map("n", "<leader>xl", function()
-  local success, err =
-    pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
+  local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
 
   if not success and err then vim.notify(err, vim.log.levels.ERROR) end
 end, { desc = "Location List" })
 
 map("n", "<leader>xq", function()
-  local success, err =
-    pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
 
   if not success and err then vim.notify(err, vim.log.levels.ERROR) end
 end, { desc = "Quickfix List" })
-
--- stylua: ignore start
 
 -- Undo Breakpoints
 map("i", ",", ",<C-g>u", { desc = "Undo breakpoint" })
@@ -203,14 +201,17 @@ end, { desc = "Inspect Tree" })
 -- Code Format
 map({ "n", "v" }, "<leader>cf", function() Utils.format.format({ force = true }) end, { desc = "[C]ode: [F]ormat" })
 
+-- Execute current file
+map("n", "<leader>dx", "<CMD>source %<CR>", { desc = "[D]ebug: E[X]ecute file" })
+
 -- stylua: ignore end
 
+-- Open with system app
 -- HACK: Override gx
 -- When using the builtin gx on WSL, it will always result in a timeout because wslview takes ~2s to open the URL/URI.
 -- This was caused by the `cmd:wait(1000)` that only waits for 1000ms, and any action that takes longer than that will
 -- result in a timeout.
 
--- Open with system app
 local function do_open(uri) vim.ui.open(uri) end
 
 map("n", "gx", function()
@@ -247,8 +248,8 @@ map("n", "<leader>wd", "<C-w>c", { remap = true, desc = "Delete Window" })
 -- Resize
 map("n", "<C-Up>",    "<CMD>resize +2<CR>",          { desc = "Increase Window Height" })
 map("n", "<C-Down>",  "<CMD>resize -2<CR>",          { desc = "Decrease Window Height" })
-map("n", "<C-Left>",  "<CMD>vertical resize -2<CR>", { desc = "Decrease Window Width" })
-map("n", "<C-Right>", "<CMD>vertical resize +2<CR>", { desc = "Increase Window Width" })
+map("n", "<C-Left>",  "<CMD>vertical resize +2<CR>", { desc = "Increase Window Width" })
+map("n", "<C-Right>", "<CMD>vertical resize -2<CR>", { desc = "Decrease Window Width" })
 
 -- Navigate Window
 map("n", "<C-h>", "<C-w>h", { remap = true, desc = "Go to Left Window" })
