@@ -19,6 +19,11 @@ return {
       options = {
         close_command = function(buf) Snacks.bufdelete(buf) end,
         right_mouse_command = function(buf) Snacks.bufdelete(buf) end,
+        get_element_icon = function(opts)
+          local fs_type = opts.directory and "directory" or "file"
+          local icon, hl = Snacks.util.icon(opts.path, fs_type)
+          return icon, hl
+        end,
         separator_style = "slope",
         indicator = { style = "underline" },
         diagnostics = "nvim_lsp",
@@ -36,6 +41,23 @@ return {
             highlight = "SnacksExplorerTitle",
             text_align = "center",
           },
+        },
+        custom_areas = {
+          left = function()
+            local colors = Defaults.palette
+            return {
+              { text = "  ", fg = colors.crust, bg = colors.green },
+              { text = " ", fg = colors.green, bg = colors.crust },
+            }
+          end,
+          right = function()
+            local colors = Defaults.palette
+            -- stylua: ignore
+            return {
+              { text = " ", fg = colors.green, bg = colors.crust },
+              { text = " 󰮯  ", fg = colors.crust, bg = colors.green, bold = true, },
+            }
+          end,
         },
       },
     },
@@ -62,7 +84,7 @@ return {
             { C.get_diff(props) },
             { (" %s"):format(file_info.icon[1]), guifg = file_info.icon.guifg },
             {
-              (" %s "):format(file_info.name[1]),
+              ("%s "):format(file_info.name[1]),
               guifg = file_info.name.guifg,
               gui = file_info.modified.gui,
             },
