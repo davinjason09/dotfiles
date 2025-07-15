@@ -64,29 +64,21 @@ M.options = function()
       hidden = { "preview" },
       layout = { width = 0.8, height = 0.5 },
     },
-    confirm = {
-      action = function(picker, selection)
-        picker:close()
+    confirm = function(picker, item)
+      picker:close()
 
-        local esc = ""
-        if vim.fn.mode() == "i" then
-          esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
-        end
+      local esc = ""
+      if vim.fn.mode() == "i" then esc = Snacks.util.keycode("<ESC>") end
 
-        local keys = ""
-        if selection.item.type == "boolean" then
-          keys = string.format("%s:set %s!", esc, selection.item.name)
-        else
-          keys = string.format("%s:set %s=%s", esc, selection.item.name, selection.item.value)
-        end
-
-        vim.api.nvim_feedkeys(keys, "m", true)
-      end,
-    },
-  })
-end
+      local keys = ""
+      if item.item.type == "boolean" then
+        keys = string.format("%s:set %s!", esc, item.item.name)
+      else
+        keys = string.format("%s:set %s=%s", esc, item.item.name, item.item.value)
+      end
 
       vim.api.nvim_feedkeys(keys, "m", true)
+    end,
   })
 end
 
@@ -94,27 +86,20 @@ M.reload = function()
   local plugins = require("lazy").plugins()
   local plugin_names = vim.tbl_map(function(plugin) return plugin.name end, plugins)
 
-  local items = vim.tbl_map(
-    function(name)
-      return {
-        text = name,
-        item = name,
-      }
-    end,
-    plugin_names
-  )
+  local items = vim.tbl_map(function(name) return { text = name, item = name } end, plugin_names)
 
   Snacks.picker.pick({
     title = "Reload Plugins",
     format = "text",
     items = items,
     layout = { preset = "vscode" },
-    confirm = {
-      action = function(picker, selection)
-        picker:close()
-        local plugin_name = selection.item
-        require("lazy").reload({ plugins = { plugin_name } })
-      end,
+    confirm = function(picker, item)
+      picker:close()
+      local plugin_name = item.item
+      require("lazy").reload({ plugins = { plugin_name } })
+    end,
+  })
+end
 
 M.chezmoi = function()
   local results = require("chezmoi.commands").list({
