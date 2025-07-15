@@ -50,6 +50,7 @@ return {
       notifier = { enabled = true, style = "fancy" },
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
+      terminal = { enabled = true },
       words = { enabled = true },
     },
   },

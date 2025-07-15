@@ -141,3 +141,9 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   end,
   desc = "Workaround for heirline statusline redraw due to which-key blocking the ModeChanged event",
 })
+
+local default_term_close = vim.api.nvim_get_autocmds({
+  group = "nvim.terminal",
+  event = "TermClose",
+})
+vim.api.nvim_del_autocmd(default_term_close[1].id)

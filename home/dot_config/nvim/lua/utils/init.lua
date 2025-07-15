@@ -3,6 +3,7 @@
 ---@field format   Utils.format
 ---@field mini     Utils.mini
 ---@field picker   Utils.picker
+---@field terminal Utils.terminal
 ---@field ui       Utils.ui
 local M = {}
 

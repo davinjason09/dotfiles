@@ -260,7 +260,7 @@ map("n", "<C-l>", "<C-w>l", { remap = true, desc = "Go to Right Window" })
 -- │                           Git                           │
 -- ╰─────────────────────────────────────────────────────────╯
 
-map("n", "<leader>gg", function() Snacks.lazygit() end, { desc = "[G]it: Lazy[G]it" })
+map("n", "<leader>gg", function() Utils.terminal.open("lazygit") end, { desc = "[G]it: Lazy[G]it" })
 map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "[G]it: [B]rowse (open)" })
 map({ "n", "x" }, "<leader>gY", function()
   ---@diagnostic disable-next-line: missing-fields

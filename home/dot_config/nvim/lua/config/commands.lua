@@ -99,3 +99,13 @@ end, {
   nargs = "+",
   complete = complete_clients,
 })
+
+vim.api.nvim_create_user_command("TermToggle", function()
+  local picker = Snacks.picker.get()[1]
+  if picker then
+    picker:close()
+    vim.schedule(Utils.edit.escape)
+  else
+    Utils.terminal.open()
+  end
+end, { desc = "Toggle Terminal" })

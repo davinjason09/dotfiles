@@ -110,5 +110,6 @@ return {
     -- Custom
     { "<leader>so", function() Utils.picker.options() end, desc = "[S]earch [O]ption" },
     { "<leader>dr", function() Utils.picker.reload() end, desc = "[D]ebug: [R]eload Plugins" },
+    { "<C-`>", function() Utils.terminal.open() end, desc = "Toggle Terminal", mode = { "n", "x", "i" } },
   },
 }

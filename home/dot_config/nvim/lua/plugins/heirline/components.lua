@@ -333,20 +333,26 @@ M.Clock = {
 -- │             Terminal Statusline Components              │
 -- ╰─────────────────────────────────────────────────────────╯
 
+local cur_title = ""
 M.TerminalMode = {
+  init = U.update_events({ { "User", pattern = "ForceRedraw", callback = U.redraw() } }),
   condition = function() return vim.bo.buftype == "terminal" end,
   provider = function(self) return ("  %s "):format(self:mode_name()) end,
   hl = function(self) return { fg = "mantle", bg = self:mode_color() } end,
   M.Separator(
     "",
-
     function(self)
       return {
         fg = self:mode_color(),
-        bg = not vim.b.term_title:find("term://") and "surface0" or "crust",
+        bg = not (vim.b.term_title or ""):find("term://") and "surface0" or "crust",
       }
     end,
-    function() return not vim.b.term_title:find("term://") end,
+    function()
+      local term_title = vim.b.term_title or ""
+      local changed = term_title ~= cur_title
+      cur_title = term_title
+      return changed
+    end,
     { "User", pattern = "ForceRedraw", callback = U.redraw() }
   ),
 }
@@ -357,9 +363,9 @@ M.TerminalMode = {
 -- Title is set with this format: <cwd> - <command>
 M.TermCwd = {
   init = U.update_events({ { "User", pattern = "ForceRedraw", callback = U.redraw() } }),
-  condition = function() return not vim.b.term_title:find("term://") end,
+  condition = function() return not (vim.b.term_title or ""):find("term://") end,
   provider = function()
-    local path = vim.b.term_title
+    local path = vim.b.term_title or ""
     local folder = ""
 
     if path:find("term://") then return end
@@ -371,7 +377,7 @@ M.TermCwd = {
       folder = ""
     end
 
-    path = vim.trim(vim.split(path, " - ")[1])
+    path = vim.trim(vim.split(path, " - ", { plain = true })[1])
 
     return (" %s %s "):format(folder, path)
   end,
@@ -381,7 +387,8 @@ M.TermCwd = {
 local cmd_running = false
 M.TermCommand = {
   condition = function()
-    return not vim.b.term_title:find("term://") and #vim.split(vim.b.term_title, "-") > 1
+    local title = vim.b.term_title or ""
+    return not title:find("term://") and #vim.split(title, "-") > 1
   end,
   {
     provider = function() return cmd_running and Snacks.util.spinner() or "" end,
@@ -390,7 +397,7 @@ M.TermCommand = {
   },
   {
     provider = function()
-      local split = vim.split(vim.b.term_title, " - ")
+      local split = vim.split(vim.b.term_title, " - ", { plain = true })
 
       if #split == 1 then
         cmd_running = false
