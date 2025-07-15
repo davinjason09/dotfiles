@@ -62,7 +62,7 @@ return {
       highlight = {
         style = "virtual_left",
         virtual_text = Defaults.icons.kind.Color,
-        ignore_ft = { "blink-cmp-menu", "noice" },
+        ignore_ft = { "blink-cmp-menu", "noice", "lazy" },
       },
       patterns = {
         hex = { priority = -1, "%f[^\"':%s>]()#%x%x%x+%f[%W%p%s%c%z]()" },

@@ -11,11 +11,10 @@ function M.filling_palette(palette) M.palette = palette end
 
 M.small_screen_threshold = 45
 M.bigfile = {
-  size = 1024 * 1024 * 5,
+  size = 1024 * 1024 * 1.5,
   line_length = 1000,
 }
 
----Store states for various plugins
 -- stylua: ignore start
 
 -- Default icons
@@ -290,6 +289,7 @@ M.which_key_rules = {
 M.formatter_rules = {
   ["clang-format"] = { ".clang-format", ".clangd", "clang-format" },
   stylua = { ".stylua.toml", "stylua.toml" },
+  taplo = { ".taplo.toml", "taplo.toml" },
 }
 
 ---@param filetype string
@@ -316,7 +316,6 @@ function M.title_name(filetype, buftype)
   return res.name, res.icon or " "
 end
 
-local Utils = require("utils")
 local nvim_version = ("  v%s "):format(Utils.nvim_version())
 local lua_version = ("  %s "):format(_VERSION)
 local title = Utils.ui.noice_title

@@ -7,6 +7,7 @@ vim.filetype.add({
     [".zshenv"] = "sh",
     [".zprofile"] = "sh",
     [".zshrc"] = "sh",
+    [".clang-format"] = "yaml",
   },
   extension = {
     mdx = "mdx",

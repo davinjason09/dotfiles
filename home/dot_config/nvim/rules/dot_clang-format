@@ -13,6 +13,7 @@ AllowShortLambdasOnASingleLine: Inline
 AllowShortLoopsOnASingleLine: true
 BinPackArguments: false
 BinPackParameters: OnePerLine
+BreakStringLiterals: false
 ColumnLimit: 100
 EmptyLineBeforeAccessModifier: LogicalBlock
 IncludeBlocks: Regroup
@@ -29,4 +30,3 @@ SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatementsExceptControlMacros
 SpacesBeforeTrailingComments: 2
 TabWidth: 2
-

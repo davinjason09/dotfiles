@@ -98,6 +98,12 @@ return {
             end
           end,
         },
+        prettier = {
+          prepend_args = function() return { "--parser", vim.bo.filetype } end,
+        },
+        shfmt = {
+          prepend_args = { "-i", "2", "-ci" },
+        },
         stylua = {
           prepend_args = function(_, ctx)
             if not Utils.format.has_config(ctx.dirname, "stylua") then
@@ -121,6 +127,7 @@ return {
         lua = { "stylua" },
         markdown = { "prettier" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+        sh = { "shfmt" },
         toml = { "taplo" },
         typst = { "typstyle", lsp_format = "prefer" },
         yaml = { "prettier" },

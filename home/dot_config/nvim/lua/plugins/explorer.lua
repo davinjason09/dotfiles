@@ -94,10 +94,9 @@ return {
         callback = function(args)
           local bufnr = args.data.buf_id
           local map = vim.keymap.set
-          local ESC = Snacks.util.keycode("<Esc>")
 
           map({ "n", "i", "x" }, "<C-s>", function()
-            if vim.fn.mode() ~= "n" then vim.api.nvim_feedkeys(ESC, "n", false) end
+            if vim.fn.mode() ~= "n" then Utils.edit.escape() end
             vim.defer_fn(MiniFiles.synchronize, 0)
           end, { buffer = bufnr, desc = "Synchronize" })
           map("n", "gy", yank_path, { buffer = bufnr, desc = "Yank path" })

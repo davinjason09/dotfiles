@@ -171,7 +171,7 @@ function M.get_icon(entry)
   return icon .. " ", color, is_default
 end
 
--- Get all LSP clients attached to the current buffer
+---Get all LSP clients attached to the current buffer
 ---@return string[] #A list of LSP client names
 function M.get_lsp_clients()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
@@ -185,6 +185,7 @@ function M.get_lsp_clients()
   return attached
 end
 
+---Clear LSP log if it exceeds a certain size
 function M.clear_lsp_log()
   local log_path = vim.lsp.get_log_path()
 

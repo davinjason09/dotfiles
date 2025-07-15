@@ -28,6 +28,7 @@ return {
         "comment",
         "css",
         "diff",
+        "git_config",
         "gitignore",
         "html",
         "printf",
