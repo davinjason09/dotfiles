@@ -142,6 +142,22 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   desc = "Workaround for heirline statusline redraw due to which-key blocking the ModeChanged event",
 })
 
+vim.api.nvim_create_autocmd("InsertEnter", {
+  pattern = "*",
+  callback = function()
+    if vim.o.number then vim.o.relativenumber = false end
+  end,
+  desc = "Disable relative number in insert mode",
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*",
+  callback = function()
+    if vim.o.number then vim.o.relativenumber = true end
+  end,
+  desc = "Enable relative number in normal mode",
+})
+
 local default_term_close = vim.api.nvim_get_autocmds({
   group = "nvim.terminal",
   event = "TermClose",
