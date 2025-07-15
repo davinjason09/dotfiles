@@ -29,11 +29,27 @@ return {
       },
       hooks = {
         ---@diagnostic disable-next-line: unused-vararg
-        ready = function(...) vim.notify("  Connected to Discord!") end,
+        ready = function(...)
+          local msg = {
+            { "  ", "DiscordBlurple" },
+            { "Connected to Discord!", "@text" },
+          }
+
+          vim.api.nvim_set_hl(0, "DiscordBlurple", { fg = "#7289DA" })
+          vim.api.nvim_echo(msg, false, { verbose = false })
+        end,
+      },
+      advanced = {
+        discord = {
+          reconnect = {
+            enabled = true,
+            initial = true,
+            interval = 3600 * 1000, -- Keep trying to reconnect for 1 hour
+          },
+        },
       },
     },
   },
-  { "nvzone/volt" },
   {
     "nvzone/showkeys",
     cmd = "ShowkeysToggle",
@@ -49,11 +65,5 @@ return {
         ["<D>"] = "󰘳",
       },
     },
-  },
-  {
-    "nvzone/typr",
-    dependencies = "nvzone/volt",
-    opts = {},
-    cmd = { "Typr", "TyprStats" },
   },
 }
