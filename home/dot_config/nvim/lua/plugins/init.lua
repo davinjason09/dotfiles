@@ -32,11 +32,18 @@ return {
     layout.telescope.layout.zindex = 100
     layout.vertical.layout.zindex = 100
 
-      -- NOTE: Override Snacks.util.icon with our own implementation
-      Snacks.util.icon = function(name, cat, _)
-        return Utils.get_icon({ fs_type = cat or "file", path = name })
-      end
-    end,
+    -- NOTE: Override Snacks.util.icon with our own implementation
+
+    ---@param name string
+    ---@param cat? string
+    ---@param icon_opts? { fallback: { dir: string, file: string }? }
+    Snacks.util.icon = function(name, cat, icon_opts)
+      icon_opts = icon_opts or { fallback = { dir = "", file = "" } }
+      local icon, hl, default = Utils.get_icon({ fs_type = cat or "file", path = name })
+      if default then icon = icon_opts.fallback[cat or "file"] end
+      return icon, hl
+    end
+  end,
     -- stylua: ignore
     keys = {
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },

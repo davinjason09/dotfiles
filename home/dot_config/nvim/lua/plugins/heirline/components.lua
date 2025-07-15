@@ -130,7 +130,7 @@ M.FileNameBlock = {
         filename = split[#split]
       end
 
-      self.icon, self.color = Utils.get_icon({ fs_type = "file", path = filename })
+      self.icon, self.color = Snacks.util.icon(filename, "file")
       self.color = Snacks.util.color(self.color)
     end,
     provider = function(self) return (" %s"):format(self.icon) end,
