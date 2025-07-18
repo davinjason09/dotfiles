@@ -178,7 +178,6 @@ return {
         C.GitBranch,
         C.FileNameBlock,
         C.Align,
-        C.Keystroke,
         C.MacroRecording,
         C.LazyUpdate,
         C.Copilot,

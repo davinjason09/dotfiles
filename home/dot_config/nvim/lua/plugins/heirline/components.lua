@@ -198,13 +198,6 @@ M.FileNameBlock = {
   },
 }
 
----@diagnostic disable: undefined-field
-M.Keystroke = {
-  condition = function() return require("noice").api.status.command.has() end,
-  provider = function() return (" %s "):format(require("noice").api.status.command.get()) end,
-  hl = { fg = "mauve" },
-}
-
 M.MacroRecording = {
   condition = function() return vim.fn.reg_recording() ~= "" end,
   update = { "RecordingEnter", "RecordingLeave" },
