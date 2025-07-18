@@ -13,7 +13,7 @@ general:
     ["shell-exec --hide-window powershell %HOMEPATH%/.glzr/scripts/start.ps1"]
 
   # Whether to automatically focus windows underneath the cursor.
-  focus_follows_cursor: false
+  focus_follows_cursor: true
 
   # Whether to switch back and forth between the previously focused
   # workspace when focusing the current workspace.
@@ -256,9 +256,7 @@ keybindings:
   - commands: ["set-transparency --opacity 100%"]
     bindings: ["lwin+shift+t"]
 
-  # Launch CMD terminal. Alternatively, use `shell-exec wt` or
-  # `shell-exec %ProgramFiles%/Git/git-bash.exe` to start Windows
-  # Terminal and Git Bash respectively.
+  # Launch wezterm
   - commands: ["shell-exec --hide-window wezterm"]
     bindings: ["lwin+enter"]
 
