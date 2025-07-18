@@ -163,6 +163,8 @@ window_rules:
       - window_process: { equals: "EXCEL" }
         window_class: { equals: "NUIDialog" }
       - window_process: { equals: "oklch-color-picker" }
+      - window_class: { regex: 'HwndWrapper\[Flow\.Launcher.*?\]' }
+        window_title: { equals: "Settings" }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
@@ -259,6 +261,11 @@ keybindings:
   # Launch wezterm
   - commands: ["shell-exec --hide-window wezterm"]
     bindings: ["lwin+enter"]
+
+  # Launch yasb powermenu
+  - commands:
+      ["shell-exec --hide-window yasbc toggle-widget powermenu --follow-mouse"]
+    bindings: ["lwin+ctrl+shift+q"]
 
   # Focus the next/previous workspace defined in `workspaces` config.
   - commands: ["focus --next-workspace"]
