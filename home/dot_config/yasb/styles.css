@@ -37,6 +37,10 @@ QToolTip {
   border-radius: 6px;
 }
 
+QPushButton  {
+  outline: none
+}
+
 * {
   font-size: 10px;
   color: var(--text);
