@@ -57,6 +57,12 @@
   - [ ] zen-browser
     - [ ] userChrome.css
     - [ ] user.js
+  - [ ] windhawk
+    - [ ] update start menu
+    - [ ] update notification center
+    - [ ] make taskbar more like a dock
+  - [x] flow launcher
+    - [x] modify catppuccin theme
 - [ ] Add a script to install all the dependencies
 - [x] Add a script to copy files to the windows side
 - [~] Gallery

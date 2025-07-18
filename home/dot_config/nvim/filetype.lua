@@ -13,6 +13,7 @@ vim.filetype.add({
     mdx = "mdx",
     pyx = "cython",
     pxd = "cython",
+    xaml = "xml",
     zsh = "sh",
   },
   pattern = {
