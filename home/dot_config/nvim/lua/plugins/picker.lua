@@ -4,6 +4,7 @@ local delta_cmd = string.format("delta -w %s", width)
 return {
   "snacks.nvim",
   opts = {
+    ---@type snacks.picker.Config
     picker = {
       prompt = " ",
       layout = { preset = "default" },
@@ -27,6 +28,10 @@ return {
         buffers = {
           on_show = function() vim.cmd.stopinsert() end,
           layout = "ivy",
+          win = {
+            input = { keys = { ["d"] = "bufdelete" } },
+            list = { keys = { ["d"] = "bufdelete" } },
+          },
         },
         diagnostics = { layout = "dropdown" },
         diagnostics_buffer = { layout = "dropdown" },
@@ -37,26 +42,37 @@ return {
             layout = { width = 0.8, height = 0.6 },
           },
         },
+        notifications = { layout = "vertical" },
         undo = { layout = "dropdown" },
+      },
+      on_close = function()
+        local last_win = vim.fn.win_getid(vim.fn.winnr("#"))
+        vim.schedule(Utils.edit.escape)
+
+        if last_win == 0 or not vim.api.nvim_win_is_valid(last_win) then return end
+        vim.api.nvim_set_current_win(last_win)
+      end,
+      actions = {
+        stopinsert = function() vim.cmd.stopinsert() end,
       },
       win = {
         input = {
           keys = {
-            ["<Esc>"] = { "close", mode = { "n", "i" } },
-            ["<C-c>"] = "cancel",
-            ["<C-e>"] = { "toggle_preview", mode = { "i", "n" } },
-            ["<C-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
-            ["<C-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
-            ["<C-f>"] = { "list_scroll_down", mode = { "i", "n" } },
-            ["<C-b>"] = { "list_scroll_up", mode = { "i", "n" } },
-            ["<C-p>"] = { "history_back", mode = { "i", "n" } },
-            ["<C-n>"] = { "history_forward", mode = { "i", "n" } },
+            ["<ESC>"] = { "close", mode = { "n", "i" } },
+            ["<C-c>"] = { "stopinsert", mode = { "i" } },
+            ["<C-e>"] = { "toggle_preview", mode = { "n", "i" } },
+            ["<C-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
+            ["<C-d>"] = { "preview_scroll_down", mode = { "n", "i" } },
+            ["<C-f>"] = { "list_scroll_down", mode = { "n", "i" } },
+            ["<C-b>"] = { "list_scroll_up", mode = { "n", "i" } },
+            ["<C-p>"] = { "history_back", mode = { "n", "i" } },
+            ["<C-n>"] = { "history_forward", mode = { "n", "i" } },
             ["<C-BS>"] = { "<C-S-w>", mode = { "i" }, expr = true },
           },
         },
       },
       icons = {
-        files = { dir = "", dir_open = "", file = "" },
+        files = { dir = "", dir_open = "", file = "" },
         kinds = Defaults.icons.kind,
         git = Defaults.icons.git,
       },
@@ -66,7 +82,6 @@ return {
   keys = {
     -- Top Pickers
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
-    { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     -- Find
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "[F]ind [B]uffers" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "[F]ind by [G]rep" },
@@ -106,6 +121,7 @@ return {
     { "<leader>xD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
     -- Misc
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+    { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "z=", function() Snacks.picker.spelling() end, desc = "Spelling Suggestions" },
     -- Custom
     { "<leader>so", function() Utils.picker.options() end, desc = "[S]earch [O]ption" },

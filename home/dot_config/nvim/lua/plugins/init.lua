@@ -14,23 +14,10 @@ return {
     -- Customize default picker layout
     local layout = require("snacks.picker.config.layouts")
     layout.default.layout.min_width = 100
-    layout.default.layout.zindex = 100
     layout.default.layout[2].width = 0.65
-    layout.default.layout.backdrop = {
-      blend = 80,
-      win = { relative = "editor", zindex = 99 },
-    }
 
     layout.dropdown.layout.min_width = 100
-    layout.dropdown.layout.zindex = 100
     layout.dropdown.layout.width = 0.65
-
-    layout.ivy.layout.zindex = 100
-    layout.ivy_split.layout.zindex = 100
-    layout.select.layout.zindex = 100
-    layout.sidebar.layout.zindex = 100
-    layout.telescope.layout.zindex = 100
-    layout.vertical.layout.zindex = 100
 
     -- NOTE: Override Snacks.util.icon with our own implementation
 
@@ -49,7 +36,7 @@ return {
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>dps", function() Snacks.profiler.scratch() end, desc = "[D]ebug: [P]rofiler [S]cratch Buffer" },
-      { "<leader>n", function() Snacks.notifier.show_history() end, desc = "Notification History" },
+      { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
       { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
       { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
     },

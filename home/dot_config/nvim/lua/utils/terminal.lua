@@ -283,7 +283,7 @@ M.open = function(cmd)
 
       M.switch_term_buf(buf)
     end,
-    on_close = function() vim.schedule(Utils.edit.escape) end,
+    -- on_close = function() vim.schedule(Utils.edit.escape) end,
     actions = {
       confirm = function(picker, item)
         picker:action("focus_term")
