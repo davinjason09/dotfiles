@@ -64,6 +64,7 @@ M.options = function()
       hidden = { "preview" },
       layout = { width = 0.8, height = 0.5 },
     },
+    on_close = function() end,
     confirm = function(picker, item)
       picker:close()
 
