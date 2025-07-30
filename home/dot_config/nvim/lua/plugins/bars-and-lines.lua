@@ -20,18 +20,15 @@ return {
         close_command = function(buf) Snacks.bufdelete(buf) end,
         right_mouse_command = function(buf) Snacks.bufdelete(buf) end,
         get_element_icon = function(opts)
-          local fs_type = opts.directory and "directory" or "file"
-          local icon, hl = Snacks.util.icon(opts.path, fs_type)
-          return icon, hl
+          return Snacks.util.icon(opts.path, opts.directory and "directory" or "file")
         end,
         separator_style = "slope",
         indicator = { style = "underline" },
         diagnostics = "nvim_lsp",
         always_show_bufferline = false,
         diagnostics_indicator = function(_, _, diag)
-          local diag_icons = Defaults.icons.diagnostics
-          local ret = (diag.error and diag_icons.ERROR or "")
-            .. (diag.warning and diag_icons.WARN or "")
+          local icon = Defaults.icons.diagnostics
+          local ret = (diag.error and icon.ERROR or "") .. (diag.warning and icon.WARN or "")
           return vim.trim(ret)
         end,
         offsets = {
@@ -46,16 +43,15 @@ return {
           left = function()
             local colors = Defaults.palette
             return {
-              { text = "  ", fg = colors.crust, bg = colors.green },
-              { text = " ", fg = colors.green, bg = colors.crust },
+              { text = "  ", fg = colors.crust, bg = colors.lavender },
+              { text = " ", fg = colors.lavender, bg = colors.crust },
             }
           end,
           right = function()
             local colors = Defaults.palette
-            -- stylua: ignore
             return {
-              { text = " ", fg = colors.green, bg = colors.crust },
-              { text = " 󰮯  ", fg = colors.crust, bg = colors.green, bold = true, },
+              { text = " ", fg = colors.lavender, bg = colors.crust },
+              { text = " 󰮯  ", fg = colors.crust, bg = colors.lavender, bold = true },
             }
           end,
         },
