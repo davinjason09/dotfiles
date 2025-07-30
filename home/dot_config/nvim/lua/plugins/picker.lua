@@ -42,7 +42,12 @@ return {
             layout = { width = 0.8, height = 0.6 },
           },
         },
-        notifications = { layout = "vertical" },
+        notifications = {
+          layout = "vertical",
+          win = {
+            preview = { minimal = true },
+          },
+        },
         undo = { layout = "dropdown" },
       },
       on_close = function()

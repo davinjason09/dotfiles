@@ -19,6 +19,12 @@ return {
     layout.dropdown.layout.min_width = 100
     layout.dropdown.layout.width = 0.65
 
+    layout.vertical.layout.width = 0.8
+    layout.vertical.layout.height = 0.65
+    layout.vertical.layout[2].height = 0.4
+    layout.vertical.layout[3].height = 0.6
+    layout.vertical.layout[3].border = { "", "─", "", "", "", "─", "", "" }
+
     -- NOTE: Override Snacks.util.icon with our own implementation
 
     ---@param name string
