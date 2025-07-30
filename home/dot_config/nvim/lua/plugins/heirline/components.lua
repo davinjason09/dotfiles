@@ -84,8 +84,7 @@ M.ViMode = {
     },
   },
   init = U.update_events({
-    { "User", pattern = "GitSignsUpdate", callback = U.redraw() },
-    { "User", pattern = "GitSignsChanged", callback = U.redraw() },
+    { "User", pattern = { "GitSignsChanged", "GitSignsUpdate" }, callback = U.redraw() },
   }),
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
   provider = function(self)
@@ -96,24 +95,21 @@ M.ViMode = {
     "",
     function(self) return { fg = self:mode_color(), bg = C.is_git_repo() and "surface0" or "crust" } end,
     nil,
-    {
-      { "User", pattern = "GitSignsUpdate", callback = U.redraw() },
-      { "User", pattern = "ForceRedraw", callback = U.redraw() },
-    }
+    { { "User", pattern = { "ForceRedraw", "GitSignsUpdate" }, callback = U.redraw() } }
   ),
 }
 
 -- Git Branch
 M.GitBranch = {
   condition = C.is_git_repo,
-  static = { branch_icon = "" },
   init = U.update_events({
     "BufEnter",
-    { "User", pattern = "GitSignsUpdate", callback = U.redraw() },
-    { "User", pattern = "GitSignsChanged", callback = U.redraw() },
+    { "User", pattern = { "GitSignsChanged", "GitSignsUpdate" }, callback = U.redraw() },
   }),
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
-  provider = function(self) return string.format(" %s %s ", self.branch_icon, vim.b.gitsigns_head) end,
+  provider = function()
+    return ("  %s "):format(vim.b.gitsigns_head ~= "" and vim.b.gitsigns_head or "main")
+  end,
   hl = function(self) return { fg = self:mode_color(), bg = "surface0" } end,
   M.Separator("", { fg = "surface0", bg = "crust" }),
 }
@@ -308,7 +304,7 @@ M.Clock = {
     clock_icons = { "󱑋", "󱑌", "󱑍", "󱑎", "󱑏", "󱑐", "󱑑", "󱑒", "󱑓", "󱑔", "󱑕", "󱑖" },
   },
   init = U.update_events({
-    { "User", pattern = "UpdateTime", callback = function() vim.cmd.redrawstatus() end },
+    { "User", pattern = "UpdateTime", callback = function() U.redraw() end },
   }),
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
   {
