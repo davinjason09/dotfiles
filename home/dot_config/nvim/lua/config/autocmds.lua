@@ -163,3 +163,23 @@ local default_term_close = vim.api.nvim_get_autocmds({
   event = "TermClose",
 })
 vim.api.nvim_del_autocmd(default_term_close[1].id)
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  group = vim.api.nvim_create_augroup("ChezmoiApply", { clear = true }),
+  pattern = vim.env.HOME .. "/.local/share/chezmoi/**",
+  callback = function()
+    local function notify(msg, level)
+      level = level or vim.log.levels.INFO
+      vim.schedule(function() vim.notify(msg, level, { title = "Chezmoi" }) end)
+    end
+
+    vim.system({ "chezmoi", "apply", "--no-tty" }, nil, function(obj)
+      if obj.code ~= 0 then
+        if obj.stdout then notify(obj.stdout, vim.log.levels.WARN) end
+        if obj.stderr then notify(obj.stderr, vim.log.levels.WARN) end
+      else
+        notify("Successfully applied files")
+      end
+    end)
+  end,
+  desc = "Apply changes to chezmoi files after writing",
+})

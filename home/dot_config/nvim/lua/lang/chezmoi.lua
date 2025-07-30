@@ -1,30 +1,5 @@
 return {
   {
-    "xvzc/chezmoi.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    cmd = { "ChezmoiEdit" },
-    keys = {
-      { "<leader>sz", function() Utils.picker.chezmoi() end, desc = "[S]earch Che[z]moi File" },
-    },
-    opts = {
-      edit = {
-        watch = false,
-        force = false,
-      },
-      events = {
-        on_open = { notification = { enable = false } },
-        on_watch = { notification = { enable = false } },
-        on_apply = { notification = { msg = "Successfully applied file" } },
-      },
-    },
-    init = function()
-      vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-        pattern = { os.getenv("HOME") .. "/.local/share/chezmoi/*" },
-        callback = function() vim.schedule(require("chezmoi.commands.__edit").watch) end,
-      })
-    end,
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = { "gotmpl" },
@@ -43,6 +18,7 @@ return {
         ["dot_zshrc.tmpl"]      = { glyph = "", hl = "MiniIconsGrey" },
         ["dot_zshenv.tmpl"]     = { glyph = "", hl = "MiniIconsGrey" },
         ["dot_zprofile.tmpl"]   = { glyph = "", hl = "MiniIconsGrey" },
+        ["dot_gitconfig.tmpl"]  = { glyph = "", hl = "MiniIconsGrey" },
         [".chezmoiignore.tmpl"] = { glyph = "", hl = "MiniIconsGrey" },
       },
       extension = {

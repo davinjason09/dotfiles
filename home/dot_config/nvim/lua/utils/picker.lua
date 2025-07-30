@@ -103,35 +103,11 @@ M.reload = function()
 end
 
 M.chezmoi = function()
-  local results = require("chezmoi.commands").list({
-    args = {
-      "--path-style",
-      "absolute",
-      "--include",
-      "files",
-      "--exclude",
-      "externals",
-    },
-  })
-
-  local items = {}
-  for _, file in ipairs(results) do
-    table.insert(items, {
-      text = file,
-      file = file,
-    })
-  end
-
-  Snacks.picker.pick({
+  local chezmoi_path = vim.fn.system("chezmoi source-path"):gsub("\n", "")
+  Snacks.picker.files({
     title = "Chezmoi Files",
-    items = items,
-    confirm = function(picker, item)
-      picker:close()
-      require("chezmoi.commands").edit({
-        targets = { item.text },
-        args = { "--watch" },
-      })
-    end,
+    cwd = chezmoi_path,
+    hidden = true,
   })
 end
 
