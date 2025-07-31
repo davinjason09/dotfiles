@@ -52,14 +52,13 @@ bars:
       right:
         [
           "cava",
-          "systray",
           "memory",
           "cpu",
           "weather",
+          "systray",
           "wallpapers",
           "wifi",
           "volume",
-          "battery",
           "notifications",
           "power_menu",
         ]
@@ -71,6 +70,7 @@ widgets:
       offline_label: "GlazeWM Offline"
       hide_empty_workspaces: true
       hide_if_offline: false
+      enable_scroll_switching: false
 
   glazewm_tiling_direction:
     type: "glazewm.tiling_direction.GlazewmTilingDirectionWidget"
@@ -104,18 +104,53 @@ widgets:
     type: "yasb.media.MediaWidget"
     options:
       label: "{title} - {artist}"
-      label_alt: "{artist}"
       max_field_size:
-        label: 10
-        label_alt: 10
-      show_thumbnail: true
+        label: 15
       controls_only: false
       controls_left: true
       hide_empty: true
+      # callbacks
+      callbacks:
+        on_left: "toggle_media_menu"
+        on_middle: "do_nothing"
+        on_right: "do_nothing"
+      # thumbnail settings
+      show_thumbnail: true
       thumbnail_alpha: 80
       thumbnail_padding: 8
       thumbnail_corner_radius: 6
+      # icons
       icons:
+        prev_track: "󰒮"
+        next_track: "󰒭"
+        play: ""
+        pause: ""
+      # scrolling settings
+      scrolling_label:
+        enabled: true
+        update_interval_ms: 33
+        style: "left"
+        separator: " | "
+        label_padding: 1
+        ease_slope: 20
+        ease_pos: 0.8
+        ease_min: 0.5
+      # media menu settings
+      media_menu:
+        blur: false
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "#89DCEB"
+        alignment: "left"
+        direction: "down"
+        offset_top: 6
+        offset_left: 0
+        thumbnail_corner_radius: 8
+        thumbnail_size: 120
+        max_title_size: 80
+        max_artist_size: 20
+        show_source: true
+      media_menu_icons:
         prev_track: "󰒮"
         next_track: "󰒭"
         play: ""
@@ -126,13 +161,13 @@ widgets:
     options:
       label: "<span></span>{%a, %d %b %H:%M}"
       label_alt: "<span></span>{%A, %d %B %Y %H:%M}"
-      tooltip: true
+      tooltip: false
       timezones: []
       calendar:
         blur: true
         round_corners: true
         round_corners_type: "normal"
-        border_color: "#89dceb"
+        border_color: "#89DCEB"
         alignment: "center"
         direction: "down"
         distance: 6
@@ -145,60 +180,59 @@ widgets:
       gradient: 1
       reverse: 0
       sensitivity: 100
-      foreground: "#89dce4"
-      gradient_color_1: "#89b4fa"
-      gradient_color_2: "#cba6f7"
-      gradient_color_3: "#f5c2e7"
+      foreground: "#89DCEB"
+      gradient_color_1: "#74C7EC"
+      gradient_color_2: "#89B4FA"
+      gradient_color_3: "#CBA6F7"
       bars_number: 10
       bar_spacing: 2
       bar_width: 4
       framerate: 60
       hide_empty: true
 
-  systray:
-    type: "yasb.systray.SystrayWidget"
-    options:
-      label_collapsed: ""
-      label_expanded: ""
-      icon_size: 12
-      pin_click_modifier: "shift"
-      class_name: "systray"
-      show_unpinned: false
-      show_unpinned_button: true
-      show_battery: false
-      show_volume: false
-      show_network: false
-
-  cpu:
-    type: "yasb.cpu.CpuWidget"
-    options:
-      label: "<span></span> {info[percent][total]}%"
-      label_alt: "<span></span> {info[histograms][cpu_percent]}"
-      update_interval: 2000
-      histogram_icons:
-        - '\u2581' # 0%
-        - '\u2581' # 10%
-        - '\u2582' # 20%
-        - '\u2583' # 30%
-        - '\u2584' # 40%
-        - '\u2585' # 50%
-        - '\u2586' # 60%
-        - '\u2587' # 70%
-        - '\u2588' # 80%+
-      histogram_num_columns: 8
-      callbacks:
-        on_left: "toggle_label"
-        on_right: "exec cmd /c Taskmgr"
-
   memory:
     type: "yasb.memory.MemoryWidget"
     options:
-      label: "<span></span> {virtual_mem_percent}%"
-      label_alt: "<span></span> {virtual_mem_outof}"
+      label: "MEM {virtual_mem_percent}%"
+      label_alt: "MEM {virtual_mem_outof}"
       update_interval: 10000
       callbacks:
         on_left: "toggle_label"
         on_right: "exec cmd /c Taskmgr"
+      progress_bar:
+        enabled: true
+        color: "#F2CDCD"
+        background_color: "#6C7086"
+        thickness: 2
+        size: 13
+
+  cpu:
+    type: "yasb.cpu.CpuWidget"
+    options:
+      label: "CPU {info[percent][total]}%"
+      label_alt: "CPU {info[histograms][cpu_percent]}"
+      update_interval: 2000
+      histogram_icons: [
+          "\u2581", # 0%
+          "\u2581", # 10%
+          "\u2582", # 20%
+          "\u2583", # 30%
+          "\u2584", # 40%
+          "\u2585", # 50%
+          "\u2586", # 60%
+          "\u2587", # 70%
+          "\u2588", # 80%+
+        ]
+      histogram_num_columns: 8
+      callbacks:
+        on_left: "toggle_label"
+        on_right: "exec cmd /c Taskmgr"
+      progress_bar:
+        enabled: true
+        color: "#CBA6F7"
+        background_color: "#6C7086"
+        thickness: 2
+        size: 13
 
   weather:
     type: "yasb.weather.WeatherWidget"
@@ -207,7 +241,7 @@ widgets:
       label_alt: "<span>{icon}</span>{location}: <span></span>{min_temp},<span></span>{max_temp}, <span>󰖌</span>{humidity}"
       api_key: "$env:YASB_WEATHER_API_KEY"
       show_alerts: true
-      update_interval: 600
+      update_interval: 3600
       hide_decimal: true
       units: "metric"
       location: "$env:YASB_WEATHER_LOCATION"
@@ -232,14 +266,37 @@ widgets:
         thunderstormNight: ""
         default: ""
       weather_card:
-        blur: True
-        round_corners: True
+        blur: true
+        round_corners: true
         round_corners_type: "normal"
-        border_color: "#89dce4"
+        border_color: "#89DCEB"
         alignment: "right"
         direction: "down"
         distance: 6
         icon_size: 64
+        show_hourly_forecast: true
+        time_format: "24h"
+        hourly_point_spacing: 76
+        hourly_icon_size: 32
+        icon_smoothing: true
+        temp_line_width: 2
+        current_line_color: "#585B70"
+        current_line_width: 2
+        current_line_style: "dot"
+
+  systray:
+    type: "yasb.systray.SystrayWidget"
+    options:
+      label_collapsed: ""
+      label_expanded: ""
+      icon_size: 12
+      pin_click_modifier: "shift"
+      class_name: "systray"
+      show_unpinned: false
+      show_unpinned_button: true
+      show_battery: true
+      show_volume: false
+      show_network: false
 
   wallpapers:
     type: "yasb.wallpapers.WallpapersWidget"
@@ -247,7 +304,6 @@ widgets:
       label: "<span>󰸉</span>"
       image_path: "$env:USERPROFILE/Pictures/Wallpaper"
       change_automatically: false
-      update_interval: 60
       gallery:
         enabled: true
         blur: true
@@ -280,17 +336,17 @@ widgets:
           "󰤥", # Icon for 50-74% strength
           "󰤨", # Icon for 75-100% strength
         ]
-    menu_config:
-      blur: true
-      round_corners: true
-      round_corners_type: "normal"
-      border_color: "System"
-      alignment: "right"
-      direction: "down"
-      offset_top: 6
-      offset_left: 0
-      wifi_icons_secured: ["\ue670", "\ue671", "\ue672", "\ue673"]
-      wifi_icons_unsecured: ["\uec3c", "\uec3d", "\uec3e", "\uec3f"]
+      menu_config:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "#89DCEB"
+        alignment: "right"
+        direction: "down"
+        offset_top: 6
+        offset_left: 0
+        wifi_icons_secured: ["\ue670", "\ue671", "\ue672", "\ue673"]
+        wifi_icons_unsecured: ["\uec3c", "\uec3d", "\uec3e", "\uec3f"]
 
   volume:
     type: "yasb.volume.VolumeWidget"
@@ -299,28 +355,13 @@ widgets:
       label_alt: "{volume}"
       tooltip: true
       audio_menu:
-        border_color: "#89dce4"
-
-  battery:
-    type: "yasb.battery.BatteryWidget"
-    options:
-      label: "<span>{icon}</span>"
-      label_alt: "<span>{icon}</span> {percent}% | {time_remaining} left"
-      charging_options:
-        icon_format: "{charging_icon}"
-      status_icons:
-        icon_charging: "󰢝"
-        icon_critical: "󱃍"
-        icon_low: "󰁻"
-        icon_medium: "󰁿"
-        icon_high: "󰂁"
-        icon_full: "󰁹"
+        border_color: "#89DCEB"
 
   notifications:
     type: "yasb.notifications.NotificationsWidget"
     options:
       label: "<span></span>"
-      label_alt: " {count} notifications"
+      label_alt: " {count} notifs"
       hide_empty: false
       tooltip: true
       callbacks:
@@ -332,9 +373,9 @@ widgets:
     type: "yasb.power_menu.PowerMenuWidget"
     options:
       label: "\uf011"
-      uptime: True
-      blur: False
-      blur_background: True
+      uptime: true
+      blur: false
+      blur_background: true
       animation_duration: 200
       button_row: 5
       buttons:
