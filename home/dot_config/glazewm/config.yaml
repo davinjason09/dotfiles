@@ -265,7 +265,11 @@ keybindings:
   # Launch yasb powermenu
   - commands:
       ["shell-exec --hide-window yasbc toggle-widget powermenu --follow-mouse"]
-    bindings: ["lwin+ctrl+shift+q"]
+    bindings: ["lwin+ctrl+q"]
+
+  - commands:
+      ["shell-exec --hide-window yasbc toggle-widget wallpapers --follow-mouse"]
+    bindings: ["lwin+ctrl+w"]
 
   # Focus the next/previous workspace defined in `workspaces` config.
   - commands: ["focus --next-workspace"]
