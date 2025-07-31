@@ -178,6 +178,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         if obj.stderr then notify(obj.stderr, vim.log.levels.WARN) end
       else
         notify("Successfully applied files")
+        if obj.stdout ~= "" then notify(obj.stdout) end
       end
     end)
   end,
