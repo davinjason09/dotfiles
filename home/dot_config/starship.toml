@@ -104,7 +104,7 @@ palette = 'catppuccin_mocha'
   ahead    = '󱦲${count}'
   behind   = '󱦳${count}'
   diverged = '󱦲${ahead_count}󱦳${behind_count}'
-  format   = '[[($all_status$ahead_behind) ](fg:base bg:yellow)]($style)'
+  format   = '[[($all_status$ahead_behind )](fg:base bg:yellow)]($style)'
   style    = "bg:yellow"
 
 [nodejs]
