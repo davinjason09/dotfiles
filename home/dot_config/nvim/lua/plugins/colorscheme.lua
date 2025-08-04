@@ -18,6 +18,7 @@ return {
       flavour = "mocha",
       term_colors = true,
       compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
+      float = { transparent = false, solid = false },
       styles = {
         comments = { "italic" },
         functions = { "bold" },
@@ -77,17 +78,19 @@ return {
 
           ["@variable"]            = { link = "Identifier" },
           ["@variable.builtin"]    = { link = "Keyword" },
-          ["@function.macro"]      = { link = "Constant" },
-          ["@keyword.operator"]    = { link = "Operator" },
-
           ["@variable.parameter"]  = { fg = colors.rosewater },
           ["@variable.member"]     = { fg = colors.rosewater },
-          ["@constant.builtin"]    = { fg = colors.lavender },
-          ["@module"]              = { fg = colors.rosewater },
-          ["@keyword.function"]    = { fg = colors.maroon },
-          ["@keyword.return"]      = { fg = colors.pink },
           ["@variable.member.lua"] = { fg = colors.lavender },
-          ["@namespace.builtin"]   = { fg = colors.red },
+
+          ["@keyword.operator"] = { link = "Operator" },
+          ["@keyword.function"] = { fg = colors.maroon },
+          ["@keyword.return"]   = { fg = colors.pink },
+          ["@keyword.export"]   = { fg = colors.sky },
+
+          ["@function.macro"]    = { link = "Constant" },
+          ["@constant.builtin"]  = { fg = colors.lavender },
+          ["@module"]            = { fg = colors.rosewater },
+          ["@namespace.builtin"] = { fg = colors.red },
 
           ["@lsp.type.class"]                        = { link = "@type" },
           ["@lsp.type.event"]                        = { link = "@event" },
@@ -107,6 +110,40 @@ return {
           ["@lsp.typemod.macro.defaultLibrary"]      = { link = "@constant.macro" },
           ["@lsp.typemod.method.defaultLibrary"]     = { link = "@function" },
           ["@lsp.typemod.type.defaultLibrary"]       = { link = "@type" },
+
+          ["@string.special.url"] = { fg = colors.rosewater, style = { "italic", "underline" } }, -- urls, links and emails
+          ["@string.plain.css"]   = { fg = colors.peach },
+
+          ["@type.builtin"]     = { fg = colors.yellow, style = { "italic" } }, -- For builtin types.
+          ["@type.tag.css"]     = { fg = colors.mauve },
+          ["@type.builtin.c"]   = { fg = colors.yellow },
+          ["@type.builtin.cpp"] = { fg = colors.yellow },
+
+
+          ["@property"]            = { fg = colors.lavender }, -- Same as TSField.
+          ["@property.css"]        = { fg = colors.lavender },
+          ["@property.id.css"]     = { fg = colors.blue },
+          ["@property.typescript"] = { fg = colors.lavender },
+
+          ["@constructor"]            = { fg = colors.sapphire }, -- constructor calls and definitions in Lua, and Java constructors.
+          ["@constructor.lua"]        = { fg = colors.flamingo }, -- constructor calls and definitionsin Lua.
+          ["@constructor.tsx"]        = { fg = colors.lavender },
+          ["@constructor.typescript"] = { fg = colors.lavender },
+
+          ["@markup.link"]       = { link = "Tag" },   -- text references, footnotes, citations, etc.
+          ["@markup.link.label"] = { link = "Label" }, -- link, reference descriptions
+          ["@markup.list"]       = { link = "Special" },
+          ["@markup.strong"]     = { fg = colors.maroon,    style = { "bold" } },
+          ["@markup.italic"]     = { fg = colors.maroon,    style = { "italic" } },
+          ["@markup.heading"]    = { fg = colors.blue,      style = { "bold" } }, -- titles like: # Example
+          ["@markup.quote"]      = { fg = colors.maroon,    style = { "bold" } }, -- block  quotes
+          ["@markup.link.url"]   = { fg = colors.rosewater, style = { "italic", "underline" } }, -- urls, links and emails
+          ["@markup.raw"]        = { fg = colors.teal }, -- used for inline code in markdown and for doc in python (""")
+
+          ["@tag"]               = { fg = colors.mauve }, -- Tags like html tag names.
+          ["@tag.attribute"]     = { fg = colors.teal, style = { "italic" } }, -- Tags like html tag names.
+          ["@tag.delimiter"]     = { fg = colors.sky }, -- Tag delimiter like < > /
+          ["@tag.attribute.tsx"] = { fg = colors.teal, style = { "italic" } },
 
           -- blink.cmp
           BlinkCmpMenu                = { fg = colors.none,     bg = colors.base },
