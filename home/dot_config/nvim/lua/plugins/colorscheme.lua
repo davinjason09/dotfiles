@@ -187,6 +187,7 @@ return {
           SnacksPickerTitle         = { fg = colors.subtext0,  bg = colors.mantle,   style = { "bold" } },
           SnacksPickerSelected      = { fg = colors.text,      bg = colors.surface0, style = { "bold" } },
           SnacksPickerMatch         = { fg = colors.sky,       bg = colors.none,     style = { "bold" } },
+          SnacksPickerInput         = { fg = colors.text,      bg = colors.mantle },
           SnacksWinBorder           = { fg = colors.sky,       bg = colors.mantle },
           SnacksTerminalNormal      = { fg = colors.text,      bg = colors.mantle },
           SnacksTerminalBorder      = { fg = colors.sky,       bg = colors.mantle },

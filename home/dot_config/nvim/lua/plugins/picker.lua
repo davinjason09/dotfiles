@@ -26,7 +26,7 @@ return {
         files = { hidden = true },
         smart = { hidden = true },
         buffers = {
-          on_show = function() vim.cmd.stopinsert() end,
+          on_show = function(picker) picker:action("stopinsert") end,
           layout = "ivy",
           win = {
             input = { keys = { ["d"] = "bufdelete" } },
@@ -74,6 +74,9 @@ return {
             ["<C-n>"] = { "history_forward", mode = { "n", "i" } },
             ["<C-BS>"] = { "<C-S-w>", mode = { "i" }, expr = true },
           },
+        },
+        preview = {
+          wo = { signcolumn = "no" },
         },
       },
       icons = {
@@ -129,8 +132,8 @@ return {
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "z=", function() Snacks.picker.spelling() end, desc = "Spelling Suggestions" },
     -- Custom
-    { "<leader>so", function() Utils.picker.options() end, desc = "[S]earch [O]ption" },
     { "<leader>dr", function() Utils.picker.reload() end, desc = "[D]ebug: [R]eload Plugins" },
+    { "<leader>so", function() Utils.picker.options() end, desc = "[S]earch [O]ption" },
     { "<leader>sz", function() Utils.picker.chezmoi() end, desc = "[S]earch Che[z]moi File" },
     { "<C-`>", function() Utils.terminal.open() end, desc = "Toggle Terminal", mode = { "n", "x", "i" } },
   },

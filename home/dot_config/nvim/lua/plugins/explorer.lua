@@ -173,6 +173,11 @@ return {
               layout = { width = 35, min_width = 35, position = "right" },
             },
             win = {
+              input = {
+                keys = {
+                  ["<C-c>"] = { "stopinsert" },
+                },
+              },
               list = {
                 keys = {
                   ["<leader>/"] = false,
