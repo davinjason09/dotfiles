@@ -159,8 +159,8 @@ widgets:
   clock:
     type: "yasb.clock.ClockWidget"
     options:
-      label: "<span></span>{%a, %d %b %H:%M}"
-      label_alt: "<span></span>{%A, %d %B %Y %H:%M}"
+      label: "<span></span>{%a %d %b %H:%M}"
+      label_alt: "<span></span>{%A %d %B %Y %H:%M}"
       tooltip: false
       timezones: []
       calendar:
@@ -322,7 +322,7 @@ widgets:
     type: "yasb.wifi.WifiWidget"
     options:
       label: "<span>{wifi_icon}</span>"
-      label_alt: "<span>{wifi_icon}</span> {wifi_name} {wifi_strength}%"
+      label_alt: "<span>{wifi_icon}</span> {wifi_name}"
       update_interval: 5000
       callbacks:
         on_left: "toggle_menu"
@@ -341,7 +341,7 @@ widgets:
         round_corners: true
         round_corners_type: "normal"
         border_color: "#89DCEB"
-        alignment: "right"
+        alignment: "center"
         direction: "down"
         offset_top: 6
         offset_left: 0
@@ -356,6 +356,7 @@ widgets:
       tooltip: true
       audio_menu:
         border_color: "#89DCEB"
+        alignment: "center"
 
   notifications:
     type: "yasb.notifications.NotificationsWidget"
