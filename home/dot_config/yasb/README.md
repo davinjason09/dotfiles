@@ -4,9 +4,9 @@
   <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="400" />
 </p>
 
-<h3 align="center">🖼️Gallery</h3>
-
 ![Yasb](assets/YASB.jpg)
+
+---
 
 ## How to use
 
