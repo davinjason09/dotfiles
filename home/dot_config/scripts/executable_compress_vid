@@ -5,11 +5,11 @@ set -euo pipefail
 help() {
   printf "\033[1mUsage: compress_vid [OPTIONS] <input_files>\033[0m\n\n"
   printf "\033[1m\033[4mOptions:\033[0m\n"
-  printf "  \033[1m-h, --help\033[0m\t\tDisplay this help message and exit\n"
-  printf "  \033[1m-s, --size\033[0m <size>\tTarget size in MB (default: 8)\n"
-  printf "  \033[1m-t, --tolerance\033[0m <tolerance>\tTolerance percentage (default: 10)\n"
-  printf "  \033[1m-c, --cpu\033[0m <cpu_count>\tNumber of CPU cores to use (default: half of available cores)\n"
-  printf "  \033[1m-o, --output\033[0m <output>\tOutput file name (default: input file name with .mp4)\n\n"
+  printf "  \033[1m--help, -h\033[0m\t\t\tDisplay this help message and exit\n"
+  printf "  \033[1m--size, -s\033[0m <size>\t\tTarget size in MB (default: 8)\n"
+  printf "  \033[1m--tolerance, -t\033[0m <tolerance>\tTolerance percentage (default: 10)\n"
+  printf "  \033[1m--cpu, -c\033[0m <cpu_count>\t\tNumber of CPU cores to use (default: half of available cores)\n"
+  printf "  \033[1m--output, -o\033[0m <output>\t\tOutput file name (default: input file name with .crushed.mp4)\n\n"
   printf "\033[1m\033[4mExamples:\033[0m\n"
   printf '  $ compress_vid -s 5 video.mp4\n'
   printf '  $ compress_vid --size 10 -t 5 video.mkv\n'
@@ -26,6 +26,7 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   exit 0
 fi
 
+require=("ffmpeg" "ffprobe" "bc")
 size=8                      # Default target size in MB
 tolerance=10                # Default tolerance percentage
 cpu_count=$(($(nproc) / 2)) # Default to half of available CPU cores
@@ -165,6 +166,13 @@ if [ ${#input_files[@]} -eq 0 ]; then
   help
   exit 1
 fi
+
+for cmd in "${require[@]}"; do
+  if ! command -v "$cmd" &>/dev/null; then
+    echo "Error: Required command '$cmd' is not installed."
+    exit 1
+  fi
+done
 
 for file in "${input_files[@]}"; do
   echo "using $cpu_count CPU cores"

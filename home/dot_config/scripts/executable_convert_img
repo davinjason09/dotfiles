@@ -5,8 +5,8 @@ set -euo pipefail
 help() {
   printf "\033[1mUsage: convert_img [OPTIONS] <input_files>\033[0m\n\n"
   printf "\033[1m\033[4mOptions:\033[0m\n"
-  printf "  \033[1m-h, --help\033[0m\t\tDisplay this help message and exit\n"
-  printf "  \033[1m-f, --format\033[0m <format>\tSpecify the output image format (png, jpg, webp)\n\n"
+  printf "  \033[1m--help, -h\033[0m\t\tDisplay this help message and exit\n"
+  printf "  \033[1m--format, -f\033[0m <format>\tSpecify the output image format (png, jpg, webp)\n\n"
   printf "\033[1m\033[4mExamples:\033[0m\n"
   printf '  $ convert_img -f png image.jpg\n'
   printf '  $ convert_img *.jpg -f png\n'
@@ -23,6 +23,7 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   exit 0
 fi
 
+require=("magick")
 format="jpg" # Default format
 input_files=()
 
@@ -67,10 +68,12 @@ convert() {
   magick "$filename" "$output"
 }
 
-if ! command -v magick &>/dev/null; then
-  echo "Error: 'convert' command not found. Please install ImageMagick."
-  exit 1
-fi
+for cmd in "${require[@]}"; do
+  if ! command -v "$cmd" &>/dev/null; then
+    echo "Error: Required command '$cmd' not found. Please install it."
+    exit 1
+  fi
+done
 
 for file in "${input_files[@]}"; do
   echo "Converting '$file' ..."
