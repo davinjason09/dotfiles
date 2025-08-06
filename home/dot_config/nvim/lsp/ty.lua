@@ -13,11 +13,8 @@ return {
     "ty.toml",
     "uv.lock",
   },
-  init_options = {
-    settings = {
-      experimental = {
-        completions = { enable = false },
-      },
-    },
-  },
+  on_attach = function(client)
+    client.server_capabilities.inlayHintProvider = false
+    client.server_capabilities.hoverProvider = false
+  end,
 }
