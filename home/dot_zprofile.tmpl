@@ -53,3 +53,6 @@ fi
 
 export BUN_INSTALL="$HOME/.bun"
 safe_export_path "$BUN_INSTALL/bin"
+
+# export scripts
+safe_export_path "${XDG_CONFIG_HOME:-$HOME/.config}/scripts"

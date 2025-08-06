@@ -1,0 +1,176 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+help() {
+  printf "\033[1mUsage: compress_vid [OPTIONS] <input_files>\033[0m\n\n"
+  printf "\033[1m\033[4mOptions:\033[0m\n"
+  printf "  \033[1m-h, --help\033[0m\t\tDisplay this help message and exit\n"
+  printf "  \033[1m-s, --size\033[0m <size>\tTarget size in MB (default: 8)\n"
+  printf "  \033[1m-t, --tolerance\033[0m <tolerance>\tTolerance percentage (default: 10)\n"
+  printf "  \033[1m-c, --cpu\033[0m <cpu_count>\tNumber of CPU cores to use (default: half of available cores)\n"
+  printf "  \033[1m-o, --output\033[0m <output>\tOutput file name (default: input file name with .mp4)\n\n"
+  printf "\033[1m\033[4mExamples:\033[0m\n"
+  printf '  $ compress_vid -s 5 video.mp4\n'
+  printf '  $ compress_vid --size 10 -t 5 video.mkv\n'
+  printf '  $ compress_vid --output compressed.mp4 video.avi\n'
+}
+
+if [ $# -eq 0 ]; then
+  help
+  exit 1
+fi
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  help
+  exit 0
+fi
+
+size=8                      # Default target size in MB
+tolerance=10                # Default tolerance percentage
+cpu_count=$(($(nproc) / 2)) # Default to half of available CPU cores
+output=""
+input_files=()
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -s | --size)
+      if [ -z "${2:-}" ]; then
+        echo "Error: No size specified after $1"
+        exit 1
+      fi
+      size="$2"
+      shift 2
+      ;;
+    -t | --tolerance)
+      if [ -z "${2:-}" ]; then
+        echo "Error: No tolerance specified after $1"
+        exit 1
+      fi
+      tolerance="$2"
+      shift 2
+      ;;
+    -o | --output)
+      if [ -z "${2:-}" ]; then
+        echo "Error: No output file specified after $1"
+        exit 1
+      fi
+      output="$2"
+      shift 2
+      ;;
+    -c | --cpu)
+      if [ -z "${2:-}" ]; then
+        echo "Error: No CPU count specified after $1"
+        exit 1
+      fi
+      cpu_count="$2"
+      shift 2
+      ;;
+    -*)
+      echo "Error: Unknown option $1"
+      help
+      exit 1
+      ;;
+    *)
+      input_files+=("$1")
+      shift
+      ;;
+  esac
+done
+
+get_duration() {
+  local file="$1"
+  local duration
+  duration=$(ffprobe -v error -show_entries format=duration \
+    -of default=noprint_wrappers=1:nokey=1 "$file" | awk '{print int($1)}')
+  echo "$duration"
+}
+
+transcode() {
+  local input_file="$1"
+  local output_file="$2"
+  local bitrate="$3"
+  local cpu="$cpu_count"
+
+  ffmpeg -y -hide_banner -loglevel error -i "$input_file" \
+    -b:v "$bitrate" -threads "$cpu" \
+    -c:a copy "$output_file" || {
+    echo "Error: Failed to transcode $input_file"
+    return 1
+  }
+}
+
+compress() {
+  local input_file="$1"
+  local target_size_mb="$2"
+  local tolerance="$3"
+  local output_file="${output:-${input_file%.*}.crushed.mp4}"
+
+  if [ ! -f "$input_file" ]; then
+    echo "Error: File '$input_file' does not exist"
+    return 1
+  fi
+
+  local duration
+  duration=$(get_duration "$input_file")
+  if [ -z "$duration" ]; then
+    echo "Error: Could not get duration for $input_file"
+    return 1
+  fi
+
+  local target_size_kb=$((target_size_mb * 1024))
+  local target_size_b=$((target_size_kb * 1024))
+  local target_bitrate=$((target_size_b / duration))
+  local before_size=$(stat -c%s "$input_file")
+  local bitrate=$(((target_bitrate * (100 + tolerance)) / 100))
+
+  echo "Crushing $input_file to $target_size_kb KB with tolerance $tolerance%..."
+
+  local factor=0
+  local attempt=0
+
+  while [ "$(bc <<<"$factor < 1.0")" -eq 1 ] ||
+    [ "$(bc <<<"$factor > $(echo "scale=2; 1 + $tolerance / 100" | bc)")" -eq 1 ]; do
+    attempt=$((attempt + 1))
+    if [ "$factor" = "0" ]; then
+      factor=1.0
+    fi
+    bitrate=$(echo "scale=0; $bitrate * $factor" | bc -l | awk '{print int($1)}')
+    echo "bitrate: $bitrate, factor: $factor"
+
+    echo "Attempt $attempt: Transcoding $input_file at bitrate $bitrate"
+    transcode "$input_file" "$output_file" "$bitrate"
+    if [ $? -ne 0 ]; then
+      return 1
+    fi
+
+    local after_size=$(stat -c%s "$output_file")
+    local percent_of_target=$(echo "scale=10; 100 / $target_size_b * $after_size" | bc -l)
+    echo "percent_of_target: $percent_of_target"
+    factor=$(echo "scale=2; 100 / $percent_of_target" | bc)
+    echo "New factor: $factor"
+
+    printf "Original size: %.2f MB\nCompressed size: %.2f MB\nPercentage of target: %.2f%%\nBitrate: %d\n" \
+      "$(echo "$before_size / 1024 / 1024" | bc -l)" \
+      "$(echo "$after_size / 1024 / 1024" | bc -l)" \
+      "$percent_of_target" "$bitrate"
+  done
+
+  echo "Completed in $attempt attempts."
+  echo "Exported as $output_file"
+}
+
+if [ ${#input_files[@]} -eq 0 ]; then
+  echo "Error: No input files specified"
+  help
+  exit 1
+fi
+
+for file in "${input_files[@]}"; do
+  echo "using $cpu_count CPU cores"
+  compress "$file" "$size" "$tolerance"
+  if [ $? -ne 0 ]; then
+    echo "Error processing $file"
+    exit 1
+  fi
+done

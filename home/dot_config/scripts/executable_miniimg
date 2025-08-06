@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+help() {
+  printf "\033[1mUsage: miniimg\033[0m [OPTIONS] <files>\n\n"
+  printf "\033[1m\033[4mOptions:\033[0m\n"
+  printf "  \033[1m-l, --lossy\033[0m         Enable lossy compression (default: lossless)\n"
+  printf "  \033[1m-q, --quality <q>\033[0m   Set the quality of the output image (0-100, default: 75)\n"
+  printf "  \033[1m-o, --output <file>\033[0m Specify the output file name\n"
+  printf "  \033[1m-h, --help\033[0m          Show this help message\n\n"
+  printf "\033[1m\033[4mExamples:\033[0m\n"
+  printf '  $ miniimg input.png\n'
+  printf '  $ miniimg *.jpg\n'
+  printf '  $ miniimg -o output.jpg input.jpg\n'
+  printf '  $ miniimg *.png --lossy --quality 90\n'
+}
+
+if [ $# -eq 0 ]; then
+  help
+  exit 1
+fi
+
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+  help
+  exit 0
+fi
+
+lossy=false
+quality=75
+input_files=()
+output=""
+OUT_DIR="./optimized"
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -l | --lossy)
+      lossy=true
+      ;;
+    -q | --quality)
+      shift
+      if [ -z "$1" ] || ! [[ "$1" =~ ^[0-9]+$ ]] || [ "$1" -lt 0 ] || [ "$1" -gt 100 ]; then
+        echo "Error: Quality must be a number between 0 and 100."
+        exit 1
+      fi
+      quality="$1"
+      ;;
+    -o | --output)
+      shift
+      if [ -z "$1" ]; then
+        echo "Error: Output file name must be specified."
+        exit 1
+      fi
+      output="$1"
+      ;;
+    -*)
+      echo "Error: Unknown option $1"
+      help
+      exit 1
+      ;;
+    *)
+      input_files+=("$1")
+      ;;
+  esac
+  shift
+done
+
+compress() {
+  if [ ! -f "$1" ]; then
+    echo "Error: File '$1' not found."
+    exit 1
+  fi
+
+  if [ ! -d "$OUT_DIR" ]; then
+    mkdir -p "$OUT_DIR"
+  fi
+
+  name=$(basename "$1")
+  ext=$(echo "${1##*.}" | tr '[:upper:]' '[:lower:]')
+  local output="${output:-$OUT_DIR/${name%.*}_optimized.$ext}"
+  echo "Compressing '$1' to '$output' with quality $quality (lossy: $lossy)"
+  case "$ext" in
+    png)
+      if [ "$lossy" = true ]; then
+        pngquant --quality="$quality" --skip-if-larger -f --strip "$1" -o "$output"
+      else
+        oxipng "$1" --strip all --out "$output"
+      fi
+      ;;
+    jpg | jpeg)
+      if [ "$lossy" = true ]; then
+        jpegoptim -m "$quality" "$1" --strip-all -o -d "$OUT_DIR"
+      else
+        jpegoptim "$1" --strip-all -o -d "$OUT_DIR"
+      fi
+
+      # check if there's no error, and if so, rename the output
+      # to match the provided output name
+      if [ -n "$OUT_DIR/$1" ]; then
+        mv "$OUT_DIR/$1" "$output"
+      fi
+      ;;
+    *)
+      echo "Error: Unsupported file type '$ext'. Supported types are: png, jpg, jpeg."
+      exit 1
+      ;;
+  esac
+
+  compare "$1" "$output"
+}
+
+compare() {
+  if [ ! -f "$1" ] || [ ! -f "$2" ]; then
+    echo "Error: One or both files for comparison do not exist."
+    exit 1
+  fi
+
+  chafa "$1" "$2"
+}
+
+if [ ${#input_files[@]} -eq 0 ]; then
+  echo "Error: No input files specified"
+  help
+  exit 1
+fi
+
+for file in "${input_files[@]}"; do
+  compress "$file"
+done
