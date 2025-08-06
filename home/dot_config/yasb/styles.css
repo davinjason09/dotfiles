@@ -1,3 +1,4 @@
+/* prettier-ignore */
 :root {
   --rosewater: #F5E0DC;
   --flamingo: #F2CDCD;
@@ -28,8 +29,8 @@
   --main: #10151D;
 }
 
-QPushButton  {
-  outline: none
+QPushButton {
+  outline: none;
 }
 
 * {
@@ -42,6 +43,9 @@ QPushButton  {
 .yasb-bar {
   padding: 0;
   margin: 0;
+  /* HACK: get the bar's context menu working while keeping the background-color transparent
+   */
+  background-color: rgba(0, 0, 0, 0.005);
 }
 
 .widget .icon {
@@ -53,7 +57,7 @@ QPushButton  {
 }
 
 .tooltip {
-  font-family: 'JetBrainsMono NFP';
+  font-family: "JetBrainsMono NFP";
   font-weight: 600;
   font-size: 10px;
   color: var(--text);
@@ -64,13 +68,15 @@ QPushButton  {
   margin-top: 0px;
 }
 
+/*
+ * ╾╼ Context Menu ╾────────────────────────────────────────────────────╼
+ */
 .context-menu,
 .context-menu .menu-checkbox {
   background-color: var(--crust);
-  border: none;
   border-radius: 6px;
   padding: 2px;
-  font-family: 'JetBrainsMono NFP';
+  font-family: "JetBrainsMono NFP";
   font-size: 10px;
   color: var(--text);
 }
@@ -78,7 +84,7 @@ QPushButton  {
 .context-menu::right-arrow {
   width: 8px;
   height: 8px;
-  padding-right: 24px;
+  padding-right: 8px;
 }
 
 .context-menu::item,
@@ -96,7 +102,7 @@ QPushButton  {
 .context-menu::separator {
   height: 1px;
   background-color: var(--surface0);
-  margin: 4px 8px;
+  margin: 4px 4px;
 }
 .context-menu::item:disabled {
   color: var(--overlay0);
@@ -105,16 +111,16 @@ QPushButton  {
 
 .context-menu .menu-checkbox .checkbox {
   border: none;
-  padding: 8px 16px;
-  font-size: 12px;
+  padding: 4px 8px;
+  font-size: 10px;
   margin: 0;
   color: var(--text);
-  font-family: 'JetBrainsMono NFP';
+  font-family: "JetBrainsMono NFP";
 }
 
 .context-menu .submenu::item:disabled {
   margin: 0;
-  padding-left: 16px;
+  padding-left: 8px;
 }
 
 .context-menu .menu-checkbox .checkbox:unchecked {
@@ -122,20 +128,17 @@ QPushButton  {
 }
 
 .context-menu .menu-checkbox .checkbox::indicator {
-  width: 12px;
-  height: 12px;
-  margin-left: 0px;
-  margin-right: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
 }
 
 .context-menu .menu-checkbox .checkbox::indicator:unchecked {
   background: var(--surface0);
-  border-radius: 2px;
 }
 
 .context-menu .menu-checkbox .checkbox::indicator:checked {
   background: var(--sky);
-  border-radius: 2px;
 }
 
 .context-menu .menu-checkbox .checkbox:focus {
@@ -143,16 +146,16 @@ QPushButton  {
 }
 
 .context-menu::item:checked {
-  background-color: var(--sky);
-  color: var(--base);
+  background-color: blue;
+  color: white;
 }
 
 /*
-* ─[ GlazeWM Workspaces ]───────────────────────────────────────────────
-*/
+ * ─[ GlazeWM Workspaces ]───────────────────────────────────────────────
+ */
 .glazewm-workspaces {
   background-color: var(--surface0);
-  padding: 0 4px 0 6px;
+  padding: 0 4px 0 5px;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
   border-top: 1px solid var(--surface2);
@@ -192,12 +195,12 @@ QPushButton  {
 }
 
 /*
-* ─[ GlazeWM Tiling Direction ]─────────────────────────────────────────
-*/
+ * ─[ GlazeWM Tiling Direction ]─────────────────────────────────────────
+ */
 .glazewm-tiling-direction {
   background-color: var(--surface0);
   margin-right: 4px;
-  padding-right: 6px;
+  padding-right: 5px;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   border-top: 1px solid var(--surface2);
@@ -207,7 +210,7 @@ QPushButton  {
 
 .glazewm-tiling-direction .btn {
   font-size: 15px;
-  color: #CDD6F4;
+  color: var(--text);
   border: none;
   width: 12px;
 }
@@ -217,8 +220,8 @@ QPushButton  {
 }
 
 /*
-* ─[ Active Window ]────────────────────────────────────────────────────
-*/
+ * ─[ Active Window ]────────────────────────────────────────────────────
+ */
 .active-window-widget {
   background-color: var(--surface0);
   border-radius: 6px;
@@ -243,8 +246,8 @@ QPushButton  {
 }
 
 /*
-* ─[ Media ]────────────────────────────────────────────────────────────
-*/
+ * ─[ Media ]────────────────────────────────────────────────────────────
+ */
 .media-widget {
   background-color: var(--surface0);
   padding-left: 2px;
@@ -285,14 +288,13 @@ QPushButton  {
 
 /*
  * ╾╼ Media Menu ╾──────────────────────────────────────────────────────╼
-*/
-
+ */
 .media-menu {
   min-width: 420px;
   max-width: 420px;
-  background-color: var(--base);
+  background-color: rgba(17, 17, 27, 0.6);
   border-radius: 6px;
-  border: 1px solid var(--sky)
+  border: 1px solid var(--sky);
 }
 
 .media-menu .title,
@@ -321,11 +323,11 @@ QPushButton  {
 }
 
 .media-menu .source.firefox {
-  background-color: #ff583b;
+  background-color: #f26938;
   color: var(--text);
 }
 .media-menu .source.spotify {
-  background-color: #199143;
+  background-color: #1ed760;
   color: var(--text);
 }
 .media-menu .source.edge {
@@ -402,7 +404,6 @@ QPushButton  {
   height: 2px;
   border-radius: 3px;
   background: var(--surface0);
-
 }
 .media-menu .progress-slider::groove:hover {
   background: transparent;
@@ -417,8 +418,8 @@ QPushButton  {
 }
 
 /*
-* ─[ Clock ]────────────────────────────────────────────────────────────
-*/
+ * ─[ Clock ]────────────────────────────────────────────────────────────
+ */
 .clock-widget {
   background-color: var(--surface0);
   padding: 0 6px;
@@ -445,7 +446,7 @@ QPushButton  {
 * ─[ Calendar ]──────────────────────────────────────────────────────────
 */
 .calendar {
-  background-color: rgba(17, 17, 27, 0.4);
+  background-color: rgba(17, 17, 27, 0.6);
 }
 
 .calendar .calendar-table,
@@ -490,8 +491,8 @@ QPushButton  {
 }
 
 /*
-* ─[ Cava ]─────────────────────────────────────────────────────────────
-*/
+ * ─[ Cava ]─────────────────────────────────────────────────────────────
+ */
 .cava-widget {
   background-color: var(--surface0);
   padding: 0 4px;
@@ -500,8 +501,8 @@ QPushButton  {
 }
 
 /*
-* ─[ Memory ]───────────────────────────────────────────────────────────
-*/
+ * ─[ Memory ]───────────────────────────────────────────────────────────
+ */
 .memory-widget {
   background-color: var(--surface0);
   margin-left: 4px;
@@ -510,6 +511,7 @@ QPushButton  {
   border-top: 1px solid var(--surface2);
   border-left: 1px solid var(--surface2);
   border-bottom: 1px solid var(--surface2);
+  padding: 0 2px 0 5px;
 }
 
 .memory-widget .label {
@@ -521,16 +523,17 @@ QPushButton  {
 }
 
 .memory-widget .progress-circle {
-  padding: 0 2px 0 5px
+  padding: 0 2px 0 0;
 }
 
 /*
-* ─[ CPU ]───────────────────────────────────────────────────────────
-*/
+ * ─[ CPU ]───────────────────────────────────────────────────────────
+ */
 .cpu-widget {
   background-color: var(--surface0);
   border-top: 1px solid var(--surface2);
   border-bottom: 1px solid var(--surface2);
+  padding: 0 2px;
 }
 
 .cpu-widget .label {
@@ -542,16 +545,15 @@ QPushButton  {
 }
 
 .cpu-widget .progress-circle {
-  padding: 0 2px 0 5px
+  padding: 0 2px 0 0;
 }
 
-
 /*
-* ─[ Weather ]──────────────────────────────────────────────────────────
-*/
+ * ─[ Weather ]──────────────────────────────────────────────────────────
+ */
 .weather-widget {
   background-color: var(--surface0);
-  padding-right: 6px;
+  padding-right: 5px;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   border-top: 1px solid var(--surface2);
@@ -562,7 +564,7 @@ QPushButton  {
 .weather-widget .icon {
   color: var(--yellow);
   font-size: 12px;
-  padding: 0 4px 0 5px;
+  padding: 0 2px 0 2px;
 }
 
 .weather-widget .label {
@@ -627,9 +629,9 @@ QPushButton  {
 }
 
 /*
-* ─[ Systray ]──────────────────────────────────────────────────────────
-*/
-.systray{
+ * ─[ Systray ]──────────────────────────────────────────────────────────
+ */
+.systray {
   background-color: var(--surface0);
   margin-left: 4px;
   border-top-left-radius: 6px;
@@ -640,10 +642,10 @@ QPushButton  {
 }
 
 .systray .pinned-container {
-  padding-right: 4px;
+  padding-right: 2px;
 }
 
-.systray .pinned-container[forceshow=true] {
+.systray .pinned-container[forceshow="true"] {
   background: var(--surface0);
 }
 
@@ -656,7 +658,7 @@ QPushButton  {
   background: var(--overlay0);
 }
 
-.systray .button[dragging=true] {
+.systray .button[dragging="true"] {
   background-color: var(--overlay0);
   border: 1px solid var(--subtext0);
 }
@@ -680,11 +682,11 @@ QPushButton  {
 }
 
 /*
-* ─[ Wallpaper Widget ]─────────────────────────────────────────────────
-*/
+ * ─[ Wallpaper Widget ]─────────────────────────────────────────────────
+ */
 .wallpapers-widget {
   background-color: var(--surface0);
-  padding: 0 5px 0 0;
+  padding: 0 2px;
   border-top: 1px solid var(--surface2);
   border-bottom: 1px solid var(--surface2);
 }
@@ -695,8 +697,8 @@ QPushButton  {
 }
 
 /*
-* ─[ Wallpaper Gallery ]────────────────────────────────────────────────
-*/
+ * ─[ Wallpaper Gallery ]────────────────────────────────────────────────
+ */
 .wallpapers-gallery-window {
   background-color: rgba(17, 17, 27, 0.2);
 }
@@ -715,12 +717,13 @@ QPushButton  {
 }
 
 /*
-* ─[ Wifi ]─────────────────────────────────────────────────────────────
-*/
+ * ─[ Wifi ]─────────────────────────────────────────────────────────────
+ */
 .wifi-widget {
   background-color: var(--surface0);
   border-top: 1px solid var(--surface2);
   border-bottom: 1px solid var(--surface2);
+  padding: 0 2px;
 }
 
 .wifi-widget .icon {
@@ -730,7 +733,7 @@ QPushButton  {
 
 .wifi-widget .label {
   color: var(--text);
-  padding-left: 4px;
+  padding: 0 0 0 2px;
 }
 
 .wifi-widget .label:hover {
@@ -738,7 +741,7 @@ QPushButton  {
 }
 
 .wifi-menu {
-  font-family: 'JetBrainsMono NFP';
+  font-family: "JetBrainsMono NFP";
   background-color: rgba(17, 17, 27, 0.4);
   max-height: 350px;
   min-height: 375px;
@@ -754,24 +757,24 @@ QPushButton  {
 }
 
 .wifi-menu .header {
-  font-family: 'JetBrainsMono NFP';
+  font-family: "JetBrainsMono NFP";
   font-size: 12px;
   font-weight: 600;
   padding: 12px;
   background-color: rgba(17, 17, 27, 0.6);
   color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(205, 214, 244, 0.1);
 }
 
 .wifi-menu .error-message {
-  font-family: 'JetBrainsMono NFP';
+  font-family: "JetBrainsMono NFP";
   font-size: 12px;
   font-weight: 600;
   margin-bottom: 2px;
   padding: 12px;
-  background-color: red;
+  background-color: var(--red);
   color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(205, 214, 244, 0.1);
 }
 
 .wifi-menu .wifi-list {
@@ -786,42 +789,42 @@ QPushButton  {
 }
 
 .wifi-menu .wifi-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(205, 214, 244, 0.05);
   border-radius: 6px;
 }
 
-.wifi-menu .wifi-item[active=true] {
-  background-color: rgba(255, 255, 255, 0.15);
+.wifi-menu .wifi-item[active="true"] {
+  background-color: rgba(205, 214, 244, 0.15);
   font-size: 12px;
   border-radius: 6px;
   min-height: 80px;
 }
 
 .wifi-menu .wifi-item .icon {
-  font-family: 'Segoe Fluent Icons';
+  font-family: "Segoe Fluent Icons";
   font-size: 24px;
   margin-right: 10px;
 }
 
 .wifi-menu .wifi-item .name {
-  font-family: 'JetBrainsMono NFP';
+  font-family: "JetBrainsMono NFP";
   font-size: 12px;
   margin-right: 10px;
 }
 
 .wifi-menu .wifi-item .password {
-  font-family: 'JetbrainsMono NFP';
+  font-family: "JetbrainsMono NFP";
   background-color: transparent;
   font-size: 12px;
 }
 
 .wifi-menu .wifi-item .status {
-  font-family: 'JetbrainsMono NFP';
+  font-family: "JetbrainsMono NFP";
   font-size: 12px;
 }
 
 .wifi-menu .wifi-item .strength {
-  font-family: 'JetbrainsMono NFP';
+  font-family: "JetbrainsMono NFP";
   font-size: 10px;
 }
 
@@ -830,7 +833,7 @@ QPushButton  {
 }
 
 .wifi-menu .wifi-item .connect {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(205, 214, 244, 0.15);
   padding: 4px 30px;
   border-radius: 4px;
   border: none;
@@ -838,11 +841,11 @@ QPushButton  {
 }
 
 .wifi-menu .wifi-item .connect:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(205, 214, 244, 0.2);
 }
 
 .wifi-menu .wifi-item .connect:pressed {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(205, 214, 244, 0.3);
 }
 
 .wifi-menu .footer {
@@ -852,11 +855,11 @@ QPushButton  {
   margin-top: 2px;
   color: #9399b2;
   background-color: rgba(17, 17, 27, 0.6);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(205, 214, 244, 0.1);
 }
 
 .wifi-menu .footer .settings-button {
-  font-family: 'JetbrainsMono NFP';
+  font-family: "JetbrainsMono NFP";
   background-color: transparent;
   border: none;
   padding: 0 2px;
@@ -866,7 +869,7 @@ QPushButton  {
 }
 
 .wifi-menu .footer .refresh-icon {
-  font-family: 'Segoe Fluent Icons';
+  font-family: "Segoe Fluent Icons";
   background-color: transparent;
   border: none;
   min-width: 26px;
@@ -875,13 +878,13 @@ QPushButton  {
 }
 
 .wifi-menu .footer .refresh-icon:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(205, 214, 244, 0.1);
   border-radius: 4px;
 }
 
 /*
-* ─[ Volume ]───────────────────────────────────────────────────────────
-*/
+ * ─[ Volume ]───────────────────────────────────────────────────────────
+ */
 .volume-widget {
   background-color: var(--surface0);
   border-top: 1px solid var(--surface2);
@@ -891,7 +894,7 @@ QPushButton  {
 .volume-widget .icon {
   color: var(--teal);
   font-size: 12px;
-  padding: 0 0 0 5px;
+  padding: 0 2px;
 }
 
 .volume-widget .label {
@@ -902,38 +905,42 @@ QPushButton  {
   border: none;
 }
 
-.volume-slider::groove{}
-.volume-slider::handle{}
+.volume-slider::groove {
+}
+
+.volume-slider::handle {
+}
+
 .audio-menu {
-  background-color:rgba(17, 17, 27, 0.4);
+  background-color: rgba(17, 17, 27, 0.6);
 }
 
 .audio-container .device {
-  background-color:transparent;
+  background-color: transparent;
   border: none;
-  padding:6px 8px 6px 4px;
+  padding: 6px 8px 6px 4px;
   margin: 2px 0;
   font-size: 12px;
   border-radius: 4px;
 }
 
 .audio-container .device.selected {
-  background-color: rgba(255, 255, 255, 0.085);
+  background-color: rgba(205, 214, 244, 0.085);
 }
 
 .audio-container .device:hover {
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(205, 214, 244, 0.06);
 }
 
 /*
-* ─[ Notification ]─────────────────────────────────────────────────────
-*/
+ * ─[ Notification ]─────────────────────────────────────────────────────
+ */
 .notification-widget {
   background-color: var(--surface0);
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   margin-right: 4px;
-  padding: 0 6px 0 5px;
+  padding: 0 5px 0 2px;
   border-top: 1px solid var(--surface2);
   border-right: 1px solid var(--surface2);
   border-bottom: 1px solid var(--surface2);
@@ -968,7 +975,7 @@ QPushButton  {
 }
 
 .power-menu-popup {
-  background-color: transparent
+  background-color: transparent;
 }
 
 .power-menu-popup .button {
@@ -978,32 +985,26 @@ QPushButton  {
   border-radius: 8px;
   background-color: var(--crust);
   color: var(--text);
-  border-left: 4px solid rgba(58, 59, 83, 0);
-  border-right: 4px solid rgba(58, 59, 83, 0);
-  border-top: 4px solid rgba(58, 59, 83, 0);
-  border-bottom: 4px solid rgba(58, 59, 83, 0);
+  border: 4px solid rgba(58, 59, 83, 0);
   margin: 0px;
 }
 
 .power-menu-popup .button.hover {
   background-color: var(--base);
-  border-left: 4px solid var(--base);
-  border-right: 4px solid var(--base);
-  border-top: 4px solid var(--base);
-  border-bottom: 4px solid var(--base);
+  border: 4px solid var(--base);
 }
 
 .power-menu-popup .button .label {
   margin-bottom: 8px;
   font-size: 16px;
   font-weight: 500;
-  color: var(--overlay2)
+  color: var(--overlay2);
 }
 
 .power-menu-popup .button .icon {
   font-size: 64px;
   padding-top: 32px;
-  color: var(--surface2)
+  color: var(--surface2);
 }
 
 .power-menu-popup .button.cancel .icon {
@@ -1018,7 +1019,7 @@ QPushButton  {
 
 .power-menu-popup .button.cancel {
   height: 32px;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 .uptime {
