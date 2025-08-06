@@ -66,7 +66,7 @@ vim.lsp.buf.hover = function()
   opts.title = {
     { "╼ ", "LSPHoverBorder" },
     { ft_icon, color },
-    { " " .. (client.name or "LSP"), "@text" },
+    { client.name or "LSP", "@text" },
     { " ╾", "LSPHoverBorder" },
   }
   opts.title_pos = "right"
@@ -187,7 +187,7 @@ end
 ---@param diagnostic vim.Diagnostic
 local function virtual_text_format(diagnostic)
   local ft = vim.bo[diagnostic.bufnr].filetype
-  -- Possible sumbols = ■   󰨓 󱓻 󰝤
+  -- Possible symbols = ■   󰨓 󱓻 󰝤
   if ft == "lazy" or ft == "mason" then return ("󱓻 %s "):format(diagnostic.message) end
 
   -- Don't show the virtual text of the current line, we're using virtual lines instead

@@ -22,8 +22,6 @@ return {
         markdown = true,
         help = false,
         yaml = true,
-        ["grug-far"] = false,
-        ["grug-far-history"] = false,
       },
     },
     keys = {

@@ -31,7 +31,7 @@ return {
     ---@param cat? string
     ---@param icon_opts? { fallback: { dir: string, file: string }? }
     Snacks.util.icon = function(name, cat, icon_opts)
-      icon_opts = icon_opts or { fallback = { dir = "", file = "" } }
+      icon_opts = icon_opts or { fallback = { dir = " ", file = " " } }
       local icon, hl, default = Utils.get_icon({ fs_type = cat or "file", path = name })
       if default then icon = icon_opts.fallback[cat or "file"] end
       return icon, hl

@@ -7,7 +7,6 @@ return {
       styles = {
         float = { backdrop = 80 },
         notification = {
-          zindex = 101,
           wo = { winblend = 0, wrap = true },
         },
         notification_history = {

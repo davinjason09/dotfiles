@@ -51,9 +51,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = {
     "checkhealth",
     "gitsigns-blame",
-    "grug-far",
     "help",
-    "lspinfo",
     "query",
     "qf",
   },
@@ -65,11 +63,7 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.keymap.set("n", "q", function()
         vim.cmd("close")
         pcall(vim.api.nvim_buf_delete, args.buf, { force = true })
-      end, {
-        buffer = args.buf,
-        silent = true,
-        desc = "Quit buffer",
-      })
+      end, { buffer = args.buf, silent = true, desc = "Quit buffer" })
     end)
   end,
   desc = "Close certain buffer with <q>",
@@ -165,6 +159,7 @@ local default_term_close = vim.api.nvim_get_autocmds({
   event = "TermClose",
 })
 vim.api.nvim_del_autocmd(default_term_close[1].id)
+
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   group = vim.api.nvim_create_augroup("ChezmoiApply", { clear = true }),
   pattern = vim.env.HOME .. "/.local/share/chezmoi/**",

@@ -93,7 +93,7 @@ M.icons = {
 M.lazy_nvim_icons = {
   cmd        = "",
   config     = "",
-  event      = "",
+  event      = "",
   ft         = "",
   import     = "",
   loaded     = "",
@@ -102,6 +102,7 @@ M.lazy_nvim_icons = {
   runtime    = "",
   source     = "",
   start      = "",
+  task       = " ",
   list       = { "●", "○", "", "" },
 }
 
@@ -175,12 +176,8 @@ M.capabilities = {
 -- Excluded filetypes for scope indent
 M.excluded_filetypes = {
   "",
-  "grug-far",
-  "grug-far-help",
-  "grug-far-history",
   "help",
   "lazy",
-  "lspinfo",
   "mason",
   "markdown",
   "neo-tree",
@@ -193,8 +190,6 @@ M.excluded_filetypes = {
   "snacks_picker_input",
   "snacks_picker_preview",
   "terminal",
-  "toggleterm",
-  "trouble",
   "tutor",
   "vim",
   "wk",

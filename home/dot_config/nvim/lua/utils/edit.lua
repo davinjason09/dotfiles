@@ -37,7 +37,7 @@ function M.restore_cursor(offset)
   end
 end
 
--- Add new line without entering insert mode
+---Add new line without entering insert mode
 ---@param dir "down" | "up"
 function M.add_line(dir)
   local ft = vim.bo.filetype
