@@ -64,9 +64,15 @@ convert() {
     return 1
   fi
 
-  gowall convert "$filename" --output "$output"
+  magick "$filename" "$output"
 }
 
+if ! command -v magick &>/dev/null; then
+  echo "Error: 'convert' command not found. Please install ImageMagick."
+  exit 1
+fi
+
 for file in "${input_files[@]}"; do
+  echo "Converting '$file' ..."
   convert "$file"
 done
