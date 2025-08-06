@@ -8,7 +8,7 @@ return {
         go_out = "H",
         go_out_plus = "h",
         reveal_cwd = ".",
-        show_hekp = "?",
+        show_help = "?",
       },
       options = {
         permanent_delete = false,
@@ -29,13 +29,11 @@ return {
 
           -- Open the directory of the currently edited file
           -- IF it doesn't exist, open cwd()
-          local path = nil
+          local path = vim.uv.cwd()
           if vim.fn.filereadable(buf_name) == 1 then
             path = buf_name
           elseif vim.fn.isdirectory(dir_name) then
             path = dir_name
-          else
-            path = vim.uv.cwd()
           end
 
           MiniFiles.open(path, true)
@@ -64,10 +62,57 @@ return {
         desc = "Set rounded border for MiniFiles",
       })
 
+      -- Integrate MiniFiles with LSP for file operations
+      local group = vim.api.nvim_create_augroup("MiniFilesLSP", { clear = true })
       vim.api.nvim_create_autocmd("User", {
-        pattern = "MiniFilesActionRename",
+        group = group,
+        pattern = { "MiniFilesActionRename", "MiniFilesActionMoved" },
         callback = function(event) Snacks.rename.on_rename_file(event.data.from, event.data.to) end,
         desc = "LSP integrated file rename",
+      })
+
+      local function request_and_notify_lsp(request_method, notif_method, changes)
+        local clients = vim.lsp.get_clients
+        for _, client in pairs(clients({ method = request_method })) do
+          local resp = client:request_sync(request_method, changes, 1000, 0)
+          if resp and resp.result ~= nil then
+            vim.lsp.util.apply_workspace_edit(resp.result, client.offset_encoding)
+          end
+        end
+
+        for _, client in pairs(clients({ method = notif_method })) do
+          client:notify(notif_method, changes)
+        end
+      end
+
+      local function on_create_file(name)
+        local changes = { files = { {
+          uri = vim.uri_from_fname(name),
+        } } }
+
+        request_and_notify_lsp("workspace/willCreateFile", "workspace/didCreateFile", changes)
+      end
+
+      vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "MiniFilesActionCreate",
+        callback = function(event) on_create_file(event.data.to) end,
+        desc = "LSP integrated file create",
+      })
+
+      local function on_delete_file(name)
+        local changes = { files = { {
+          uri = vim.uri_from_fname(name),
+        } } }
+
+        request_and_notify_lsp("workspace/willDeleteFiles", "workspace/didDeleteFiles", changes)
+      end
+
+      vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "MiniFilesActionDelete",
+        callback = function(event) on_delete_file(event.data.from) end,
+        desc = "LSP integrated file delete",
       })
 
       -- Yank the path of the current file in MiniFiles
