@@ -1,13 +1,16 @@
 local M = {}
 
-local function GetFtIcon(filename)
-  local MiniIcons = require("mini.icons")
+local function get_ft_icon(filename)
+  -- PERF:
+  -- If the filetype is "prompt" or "nofile", return a default icon
+  -- This was done because MiniIcons.get() hit the stack limit when trying to get the icon
+  -- for these filetypes (I assume it happened because the buffer updates a lot when the
+  -- picker is resolving the items), especially when the Snacks picker is open.
   local buftype = vim.bo.buftype
-
   if buftype == "prompt" or buftype == "nofile" then return " " end
 
-  local icon, _, is_default = MiniIcons.get("file", filename)
-  return is_default and " " or icon .. " "
+  local icon = Snacks.util.icon(filename, "file", { fallback = { file = " " } })
+  return icon
 end
 
 local title_ignore_ft = {
@@ -19,7 +22,7 @@ M.title = function()
   local ft = vim.bo.filetype
   local filename = vim.fn.expand("%:t")
 
-  local icon = filename ~= "" and GetFtIcon(filename) or " "
+  local icon = filename ~= "" and get_ft_icon(filename) or " "
   if filename == "" then
     filename, icon = Defaults.title_name(ft, vim.bo.buftype)
   end
@@ -66,17 +69,17 @@ M.setup = function()
   local lazy_autocmds = vim.fn.argc(-1) == 0
   if not lazy_autocmds then M.load("autocmds") end
 
+  -- HACK:
+  -- Declaring `vim.o.titlestring` in options.lua will emit E5108 for MiniIcons if `vim.fn.argc(-1) == 1`
+  -- To combat this, we set the title here after we setup lazy.nvim
+  vim.o.title = true
+  vim.o.titlestring = "%{v:lua.require('config').title()}"
+
   -- Load keymaps and autocommands on VeryLazy
   vim.api.nvim_create_autocmd("User", {
     group = vim.api.nvim_create_augroup("CustomSetup", { clear = true }),
     pattern = "VeryLazy",
     callback = function()
-      -- HACK:
-      -- Declaring `vim.o.titlestring` in options.lua will emit E5108 for MiniIcons if `vim.fn.argc(-1) == 1`
-      -- To combat this, we set the title here after lazy has sourced all plugin modules
-      vim.o.title = true
-      vim.o.titlestring = "%{v:lua.require('config').title()}"
-
       if lazy_autocmds then M.load("autocmds") end
 
       M.load("keymaps")
