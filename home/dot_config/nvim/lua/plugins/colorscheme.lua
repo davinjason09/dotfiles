@@ -82,10 +82,12 @@ return {
           ["@variable.member"]     = { fg = colors.rosewater },
           ["@variable.member.lua"] = { fg = colors.lavender },
 
-          ["@keyword.operator"] = { link = "Operator" },
-          ["@keyword.function"] = { fg = colors.maroon },
-          ["@keyword.return"]   = { fg = colors.pink },
-          ["@keyword.export"]   = { fg = colors.sky },
+          ["@keyword.operator"]   = { link = "Operator" },
+          ["@keyword.function"]   = { fg = colors.maroon },
+          ["@keyword.return"]     = { fg = colors.pink },
+          ["@keyword.export"]     = { fg = colors.sky },
+          ["@keyword.import.c"]   = { fg = colors.teal },
+          ["@keyword.import.cpp"] = { fg = colors.teal },
 
           ["@function.macro"]    = { link = "Constant" },
           ["@constant.builtin"]  = { fg = colors.lavender },
