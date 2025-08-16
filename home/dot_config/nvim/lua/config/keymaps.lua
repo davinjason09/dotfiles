@@ -31,6 +31,11 @@ map({ "n", "x" }, "gl", "$", { desc = "End of line" })
 -- NOTE: requires kitty keyboard protocol
 map({ "i", "c", "t" }, "<C-BS>", "<C-w>")
 map({ "i", "c", "t" }, "<C-w>",  "<NOP>") -- disable default behavior, rewiring my brain
+map({ "i", "c", "t" }, "<C-S-BS>", "<C-u>")
+
+-- Better movement in insert mode, especially around wrapped lines
+map("i", "<Down>", function() vim.cmd("normal! gj") end)
+map("i", "<Up>",   function() vim.cmd("normal! gk") end)
 
 -- Better keymaps on select mode
 map("s", "<BS>", '<C-g>"_c')

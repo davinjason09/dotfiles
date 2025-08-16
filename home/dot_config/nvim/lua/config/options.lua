@@ -68,6 +68,7 @@ vim.o.softtabstop   = 2            -- Number of spaces for a tab when editing
 vim.o.smartcase     = true         -- Don't ignore case when searching with uppercase letters
 vim.o.smartindent   = true         -- Make indenting smarter
 vim.o.tabstop       = 2            -- Number of spaces for a tab
+vim.o.whichwrap     = "b,s,[,]"    -- Allow moving to previous/next line with <Left>/<Right> in insert mode
 vim.o.virtualedit   = "block"      -- Allow going past the end of line in V-BLOCK mode
 
 vim.o.grepprg       = "rg --vimgrep"                  -- Use ripgrep for searching
