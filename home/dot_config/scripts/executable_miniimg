@@ -83,30 +83,30 @@ compress() {
 
   name=$(basename "$1")
   ext=$(echo "${1##*.}" | tr '[:upper:]' '[:lower:]')
-  local output="${output:-$OUT_DIR/${name%.*}_optimized.$ext}"
-  echo "Compressing '$1' to '$output' with quality $quality (lossy: $lossy)"
+  local out="${output:-$OUT_DIR/${name%.*}_optimized.$ext}"
+  echo "Compressing '$1' to '$out' with quality $quality (lossy: $lossy)"
   case "$ext" in
     png)
       if [ "$lossy" = true ]; then
-        pngquant --quality="$quality" --skip-if-larger -f --strip "$1" -o "$output"
+        pngquant --quality="$quality" --skip-if-larger -f --strip "$1" -o "$out"
       else
-        oxipng "$1" --strip all --out "$output"
+        oxipng "$1" --strip all --out "$out"
       fi
       ;;
     jpg | jpeg)
       local dest=""
       if [ -z "$output" ]; then
-        dest="-d $OUT_DIR"
+        dest="-d ${OUT_DIR}"
       fi
 
       if [ "$lossy" = true ]; then
-        jpegoptim -m "$quality" "$1" --strip-all -o "$dest"
+        jpegoptim -m "$quality" "$1" --strip-all -o $dest
       else
-        jpegoptim "$1" --strip-all -o "$dest"
+        jpegoptim "$1" --strip-all -o $dest
       fi
 
       if [ -z $output ] && [ -n "$OUT_DIR/$1" ]; then
-        mv "$OUT_DIR/$1" "$output"
+        mv "$OUT_DIR/$1" "$out"
       fi
       ;;
     *)
@@ -116,13 +116,15 @@ compress() {
   esac
 
   if [ "$preview" = true ]; then
-    compare "$1" "$output"
+    compare "$1" "$out"
   fi
 }
 
 compare() {
   if [ ! -f "$1" ] || [ ! -f "$2" ]; then
     echo "Error: One or both files for comparison do not exist."
+    [ -f "$1" ] || echo "File '$1' does not exist."
+    [ -f "$2" ] || echo "File '$2' does not exist."
     exit 1
   fi
 
