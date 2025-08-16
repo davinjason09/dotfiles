@@ -37,7 +37,7 @@ local function create_tinymist_command(command_name)
     }, { bufnr = bufnr }, handler)
   end
 
-  local cmd_name = (export_type and "LspTinymistExport" or "LspTinymist") .. cmd_display
+  local cmd_name = (export_type and "TinymistExport" or "Tinymist") .. cmd_display
   local cmd_desc = (export_type and "Export to " or "Get ") .. cmd_display
   return run_tinymist_command, cmd_name, cmd_desc
 end

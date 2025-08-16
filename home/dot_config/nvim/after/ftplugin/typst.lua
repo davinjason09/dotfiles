@@ -76,7 +76,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
     -- If no main file is set, export the current file
     if not vim.tbl_contains(ignored_files, vim.fn.expand("%:t")) then
-      vim.cmd.LspTinymistExportPdf()
+      vim.cmd.TinymistExportPdf()
     end
   end,
 })
