@@ -102,6 +102,10 @@ znap prompt
 . "$HOME/.config/zsh/wezterm-integration.sh"
 . "$HOME/.config/zsh/zsh-titles.zsh"
 
+# ╾╼ # Functions to run on startup ╾─────────────────────────────────────╼
+update_title "$(get_cwd_style)" ""
+__wezterm_osc7
+
 # ╾╼ History ╾───────────────────────────────────────────────────────────╼
 HISTFILE=~/.histfile
 HISTSIZE=110000
@@ -132,10 +136,6 @@ znap source Aloxaf/fzf-tab
 znap source zsh-users/zsh-autosuggestions
 znap source zdharma-continuum/fast-syntax-highlighting
 znap source jirutka/zsh-shift-select
-
-# ╾╼ # Functions to run on startup ╾─────────────────────────────────────╼
-update_title "$(get_cwd_style)" "" # update terminal title
-__wezterm_osc7 # osc7 integration
 
 # ╾╼ Debugging ╾─────────────────────────────────────────────────────────╼
 if [[ -n $ZSH_DEBUG ]]; then
