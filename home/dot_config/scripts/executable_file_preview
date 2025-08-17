@@ -91,13 +91,13 @@ view_binary() {
 
 view_text() {
   case $kind in
-  plain)
-    case $input in
-    *clang-format) bat --color=always -plyaml "$input" ;;
+    plain)
+      case $input in
+        *clang-format) bat --color=always -plyaml "$input" ;;
+        *) bat --color=always -p "$input" ;;
+      esac
+      ;;
     *) bat --color=always -p "$input" ;;
-    esac
-    ;;
-  *) bat --color=always -p "$input" ;;
   esac
 }
 
@@ -107,27 +107,26 @@ if [[ -d "$input" ]]; then
 fi
 
 case "${input}" in
-*.md) CLICOLOR_FORCE=1 COLORTERM=truecolor glow -s dark -w "${C}" "$input" && exit 0 ;;
-*.json) jq -r . "$input" | bat --color=always -pljson && exit 0 ;;
-*.zip) ouch list "$input" && exit 0 ;;
-*.cat) view_text && exit 0 ;;
+  *.md) CLICOLOR_FORCE=1 COLORTERM=truecolor glow -s dark -w "${C}" "$input" && exit 0 ;;
+  *.json) jq -r . "$input" | bat --color=always -pljson && exit 0 ;;
+  *.zip) ouch list "$input" && exit 0 ;;
+  *.cat) view_text && exit 0 ;;
 esac
 
 case "$mime" in
-image/*) view_image || view_binary ;;
-application/pdf) view_pdf || view_binary ;;
-application/octet-stream | application/x-*-binary | application/*executable) view_binary ;;
-application/vnd.*-officedocument* | application/vnd.*.opendocument*) view_opendocument || view_binary ;;
-application/toml) bat --color=always -pltoml "$input" ;;
-application/x-shellscript) bat --color=always -plsh "$input" ;;
-text/*) view_text ;;
-*)
-  echo "Unsupported file type: $mime" >&2
-  exit 1
-  ;;
+  image/*) view_image || view_binary ;;
+  application/pdf) view_pdf || view_binary ;;
+  application/octet-stream | application/x-*-binary | application/*executable) view_binary ;;
+  application/vnd.*-officedocument* | application/vnd.*.opendocument*) view_opendocument || view_binary ;;
+  application/toml) bat --color=always -pltoml "$input" ;;
+  application/x-shellscript) bat --color=always -plsh "$input" ;;
+  text/*) view_text ;;
+  *)
+    echo "Unsupported file type: $mime" >&2
+    exit 1
+    ;;
 esac
 
-# check $?
 if [[ $? -ne 0 ]]; then
   echo "Failed to preview file: $input" >&2
   echo "Mime: $mime" >&2

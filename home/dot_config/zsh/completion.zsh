@@ -103,7 +103,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd . --type=d --strip-cwd-prefix --exclude=".git" --exclude="node_modules" --color=always --no-ignore-parent --unrestricted'
 
 export FZF_CTRL_T_OPTS="
-  --preview 'bash $HOME/.config/zsh/file-preview.sh {}'
+  --preview 'file_preview {}'
   --padding=0,1,0
   --bind='ctrl-/:change-preview-window(hidden|)'
 "
@@ -140,7 +140,7 @@ zstyle ':fzf-tab:*' fzf-min-height 15
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
-zstyle ':fzf-tab:complete:*:*' fzf-preview 'bash $HOME/.config/zsh/file-preview.sh $realpath'
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'file_preview $realpath'
 zstyle ':fzf-tab:complete:*:options' fzf-preview
 zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
 
