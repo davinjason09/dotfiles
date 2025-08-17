@@ -13,7 +13,10 @@ return {
         frecency = true,
       },
       formatters = {
-        file = { filename_first = true },
+        file = {
+          filename_first = true,
+          truncate = 50,
+        },
       },
       previewers = {
         diff = {

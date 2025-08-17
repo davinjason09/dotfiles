@@ -64,21 +64,22 @@ M.options = function()
       hidden = { "preview" },
       layout = { width = 0.8, height = 0.5 },
     },
-    on_close = function() end,
     confirm = function(picker, item)
       picker:close()
 
-      local esc = ""
-      if vim.fn.mode() == "i" then esc = Snacks.util.keycode("<ESC>") end
+      vim.schedule(function()
+        local ESC = ""
+        if vim.fn.mode() == "i" then ESC = Snacks.util.keycode("<ESC>") end
 
-      local keys = ""
-      if item.item.type == "boolean" then
-        keys = string.format("%s:set %s!", esc, item.item.name)
-      else
-        keys = string.format("%s:set %s=%s", esc, item.item.name, item.item.value)
-      end
+        local keys = ""
+        if item.item.type == "boolean" then
+          keys = ("%s:set %s!"):format(ESC, item.item.name)
+        else
+          keys = ("%s:set %s=%s"):format(ESC, item.item.name, item.item.value)
+        end
 
-      vim.api.nvim_feedkeys(keys, "m", true)
+        vim.api.nvim_feedkeys(keys, "m", true)
+      end)
     end,
   })
 end
