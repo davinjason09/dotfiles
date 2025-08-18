@@ -18,7 +18,8 @@ export DOTFILES="$HOME/.local/share/chezmoi"
 # ╾╼ # Windows Environment Variables for WSL ╾───────────────────────────╼
 export WIN_C="/mnt/c"
 export WIN_D="/mnt/d"
-export WIN_SYSTEM="${WIN_C}/WINDOWS/system32"
+export WIN="${WIN_C}/WINDOWS"
+export WIN_SYSTEM="${WIN}/system32"
 export WIN_HOME="${WIN_C}/Users/{{ .windowsUsername }}"
 export SOL="${WIN_D}/UGM/Programming/Comprog/sol.cpp"
 {{- end }}
@@ -32,6 +33,7 @@ typeset -gU path fpath
 safe_export_path "$HOME/.local/bin"
 {{ if .isWSL -}}
 safe_export_path "$WIN_SYSTEM"
+safe_export_path "$WIN"
 {{- end }}
 
 if has nvim; then
