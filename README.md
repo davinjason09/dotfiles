@@ -1,7 +1,7 @@
 <h1 align="center">dotfiles</h1>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="400" />
+  <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="600" />
 </p>
 
 <div align="center">
@@ -40,6 +40,7 @@
     - [x] Custom picker (nvim_options, reload plugin, chezmoi files)
     - [x] Custom blink-documentation parser for better docs (esp. typst)
     - [x] Custom terminal manager
+    - [ ] Custom ui_attach
     - [ ] Migrate nvim-treesitter to main branch
   - [x] zsh
     - [x] Optimize startup time (~780ms to ~300ms)
@@ -66,7 +67,7 @@
 - [ ] Add a script to install all the dependencies
 - [x] Add a script to copy files to the windows side
 - [~] Gallery
-  - [ ] Add more screenshots of my setup
+  - [~] Add more screenshots of my setup
   - [~] Individual README for each config
 
 Checkbox Items:
@@ -79,5 +80,5 @@ Checkbox Items:
 ---
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/footers/gray0_ctp_on_line.svg?sanitize=true" />
+	<img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/footers/gray0_ctp_on_line.svg?sanitize=true" width="1000"/>
 </p>
