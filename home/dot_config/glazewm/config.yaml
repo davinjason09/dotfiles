@@ -2,7 +2,9 @@ general:
   # Commands to run when the WM has started (e.g. to run a script or launch
   # another application). Here we are running a batch script to start Zebar.
   startup_commands:
-    ["shell-exec --hide-window powershell %HOMEPATH%/.glzr/scripts/start.ps1"]
+    [
+      "shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1",
+    ]
 
   # Commands to run just before the WM is shutdown.
   # Example: The below command kills Zebar.
@@ -10,7 +12,9 @@ general:
 
   # Commands to run after the WM config is reloaded.
   config_reload_command:
-    ["shell-exec --hide-window powershell %HOMEPATH%/.glzr/scripts/start.ps1"]
+    [
+      "shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1",
+    ]
 
   # Whether to automatically focus windows underneath the cursor.
   focus_follows_cursor: true
