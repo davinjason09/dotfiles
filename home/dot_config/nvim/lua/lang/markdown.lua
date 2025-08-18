@@ -17,20 +17,24 @@ return {
       },
     },
   },
-  -- NOTE: considering moving to brianhuster/live-preview.nvim
   {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    "brianhuster/live-preview.nvim",
+    dependencies = { "folke/snacks.nvim" },
     ft = { "markdown" },
-    build = function()
-      require("lazy").load({ plugins = { "markdown-preview.nvim" } })
-      vim.fn["mkdp#util#install"]()
+    cmd = { "LivePreview" },
+    keys = function(plugin)
+      return {
+        {
+          "<leader>cp",
+          function()
+            vim.cmd("LivePreview " .. (require("livepreview").is_running() and "stop" or "start"))
+          end,
+          desc = "[C]ode: [P]review",
+          ft = plugin.ft,
+        },
+      }
     end,
-    -- stylua: ignore
-    keys = {
-      { "<leader>cp", "<CMD>MarkdownPreviewToggle<CR>", desc = "[C]ode: [P]review", ft = "markdown" },
-    },
-    config = function() vim.cmd([[do FileType]]) end,
+    opts = {},
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
