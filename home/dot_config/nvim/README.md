@@ -1,6 +1,5 @@
-<div align="center" style="display: flex; align-items: center; flex-direction: row; justify-content: center;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Neovim-mark.svg" alt="neovim" width="35px" style="display: inline;">
-  <h1 style="margin-left: 10px; font-size: 2em; font-weight: bold;">neovim</h1>
+<div align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Neovim-logo.svg" alt="neovim" height="100px" style="display: inline;">
 </div>
 
 <p align="center">
