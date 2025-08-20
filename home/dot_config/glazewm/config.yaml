@@ -187,6 +187,18 @@ binding_modes:
         bindings: ["escape", "enter"]
 
 keybindings:
+  # Launch Apps
+  - commands: ["shell-exec wezterm"] # Terminal
+    bindings: ["lwin+enter"]
+  - commands: ["shell-exec zen"] # Browser
+    bindings: ["lwin+b"]
+  - commands: ["shell-exec %LOCALAPPDATA%\\Voidstar\\FilePilot\\FPilot.exe"] # File Explorer
+    bindings: ["lwin+e"]
+  - commands: ["shell-exec yasbc toggle-widget powermenu --follow-mouse"] # Power Menu
+    bindings: ["lwin+ctrl+q"]
+  - commands: ["shell-exec yasbc toggle-widget wallpapers --follow-mouse"] # Wallpapers
+    bindings: ["lwin+ctrl+w"]
+
   # Shift focus in a given direction.
   - commands: ["focus --direction left"]
     # bindings: ['lwin+h', 'lwin+left']
@@ -262,18 +274,6 @@ keybindings:
   - commands: ["set-transparency --opacity 100%"]
     bindings: ["lwin+shift+t"]
 
-  # Launch wezterm
-  - commands: ["shell-exec --hide-window wezterm"]
-    bindings: ["lwin+enter"]
-
-  # Launch yasb powermenu
-  - commands:
-      ["shell-exec --hide-window yasbc toggle-widget powermenu --follow-mouse"]
-    bindings: ["lwin+ctrl+q"]
-
-  - commands:
-      ["shell-exec --hide-window yasbc toggle-widget wallpapers --follow-mouse"]
-    bindings: ["lwin+ctrl+w"]
 
   # Focus the next/previous workspace defined in `workspaces` config.
   - commands: ["focus --next-workspace"]
