@@ -25,7 +25,9 @@ M.picker = {
       local idx = utils.get_term("bufnr", term_buf)
 
       if idx then
-        if state.last == term_buf then vim.schedule(function() utils.cycle_term_buf("prev") end) end
+        if state.last_term == term_buf then
+          vim.schedule(function() utils.cycle_term_buf("prev") end)
+        end
         table.remove(state.term_bufs, idx)
       else
         Snacks.notify.error("Terminal not found: " .. id .. " " .. term_buf)
@@ -50,7 +52,7 @@ M.picker = {
       state.term_bufs[idx].name = new_name
       picker:find()
 
-      if state.term_bufs[idx].bufnr == state.last then
+      if state.term_bufs[idx].bufnr == state.last_term then
         picker.preview:set_title(new_name)
         picker:update_titles()
       end
