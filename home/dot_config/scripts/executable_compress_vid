@@ -94,8 +94,8 @@ transcode() {
   local cpu="$cpu_count"
 
   ffmpeg -y -hide_banner -loglevel error -i "$input_file" \
-    -b:v "$bitrate" -threads "$cpu" \
-    -c:a copy "$output_file" || {
+    -vcodec libx264 -b:v "$bitrate" -c:a copy \
+    -threads "$cpu" -stats "$output_file" || {
     echo "Error: Failed to transcode $input_file"
     return 1
   }
@@ -137,9 +137,8 @@ compress() {
       factor=1.0
     fi
     bitrate=$(echo "scale=0; $bitrate * $factor" | bc -l | awk '{print int($1)}')
-    echo "bitrate: $bitrate, factor: $factor"
 
-    echo "Attempt $attempt: Transcoding $input_file at bitrate $bitrate"
+    echo "Attempt $attempt: Transcoding $input_file with bitrate $bitrate"
     transcode "$input_file" "$output_file" "$bitrate"
     if [ $? -ne 0 ]; then
       return 1
@@ -147,14 +146,13 @@ compress() {
 
     local after_size=$(stat -c%s "$output_file")
     local percent_of_target=$(echo "scale=10; 100 / $target_size_b * $after_size" | bc -l)
-    echo "percent_of_target: $percent_of_target"
     factor=$(echo "scale=2; 100 / $percent_of_target" | bc)
-    echo "New factor: $factor"
 
-    printf "Original size: %.2f MB\nCompressed size: %.2f MB\nPercentage of target: %.2f%%\nBitrate: %d\n" \
+    printf "> Original size: %.2f MB\n> Compressed size: %.2f MB\n> Percentage of target: %.2f%%\n> Bitrate: %d\n" \
       "$(echo "$before_size / 1024 / 1024" | bc -l)" \
       "$(echo "$after_size / 1024 / 1024" | bc -l)" \
       "$percent_of_target" "$bitrate"
+    echo "----------------------------------------"
   done
 
   echo "Completed in $attempt attempts."
