@@ -11,7 +11,7 @@ M.picker = {
     end
 
     picker:action("focus_term")
-    utils.switch_term_buf(item.item.bufnr)
+    vim.schedule(function() utils.switch_term_buf(item.item.bufnr) end)
   end,
   focus_term = function(picker) picker:action("focus_preview") end,
   defer_focus_list = function(picker)
