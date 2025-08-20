@@ -90,7 +90,6 @@ return {
           ["@keyword.import.cpp"] = { fg = colors.teal },
 
           ["@function.macro"]    = { link = "Constant" },
-          ["@constant.builtin"]  = { fg = colors.lavender },
           ["@module"]            = { fg = colors.rosewater },
           ["@namespace.builtin"] = { fg = colors.red },
 
