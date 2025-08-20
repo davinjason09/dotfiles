@@ -40,7 +40,7 @@ local function find_term()
       id = id,
       item = term,
       text = id .. " " .. Snacks.picker.util.text(term, { "name", "bufnr" }),
-      title = term.name,
+      title = id_to_icon(id, #tostring(id)) .. " " .. term.name,
       file = vim.api.nvim_buf_get_name(term.bufnr),
     })
   end
@@ -118,7 +118,7 @@ M.pick = function(cmd)
       if cur_win ~= "input" then return end
 
       Snacks.picker.preview.file(ctx)
-      ctx.preview:set_title(ctx.item.title)
+      ctx.preview:set_title("Previewing: " .. ctx.item.title)
     end,
     win = {
       input = { keys = config.keys.input },
