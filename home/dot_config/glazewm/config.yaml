@@ -1,13 +1,11 @@
 general:
-  # Commands to run when the WM has started (e.g. to run a script or launch
-  # another application). Here we are running a batch script to start Zebar.
+  # Commands to run when the WM has started
   startup_commands:
     [
       "shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1",
     ]
 
   # Commands to run just before the WM is shutdown.
-  # Example: The below command kills Zebar.
   shutdown_commands: []
 
   # Commands to run after the WM config is reloaded.
@@ -34,24 +32,17 @@ general:
 
   # How windows should be hidden when switching workspaces.
   # - 'cloak': Recommended. Hides windows with no animation.
-  # - 'hide': Legacy method (v3.5 and earlier) that has a brief animation,
-  # but has stability issues with some apps.
+  # - 'hide': Legacy method (v3.5 and earlier) that has a brief animation, but has stability issues with some apps.
   hide_method: "cloak"
 
-  # Affects which windows get shown in the native Windows taskbar. Has no
-  # effect if `hide_method: 'hide'`.
+  # Affects which windows get shown in the native Windows taskbar. Has no effect if `hide_method: 'hide'`.
   # - 'true': Show all windows (regardless of workspace).
   # - 'false': Only show windows from the currently shown workspaces.
   show_all_in_taskbar: false
 
 gaps:
-  # Whether to scale the gaps with the DPI of the monitor.
   scale_with_dpi: true
-
-  # Gap between adjacent windows.
   inner_gap: "4px"
-
-  # Gap between windows and the screen edge.
   outer_gap:
     top: "9px"
     right: "8px"
@@ -59,10 +50,7 @@ gaps:
     left: "8px"
 
 window_effects:
-  # Visual effects to apply to the focused window.
   focused_window:
-    # Highlight the window with a colored border.
-    # ** Exclusive to Windows 11 due to API limitations.
     border:
       enabled: false
       color: "#89dceb"
@@ -73,8 +61,6 @@ window_effects:
       enabled: true
       opacity: "95%"
       # opacity: '100%'
-
-  # Visual effects to apply to non-focused windows.
   other_windows:
     border:
       enabled: false
@@ -91,24 +77,12 @@ window_behavior:
   # New windows are created in this state whenever possible.
   # Allowed values: 'tiling', 'floating'.
   initial_state: "tiling"
-
-  # Sets the default options for when a new window is created. This also
-  # changes the defaults for when the state change commands, like
-  # `set-floating`, are used without any flags.
   state_defaults:
     floating:
-      # Whether to center floating windows by default.
       centered: true
-
-      # Whether to show floating windows as always on top.
       shown_on_top: true
-
     fullscreen:
-      # Maximize the window if possible. If the window doesn't have a
-      # maximize button, then it'll be fullscreen'ed normally instead.
-      maximized: false
-
-      # Whether to show fullscreen windows as always on top.
+      maximized: true
       shown_on_top: false
 
 workspaces:
@@ -170,22 +144,6 @@ window_rules:
       - window_class: { regex: 'HwndWrapper\[Flow\.Launcher.*?\]' }
         window_title: { equals: "Settings" }
 
-binding_modes:
-  # When enabled, the focused window can be resized via arrow keys or HJKL.
-  - name: "resize"
-    keybindings:
-      - commands: ["resize --width -2%"]
-        bindings: ["h", "left"]
-      - commands: ["resize --width +2%"]
-        bindings: ["l", "right"]
-      - commands: ["resize --height +2%"]
-        bindings: ["k", "up"]
-      - commands: ["resize --height -2%"]
-        bindings: ["j", "down"]
-      # Press enter/escape to return to default keybindings.
-      - commands: ["wm-disable-binding-mode --name resize"]
-        bindings: ["escape", "enter"]
-
 keybindings:
   # Launch Apps
   - commands: ["shell-exec wezterm"] # Terminal
@@ -201,16 +159,12 @@ keybindings:
 
   # Shift focus in a given direction.
   - commands: ["focus --direction left"]
-    # bindings: ['lwin+h', 'lwin+left']
     bindings: ["lwin+left"]
   - commands: ["focus --direction right"]
-    # bindings: ['lwin+l', 'lwin+right']
     bindings: ["lwin+right"]
   - commands: ["focus --direction up"]
-    # bindings: ['lwin+k', 'lwin+up']
     bindings: ["lwin+up"]
   - commands: ["focus --direction down"]
-    # bindings: ['lwin+j', 'lwin+down']
     bindings: ["lwin+down"]
 
   # Move focused window in a given direction.
@@ -237,8 +191,7 @@ keybindings:
   - commands: ["wm-toggle-pause"]
     bindings: ["lwin+tab"]
 
-  # Change tiling direction. This determines where new tiling windows will
-  # be inserted.
+  # Change tiling direction. This determines where new tiling windows will be inserted.
   - commands: ["toggle-tiling-direction"]
     bindings: ["lwin+`"]
 
@@ -262,7 +215,7 @@ keybindings:
   - commands: ["wm-exit"]
     bindings: ["lwin+escape"]
 
-  # Re-evaluate configuration file.
+  # Reload configuration file.
   - commands: ["wm-reload-config"]
     bindings: ["lwin+shift+r"]
 
@@ -274,14 +227,11 @@ keybindings:
   - commands: ["set-transparency --opacity 100%"]
     bindings: ["lwin+shift+t"]
 
-
-  # Focus the next/previous workspace defined in `workspaces` config.
+  # Focus the next/previous/recent workspace
   - commands: ["focus --next-workspace"]
     bindings: ["lwin+s"]
   - commands: ["focus --prev-workspace"]
     bindings: ["lwin+a"]
-
-  # Focus the workspace that last had focus.
   - commands: ["focus --recent-workspace"]
     bindings: ["lwin+d"]
 
