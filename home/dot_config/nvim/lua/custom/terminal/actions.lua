@@ -5,6 +5,11 @@ local utils = require("custom.terminal.utils")
 ---@type table<string, snacks.picker.Action.spec>
 M.picker = {
   confirm = function(picker, item)
+    if picker:current_win() == "input" then
+      picker:action("clear_input")
+      picker:find()
+    end
+
     picker:action("focus_term")
     utils.switch_term_buf(item.item.bufnr)
   end,
