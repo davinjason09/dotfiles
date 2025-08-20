@@ -22,7 +22,7 @@ local function format_item(item, picker)
   local a = Snacks.picker.util.align
   local ret = {}
   local k = item.item
-  local id = id_to_icon(item.id, #tostring(#state.term_bufs))
+  local id = id_to_icon(item.idx, #tostring(item.idx))
   local width = vim.api.nvim_win_get_width(picker.list.win.win)
   local icon = Snacks.util.icon(k.name:lower(), "file", { fallback = { file = " " } })
 
@@ -37,7 +37,6 @@ local function find_term()
   local items = {}
   for id, term in pairs(state.term_bufs) do
     table.insert(items, {
-      id = id,
       item = term,
       text = id .. " " .. Snacks.picker.util.text(term, { "name", "bufnr" }),
       title = id_to_icon(id, #tostring(id)) .. " " .. term.name,
@@ -86,7 +85,7 @@ M.pick = function(cmd)
     title = "Terminal",
     focus = "list",
     layout = config.picker_layout,
-    format = function(item, picker) return format_item(item, picker) end,
+    format = format_item,
     finder = find_term,
     on_show = function(picker)
       picker:action("focus_preview")
@@ -107,7 +106,7 @@ M.pick = function(cmd)
       local cur_win = ctx.picker:current_win()
 
       if state.last_win == "input" and cur_win ~= "input" then
-        local buf = state.last_term or state.term_bufs[ctx.item.id].bufnr
+        local buf = state.last_term or state.term_bufs[ctx.item.idx].bufnr
         utils.switch_term_buf(buf)
 
         local action = cur_win == "list" and "stopinsert" or "startinsert"

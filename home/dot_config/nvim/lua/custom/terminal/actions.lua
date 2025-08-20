@@ -31,16 +31,11 @@ M.picker = {
     local term_bufs = picker:selected({ fallback = true })
     for id, item in pairs(term_bufs) do
       local term_buf = item.item.bufnr
-      local idx = utils.get_term("bufnr", term_buf)
 
-      if idx then
-        if state.last_term == term_buf then
-          vim.schedule(function() utils.cycle_term_buf("prev") end)
-        end
-        table.remove(state.term_bufs, idx)
-      else
-        Snacks.notify.error("Terminal not found: " .. id .. " " .. term_buf)
+      if state.last_term == term_buf then
+        vim.schedule(function() utils.cycle_term_buf("prev") end)
       end
+      table.remove(state.term_bufs, id)
     end
 
     if #state.term_bufs == 0 then
@@ -54,19 +49,13 @@ M.picker = {
     vim.schedule(Utils.edit.escape)
   end,
   rename_term = function(picker, item)
-    local idx = utils.get_term("bufnr", item.item.bufnr)
+    local new_name = vim.fn.input("New Terminal Name: ", item.item.name)
+    state.term_bufs[item.idx].name = new_name
+    picker:find()
 
-    if idx then
-      local new_name = vim.fn.input("New Terminal Name: ", item.item.name)
-      state.term_bufs[idx].name = new_name
-      picker:find()
-
-      if state.term_bufs[idx].bufnr == state.last_term then
-        picker.preview:set_title(new_name)
-        picker:update_titles()
-      end
-    else
-      Snacks.notify.error("Terminal not found")
+    if state.term_bufs[item.idx].bufnr == state.last_term then
+      picker.preview:set_title(new_name)
+      picker:update_titles()
     end
   end,
   cycle_next = function() utils.cycle_term_buf("next") end,
