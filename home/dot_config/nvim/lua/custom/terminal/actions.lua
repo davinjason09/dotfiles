@@ -12,11 +12,15 @@ M.picker = {
   add_term = function(picker)
     utils.add_term()
     picker:find()
+    picker:action("focus_term")
+    utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
   end,
   add_term_cmd = function(picker)
     local term_cmd = vim.fn.input("Command: ")
     utils.add_term(term_cmd, nil, { persist = true })
     picker:find()
+    picker:action("focus_term")
+    utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
   end,
   delete_term = function(picker)
     local term_bufs = picker:selected({ fallback = true })

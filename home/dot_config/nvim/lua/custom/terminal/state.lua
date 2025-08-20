@@ -27,7 +27,7 @@ local M = {
     keys = {
       input = {
         ["<C-`>"] = { "close", mode = { "n", "i" } },
-        ["<C-j>"] = { "focus_list", mode = { "n", "i" } },
+        ["<C-j>"] = { { "stopinsert", "focus_list" }, mode = { "n", "i" } },
         ["<C-l>"] = { "focus_term", mode = { "n", "i" } },
         ["d"] = { "delete_term", desc = "Delete Terminal" },
         ["a"] = { "add_term", desc = "Add Terminal" },
@@ -36,7 +36,7 @@ local M = {
       },
       list = {
         ["<C-`>"] = { "close", mode = { "n", "i" } },
-        ["<C-k>"] = { "focus_input" },
+        ["<C-k>"] = { { "stopinsert", "focus_input" } },
         ["<C-l>"] = { "focus_term" },
         ["a"] = { "add_term", desc = "Add Terminal" },
         ["A"] = { "add_term_cmd", desc = "Add Terminal with Command" },
