@@ -3,10 +3,12 @@ local M = {
   last_term = nil,
   term_bufs = {},
   term_win = nil,
+  last_win = nil,
 
   config = {
     ---@type snacks.picker.layout.Config
     picker_layout = {
+      auto_hide = { "input" },
       layout = {
         box = "horizontal",
         width = 0.9,
@@ -27,8 +29,8 @@ local M = {
     keys = {
       input = {
         ["<C-`>"] = { "close", mode = { "n", "i" } },
-        ["<C-j>"] = { { "stopinsert", "focus_list" }, mode = { "n", "i" } },
-        ["<C-l>"] = { "focus_term", mode = { "n", "i" } },
+        ["<C-j>"] = { { "clear_input", "defer_focus_list" }, mode = { "n", "i" } },
+        ["<C-l>"] = { { "clear_input", "defer_focus_term" }, mode = { "n", "i" } },
         ["d"] = { "delete_term", desc = "Delete Terminal" },
         ["a"] = { "add_term", desc = "Add Terminal" },
         ["A"] = { "add_term_cmd", desc = "Add Terminal with Command" },
@@ -36,7 +38,7 @@ local M = {
       },
       list = {
         ["<C-`>"] = { "close", mode = { "n", "i" } },
-        ["<C-k>"] = { { "stopinsert", "focus_input" } },
+        ["<C-k>"] = { { "focus_input" } },
         ["<C-l>"] = { "focus_term" },
         ["a"] = { "add_term", desc = "Add Terminal" },
         ["A"] = { "add_term_cmd", desc = "Add Terminal with Command" },
@@ -45,11 +47,14 @@ local M = {
       },
       preview = {
         ["<C-`>"] = { "close", mode = { "n", "t", "i" } },
-        ["<C-h>"] = { "focus_list", mode = { "n", "t", "i" } },
+        ["<C-h>"] = { { "focus_list", "stopinsert" }, mode = { "n", "t", "i" } },
         ["<C-j>"] = { "cycle_next", mode = { "n", "t", "i" } },
         ["<C-k>"] = { "cycle_prev", mode = { "n", "t", "i" } },
         ["<ESC>"] = { "term_normal", mode = { "t" }, expr = true },
         ["gf"] = { "goto_file" },
+        ["a"] = { "add_term", desc = "Add Terminal", mode = { "n" } },
+        ["A"] = { "add_term_cmd", desc = "Add Terminal with Command", mode = { "n" } },
+        ["e"] = { "rename_term", desc = "Edit Terminal Name", mode = { "n" } },
       },
     },
   },

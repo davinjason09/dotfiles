@@ -40,6 +40,8 @@ local function find_term()
       id = id,
       item = term,
       text = id .. " " .. Snacks.picker.util.text(term, { "name", "bufnr" }),
+      title = term.name,
+      file = vim.api.nvim_buf_get_name(term.bufnr),
     })
   end
   return items
@@ -59,17 +61,15 @@ local function setup_autocmd()
 
     if opts.persist then
       picker:close()
-      vim.api.nvim_buf_delete(closed_buf, { force = true })
-      return
+      return vim.api.nvim_buf_delete(closed_buf, { force = true })
     end
 
     state.term_bufs = vim.tbl_filter(function(t) return t.bufnr ~= closed_buf end, state.term_bufs)
 
     vim.schedule(function()
       if #state.term_bufs == 0 or opts.auto_close then
-        state.last = nil
-        picker:close()
-        return
+        state.last_term = nil
+        return picker:close()
       else
         utils.cycle_term_buf("prev")
       end
@@ -97,13 +97,29 @@ M.pick = function(cmd)
       if cmd then
         buf = state.term_bufs[#state.term_bufs].bufnr
       else
-        buf = state.last or state.term_bufs[1].bufnr
+        buf = state.last_term or state.term_bufs[1].bufnr
       end
 
       utils.switch_term_buf(buf)
     end,
     actions = actions.picker,
-    preview = function() return false end,
+    preview = function(ctx)
+      local cur_win = ctx.picker:current_win()
+
+      if state.last_win == "input" and cur_win ~= "input" then
+        local buf = state.last_term or state.term_bufs[ctx.item.id].bufnr
+        utils.switch_term_buf(buf)
+
+        local action = cur_win == "list" and "stopinsert" or "startinsert"
+        vim.defer_fn(function() ctx.picker:action(action) end, 25)
+      end
+
+      state.last_win = cur_win
+      if cur_win ~= "input" then return end
+
+      Snacks.picker.preview.file(ctx)
+      ctx.preview:set_title(ctx.item.title)
+    end,
     win = {
       input = { keys = config.keys.input },
       list = { keys = config.keys.list },
@@ -123,24 +139,18 @@ M.open = function(cmd)
   if #state.term_bufs == 0 then utils.add_term() end
 
   local picker = Snacks.picker.get()[1]
-  if not picker then
-    M.pick(cmd)
-    return
-  end
+  if not picker then return M.pick(cmd) end
 
   if cmd then
-    utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
-    picker:find()
+    local buf = state.term_bufs[#state.term_bufs].bufnr
+    utils.switch_term_buf(buf)
   end
 end
 
+---@param cmd? string | string[]
 M.toggle = function(cmd)
   local picker = Snacks.picker.get()[1]
-  if picker then
-    picker:close()
-  else
-    M.open(cmd)
-  end
+  return picker and picker:close() or M.open(cmd)
 end
 
 return M

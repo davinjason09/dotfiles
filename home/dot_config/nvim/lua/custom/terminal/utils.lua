@@ -52,7 +52,6 @@ M.switch_term_buf = function(buf)
       if opts.persist then
         buf = vim.api.nvim_create_buf(false, true)
         state.term_bufs[id].bufnr = buf
-        picker:find()
       end
     end
 
@@ -65,13 +64,15 @@ M.switch_term_buf = function(buf)
     picker:update_titles()
 
     if vim.bo[buf].buftype ~= "terminal" then
-      local cur_win = picker:current_win()
-      local is_term = cur_win == "preview"
+      local is_term = picker:current_win() == "preview"
       if not is_term then picker:action("focus_term") end
 
       jobstart(details.cmd, { term = true })
+      vim.schedule(function() picker:find() end)
 
-      if not is_term then picker:action(("focus_%s"):format(cur_win)) end
+      -- Since the input field is automatically hidden, focus to the list no matter whether if the
+      -- previous window was the input or not.
+      if not is_term then picker:action("focus_list") end
     end
   end)
 end

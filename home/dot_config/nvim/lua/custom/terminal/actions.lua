@@ -9,16 +9,21 @@ M.picker = {
     utils.switch_term_buf(item.item.bufnr)
   end,
   focus_term = function(picker) picker:action("focus_preview") end,
+  defer_focus_list = function(picker)
+    vim.defer_fn(function() picker:action("focus_list") end, 25)
+  end,
+  defer_focus_term = function(picker)
+    vim.defer_fn(function() picker:action("focus_term") end, 25)
+  end,
+  startinsert = function() vim.cmd.startinsert() end,
   add_term = function(picker)
     utils.add_term()
-    picker:find()
     picker:action("focus_term")
     utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
   end,
   add_term_cmd = function(picker)
     local term_cmd = vim.fn.input("Command: ")
     utils.add_term(term_cmd, nil, { persist = true })
-    picker:find()
     picker:action("focus_term")
     utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
   end,
@@ -72,7 +77,7 @@ M.picker = {
 
     if self.esc_timer:is_active() then
       self.esc_timer:stop()
-      vim.cmd("stopinsert")
+      self:action("stopinsert")
     else
       self.esc_timer:start(200, 0, function() end)
       vim.api.nvim_exec_autocmds("User", { pattern = "ForceRedraw", modeline = false })
