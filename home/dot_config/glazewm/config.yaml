@@ -101,7 +101,6 @@ workspaces:
 window_rules:
   - commands: ["ignore"]
     match:
-      - window_process: { equals: "zebar" }
       - window_process: { equals: "yasb" }
 
       # Picture-to-picture
