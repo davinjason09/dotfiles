@@ -146,7 +146,7 @@ window_rules:
 
 keybindings:
   # Launch Apps
-  - commands: ["shell-exec wezterm"] # Terminal
+  - commands: ["shell-exec --hide-window wezterm"] # Terminal
     bindings: ["lwin+enter"]
   - commands: ["shell-exec zen"] # Browser
     bindings: ["lwin+b"]
