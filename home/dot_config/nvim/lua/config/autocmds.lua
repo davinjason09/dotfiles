@@ -171,11 +171,11 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 
     vim.system({ "chezmoi", "apply", "--no-tty" }, nil, function(obj)
       if obj.code ~= 0 then
-        if obj.stdout then notify(obj.stdout, vim.log.levels.WARN) end
-        if obj.stderr then notify(obj.stderr, vim.log.levels.WARN) end
+        if obj.stdout then notify(obj.stdout:gsub("\n$", ""), vim.log.levels.WARN) end
+        if obj.stderr then notify(obj.stderr:gsub("\n$", ""), vim.log.levels.WARN) end
       else
         notify("Successfully applied files")
-        if obj.stdout ~= "" then notify(obj.stdout) end
+        if obj.stdout ~= "" then notify(obj.stdout:gsub("\n$", "")) end
       end
     end)
   end,
