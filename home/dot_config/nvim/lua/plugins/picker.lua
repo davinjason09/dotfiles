@@ -62,6 +62,7 @@ return {
       end,
       actions = {
         stopinsert = function() vim.cmd.stopinsert() end,
+        clear_input = function(picker) picker.input:set("", "") end,
       },
       win = {
         input = {
