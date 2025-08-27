@@ -26,8 +26,7 @@ return {
     opts = {
       library = {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-        { path = "snacks.nvim", words = { "Snacks" } },
-        { path = "blink.cmp", words = { "blink.cmp" } },
+        { path = "snacks.nvim", words = { "Snacks", "snacks" } },
         { path = "wezterm-types", modes = { "wezterm" } },
         { path = "catppuccin" },
       },

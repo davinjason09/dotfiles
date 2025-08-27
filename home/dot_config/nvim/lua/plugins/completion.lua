@@ -7,6 +7,7 @@ return {
     { "rafamadriz/friendly-snippets" },
     { "MeanderingProgrammer/render-markdown.nvim" },
   },
+  ---@module "blink-cmp"
   ---@type blink.cmp.Config
   opts = {
     appearance = { kind_icons = Defaults.icons.kind },
@@ -126,7 +127,7 @@ return {
 
         ["<C-Right>"] = { "accept", "fallback" },
         ["<CR>"] = {
-          function(cmp) ---@param cmp blink.cmp.API
+          function(cmp)
             if cmp.get_selected_item() and cmp.is_menu_visible() then
               cmp.accept()
             else
