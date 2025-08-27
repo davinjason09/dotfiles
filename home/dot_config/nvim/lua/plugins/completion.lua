@@ -34,11 +34,6 @@ return {
           border = "rounded",
         },
         draw = function(opts)
-          if vim.g.__reg_doc ~= true then
-            vim.treesitter.language.register("markdown", "blink-cmp-documentation")
-            vim.g.__reg_doc = true
-          end
-
           local buf = opts.window.buf ---@type integer
           local win = opts.window:get_win()
 
@@ -47,16 +42,16 @@ return {
 
           local render = require("render-markdown.core.ui").update
           if win then
-            vim.bo[buf].ft = "markdown"
-            render(buf, win, "BlinkDraw", true)
             vim.bo[buf].ft = "blink-cmp-documentation"
+            vim.schedule(function() render(buf, win, "BlinkDraw", true) end)
           end
 
           vim.defer_fn(function()
+            win = opts.window:get_win()
+
             if win then
-              vim.bo[buf].ft = "markdown"
-              render(buf, win, "BlinkDraw", true)
               vim.bo[buf].ft = "blink-cmp-documentation"
+              vim.schedule(function() render(buf, win, "BlinkDraw", true) end)
             end
           end, 25)
         end,
@@ -119,11 +114,7 @@ return {
         local type = vim.fn.getcmdtype()
 
         if type == "/" or type == "?" then return { "buffer" } end
-
-        -- HACK:
-        -- Disable cmdline completion for shell command (!) because it makes neovim hangs.
-        -- Only allow completion if ("!%w+$") is not found in the line
-        if type == ":" and not vim.fn.getcmdline():match("!%w+$") then return { "cmdline" } end
+        if type == ":" then return { "cmdline" } end
 
         return {}
       end,
@@ -139,8 +130,7 @@ return {
             if cmp.get_selected_item() and cmp.is_menu_visible() then
               cmp.accept()
             else
-              local CR = Snacks.util.keycode("<CR>")
-              vim.fn.feedkeys(CR, "n")
+              vim.fn.feedkeys(Snacks.util.keycode("<CR>"), "n")
             end
           end,
         },
