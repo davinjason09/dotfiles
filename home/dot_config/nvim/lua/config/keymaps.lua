@@ -46,13 +46,14 @@ map("s", "<Right>", "<C-g>o<ESC>a")
 map("x", "$", "g_", { silent = true })
 
 -- Add new line without entering insert mode
+-- NOTE: requires Neovim 0.11+ due to the new ]<space> and [<space> mappings
 map("n", "<S-CR>", function() Utils.edit.add_line("up") end, { silent = true } )
 map("n", "<CR>",   function() Utils.edit.add_line("down") end, { silent = true } )
 
 -- stylua: ignore end
 
 -- Save position on yank
-map({ "n", "x" }, "y", function()
+map("n", "y", function()
   Utils.edit.save_cursor_pos()
   return "y"
 end, { expr = true, desc = "Yank" })
@@ -143,11 +144,12 @@ map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
 
 -- Clear search and stop snippet
-map({ "n", "i", "s" }, "<ESC>", function()
+map({ "n", "i", "v", "s" }, "<ESC>", function()
   local ls = Utils.lazy_require("luasnip")
   if ls.expand_or_jumpable() then ls.unlink_current() end
 
   vim.cmd("noh")
+  vim.schedule(Utils.edit.restore_cursor)
   return "<ESC>"
 end, { expr = true, desc = "Escape, clear hlsearch, and stop snippet session" })
 
@@ -158,7 +160,7 @@ map("x",          "g+", "g<C-a>", { desc = "Increment number" })
 map("x",          "g-", "g<C-x>", { desc = "Decrement number" })
 
 -- Select all text
-map({ "n", "i", "v" }, "<C-a>", "<ESC>ggVG", { desc = "Select all" })
+map({ "n", "i", "v" }, "<C-a>", "<ESC><CMD>lua Utils.edit.save_cursor_pos()<CR>ggVG", { desc = "Select all" })
 
 -- Search inside selection / when in insert mode
 map("x", "/", "<ESC>/\\%V", { desc = "Search inside selection" })
