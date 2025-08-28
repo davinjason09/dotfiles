@@ -101,27 +101,4 @@ return {
       require("noice").setup(opts)
     end,
   },
-  {
-    "nvim-zh/colorful-winsep.nvim",
-    event = { "WinLeave" },
-    opts = {
-      hi = {
-        bg = "#1E1E2E",
-        fg = "#89DCE4",
-      },
-      no_exec_files = {
-        "lazy",
-        "mason",
-        "snacks_dashboard",
-        "snacks_notif",
-        "snacks_picker_input",
-        "snacks_picker_list",
-        "snacks_picker_preview",
-        "snacks_terminal",
-        "snacks_win",
-      },
-      symbols = { "─", "│", "╭", "╮", "╰", "╯" },
-      only_line_seq = false,
-    },
-  },
 }
