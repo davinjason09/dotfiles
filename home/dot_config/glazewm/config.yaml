@@ -151,9 +151,13 @@ keybindings:
     bindings: ["lwin+b"]
   - commands: ["shell-exec %LOCALAPPDATA%\\Voidstar\\FilePilot\\FPilot.exe"] # File Explorer
     bindings: ["lwin+e"]
-  - commands: ["shell-exec yasbc toggle-widget powermenu --follow-mouse"] # Power Menu
+  - commands: [
+        "shell-exec --hide-window yasbc toggle-widget powermenu --follow-mouse",
+      ] # Power Menu
     bindings: ["lwin+ctrl+q"]
-  - commands: ["shell-exec yasbc toggle-widget wallpapers --follow-mouse"] # Wallpapers
+  - commands: [
+        "shell-exec --hide-window yasbc toggle-widget wallpapers --follow-mouse",
+      ] # Wallpapers
     bindings: ["lwin+ctrl+w"]
 
   # Shift focus in a given direction.
