@@ -13,7 +13,7 @@ function M.escape()
 end
 
 ---Save the current cursor position
-function M.save_cursor_pos() vim.b[0].cursor_pos = vim.api.nvim_win_get_cursor(0) end
+function M.save_cursor_pos() vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0) end
 
 ---Restore the cursor position
 ---@param offset? {row: number, col: number} The offset to move the cursor
@@ -79,9 +79,7 @@ function M.paste(key)
   local opts = nil
 
   if vim.fn.getreg('"') == "" then return end
-
-  if reg_type == "V" then M.save_cursor_pos() end
-
+  if reg_type == "V" and vim.fn.mode() == "n" then M.save_cursor_pos() end
   if key == "p" then opts = { row = 1 } end
 
   vim.cmd("normal! " .. count .. key)

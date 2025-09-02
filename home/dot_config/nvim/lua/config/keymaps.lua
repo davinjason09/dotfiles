@@ -160,7 +160,7 @@ map("x",          "g+", "g<C-a>", { desc = "Increment number" })
 map("x",          "g-", "g<C-x>", { desc = "Decrement number" })
 
 -- Select all text
-map({ "n", "i", "v" }, "<C-a>", "<ESC><CMD>lua Utils.edit.save_cursor_pos()<CR>ggVG", { desc = "Select all" })
+map({ "n", "i", "v" }, "<C-a>", "<ESC>ggVG", { desc = "Select all" })
 
 -- Search inside selection / when in insert mode
 map("x", "/", "<ESC>/\\%V", { desc = "Search inside selection" })
@@ -178,7 +178,6 @@ map("o", "n", "'Nn'[v:searchforward]",      { expr = true, desc = "Next search r
 map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev search result" })
 map("x", "N", "'nN'[v:searchforward]",      { expr = true, desc = "Prev search result" })
 map("o", "N", "'nN'[v:searchforward]",      { expr = true, desc = "Prev search result" })
-
 
 -- Location and Quickfix List
 map("n", "<leader>xl", function()
