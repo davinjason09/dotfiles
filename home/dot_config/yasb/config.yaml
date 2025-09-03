@@ -161,16 +161,16 @@ widgets:
     options:
       label: "<span></span>{%a %d %b %H:%M}"
       label_alt: "<span></span>{%A %d %B %Y %H:%M}"
-      tooltip: false
+      tooltip: true
       timezones: []
       calendar:
-        blur: true
-        round_corners: true
-        round_corners_type: "normal"
-        border_color: "#89DCEB"
+        blur: false
         alignment: "center"
         direction: "down"
-        distance: 6
+        offset_top: 6
+        country_code: "$env:YASB_COUNTRY_CODE"
+        show_holidays: true
+        holiday_color: "#F38BA8"
 
   cava:
     type: "yasb.cava.CavaWidget"
