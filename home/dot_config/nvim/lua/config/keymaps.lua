@@ -160,7 +160,10 @@ map("x",          "g+", "g<C-a>", { desc = "Increment number" })
 map("x",          "g-", "g<C-x>", { desc = "Decrement number" })
 
 -- Select all text
-map({ "n", "i", "v" }, "<C-a>", "<ESC>ggVG", { desc = "Select all" })
+map({ "n", "i", "v" }, "<C-a>", function()
+  vim.b.pre_visual_cursor = vim.api.nvim_win_get_cursor(0)
+  vim.api.nvim_feedkeys(Snacks.util.keycode("<ESC>ggVG"), "n", false)
+end, { desc = "Select all" })
 
 -- Search inside selection / when in insert mode
 map("x", "/", "<ESC>/\\%V", { desc = "Search inside selection" })

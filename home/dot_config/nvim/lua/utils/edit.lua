@@ -18,6 +18,11 @@ function M.save_cursor_pos() vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0) e
 ---Restore the cursor position
 ---@param offset? {row: number, col: number} The offset to move the cursor
 function M.restore_cursor(offset)
+  if vim.b.pre_visual_cursor then
+    vim.b.cursor_pos = vim.b.pre_visual_cursor
+    vim.b.pre_visual_cursor = nil
+  end
+
   if vim.b.cursor_pos then
     local cursor_pos = vim.b.cursor_pos
 
