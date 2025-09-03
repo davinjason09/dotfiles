@@ -134,14 +134,15 @@ end
 
 ---@param cmd? string | string[]
 M.open = function(cmd)
-  if cmd then utils.add_term(cmd, nil, { auto_close = true }) end
+  local id, term = utils.get_term("cmd", { cmd })
+  if not id then utils.add_term(cmd, nil, { auto_close = true }) end
   if #state.term_bufs == 0 then utils.add_term() end
 
   local picker = Snacks.picker.get()[1]
   if not picker then return M.pick(cmd) end
 
   if cmd then
-    local buf = state.term_bufs[#state.term_bufs].bufnr
+    local buf = term and term.bufnr or state.term_bufs[#state.term_bufs].bufnr
     utils.switch_term_buf(buf)
   end
 end

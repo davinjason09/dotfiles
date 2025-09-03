@@ -11,13 +11,13 @@ end
 
 ---@param key "bufnr" | "cmd" | "name"
 ---@param value any
----@return (integer | nil), TermBuf?
+---@return integer?, TermBuf?
 M.get_term = function(key, value)
   for idx, term in ipairs(state.term_bufs) do
-    if term[key] == value then return idx, term end
+    if vim.deep_equal(term[key], value) then return idx, term end
   end
 
-  return nil
+  return nil, nil
 end
 
 ---@param cmd (string | string[])?
