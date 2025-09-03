@@ -1,0 +1,473 @@
+colourful: true
+
+filekinds:
+  normal:     { foreground: "{{ .colors.blue }}" }
+  directory:  { foreground: "{{ .colors.blue }}", is_bold: true }
+  symlink:    { foreground: "{{ .colors.sky }}" }
+  executable: { foreground: "{{ .colors.green }}" }
+
+perms:
+  user_read:          { foreground: "{{ .colors.yellow }}", is_bold: true }
+  user_write:         { foreground: "{{ .colors.red }}",    is_bold: true }
+  user_execute_file:  { foreground: "{{ .colors.green }}",  is_bold: true }
+  user_execute_other: { foreground: "{{ .colors.green }}",  is_bold: true }
+  group_read:         { foreground: "{{ .colors.yellow }}" }
+  group_write:        { foreground: "{{ .colors.red }}" }
+  group_execute:      { foreground: "{{ .colors.green }}" }
+  other_read:         { foreground: "{{ .colors.yellow }}" }
+  other_write:        { foreground: "{{ .colors.red }}" }
+  other_execute:      { foreground: "{{ .colors.green }}" }
+
+filenames:
+  .bash_profile:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.green }}" } }
+  .bashrc:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.green }}" } }
+  .chezmoiignore:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  .chezmoiignore.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  .chezmoiremove:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  .chezmoiroot:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  .chezmoiversion:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  .eslintrc.js:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰱺, style: { foreground: "{{ .colors.yellow }}" } }
+  .git:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰊢, style: { foreground: "{{ .colors.peach }}" } }
+  .gitkeep:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰊢, style: { foreground: "{{ .colors.red }}" } }
+  .keep:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰊢, style: { foreground: "{{ .colors.text }}" } }
+  .mailmap:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰊢, style: { foreground: "{{ .colors.teal }}" } }
+  .node-version:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  .npmignore:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.text }}" } }
+  .nvmrc:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.green }}" } }
+  .prettierignore:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.peach }}" } }
+  .prettierrc:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.mauve }}" } }
+  .yarnrc.yml:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.blue }}" } }
+  .zshrc:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.green }}" } }
+  CHANGELOG:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰉻, style: { foreground: "{{ .colors.blue }}" } }
+  CHANGELOG.md:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰉻, style: { foreground: "{{ .colors.blue }}" } }
+  CMakeCache.txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱁤, style: { foreground: "{{ .colors.red }}" } }
+  CMakeLists.txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱁤, style: { foreground: "{{ .colors.peach }}" } }
+  CODEOWNERS:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰜻, style: { foreground: "{{ .colors.mauve }}" } }
+  CODE_OF_CONDUCT:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱃱, style: { foreground: "{{ .colors.red }}" } }
+  CODE_OF_CONDUCT.md:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱃱, style: { foreground: "{{ .colors.red }}" } }
+  CONTRIBUTING:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰺾, style: { foreground: "{{ .colors.sapphire }}" } }
+  CONTRIBUTING.md:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰺾, style: { foreground: "{{ .colors.sapphire }}" } }
+  FUNDING.yml:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰇁, style: { foreground: "{{ .colors.green }}" } }
+  GNUmakefile.am:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱁤, style: { foreground: "{{ .colors.mauve }}" } }
+  LICENSE:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.teal }}" } }
+  LICENSE.md:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.teal }}" } }
+  LICENSE.txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.teal }}" } }
+  Makefile.am:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱁤, style: { foreground: "{{ .colors.mauve }}" } }
+  NEWS:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰎕, style: { foreground: "{{ .colors.blue }}" } }
+  NEWS.md:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰎕, style: { foreground: "{{ .colors.blue }}" } }
+  PKGBUILD:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.yellow }}" } }
+  README:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰂺, style: { foreground: "{{ .colors.yellow }}" } }
+  README.md:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰂺, style: { foreground: "{{ .colors.yellow }}" } }
+  README.txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰂺, style: { foreground: "{{ .colors.yellow }}" } }
+  TODO:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰝖, style: { foreground: "{{ .colors.mauve }}" } }
+  TODO.md:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰝖, style: { foreground: "{{ .colors.mauve }}" } }
+  constraints.txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱘎, style: { foreground: "{{ .colors.mauve }}" } }
+  devcontainer.json:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.sapphire }}" } }
+  dot_gitconfig.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  dot_zprofile.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  dot_zshenv:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  dot_zshenv.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  dot_zshrc.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  eslint.config.js:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰱺, style: { foreground: "{{ .colors.yellow }}" } }
+  go.sum:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰟓, style: { foreground: "{{ .colors.teal }}" } }
+  go.work.sum:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰟓, style: { foreground: "{{ .colors.teal }}" } }
+  makefile.am:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱁤, style: { foreground: "{{ .colors.mauve }}" } }
+  meson_options.txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰫺, style: { foreground: "{{ .colors.blue }}" } }
+  package.json:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  requirements.txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱘎, style: { foreground: "{{ .colors.mauve }}" } }
+  robots.txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰚩, style: { foreground: "{{ .colors.text }}" } }
+  setup.cfg:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰯂, style: { foreground: "{{ .colors.sapphire }}" } }
+  tsconfig.build.json:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.sapphire }}" } }
+  tsconfig.json:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.sapphire }}" } }
+  yarn.lock:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.blue }}" } }
+
+extensions:
+  3gp:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.yellow }}" } }
+  7z:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.blue }}" } }
+  aac:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.yellow }}" } }
+  aif:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.teal }}" } }
+  avi:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.text }}" } }
+  bash:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  bash.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  bmp:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈟, style: { foreground: "{{ .colors.green }}" } }
+  bz:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.peach }}" } }
+  bz2:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.peach }}" } }
+  bz3:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.peach }}" } }
+  cast:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.red }}" } }
+  class:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰬷, style: { foreground: "{{ .colors.sapphire}}" } }
+  cpp:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰙲, style: { foreground: "{{ .colors.sapphire }}" } }
+  csv:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  doc:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎒, style: { foreground: "{{ .colors.sapphire }}" } }
+  docm:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎒, style: { foreground: "{{ .colors.sapphire }}" } }
+  docx:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎒, style: { foreground: "{{ .colors.sapphire }}" } }
+  dot:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎒, style: { foreground: "{{ .colors.sapphire }}" } }
+  dotx:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎒, style: { foreground: "{{ .colors.sapphire }}" } }
+  eps:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.red }}" } }
+  exe:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰖳, style: { foreground: "{{ .colors.red }}" } }
+  exs:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.mauve }}" } }
+  flac:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.peach }}" } }
+  gif:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰵸, style: { foreground: "{{ .colors.sapphire }}" } }
+  gz:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.text }}" } }
+  h:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰫵, style: { foreground: "{{ .colors.mauve }}" } }
+  ipynb:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰠮, style: { foreground: "{{ .colors.peach }}" } }
+  java:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰬷, style: { foreground: "{{ .colors.peach }}" } }
+  jpeg:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈥, style: { foreground: "{{ .colors.peach }}" } }
+  jpg:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈥, style: { foreground: "{{ .colors.peach }}" } }
+  json.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  lua:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰢱, style: { foreground: "{{ .colors.sapphire }}" } }
+  luau:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰢱, style: { foreground: "{{ .colors.green }}" } }
+  m4a:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.mauve }}" } }
+  m4v:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.peach }}" } }
+  mkv:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.green }}" } }
+  mov:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.teal }}" } }
+  mp3:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.sapphire }}" } }
+  mp4:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.sapphire }}" } }
+  mpeg:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.mauve }}" } }
+  mpg:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.mauve }}" } }
+  msi:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰖳, style: { foreground: "{{ .colors.red }}" } }
+  ogg:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.text }}" } }
+  pdf:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈦, style: { foreground: "{{ .colors.red }}" } }
+  php:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰌟, style: { foreground: "{{ .colors.lavender }}" } }
+  png:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰸭, style: { foreground: "{{ .colors.mauve }}" } }
+  pps:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎐, style: { foreground: "{{ .colors.red }}" } }
+  ppsm:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎐, style: { foreground: "{{ .colors.red }}" } }
+  ppsx:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎐, style: { foreground: "{{ .colors.red }}" } }
+  ppt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎐, style: { foreground: "{{ .colors.red }}" } }
+  pptm:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎐, style: { foreground: "{{ .colors.red }}" } }
+  pptx:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎐, style: { foreground: "{{ .colors.red }}" } }
+  ps1.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰨊, style: { foreground: "{{ .colors.text }}" } }
+  py:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰌠, style: { foreground: "{{ .colors.yellow }}" } }
+  purs:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  rar:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.green }}" } }
+  rpm:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.red }}" } }
+  sh:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  sh.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  sit:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.red }}" } }
+  snd:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.red }}" } }
+  tar:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.teal }}" } }
+  tf:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱁢, style: { foreground: "{{ .colors.blue }}" } }
+  tgz:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.text }}" } }
+  tif:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈟, style: { foreground: "{{ .colors.yellow }}" } }
+  tiff:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈟, style: { foreground: "{{ .colors.yellow }}" } }
+  toml.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  txt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icons: { glyph: 󰦪, style: { foreground: "{{ .colors.yellow }}" } }
+  txz:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.mauve }}" } }
+  typ:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.sapphire }}" } }
+  wav:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.green }}" } }
+  webm:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.text }}" } }
+  webp:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈟, style: { foreground: "{{ .colors.blue }}" } }
+  wma:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈣, style: { foreground: "{{ .colors.blue }}" } }
+  wmv:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰈫, style: { foreground: "{{ .colors.blue }}" } }
+  xls:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎏, style: { foreground: "{{ .colors.green }}" } }
+  xlsm:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎏, style: { foreground: "{{ .colors.green }}" } }
+  xlsx:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎏, style: { foreground: "{{ .colors.green }}" } }
+  xlt:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎏, style: { foreground: "{{ .colors.green }}" } }
+  xltm:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎏, style: { foreground: "{{ .colors.green }}" } }
+  xltx:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱎏, style: { foreground: "{{ .colors.green }}" } }
+  xz:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.green }}" } }
+  yaml.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  z:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.text }}" } }
+  zip:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.sapphire }}" } }
+  zsh:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  zsh.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  zst:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰗄, style: { foreground: "{{ .colors.yellow }}" } }
