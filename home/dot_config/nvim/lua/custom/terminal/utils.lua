@@ -79,6 +79,8 @@ end
 
 ---@param dir "prev" | "next"
 M.cycle_term_buf = function(dir)
+  if #state.term_bufs == 0 then return end
+
   local cur_idx = M.get_term("bufnr", state.last_term)
   if not cur_idx then
     M.switch_term_buf(state.term_bufs[1].bufnr)
