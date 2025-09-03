@@ -36,11 +36,8 @@ safe_export_path "$WIN_SYSTEM"
 safe_export_path "$WIN"
 {{- end }}
 
-if has nvim; then
-  export EDITOR="nvim"
-  export VISUAL="$EDITOR"
-else
-  export EDITOR="vim"
+if has bob; then
+  safe_export_path "$HOME/.local/share/bob/nvim-bin"
 fi
 
 if has go; then
@@ -55,6 +52,13 @@ fi
 
 export BUN_INSTALL="$HOME/.bun"
 safe_export_path "$BUN_INSTALL/bin"
+
+if has nvim; then
+  export EDITOR="nvim"
+  export VISUAL="$EDITOR"
+else
+  export EDITOR="vim"
+fi
 
 # export scripts
 safe_export_path "${XDG_CONFIG_HOME:-$HOME/.config}/scripts"
