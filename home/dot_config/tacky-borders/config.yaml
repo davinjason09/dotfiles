@@ -26,6 +26,24 @@ global:
   #   - Or specify any numeric value for a custom radius
   border_radius: Auto
 
+  # border_z_order: Z-order of the border relative to its window. Supported values:
+  #   - AboveWindow: Place the border above its window
+  #   - BelowWindow: Place the border below its window
+  #
+  # NOTE: Using 'AboveWindow' may cause the border to flicker when used with some applications
+  # that manipulate window layering, leading to z-order conflicts.
+  border_z_order: AboveWindow
+
+  # follow_native_border: Follow Windows' behavior for border visibility.
+  #
+  # Windows already shows or hides native borders depending on a window's type or state
+  # (e.g., they're hidden for borderless fullscreen windows). When enabled, this option makes
+  # tacky-borders follow that visibility behavior.
+  #
+  # NOTE: This setting only affects visibility for borders that have been initialized.
+  # To make sure a border is initialized in the first place, use window_rules.
+  follow_native_border: True
+
   # initialize_delay: Time (in ms) before the border appears after opening a new window
   # unminimize_delay: Time (in ms) before the border appears after unminimizing a window
   #
