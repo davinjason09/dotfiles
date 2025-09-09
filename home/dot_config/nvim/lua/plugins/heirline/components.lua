@@ -84,18 +84,17 @@ M.ViMode = {
     },
   },
   init = U.update_events({
+    "BufEnter",
     { "User", pattern = { "GitSignsChanged", "GitSignsUpdate" }, callback = U.redraw() },
   }),
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
   provider = function(self)
-    return string.format(" %s %s ", self:mode_icon(), self.mode_map[vim.fn.mode(1)])
+    return (" %s %s "):format(self:mode_icon(), self.mode_map[vim.fn.mode(1)])
   end,
   hl = function(self) return { fg = "mantle", bg = self:mode_color(), bold = true } end,
   M.Separator(
     "",
-    function(self) return { fg = self:mode_color(), bg = C.is_git_repo() and "surface0" or "crust" } end,
-    nil,
-    { { "User", pattern = { "ForceRedraw", "GitSignsUpdate" }, callback = U.redraw() } }
+    function(self) return { fg = self:mode_color(), bg = C.is_git_repo() and "surface0" or "crust" } end
   ),
 }
 
