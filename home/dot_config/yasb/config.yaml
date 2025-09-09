@@ -266,9 +266,7 @@ widgets:
         thunderstormNight: ""
         default: ""
       weather_card:
-        blur: true
-        round_corners: true
-        round_corners_type: "normal"
+        blur: false
         border_color: "#89DCEB"
         alignment: "right"
         direction: "down"
@@ -337,10 +335,7 @@ widgets:
           "󰤨", # Icon for 75-100% strength
         ]
       menu_config:
-        blur: true
-        round_corners: true
-        round_corners_type: "normal"
-        border_color: "#89DCEB"
+        blur: false
         alignment: "center"
         direction: "down"
         offset_top: 6

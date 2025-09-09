@@ -583,7 +583,9 @@ QPushButton {
 }
 
 .weather-card {
-  background-color: rgba(17, 17, 27, 0.5);
+  background-color: rgba(17, 17, 27, 0.6);
+  border: 1px solid var(--sky);
+  border-radius: 6px;
 }
 
 .weather-card-today {
@@ -749,7 +751,9 @@ QPushButton {
 
 .wifi-menu {
   font-family: "JetBrainsMono NFP";
-  background-color: rgba(17, 17, 27, 0.4);
+  background-color: rgba(17, 17, 27, 0.6);
+  border: 1px solid var(--sky);
+  border-radius: 6px;
   max-height: 350px;
   min-height: 375px;
   min-width: 375px;
@@ -757,6 +761,8 @@ QPushButton {
 
 .wifi-menu .progress-bar {
   max-height: 2px;
+  border-left: 1px solid var(--sky);
+  border-right: 1px solid var(--sky);
 }
 
 .wifi-menu .progress-bar::chunk {
@@ -769,6 +775,9 @@ QPushButton {
   font-weight: 600;
   padding: 12px;
   background-color: rgba(17, 17, 27, 0.6);
+  border: 1px solid var(--sky);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   color: white;
   border-bottom: 1px solid rgba(205, 214, 244, 0.1);
 }
@@ -780,13 +789,17 @@ QPushButton {
   margin-bottom: 2px;
   padding: 12px;
   background-color: var(--red);
+  border-left: 1px solid var(--sky);
+  border-right: 1px solid var(--sky);
   color: white;
   border-bottom: 1px solid rgba(205, 214, 244, 0.1);
 }
 
 .wifi-menu .wifi-list {
   background-color: rgba(17, 17, 27, 0.8);
-  margin-right: 3px;
+  border-left: 1px solid var(--sky);
+  border-right: 1px solid var(--sky);
+  padding-right: 3px;
 }
 
 .wifi-menu .wifi-item {
@@ -861,6 +874,9 @@ QPushButton {
   padding: 12px;
   margin-top: 2px;
   color: #9399b2;
+  border: 1px solid var(--sky);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
   background-color: rgba(17, 17, 27, 0.6);
   border-top: 1px solid rgba(205, 214, 244, 0.1);
 }
