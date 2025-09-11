@@ -6,7 +6,7 @@ return {
     },
   },
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     -- stylua: ignore
     opts = {
       file = {

@@ -48,7 +48,7 @@
 - Extensive use of [snacks.nvim](https://github.com/folke/snacks.nvim) including custom pickers
 - Custom statusline built with [heirline.nvim](https://github.com/rebelot/heirline.nvim)
 - Completions with [blink.cmp](https://github.com/Saghen/blink.cmp)
-- Extensive use of [mini.icons](https://github.com/echasnovski/mini.icons) throughout the config for a cohesive appearance
+- Extensive use of [mini.icons](https://github.com/nvim-mini/mini.icons) throughout the config for a cohesive appearance
 - Custom terminal manager (also a picker in disguise)
 - Custom cmdline and message events views (soon)
 

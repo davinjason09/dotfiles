@@ -1,18 +1,18 @@
 return {
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     version = "*",
     event = { "BufReadPost", "BufNewFile" },
     opts = { n_lines = 50 },
   },
   {
-    "echasnovski/mini.align",
+    "nvim-mini/mini.align",
     version = "*",
     event = { "BufReadPost", "BufNewFile" },
     opts = {},
   },
   {
-    "echasnovski/mini.move",
+    "nvim-mini/mini.move",
     version = "*",
     event = { "BufReadPost", "BufNewFile" },
     opts = {},
@@ -27,7 +27,7 @@ return {
     },
   },
   {
-    "echasnovski/mini.ai",
+    "nvim-mini/mini.ai",
     version = "*",
     event = { "BufReadPost", "BufNewFile" },
     opts = function()
@@ -69,7 +69,7 @@ return {
     end,
   },
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     version = "*",
     -- stylua: ignore
     opts = {
