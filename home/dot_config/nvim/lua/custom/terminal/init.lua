@@ -48,6 +48,10 @@ end
 
 local function setup_autocmd()
   state.term_win:on("BufEnter", function() vim.cmd.startinsert() end)
+  state.term_win:on({ "VimResized", "WinResized" }, function()
+    local picker = Snacks.picker.get()[1]
+    if picker then utils.switch_term_buf(state.last_term) end
+  end)
   state.term_win:on("TermClose", function()
     if type(vim.v.event) == "table" and vim.v.event.status ~= 0 then
       return Snacks.notify.error("Terminal exited with code " .. vim.v.event.status .. ".")
@@ -135,7 +139,7 @@ end
 ---@param cmd? string | string[]
 M.open = function(cmd)
   local id, term = utils.get_term("cmd", { cmd })
-  if not id then utils.add_term(cmd, nil, { auto_close = true }) end
+  if cmd and not id then utils.add_term(cmd, nil, { auto_close = true }) end
   if #state.term_bufs == 0 then utils.add_term() end
 
   local picker = Snacks.picker.get()[1]
