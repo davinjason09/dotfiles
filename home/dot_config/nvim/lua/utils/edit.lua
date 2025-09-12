@@ -18,28 +18,30 @@ function M.save_cursor_pos() vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0) e
 ---Restore the cursor position
 ---@param offset? {row: number, col: number} The offset to move the cursor
 function M.restore_cursor(offset)
-  if vim.b.pre_visual_cursor then
-    vim.b.cursor_pos = vim.b.pre_visual_cursor
-    vim.b.pre_visual_cursor = nil
-  end
+  vim.schedule(function()
+    if vim.b.cursor_pos then
+      local cursor_pos = vim.b.cursor_pos
 
-  if vim.b.cursor_pos then
-    local cursor_pos = vim.b.cursor_pos
+      if offset then
+        cursor_pos[1] = cursor_pos[1] + (offset.row or 0)
+        cursor_pos[2] = cursor_pos[2] + (offset.col or 0)
+      end
 
-    if offset then
-      cursor_pos[1] = cursor_pos[1] + (offset.row or 0)
-      cursor_pos[2] = cursor_pos[2] + (offset.col or 0)
+      -- Ensure the cursor position is within the buffer's line count
+      local line_count = vim.api.nvim_buf_line_count(0)
+      if cursor_pos[1] < 1 or cursor_pos[1] > line_count then
+        cursor_pos[1] = math.max(1, math.min(line_count, cursor_pos[1]))
+      end
+
+      vim.api.nvim_win_set_cursor(0, cursor_pos)
+      vim.b.cursor_pos = nil
+    else
+      if vim.fn.line("'c") ~= 0 then
+        vim.cmd("normal! g`c")
+        vim.api.nvim_buf_del_mark(0, "c")
+      end
     end
-
-    -- Ensure the cursor position is within the buffer's line count
-    local line_count = vim.api.nvim_buf_line_count(0)
-    if cursor_pos[1] < 1 or cursor_pos[1] > line_count then
-      cursor_pos[1] = math.max(1, math.min(line_count, cursor_pos[1]))
-    end
-
-    vim.api.nvim_win_set_cursor(0, cursor_pos)
-    vim.b.cursor_pos = nil
-  end
+  end)
 end
 
 ---Add new line without entering insert mode

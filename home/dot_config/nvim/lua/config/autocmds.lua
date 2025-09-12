@@ -181,10 +181,3 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   end,
   desc = "Apply changes to chezmoi files after writing",
 })
-
-vim.api.nvim_create_autocmd("ModeChanged", {
-  group = augroup("VisualPreSaveCursor"),
-  pattern = "*:[vV\22]*",
-  callback = function() Utils.edit.save_cursor_pos() end,
-  desc = "Save cursor position when entering visual mode",
-})

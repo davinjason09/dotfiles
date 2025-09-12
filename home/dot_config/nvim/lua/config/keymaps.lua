@@ -53,8 +53,8 @@ map("n", "<CR>",   function() Utils.edit.add_line("down") end, { silent = true }
 -- stylua: ignore end
 
 -- Save position on yank
-map("n", "y", function()
-  Utils.edit.save_cursor_pos()
+map({ "n", "x" }, "y", function()
+  if vim.fn.line("'c") == 0 then Utils.edit.save_cursor_pos() end
   return "y"
 end, { expr = true, desc = "Yank" })
 map("n", "Y", function()
@@ -149,7 +149,7 @@ map({ "n", "i", "v", "s" }, "<ESC>", function()
   if ls.expand_or_jumpable() then ls.unlink_current() end
 
   vim.cmd("noh")
-  vim.schedule(Utils.edit.restore_cursor)
+  Utils.edit.restore_cursor()
   return "<ESC>"
 end, { expr = true, desc = "Escape, clear hlsearch, and stop snippet session" })
 
@@ -160,10 +160,7 @@ map("x",          "g+", "g<C-a>", { desc = "Increment number" })
 map("x",          "g-", "g<C-x>", { desc = "Decrement number" })
 
 -- Select all text
-map({ "n", "i", "v" }, "<C-a>", function()
-  vim.b.pre_visual_cursor = vim.api.nvim_win_get_cursor(0)
-  vim.api.nvim_feedkeys(Snacks.util.keycode("<ESC>ggVG"), "n", false)
-end, { desc = "Select all" })
+map({ "n", "i", "v" }, "<C-a>", "<ESC>mcggVG", { desc = "Select all" })
 
 -- Search inside selection / when in insert mode
 map("x", "/", "<ESC>/\\%V", { desc = "Search inside selection" })
