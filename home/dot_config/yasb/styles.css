@@ -796,10 +796,10 @@ QPushButton {
 }
 
 .wifi-menu .wifi-list {
-  background-color: rgba(17, 17, 27, 0.8);
+  background-color: transparent;
   border-left: 1px solid var(--sky);
   border-right: 1px solid var(--sky);
-  padding-right: 3px;
+  margin-right: 3px;
 }
 
 .wifi-menu .wifi-item {
@@ -809,12 +809,12 @@ QPushButton {
 }
 
 .wifi-menu .wifi-item:hover {
-  background-color: rgba(205, 214, 244, 0.05);
+  background-color: rgba(69, 71, 90, 0.5);
   border-radius: 6px;
 }
 
 .wifi-menu .wifi-item[active="true"] {
-  background-color: rgba(205, 214, 244, 0.15);
+  background-color: rgba(69, 71, 90, 0.9);
   font-size: 12px;
   border-radius: 6px;
   min-height: 80px;
