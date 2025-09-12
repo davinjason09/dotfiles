@@ -42,12 +42,7 @@ bars:
         stretch: true
     widgets:
       left:
-        [
-          "glazewm_workspaces",
-          "glazewm_tiling_direction",
-          "active_window",
-          "media",
-        ]
+        ["glazewm_workspaces", "glazewm_tiling_direction", "taskbar", "media"]
       center: ["clock"]
       right:
         [
@@ -78,27 +73,32 @@ widgets:
       horizontal_label: "󰓡"
       vertical_label: "󰓢"
 
-  active_window:
-    type: "yasb.active_window.ActiveWindowWidget"
+  taskbar:
+    type: "yasb.taskbar.TaskbarWidget"
     options:
-      label: "{win[title]}"
-      label_alt: "[class_name='{win[class_name]}' exe='{win[process][name]}' hwnd={win[hwnd]}]"
-      label_no_window: ""
-      label_icon: true
-      label_icon_size: 14
-      max_length: 20
-      max_length_ellipsis: "…"
-      monitor_exclusive: true
-      ignore_window:
+      icon_size: 13
+      tooltip: true
+      show_only_visible: true
+      strict_filtering: true
+      preview:
+        enabled: true
+        width: 240
+        delay: 400
+        padding: 4
+        margin: 4
+      title_label:
+        enabled: true
+        show: "focused"
+        min_length: 10
+        max_length: 12
+      ignore_apps:
         classes:
           [
             "Awake.MessageWindow",
             "Windows.UI.Core.CoreWindow",
             "LockScreenControllerProxyWindow",
           ]
-        processes: ["Flow.Launcher.exe"]
-    callbacks:
-      on_left: "toggle_label"
+        titles: ["Flow.Launcher"]
 
   media:
     type: "yasb.media.MediaWidget"

@@ -220,29 +220,52 @@ QPushButton {
 }
 
 /*
- * ─[ Active Window ]────────────────────────────────────────────────────
- */
-.active-window-widget {
+ * ╾╼ Taskbar ╾─────────────────────────────────────────────────────────╼
+*/
+
+.taskbar-widget {
   background-color: var(--surface0);
   border-radius: 6px;
-  padding: 0 5px;
   border: 1px solid var(--surface2);
+  padding: 1px;
+  min-width: 0px;
 }
 
-.active-window-widget .label {
-  color: var(--text);
-  padding: 0 1px;
+.taskbar-widget .app-container {
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.taskbar-widget .app-container.foreground {
+  background-color: rgba(205, 214, 244, 0.075);
+}
+
+.taskbar-widget .app-container.flashing {
+  background-color: var(--peach);
+}
+
+.taskbar-widget .app-container .app-title {
+  padding: 0 1px 0 0;
   font-family: "JetBrainsMono NF";
+  font-size: 9.5px;
 }
 
-.active-window-widget .icon:hover {
-  background-color: var(--overlay0);
-  border-radius: 5px;
+.taskbar-preview {
+  border-radius: 6px;
+  border: 1px solid var(--sky);
+  background-color: var(--mantle);
 }
 
-.active-window-widget .label:hover {
-  color: var(--pink);
-  border-radius: 5px;
+.taskbar-preview .header {
+  padding-bottom: 12px;
+  padding-top: 4px;
+}
+
+.taskbar-preview .header .title {
+  color: var(--text);
+  font-family: "JetBrainsMono NF";
+  font-weight: 600;
+  font-size: 10px;
 }
 
 /*
