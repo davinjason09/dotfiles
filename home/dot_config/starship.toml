@@ -20,6 +20,7 @@ $python\
 [](fg:sky bg:blue)\
 $docker_context\
 [](fg:blue bg:purple)\
+${custom.clock-icon}\
 $time\
 [ ](fg:purple)\
 $fill\
@@ -142,9 +143,16 @@ palette = 'catppuccin_mocha'
 
 [time]
   disabled    = false
-  format      = '[  $time ]($style)'
+  format      = '[ $time ]($style)'
   style       = "fg:mantle bg:purple"
   time_format = "%R"
+
+# Taken from: https://github.com/starship/starship/discussions/1252#discussioncomment-9914579
+[custom.clock-icon]
+  command = 'h=""; echo ${h:$(date +%H)%12:1}'
+  format  = "[ $output]($style)"
+  style   = "fg:base bg:purple"
+  when    = true
 
 [fill]
   symbol = " "
