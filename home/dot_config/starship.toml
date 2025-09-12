@@ -22,7 +22,7 @@ $docker_context\
 [](fg:blue bg:purple)\
 ${custom.clock-icon}\
 $time\
-[ ](fg:purple)\
+[](fg:purple)\
 $fill\
 $status\
 $cmd_duration\
@@ -67,25 +67,23 @@ palette = 'catppuccin_mocha'
   style    = "bg:surface0 fg:text"
 
 [os.symbols]
-  Alpine           = ""
-  Amazon           = ""
-  Android          = ""
-  Arch             = "󰣇"
-  Artix            = ""
-  CentOS           = ""
-  Debian           = "󰣚"
-  Fedora           = "󰣛"
-  Gentoo           = "󰣨"
-  Linux            = "󰌽"
-  Macos            = ""
-  Manjaro          = ""
-  Mint             = "󰣭"
-  Raspbian         = "󰐿"
-  RedHatEnterprise = "󱄛"
-  Redhat           = "󱄛"
-  SUSE             = ""
-  Ubuntu           = "󰕈"
-  Windows          = ""
+  Alpine  = ""
+  Amazon  = ""
+  Android = ""
+  Arch    = ""
+  Artix   = ""
+  CentOS  = ""
+  Debian  = ""
+  Fedora  = ""
+  Gentoo  = ""
+  Linux   = ""
+  Macos   = ""
+  Manjaro = ""
+  Mint    = "󰣭"
+  Redhat  = "󱄛"
+  SUSE    = ""
+  Ubuntu  = ""
+  Windows = ""
 
 [username]
   format      = '[ $user ]($style)'
@@ -102,7 +100,7 @@ palette = 'catppuccin_mocha'
 [git_branch]
   format = '[ $symbol $branch ]($style)'
   style  = "fg:base bg:yellow"
-  symbol = ""
+  symbol = ""
 
 [git_status]
   ahead    = '󱦲${count}'
