@@ -22,6 +22,9 @@ $docker_context\
 [](fg:blue bg:purple)\
 $time\
 [ ](fg:purple)\
+$fill\
+$status\
+$cmd_duration\
 $line_break\
 $character
 """
@@ -146,9 +149,17 @@ palette = 'catppuccin_mocha'
 [fill]
   symbol = " "
 
+[status]
+  disabled       = false
+  failure_style  = "fg:red"
+  format         = '[$symbol ]($style)'
+  success_style  = "fg:green"
+  success_symbol = ""
+  symbol         = ""
+
 [cmd_duration]
-  format   = "[took $duration](italic bright-yellow)"
-  min_time = 0
+  format   = "[󰔟 took $duration](italic bright-yellow)"
+  min_time = 500
 
 [line_break]
   disabled = false
