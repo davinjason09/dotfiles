@@ -54,6 +54,7 @@ vim.o.cursorlineopt  = "both"      -- Highlight text line and number where the c
 vim.o.termguicolors  = true        -- Enable 24-bit RGB colors in the TUI
 vim.o.winborder      = "none"      -- Use no border for windows (at least until all plugins are updated to 0.11)
 
+vim.g.health         = { style = "float" }  -- Use floating window for :checkhealth
 vim.o.guicursor      = "n-v-sm:block,i-c-ci-ve-t:ver25,r-cr-o:hor20"    -- Change terminal and command mode cursor to bar
 
 -- ╾╼ Editing ╾───────────────────────────────────────────────────────╼

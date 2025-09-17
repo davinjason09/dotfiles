@@ -107,6 +107,70 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("CheckhealthSettings"),
+  pattern = "checkhealth",
+  callback = function(args)
+    -- HACK:
+    -- somehow this got triggered twice, so we only execute this once the file name is exactly`health://`
+    if args.file ~= "health://" then return end
+
+    local width = math.floor(vim.o.columns * 0.8)
+    local height = math.floor(vim.o.lines * 0.8)
+
+    ---@type vim.api.keyset.win_config
+    local win_settings = {
+      border = "rounded",
+      relative = "editor",
+      width = width,
+      height = height,
+      row = math.floor((vim.o.lines - height) / 2),
+      col = math.floor((vim.o.columns - width) / 2),
+      title_pos = "center",
+      title = {
+        { "", "CheckHealthTitleBg" },
+        { "  Checkhealth ", "CheckHealthTitle" },
+        { "", "CheckHealthTitleBg" },
+      },
+    }
+
+    local ns_id = vim.api.nvim_create_namespace("checkhealth_icons")
+    local icon_map = {
+      ["✅"] = { icon = " ", hl = "@string" },
+      ["⚠️"] = { icon = " ", hl = "@type" },
+      ["❌"] = { icon = " ", hl = "@error" },
+    }
+
+    vim.schedule(function()
+      vim.api.nvim_set_option_value("modifiable", true, { buf = args.buf })
+      vim.api.nvim_buf_set_lines(args.buf, 0, 1, false, {})
+
+      for i, line in ipairs(vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)) do
+        local res = vim
+          .iter(icon_map)
+          :map(function(emoji, val)
+            local col = line:find(emoji)
+            if col then return { col = col - 1, icon = val.icon, hl = val.hl } end
+          end)
+          :totable()
+
+        if not vim.tbl_isempty(res) then
+          for _, r in ipairs(res) do
+            vim.api.nvim_buf_set_extmark(args.buf, ns_id, i - 1, r.col, {
+              virt_text = { { r.icon, r.hl } },
+              virt_text_pos = "overlay",
+            })
+          end
+        end
+      end
+
+      vim.api.nvim_set_option_value("modifiable", false, { buf = args.buf })
+      vim.api.nvim_win_set_config(vim.api.nvim_get_current_win(), win_settings)
+    end)
+  end,
+  desc = "Set checkhealth window settings",
+})
+
 vim.api.nvim_create_autocmd("User", {
   group = augroup("HideCopilotSuggestion"),
   pattern = "BlinkCmpMenuOpen",
