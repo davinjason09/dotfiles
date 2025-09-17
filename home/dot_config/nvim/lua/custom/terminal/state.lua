@@ -52,6 +52,7 @@ local M = {
         ["<C-k>"] = { "cycle_prev", mode = { "n", "t", "i" } },
         ["<ESC>"] = { "term_normal", mode = { "t" }, expr = true },
         ["gf"] = { "goto_file" },
+        ["i"] = { "startinsert", mode = { "n" }, expr = true },
         ["a"] = { "add_term", desc = "Add Terminal", mode = { "n" } },
         ["A"] = { "add_term_cmd", desc = "Add Terminal with Command", mode = { "n" } },
         ["e"] = { "rename_term", desc = "Edit Terminal Name", mode = { "n" } },
