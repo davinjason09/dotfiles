@@ -40,8 +40,8 @@
     - [x] Custom picker (nvim_options, reload plugin, chezmoi files)
     - [x] Custom blink-documentation parser for better docs (esp. typst)
     - [x] Custom terminal manager
+    - [x] Migrate nvim-treesitter to main branch
     - [ ] Custom ui_attach
-    - [ ] Migrate nvim-treesitter to main branch
   - [x] zsh
     - [x] Optimize startup time (~780ms to ~300ms)
     - [x] Polish scripts

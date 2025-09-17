@@ -10,19 +10,7 @@ end
 -- Optimized treesitter foldexpr
 function M.foldexpr()
   local buf = vim.api.nvim_get_current_buf()
-
-  if vim.b[buf].ts_folds == nil then
-    -- as long as we don't have a filtype, don't bother checking if treesitter is available (it won't)
-    if vim.bo[buf].filetype == "" then return "0" end
-
-    if vim.bo[buf].filetype:find("dashboard") then
-      vim.b[buf].ts_folds = false
-    else
-      vim.b[buf].ts_folds = pcall(vim.treesitter.get_parser, buf)
-    end
-  end
-
-  return vim.b[buf].ts_folds and vim.treesitter.foldexpr() or "0"
+  return M.have(vim.b[buf].filetype) and vim.treesitter.foldexpr() or "0"
 end
 
 ---@type table<string, fun(details: string[], lines: string[]): string[], string[]>
@@ -175,6 +163,9 @@ function M.parse_doc(opts)
   local combined_lines = vim.list_extend(details, lines)
 
   return combined_lines
+function M.indentexpr()
+  local buf = vim.api.nvim_get_current_buf()
+  return M.have(vim.b[buf].filetype) and require("nvim-treesitter").indentexpr() or -1
 end
 
 ---Add powerline symbols to the title of popups
@@ -197,4 +188,10 @@ function M.noice_title(opts)
   }
 end
 
+M.installed_parser = {}
+
+function M.have(ft)
+  local lang = vim.treesitter.language.get_lang(ft)
+  return vim.tbl_contains(M.installed_parser, lang)
+end
 return M

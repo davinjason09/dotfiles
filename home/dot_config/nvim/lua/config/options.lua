@@ -95,7 +95,8 @@ vim.o.foldtext   = ""              -- Use underlying text with its highlighting
 vim.o.foldenable = false           -- Disable folding by default
 vim.g.markdown_folding = 1         -- Use folding by heading in markdown files
 
-vim.o.foldexpr   = "v:lua.require('utils').ui.foldexpr()" -- Custom fold expression
+vim.o.foldexpr   = "v:lua.require('utils').ui.foldexpr()"   -- Treesitter fold
+vim.o.indentexpr = "v:lua.require('utils').ui.indentexpr()" -- Treesitter indent
 
 -- ╾╼ Spelling ╾──────────────────────────────────────────────────────╼
 vim.o.spelllang    = "en"          -- Default spelling dictionary
