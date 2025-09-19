@@ -149,10 +149,23 @@ widgets:
   clock:
     type: "yasb.clock.ClockWidget"
     options:
-      label: "<span></span>{%H:%M}"
+      label: "<span>{icon}</span>{%H:%M}"
       label_alt: "<span></span>{%a %d %b %H:%M}"
       tooltip: true
       timezones: []
+      icons:
+        clock_01: ""
+        clock_02: ""
+        clock_03: ""
+        clock_04: ""
+        clock_05: ""
+        clock_06: ""
+        clock_07: ""
+        clock_08: ""
+        clock_09: ""
+        clock_10: ""
+        clock_11: ""
+        clock_12: ""
       calendar:
         blur: false
         alignment: "center"

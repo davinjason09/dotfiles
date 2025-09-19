@@ -462,15 +462,15 @@ QPushButton {
  */
 .clock-widget {
   background-color: var(--surface0);
-  padding: 0 6px;
+  padding: 0 4px;
   border-radius: 6px;
   border: 1px solid var(--surface2);
 }
 
 .clock-widget .icon {
   color: var(--maroon);
-  font-size: 12px;
-  margin-right: 4px;
+  font-size: 14px;
+  margin-right: 2px;
 }
 
 .clock-widget .label {
