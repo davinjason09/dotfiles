@@ -60,7 +60,7 @@ return {
   },
   {
     "b0o/incline.nvim",
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       window = {
         padding = 0,
@@ -93,7 +93,8 @@ return {
   },
   {
     "rebelot/heirline.nvim",
-    event = "VeryLazy",
+    event = { "VeryLazy", "BufReadPre", "BufNewFile" },
+    lazy = vim.fn.argc(-1) == 0,
     config = function()
       local cond = require("heirline.conditions")
       local C = require("plugins.heirline.components")

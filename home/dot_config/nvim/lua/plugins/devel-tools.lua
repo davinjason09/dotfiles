@@ -3,7 +3,7 @@ return {
     "mason-org/mason.nvim",
     cmd = "Mason",
     build = ":MasonUpdate",
-    event = { "BufReadPre", "BufNewFile", "VeryLazy" },
+    event = { "BufReadPre", "BufNewFile", "BufWritePre" },
     opts_extend = { "ensure_installed" },
     opts = { ui = { icons = Defaults.mason_icons } },
     config = function(_, opts)

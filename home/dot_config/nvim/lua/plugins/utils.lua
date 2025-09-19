@@ -85,7 +85,7 @@ return {
   },
   {
     "eero-lehtinen/oklch-color-picker.nvim",
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
     version = "*",
     opts = {
       highlight = {
