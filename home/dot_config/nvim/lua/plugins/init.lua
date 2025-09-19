@@ -48,10 +48,9 @@ return {
     },
   init = function()
     Utils.on_very_lazy(function()
-      -- Setup some globals for debugging (lazy-loaded)
       _G.dd = function(...) Snacks.debug.inspect(...) end
       _G.bt = function() Snacks.debug.backtrace() end
-      vim.print = _G.dd -- Override print to use snacks for `:=` command
+      vim._print = function(_, ...) dd(...) end ---@diagnostic disable-line: duplicate-set-field
 
       -- Create some toggle mappings
       -- stylua: ignore start
@@ -62,9 +61,7 @@ return {
       Snacks.toggle.line_number():map("<leader>ul")
       Snacks.toggle.treesitter():map("<leader>uT")
       Snacks.toggle.dim():map("<leader>uD")
-      Snacks.toggle.animate():map("<leader>ua")
       Snacks.toggle.indent():map("<leader>ug")
-      Snacks.toggle.scroll():map("<leader>uS")
       Snacks.toggle.profiler():map("<leader>dpp")
       Snacks.toggle.profiler_highlights():map("<leader>dph")
       Snacks.toggle.zoom():map("<leader>wm"):map("<leader>uZ")
