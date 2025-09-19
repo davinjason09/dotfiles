@@ -126,9 +126,10 @@ return {
               language_pad = 0,
               right_pad = 0,
             },
+            debounce = 5,
             win_options = {
               concealcursor = { default = "", rendered = "nvic" },
-              conceallevel = { default = 0, rendered = 3 },
+              conceallevel = { default = 0, rendered = 0 },
             },
           },
         },
