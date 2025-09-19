@@ -61,7 +61,7 @@ QPushButton {
   font-weight: 600;
   font-size: 10px;
   color: var(--text);
-  background-color: var(--crust);
+  background-color: rgba(17, 17, 27, 0.9);
   border: 1px solid var(--sky);
   padding: 4px;
   border-radius: 6px;
@@ -266,7 +266,7 @@ QPushButton {
 .taskbar-preview {
   border-radius: 6px;
   border: 1px solid var(--sky);
-  background-color: var(--mantle);
+  background-color: rgba(17, 17, 27, 0.9);
 }
 
 .taskbar-preview .header {
@@ -328,7 +328,7 @@ QPushButton {
 .media-menu {
   min-width: 420px;
   max-width: 420px;
-  background-color: rgba(17, 17, 27, 0.6);
+  background-color: rgba(17, 17, 27, 0.9);
   border-radius: 6px;
   border: 1px solid var(--sky);
 }
@@ -482,7 +482,7 @@ QPushButton {
 * ─[ Calendar ]──────────────────────────────────────────────────────────
 */
 .calendar {
-  background-color: rgba(17, 17, 27, 0.6);
+  background-color: rgba(17, 17, 27, 0.9);
   border: 1px solid var(--sky);
   border-radius: 6px;
 }
@@ -619,7 +619,7 @@ QPushButton {
 }
 
 .weather-card {
-  background-color: rgba(17, 17, 27, 0.6);
+  background-color: rgba(17, 17, 27, 0.9);
   border: 1px solid var(--sky);
   border-radius: 6px;
 }
@@ -700,7 +700,7 @@ QPushButton {
 }
 
 .systray .button:hover {
-  background: var(--overlay0);
+  background-color: rgba(205, 214, 244, 0.2);
 }
 
 .systray .button[dragging="true"] {
@@ -787,7 +787,7 @@ QPushButton {
 
 .wifi-menu {
   font-family: "JetBrainsMono NFP";
-  background-color: rgba(17, 17, 27, 0.6);
+  background-color: rgba(17, 17, 27, 0.9);
   border: 1px solid var(--sky);
   border-radius: 6px;
   max-height: 350px;
@@ -810,7 +810,7 @@ QPushButton {
   font-size: 12px;
   font-weight: 600;
   padding: 12px;
-  background-color: rgba(17, 17, 27, 0.6);
+  background-color: rgba(17, 17, 27, 0.9);
   border: 1px solid var(--sky);
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
@@ -913,7 +913,7 @@ QPushButton {
   border: 1px solid var(--sky);
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  background-color: rgba(17, 17, 27, 0.6);
+  background-color: rgba(17, 17, 27, 0.9);
   border-top: 1px solid rgba(205, 214, 244, 0.1);
 }
 
@@ -971,7 +971,9 @@ QPushButton {
 }
 
 .audio-menu {
-  background-color: rgba(17, 17, 27, 0.6);
+  background-color: rgba(17, 17, 27, 0.9);
+  border: 1px solid var(--sky);
+  border-radius: 6px;
 }
 
 .audio-container .device {
