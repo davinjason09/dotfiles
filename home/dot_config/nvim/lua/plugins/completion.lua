@@ -38,10 +38,11 @@ return {
           local buf = opts.window.buf ---@type integer
           local win = opts.window:get_win()
 
-          local parsed = Utils.ui.parse_doc(opts)
+          local parsed = require("custom.blink.documentation").parse(opts)
           vim.api.nvim_buf_set_lines(buf, 0, -1, false, parsed)
 
           local render = require("render-markdown.core.ui").update
+
           if win then
             vim.bo[buf].ft = "blink-cmp-documentation"
             vim.schedule(function() render(buf, win, "BlinkDraw", true) end)
