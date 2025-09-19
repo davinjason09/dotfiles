@@ -17,10 +17,7 @@ M.Space = function(n) return { provider = string.rep(" ", n or 1) } end
 ---@param init? (string | table)[]
 ---@return table
 M.Separator = function(icon, hl, update, init)
-  local comp = {
-    provider = icon,
-    hl = hl,
-  }
+  local comp = { provider = icon, hl = hl }
 
   if init then comp.init = U.update_events(init) end
   if update then comp.update = update end
@@ -107,7 +104,8 @@ M.GitBranch = {
   }),
   update = { "User", pattern = "ForceRedraw", callback = U.redraw() },
   provider = function()
-    return ("  %s "):format(vim.b.gitsigns_head ~= "" and vim.b.gitsigns_head or "main")
+    local branch = vim.b.gitsigns_head or ""
+    return ("  %s "):format(branch ~= "" and branch or "main")
   end,
   hl = function(self) return { fg = self:mode_color(), bg = "surface0" } end,
   M.Separator("", { fg = "surface0", bg = "crust" }),
@@ -141,26 +139,20 @@ M.FileNameBlock = {
       condition = function() return vim.bo.filetype ~= "help" and vim.bo.buftype ~= "terminal" end,
       provider = function(self)
         if self.path == "" then return "[No Name]" end
-
         if self.path:find("Scratch") then return "[Scratch]" end
 
         if #self.path_split > 3 then
-          return string.format(
-            "%s/…/%s/",
-            self.path_split[1],
-            self.path_split[#self.path_split - 1]
-          )
+          return ("%s/…/%s/"):format(self.path_split[1], self.path_split[#self.path_split - 1])
         else
           local concat_path = table.concat(self.path_split, "/", 1, #self.path_split - 1)
-          return concat_path ~= "" and string.format("%s/", concat_path) or ""
+          return concat_path ~= "" and ("%s/"):format(concat_path) or ""
         end
       end,
       hl = { fg = "text", bg = "crust" },
     },
     {
       provider = function(self)
-        if self.path:find("Scratch") then return string.format(" %s ", vim.bo.filetype) end
-
+        if self.path:find("Scratch") then return (" %s "):format(vim.bo.filetype) end
         return self.path_split and self.path_split[#self.path_split]
       end,
       hl = { fg = "text", bg = "crust", bold = true },
@@ -173,7 +165,7 @@ M.FileNameBlock = {
       condition = function()
         local filename = vim.fn.expand("%")
         return filename ~= ""
-          and filename:match("^%a+://") == nil
+          and not filename:match("^%a+://")
           and vim.bo.buftype == ""
           and vim.fn.filereadable(filename) == 0
       end,
@@ -235,7 +227,7 @@ M.Copilot = {
   {
     condition = function() return U.get_copilot_state() == "inprogress" end,
     update = { "User", pattern = "UpdateSpinner" },
-    provider = function() return Snacks.util.spinner() end,
+    provider = Snacks.util.spinner,
     hl = { fg = "green" },
   },
   {
