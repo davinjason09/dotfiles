@@ -1037,6 +1037,10 @@ QPushButton {
   border-radius: 4px;
 }
 
+.power-menu-widget .label:hover {
+  background-color: rgba(205, 214, 244, 0.2);
+}
+
 .power-menu-popup {
   background-color: transparent;
 }
