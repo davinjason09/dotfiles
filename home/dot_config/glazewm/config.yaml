@@ -9,13 +9,14 @@ general:
   shutdown_commands: []
 
   # Commands to run after the WM config is reloaded.
-  config_reload_command:
+  config_reload_commands:
     [
       "shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1",
+      "shell-exec --hide-window yasbc reload",
     ]
 
   # Whether to automatically focus windows underneath the cursor.
-  focus_follows_cursor: true
+  focus_follows_cursor: false
 
   # Whether to switch back and forth between the previously focused
   # workspace when focusing the current workspace.
@@ -80,10 +81,10 @@ window_behavior:
   state_defaults:
     floating:
       centered: true
-      shown_on_top: true
-    fullscreen:
-      maximized: true
       shown_on_top: false
+    fullscreen:
+      maximized: false
+      shown_on_top: true
 
 workspaces:
   - name: "1"
