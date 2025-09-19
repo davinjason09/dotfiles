@@ -834,7 +834,6 @@ QPushButton {
 .wifi-menu .wifi-list {
   background-color: transparent;
   border-left: 1px solid var(--sky);
-  border-right: 1px solid var(--sky);
   margin-right: 3px;
 }
 
