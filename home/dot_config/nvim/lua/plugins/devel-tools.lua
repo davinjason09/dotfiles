@@ -34,7 +34,7 @@ return {
         for _, tool in ipairs(opts.ensure_installed) do
           local p = mr.get_package(tool)
 
-          if not p:is_installed() then
+          if not p:is_installed() and vim.fn.executable(tool) == 0 then
             local handle_closed = function()
               local level = vim.log.levels.INFO
               local msg
