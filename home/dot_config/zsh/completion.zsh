@@ -43,12 +43,14 @@ add_completion() {
   fi
 }
 
-znap install zsh-users/zsh-completions
+znap clone zsh-users/zsh-completions
+fpath=( ~[zsh-users/zsh-completions]/src $fpath )
 
 add_completion gh        'gh completion -s zsh'
 add_completion rg        'rg --generate=complete-zsh'
 add_completion uv        'uv generate-shell-completion zsh'
 add_completion bat       'bat --completion zsh'
+add_completion bob       'bob complete zsh'
 add_completion gum       'gum completion zsh'
 add_completion uvx       'uvx --generate-shell-completion zsh'
 add_completion glow      'glow completion zsh'
@@ -67,12 +69,10 @@ add_completion bun       'curl -fsSL https://raw.githubusercontent.com/oven-sh/b
 add_completion duf       'curl -fsSL https://raw.githubusercontent.com/LinoWhy/.dotfiles/refs/heads/main/zsh/.config/zsh/completions/_duf'
 add_completion eza       'curl -fsSL https://raw.githubusercontent.com/eza-community/eza/refs/heads/main/completions/zsh/_eza'
 add_completion fzf       'curl -fsSL https://raw.githubusercontent.com/sainnhe/zsh-completions/refs/heads/master/src/custom/_fzf'
+add_completion zig       'curl -fsSL https://raw.githubusercontent.com/ziglang/shell-completions/refs/heads/master/_zig'
 add_completion tldr      'curl -fsSL https://raw.githubusercontent.com/tealdeer-rs/tealdeer/refs/heads/main/completion/zsh_tealdeer'
 add_completion tokei     'curl -fsSL https://raw.githubusercontent.com/Aloxaf/dotfiles/refs/heads/master/zsh/.config/zsh/completions/_tokei'
 add_completion fastfetch 'curl -fsSL https://raw.githubusercontent.com/fastfetch-cli/fastfetch/refs/heads/dev/completions/fastfetch.zsh'
-
-# compile completions
-znap compile $FUNCTION_DIR
 
 # ╾╼ fzf Style ╾───────────────────────────────────────────────────────╼
 _fzf_compgen_path() {
@@ -160,6 +160,7 @@ zstyle ':fzf-tab:complete:(-parameter-|-brace-parameter-|export|unset|expand):*'
 zstyle ':fzf-tab:complete:systemctl-(status|(re|)start|(dis|en)able):*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 zstyle ':fzf-tab:complete:systemctl-show:*' fzf-preview 'systemctl show $word | bat --color=always -plini'
 zstyle ':fzf-tab:complete:tldr:argument-1' fzf-preview 'tldr --color always $word'
+zstyle ':fzf-tab:complete:man:*' fzf-preview 'MANWIDTH=$FZF_PREVIEW_COLUMNS man $word | bat -plman --color=always'
 zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
   '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || \
    (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out | bat -plman --color=always) || \
