@@ -466,7 +466,7 @@ QPushButton {
 .clock-widget .icon {
   color: var(--maroon);
   font-size: 12px;
-  margin-right: 6px;
+  margin-right: 4px;
 }
 
 .clock-widget .label {
@@ -554,7 +554,7 @@ QPushButton {
   border-top: 1px solid var(--surface2);
   border-left: 1px solid var(--surface2);
   border-bottom: 1px solid var(--surface2);
-  padding: 0 2px 0 5px;
+  padding: 0 2px 0 4px;
 }
 
 .memory-widget .label {
@@ -596,7 +596,7 @@ QPushButton {
  */
 .weather-widget {
   background-color: var(--surface0);
-  padding-right: 5px;
+  padding-right: 4px;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   border-top: 1px solid var(--surface2);
@@ -696,7 +696,7 @@ QPushButton {
 
 .systray .button {
   border-radius: 4px;
-  height: 20px;
+  padding: 1px 0;
 }
 
 .systray .button:hover {
@@ -713,9 +713,9 @@ QPushButton {
 }
 
 .systray .unpinned-visibility-btn {
-  border-radius: 4px;
-  height: 20px;
-  width: 16px;
+  border: none;
+  margin-left: 1px;
+  padding: 1px 4px;
 }
 
 .systray .unpinned-visibility-btn:checked {
@@ -1001,7 +1001,7 @@ QPushButton {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   margin-right: 4px;
-  padding: 0 5px 0 2px;
+  padding: 0 4px 0 2px;
   border-top: 1px solid var(--surface2);
   border-right: 1px solid var(--surface2);
   border-bottom: 1px solid var(--surface2);
@@ -1024,7 +1024,7 @@ QPushButton {
 */
 .power-menu-widget {
   background-color: var(--surface0);
-  padding: 0 5px;
+  padding: 1px;
   border-radius: 6px;
   border: 1px solid var(--surface2);
 }
@@ -1033,6 +1033,8 @@ QPushButton {
   color: var(--red);
   font-weight: bold;
   font-size: 13px;
+  padding: 0 4px;
+  border-radius: 4px;
 }
 
 .power-menu-popup {
