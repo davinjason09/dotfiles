@@ -197,7 +197,7 @@ QPushButton {
 
 .glazewm-workspaces .offline-status {
   font-family: "JetBrainsMono NF";
-  padding-left: 1px;
+  font-size: 10px;
 }
 
 /*
@@ -657,7 +657,7 @@ QPushButton {
 .weather-widget .icon {
   color: var(--yellow);
   font-size: 12px;
-  padding: 0 2px 0 2px;
+  padding: 0 2px 0 3px;
 }
 
 .weather-widget .label {
