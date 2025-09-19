@@ -58,6 +58,7 @@ M.switch_term_buf = function(buf)
     state.last_term = buf
     state.term_win:set_buf(buf)
     state.term_win:map()
+    vim.b[buf].managed_term = true
 
     local details = vim.iter(state.term_bufs):find(function(x) return x.bufnr == buf end)
     picker.preview:set_title(details.name)

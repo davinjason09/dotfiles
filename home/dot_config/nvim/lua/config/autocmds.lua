@@ -218,11 +218,28 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   desc = "Enable relative number in normal mode",
 })
 
+-- Remove the default TermClose autocmd
 local default_term_close = vim.api.nvim_get_autocmds({
   group = "nvim.terminal",
   event = "TermClose",
 })
 vim.api.nvim_del_autocmd(default_term_close[1].id)
+
+-- Readd the TermClose autocmd with a modification to only close terminal buffers not managed by the picker
+vim.api.nvim_create_autocmd({ "TermClose" }, {
+  group = default_term_close[1].group,
+  nested = true,
+  desc = "Automatically close terminal buffers when started with no arguments and exiting without an error",
+  callback = function(args)
+    if vim.v.event.status ~= 0 or vim.b[args.buf].managed_term then return end
+
+    local info = vim.api.nvim_get_chan_info(vim.bo[args.buf].channel)
+    local argv = info.argv or {}
+    if table.concat(argv, " ") == vim.o.shell then
+      vim.api.nvim_buf_delete(args.buf, { force = true })
+    end
+  end,
+})
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   group = vim.api.nvim_create_augroup("ChezmoiApply", { clear = true }),
