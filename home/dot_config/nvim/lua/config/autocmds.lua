@@ -246,7 +246,7 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  group = vim.api.nvim_create_augroup("ChezmoiApply", { clear = true }),
+  group = augroup("ChezmoiApply"),
   pattern = vim.env.HOME .. "/.local/share/chezmoi/**",
   callback = function()
     local function notify(msg, level)
@@ -260,7 +260,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         if obj.stderr then notify(obj.stderr:gsub("\n$", ""), vim.log.levels.WARN) end
       else
         notify("Successfully applied files")
-        if obj.stdout ~= "" then notify(obj.stdout:gsub("\n$", "")) end
+        if obj.stdout ~= "" then notify(obj.stdout:gsub("\n$", ""), vim.log.levels.INFO) end
       end
     end)
   end,
