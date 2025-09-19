@@ -161,8 +161,8 @@ widgets:
   clock:
     type: "yasb.clock.ClockWidget"
     options:
-      label: "<span></span>{%a %d %b %H:%M}"
-      label_alt: "<span></span>{%A %d %B %Y %H:%M}"
+      label: "<span></span>{%H:%M}"
+      label_alt: "<span></span>{%a %d %b %H:%M}"
       tooltip: true
       timezones: []
       calendar:
