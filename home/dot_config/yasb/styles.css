@@ -548,17 +548,21 @@ QPushButton {
 }
 
 /*
+ * ╾╼ Panel Grouper ╾─────────────────────────────────────────────────╼
+*/
+.panel-grouper .container {
+  background-color: var(--surface0);
+  border: 1px solid var(--surface2);
+  border-radius: 6px;
+  padding: 0 4px;
+  margin-left: 4px;
+}
+
+/*
  * ─[ Memory ]───────────────────────────────────────────────────────────
  */
 .memory-widget {
-  background-color: var(--surface0);
-  margin-left: 4px;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-  border-top: 1px solid var(--surface2);
-  border-left: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
-  padding: 0 2px 0 4px;
+  padding: 0 2px 0 0;
 }
 
 .memory-widget .label {
@@ -577,9 +581,6 @@ QPushButton {
  * ─[ CPU ]───────────────────────────────────────────────────────────
  */
 .cpu-widget {
-  background-color: var(--surface0);
-  border-top: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
   padding: 0 2px;
 }
 
@@ -598,16 +599,6 @@ QPushButton {
 /*
  * ─[ Weather ]──────────────────────────────────────────────────────────
  */
-.weather-widget {
-  background-color: var(--surface0);
-  padding-right: 4px;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border-top: 1px solid var(--surface2);
-  border-right: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
-}
-
 .weather-widget .icon {
   color: var(--yellow);
   font-size: 12px;
@@ -678,18 +669,19 @@ QPushButton {
 }
 
 /*
- * ─[ Systray ]──────────────────────────────────────────────────────────
- */
-.systray {
+ * ╾╼ Control Grouper ╾─────────────────────────────────────────────────╼
+*/
+.control-grouper .container {
   background-color: var(--surface0);
-  margin-left: 4px;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-  border-top: 1px solid var(--surface2);
-  border-left: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
+  border: 1px solid var(--surface2);
+  border-radius: 6px;
+  padding: 0 4px;
+  margin: 0 4px;
 }
 
+/*
+ * ─[ Systray ]──────────────────────────────────────────────────────────
+ */
 .systray .pinned-container {
   padding-right: 2px;
 }
@@ -719,7 +711,7 @@ QPushButton {
 .systray .unpinned-visibility-btn {
   border: none;
   margin-left: 1px;
-  padding: 1px 4px;
+  padding: 1px 4px 0 0;
 }
 
 .systray .unpinned-visibility-btn:checked {
@@ -734,10 +726,7 @@ QPushButton {
  * ─[ Wallpaper Widget ]─────────────────────────────────────────────────
  */
 .wallpapers-widget {
-  background-color: var(--surface0);
   padding: 0 2px;
-  border-top: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
 }
 
 .wallpapers-widget .icon {
@@ -769,9 +758,6 @@ QPushButton {
  * ─[ Wifi ]─────────────────────────────────────────────────────────────
  */
 .wifi-widget {
-  background-color: var(--surface0);
-  border-top: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
   padding: 0 2px;
 }
 
@@ -947,12 +933,6 @@ QPushButton {
 /*
  * ─[ Volume ]───────────────────────────────────────────────────────────
  */
-.volume-widget {
-  background-color: var(--surface0);
-  border-top: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
-}
-
 .volume-widget .icon {
   color: var(--teal);
   font-size: 12px;
@@ -994,14 +974,7 @@ QPushButton {
  * ─[ Notification ]─────────────────────────────────────────────────────
  */
 .notification-widget {
-  background-color: var(--surface0);
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  margin-right: 4px;
-  padding: 0 4px 0 2px;
-  border-top: 1px solid var(--surface2);
-  border-right: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
+  padding: 0 0 0 2px;
 }
 
 .notification-widget .icon {

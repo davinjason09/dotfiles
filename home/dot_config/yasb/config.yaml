@@ -43,19 +43,7 @@ bars:
     widgets:
       left: ["glazewm-grouper", "taskbar", "media"]
       center: ["clock"]
-      right:
-        [
-          "cava",
-          "memory",
-          "cpu",
-          "weather",
-          "systray",
-          "wallpapers",
-          "wifi",
-          "volume",
-          "notifications",
-          "power_menu",
-        ]
+      right: ["cava", "panel-grouper", "control-grouper", "power_menu"]
 
 widgets:
   glazewm-grouper:
@@ -192,6 +180,12 @@ widgets:
       framerate: 60
       hide_empty: true
 
+  panel-grouper:
+    type: "yasb.grouper.GrouperWidget"
+    options:
+      class_name: "panel-grouper"
+      widgets: ["memory", "cpu", "weather"]
+
   memory:
     type: "yasb.memory.MemoryWidget"
     options:
@@ -282,6 +276,12 @@ widgets:
         current_line_color: "#585B70"
         current_line_width: 2
         current_line_style: "dot"
+
+  control-grouper:
+    type: "yasb.grouper.GrouperWidget"
+    options:
+      class_name: "control-grouper"
+      widgets: ["systray", "wallpapers", "wifi", "volume", "notifications"]
 
   systray:
     type: "yasb.systray.SystrayWidget"
