@@ -1034,14 +1034,17 @@ QPushButton {
 
 .notification-widget .icon {
   font-size: 12px;
-}
-
-.notification-widget .icon.new-notification {
   color: var(--blue);
 }
 
-.notification-widget .label.new-notification {
-  color: var(--blue);
+.notification-widget .label {
+  background-color: var(--red);
+  color: var(--base);
+  font-size: 7px;
+  border-radius: 3px;
+  position: absolute;
+  padding: 1px;
+  margin: 3px 0 8px 0;
 }
 
 /*
