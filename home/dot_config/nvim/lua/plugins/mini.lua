@@ -32,13 +32,16 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     opts = function()
       local ai = require("mini.ai")
+      local ts = ai.gen_spec.treesitter
+      local pr = ai.gen_spec.pair
+      local fc = ai.gen_spec.function_call
 
       return {
         n_lines = 500,
         custom_textobjects = {
           b = { { "%b()", "%b[]", "%b{}" }, "^.%s*().-()%s*.$" }, -- remove whitespace from `i` textobject
           B = { { "%b()", "%b[]", "%b{}" }, "^.().*().$" },
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
+          c = ts({ a = "@class.outer", i = "@class.inner" }), -- class
           d = { "%f[%d]%d+" }, -- digits
           e = { -- Word with case
             {
@@ -49,15 +52,17 @@ return {
             },
             "^().*()$",
           },
-          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
+          f = ts({ a = "@function.outer", i = "@function.inner" }), -- function
           g = Utils.mini.ai.buffer, -- whole buffer
-          o = ai.gen_spec.treesitter({ -- code block
+          o = ts({ -- code block
             a = { "@block.outer", "@conditional.outer", "@loop.outer" },
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
           }),
           t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
-          u = ai.gen_spec.function_call(), -- u for "Usage"
-          U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
+          u = fc(), -- u for "Usage"
+          U = fc({ name_pattern = "[%w_]" }), -- without dot in function name
+          ["*"] = pr("*", "*", { type = "greedy" }),
+          ["_"] = pr("_", "_", { type = "greedy" }),
         },
       }
     end,
@@ -79,6 +84,7 @@ return {
         filetype  = { glyph = "󰈚" },
       },
       file = {
+        PKGBUILD                = { glyph = "", hl = "MiniIconsYellow" },
         README                  = { glyph = "󰂺", hl = "MiniIconsYellow" },
         [".eslintrc.js"]        = { glyph = "󰱺", hl = "MiniIconsYellow" },
         [".keep"]               = { glyph = "󰊢", hl = "MiniIconsGrey" },
@@ -87,7 +93,7 @@ return {
         [".yarnrc.yml"]         = { glyph = "", hl = "MiniIconsBlue" },
         ["devcontainer.json"]   = { glyph = "", hl = "MiniIconsAzure" },
         ["eslint.config.js"]    = { glyph = "󰱺", hl = "MiniIconsYellow" },
-        ['init.lua']            = { glyph = "", hl = "MiniIconsGreen" },
+        ["init.lua"]            = { glyph = "", hl = "MiniIconsGreen" },
         ["package.json"]        = { glyph = "", hl = "MiniIconsGreen" },
         ["tsconfig.build.json"] = { glyph = "", hl = "MiniIconsAzure" },
         ["tsconfig.json"]       = { glyph = "", hl = "MiniIconsAzure" },
@@ -111,10 +117,13 @@ return {
         psxml  = { glyph = "", hl = "MiniIconsAzure" },
         sh     = { glyph = "", hl = "MiniIconsGrey" },
         tcsh   = { glyph = "󱄽", hl = "MiniIconsAzure" },
-        typ    = { glyph = "󰬛", hl = "MiniIconsAzure" },
-        typc   = { glyph = "󰬛", hl = "MiniIconsAzure" },
+        typ    = { glyph = "", hl = "MiniIconsAzure" },
+        typc   = { glyph = "", hl = "MiniIconsAzure" },
         zsh    = { glyph = "", hl = "MiniIconsGreen" },
       },
+      extension = {
+        typ = { glyph = "", hl = "MiniIconsAzure" },
+      }
     },
     init = function()
       package.preload["nvim-web-devicons"] = function()
