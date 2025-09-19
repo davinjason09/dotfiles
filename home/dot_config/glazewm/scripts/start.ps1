@@ -7,7 +7,6 @@ function Has-Started {
   return $started -ne $null
 }
 
-
 Start-ScheduledTask -TaskName "Tacky-Borders"
 start $HOME/.glzr/scripts/disablewintoopenmenu.ahk
 start Everything --startup
