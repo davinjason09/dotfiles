@@ -151,18 +151,19 @@ QPushButton {
 }
 
 /*
- * ─[ GlazeWM Workspaces ]───────────────────────────────────────────────
- */
-.glazewm-workspaces {
+ * ╾╼ GlazeWM Grouper ╾─────────────────────────────────────────────────╼
+*/
+.glazewm-grouper .container {
   background-color: var(--surface0);
-  padding: 0 4px 0 5px;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-  border-top: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
-  border-left: 1px solid var(--surface2);
+  border: 1px solid var(--surface2);
+  border-radius: 6px;
+  padding: 0 4px;
+  margin-right: 4px;
 }
 
+/*
+ * ─[ GlazeWM Workspaces ]───────────────────────────────────────────────
+ */
 .glazewm-workspaces .ws-btn {
   border: none;
   background-color: var(--overlay2);
@@ -194,23 +195,22 @@ QPushButton {
   color: var(--lavender);
 }
 
+.glazewm-workspaces .offline-status {
+  font-family: "JetBrainsMono NF";
+  padding-left: 1px;
+}
+
 /*
  * ─[ GlazeWM Tiling Direction ]─────────────────────────────────────────
  */
 .glazewm-tiling-direction {
-  background-color: var(--surface0);
-  margin-right: 4px;
-  padding-right: 5px;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border-top: 1px solid var(--surface2);
-  border-bottom: 1px solid var(--surface2);
-  border-right: 1px solid var(--surface2);
+  padding-left: 2px;
 }
 
 .glazewm-tiling-direction .btn {
   font-size: 15px;
   color: var(--text);
+  padding: 0 2px;
   border: none;
   width: 12px;
 }

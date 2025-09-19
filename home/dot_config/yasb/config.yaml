@@ -41,8 +41,7 @@ bars:
         alignment: "right"
         stretch: true
     widgets:
-      left:
-        ["glazewm_workspaces", "glazewm_tiling_direction", "taskbar", "media"]
+      left: ["glazewm-grouper", "taskbar", "media"]
       center: ["clock"]
       right:
         [
@@ -59,10 +58,16 @@ bars:
         ]
 
 widgets:
+  glazewm-grouper:
+    type: "yasb.grouper.GrouperWidget"
+    options:
+      class_name: "glazewm-grouper"
+      widgets: ["glazewm_workspaces", "glazewm_tiling_direction"]
+
   glazewm_workspaces:
     type: "glazewm.workspaces.GlazewmWorkspacesWidget"
     options:
-      offline_label: "GlazeWM Offline"
+      offline_label: " Offline"
       hide_empty_workspaces: true
       hide_if_offline: false
       enable_scroll_switching: false
