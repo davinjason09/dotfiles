@@ -430,23 +430,27 @@ QPushButton {
   margin-top: 20px;
   min-width: 100px;
 }
+
 .media-menu .progress-slider {
   height: 10px;
   margin: 5px 4px;
   border-radius: 2px;
 }
+
 .media-menu .progress-slider::groove {
   background: transparent;
   height: 2px;
   border-radius: 3px;
   background: var(--surface0);
 }
+
 .media-menu .progress-slider::groove:hover {
   background: transparent;
   height: 6px;
   border-radius: 2px;
   background: var(--overlay0);
 }
+
 .media-menu .progress-slider::sub-page {
   background: var(--sky);
   border-radius: 2px;
@@ -961,12 +965,6 @@ QPushButton {
 
 .volume-slider {
   border: none;
-}
-
-.volume-slider::groove {
-}
-
-.volume-slider::handle {
 }
 
 .audio-menu {
