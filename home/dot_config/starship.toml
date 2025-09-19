@@ -165,7 +165,7 @@ palette = 'catppuccin_mocha'
 
 [cmd_duration]
   format   = "[󰔟 took $duration](italic bright-yellow)"
-  min_time = 500
+  min_time = 1000
 
 [line_break]
   disabled = false
