@@ -138,7 +138,7 @@ end
 
 ---Get the icon and color for a file based on its filename and extension
 ---@param entry { fs_type: string, path: string } #The file entry containing type and path
----@return string, string, bool #The icon, color, and whether it's a default icon
+---@return string, string, boolean #The icon, color, and whether it's a default icon
 function M.get_icon(entry)
   local MiniIcons = require("mini.icons")
   local name = vim.fn.fnamemodify(entry.path, ":t")
@@ -164,7 +164,8 @@ function M.get_icon(entry)
 
   if is_default and entry.fs_type ~= "directory" then
     local ext = vim.fn.fnamemodify(entry.path, ":e")
-    icon, color = MiniIcons.get("filetype", ext)
+    ext = ext ~= "" and ext or vim.bo.filetype or ""
+    icon, color, is_default = MiniIcons.get("filetype", ext)
   end
 
   return icon .. " ", color, is_default
