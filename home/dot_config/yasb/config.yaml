@@ -143,12 +143,9 @@ widgets:
       # media menu settings
       media_menu:
         blur: false
-        round_corners: true
-        round_corners_type: "normal"
-        border_color: "#89DCEB"
         alignment: "left"
         direction: "down"
-        offset_top: 6
+        offset_top: 4
         offset_left: 0
         thumbnail_corner_radius: 8
         thumbnail_size: 120
@@ -172,7 +169,7 @@ widgets:
         blur: false
         alignment: "center"
         direction: "down"
-        offset_top: 6
+        offset_top: 4
         country_code: "$env:YASB_COUNTRY_CODE"
         show_holidays: true
         holiday_color: "#F38BA8"
@@ -272,7 +269,6 @@ widgets:
         default: ""
       weather_card:
         blur: false
-        border_color: "#89DCEB"
         alignment: "right"
         direction: "down"
         distance: 6
@@ -343,7 +339,7 @@ widgets:
         blur: false
         alignment: "center"
         direction: "down"
-        offset_top: 6
+        offset_top: 4
         offset_left: 0
         wifi_icons_secured: ["\ue670", "\ue671", "\ue672", "\ue673"]
         wifi_icons_unsecured: ["\uec3c", "\uec3d", "\uec3e", "\uec3f"]
@@ -355,7 +351,8 @@ widgets:
       label_alt: "{volume}"
       tooltip: true
       audio_menu:
-        border_color: "#89DCEB"
+        blur: false
+        offset_top: 4
         alignment: "center"
 
   notifications:
