@@ -378,10 +378,11 @@ QPushButton {
 .media-menu .source.zen {
   background-color: var(--crust);
   color: var(--text);
+  border: 1px solid var(--base);
 }
 
 .media-menu .btn {
-  font-family: "JetBrainsMono NFP";
+  font-family: "JetBrainsMono NF";
   font-size: 14px;
   font-weight: 400;
   margin: 10px 2px 0px 2px;
@@ -424,8 +425,7 @@ QPushButton {
 }
 
 .media-menu .playback-time {
-  font-size: 12px;
-  font-family: "JetBrainsMono NFP";
+  font-size: 10px;
   color: var(--subtext0);
   margin-top: 20px;
   min-width: 100px;
@@ -447,14 +447,61 @@ QPushButton {
 .media-menu .progress-slider::groove:hover {
   background: transparent;
   height: 6px;
-  border-radius: 2px;
+  border-radius: 3px;
   background: var(--overlay0);
 }
 
 .media-menu .progress-slider::sub-page {
   background: var(--sky);
-  border-radius: 2px;
-  height: 4px;
+  border-radius: 3px;
+  height: 6px;
+}
+
+.media-menu .app-volume-container {
+  padding: 8px 6px;
+  border-radius: 12px;
+  border: 1px solid var(--base);
+  margin-left: 10px;
+  min-width: 16px;
+}
+
+.media-menu .app-volume-container .volume-slider {
+  padding: 4px 0 0 1px;
+}
+
+.media-menu .app-volume-container .volume-slider::groove {
+  background: var(--surface0);
+  width: 2px;
+  border-radius: 3px;
+}
+
+.media-menu .app-volume-container .volume-slider::add-page {
+  background: var(--sky);
+  border-radius: 3px;
+}
+
+.media-menu .app-volume-container .volume-slider::groove:hover {
+  background: var(--surface0);
+  width: 6px;
+  border-radius: 3px;
+}
+
+.media-menu .app-volume-container .volume-slider::sub-page {
+  background: var(--surface0);
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.media-menu .app-volume-container .mute-button,
+.media-menu .app-volume-container .unmute-button {
+  font: "JetBrainsMono NF";
+  font-size: 13px;
+  color: var(--subtext0);
+  margin-top: 6px;
+}
+
+.media-menu .app-volume-container .unmute-button {
+  color: var(--overlay0);
 }
 
 /*
