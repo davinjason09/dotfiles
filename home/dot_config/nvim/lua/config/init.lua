@@ -51,12 +51,14 @@ end
 M.did_init = false
 M.init = function()
   if M.did_init then return end
-
   M.did_init = true
 
   Utils.lazy_notify()
   Utils.clear_lsp_log()
   M.load("options")
+
+  local mason_path = vim.fn.stdpath("data") .. "/mason/bin"
+  if vim.fn.isdirectory(mason_path) == 1 then vim.env.PATH = mason_path .. ":" .. vim.env.PATH end
 end
 
 M.setup = function()
