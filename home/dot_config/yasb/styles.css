@@ -616,6 +616,10 @@ QPushButton {
   color: var(--text);
 }
 
+.memory-widget .label.status-critical {
+  color: var(--red);
+}
+
 .memory-widget .label:hover {
   color: var(--pink);
 }
@@ -633,6 +637,10 @@ QPushButton {
 
 .cpu-widget .label {
   color: var(--text);
+}
+
+.cpu-widget .label.status-critical {
+  color: var(--red);
 }
 
 .cpu-widget .label:hover {
