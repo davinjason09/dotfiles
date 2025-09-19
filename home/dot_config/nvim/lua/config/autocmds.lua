@@ -143,6 +143,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.schedule(function()
       vim.api.nvim_set_option_value("modifiable", true, { buf = args.buf })
+      vim.api.nvim_win_set_config(vim.api.nvim_get_current_win(), win_settings)
       vim.api.nvim_buf_set_lines(args.buf, 0, 1, false, {})
 
       for i, line in ipairs(vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)) do
@@ -165,7 +166,6 @@ vim.api.nvim_create_autocmd("FileType", {
       end
 
       vim.api.nvim_set_option_value("modifiable", false, { buf = args.buf })
-      vim.api.nvim_win_set_config(vim.api.nvim_get_current_win(), win_settings)
     end)
   end,
   desc = "Set checkhealth window settings",
