@@ -254,7 +254,7 @@ QPushButton {
 }
 
 .taskbar-widget .app-container .app-title {
-  padding: 0 -4px 0 1px;
+  padding: 0 -2px 0 1px;
   font-family: "JetBrainsMono NF";
   font-size: 9.5px;
 }
