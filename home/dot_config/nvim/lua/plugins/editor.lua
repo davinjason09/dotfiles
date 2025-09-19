@@ -1,28 +1,51 @@
 return {
   {
-    "windwp/nvim-autopairs",
-    event = { "BufReadPost", "BufNewFile", "InsertEnter" },
+  {
+    "saghen/blink.pairs",
+    event = { "InsertEnter", "BufReadPost", "BufNewFile" },
+    build = "cargo build --release",
+    --- @module 'blink.pairs'
+    --- @type blink.pairs.Config
     opts = {
-      check_ts = true,
-      ignored_next_char = "[%w%.]",
-      fast_wrap = {},
+      mappings = {
+        enabled = true,
+        cmdline = true,
+        disabled_filetypes = {
+          "snacks_picker_input",
+        },
+        pairs = {
+          ["["] = {
+            {
+              "[",
+              "]()",
+              languages = { "markdown", "markdown_inline" },
+              when = function(ctx) return ctx:text_before_cursor(1) == "!" end,
+              priority = 100,
+            },
+            { "]" },
+          },
+          ['"'] = {
+            {
+              '"',
+              enter = false,
+              space = false,
+              when = function(ctx) return ctx:text_before_cursor(2) ~= '\\"' end,
+            },
+          },
+        },
+      },
+      highlights = {
+        enabled = true,
+        cmdline = true,
+        groups = { "BlinkPairsOrange", "BlinkPairsPurple", "BlinkPairsBlue" },
+        unmatched_group = "BlinkPairsUnmatched",
+        matchparen = {
+          enabled = true,
+          group = "BlinkPairsMatchParen",
+        },
+      },
+      debug = false,
     },
-    config = function(_, opts)
-      local npairs = require("nvim-autopairs")
-      local Rule = require("nvim-autopairs.rule")
-      local cond = require("nvim-autopairs.conds")
-
-      npairs.setup(opts)
-
-      npairs.add_rules({
-        -- add space on both sides if inside a bracket
-        Rule(" ", " "):with_pair(cond.not_filetypes({ "markdown" })):with_pair(function(o)
-          local after_cond = cond.after_regex("[%}%]%)]")
-          local before_cond = cond.before_regex("[%{%[%(]")
-          return after_cond(o) and before_cond(o)
-        end),
-      })
-    end,
   },
   {
     "folke/which-key.nvim",
