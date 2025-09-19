@@ -111,6 +111,7 @@ return {
           ["@lsp.typemod.macro.defaultLibrary"]      = { link = "@constant.macro" },
           ["@lsp.typemod.method.defaultLibrary"]     = { link = "@function" },
           ["@lsp.typemod.type.defaultLibrary"]       = { link = "@type" },
+          ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
 
           ["@string.special.url"] = { fg = colors.rosewater, style = { "italic", "underline" } }, -- urls, links and emails
           ["@string.plain.css"]   = { fg = colors.peach },
@@ -156,6 +157,11 @@ return {
           BlinkCmpLabelMatch          = { fg = colors.green,    bg = colors.none, style = { "bold" } },
           BlinkCmpMenuSelection       = { fg = colors.mantle,   bg = colors.green },
           BlinkCmpKindKeyword         = { link = "Keyword" },
+
+          BlinkPairsOrange = { link = "@number" },
+          BlinkPairsPurple = { link = "@tag" },
+          BlinkPairsBlue = { link = "@method" },
+          BlinkPairsUnmatched = { link = "@keyword" },
 
           -- noice.nvim
           NoiceConfirmBorder = { fg = colors.sky },
@@ -244,6 +250,10 @@ return {
           BqfPreviewSbar  = { bg = colors.sky },
           BqfPreviewTitle = { fg = colors.subtext0, style = { "bold" } },
           QuickFixLineNr  = { link = "qfLineNr" },
+
+          -- CheckHealth
+          CheckHealthTitle = { fg = colors.mantle, bg = colors.sky, style = { "bold" } },
+          CheckHealthTitleBg = { fg = colors.sky },
         }
       end,
     })
