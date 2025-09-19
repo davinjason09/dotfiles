@@ -175,7 +175,11 @@ vim.api.nvim_create_autocmd("User", {
   group = augroup("HideCopilotSuggestion"),
   pattern = "BlinkCmpMenuOpen",
   callback = function()
-    require("copilot.suggestion").dismiss()
+    if not package.loaded["copilot"] then return end
+
+    local ok, copilot = pcall(require, "copilot.suggestion")
+    if ok then copilot.dismiss() end
+
     vim.b.copilot_suggestion_hidden = true
   end,
   desc = "Hide Copilot suggestion when BlinkCmp menu is open",
