@@ -65,7 +65,7 @@ end, { expr = true, desc = "Yank until the end" })
 -- stylua: ignore start
 
 -- Preserve cursor when commenting
-map({ "n", "v" }, "<leader>/", Utils.edit.comment, { desc = "Comment / Uncomment" })
+map({ "n", "x" }, "<leader>/", Utils.edit.comment, { desc = "Comment / Uncomment" })
 map("i",          "<C-/>",     Utils.edit.comment, { desc = "Comment / Uncomment" })
 
 -- Emacs paste behavior
@@ -112,25 +112,26 @@ end
 local mode_keys = { "v", "V", "\22" }
 for _, key in ipairs(mode_keys) do
   map("n", key, function()
-    local defer = key == "V" or key == "\22"
     vim.cmd("normal! " .. key)
 
     if vim.fn.reg_recording() ~= "" or vim.fn.reg_executing() ~= "" then return end
 
-    vim.defer_fn(function() require("which-key").show({ defer = defer }) end, 1)
+    vim.schedule(function() require("which-key").show({ defer = key ~= "v" }) end)
   end)
 end
 
 -- Unmap default gr
-local function remove(mode, key)
+---@param key string
+---@param mode string | string[]
+local function remove(key, mode)
   if vim.fn.maparg(key, mode[1] or mode) then unmap(mode, key) end
 end
 
-remove("n", "grn")
-remove({ "n", "x" }, "gra")
-remove("n", "grr")
-remove("n", "gri")
-remove("n", "grt")
+remove("grn", "n")
+remove("gra", { "n", "x" })
+remove("grr", "n")
+remove("gri", "n")
+remove("grt", "n")
 
 -- stylua: ignore start
 -- Removed functionality
@@ -253,7 +254,6 @@ map({ "n", "i", "x" }, "<C-`>", Terminal.toggle, { desc = "Toggle Terminal" })
 map("n", "<leader>gg", function() Terminal.open("lazygit") end, { desc = "[G]it: Lazy[G]it" })
 map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "[G]it: [B]rowse (open)" })
 map({ "n", "x" }, "<leader>gY", function()
-  ---@diagnostic disable-next-line: missing-fields
   Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
 end, { desc = "[G]it: Browse [Y]ank" })
 

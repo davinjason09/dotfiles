@@ -1,7 +1,6 @@
 ---@class Utils.picker
 local M = {}
 
-local Snacks = require("snacks")
 local a = Snacks.picker.util.align
 
 ---@param str string

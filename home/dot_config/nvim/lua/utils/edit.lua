@@ -81,12 +81,11 @@ end
 -- Emacs-like paste
 ---@param key "p" | "P"
 function M.paste(key)
-  local reg_type = vim.fn.getregtype('"')
-  local opts = nil
+  local opts = {}
 
   if vim.fn.getreg('"') == "" then return end
-  if reg_type == "V" and vim.fn.mode() == "n" then M.save_cursor_pos() end
-  if key == "p" then opts = { row = 1 } end
+  if vim.fn.getregtype('"') == "V" and vim.fn.mode() == "n" then M.save_cursor_pos() end
+  if key == "p" then opts.row = 1 end
 
   vim.cmd("normal! " .. vim.v.count1 .. key)
   M.restore_cursor(opts)
@@ -95,19 +94,22 @@ end
 -- Smart delete
 ---@param key string
 ---@param mode string
+---@return string
 function M.smart_delete(key, mode)
   if mode == "n" then
     local line = vim.api.nvim_get_current_line()
     return (line:match("^%s*$") and '"_' or "") .. key
-  elseif mode == "v" then
+  else
     local lines = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { type = vim.fn.mode() })
     local all_space = true
+
     for _, line in ipairs(lines) do
       if not line:match("^%s*$") then
         all_space = false
         break
       end
     end
+
     return (all_space and '"_' or "") .. key
   end
 end
