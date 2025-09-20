@@ -114,6 +114,9 @@ for _, key in ipairs(mode_keys) do
   map("n", key, function()
     local defer = key == "V" or key == "\22"
     vim.cmd("normal! " .. key)
+
+    if vim.fn.reg_recording() ~= "" or vim.fn.reg_executing() ~= "" then return end
+
     vim.defer_fn(function() require("which-key").show({ defer = defer }) end, 1)
   end)
 end

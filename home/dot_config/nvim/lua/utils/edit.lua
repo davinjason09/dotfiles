@@ -18,30 +18,30 @@ function M.save_cursor_pos() vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0) e
 ---Restore the cursor position
 ---@param offset? {row: number, col: number} The offset to move the cursor
 function M.restore_cursor(offset)
-  vim.schedule(function()
-    if vim.b.cursor_pos then
-      local cursor_pos = vim.b.cursor_pos
+  if vim.b.cursor_pos then
+    local cursor_pos = vim.b.cursor_pos
 
-      if offset then
-        cursor_pos[1] = cursor_pos[1] + (offset.row or 0)
-        cursor_pos[2] = cursor_pos[2] + (offset.col or 0)
-      end
+    if offset then
+      cursor_pos[1] = cursor_pos[1] + (offset.row or 0)
+      cursor_pos[2] = cursor_pos[2] + (offset.col or 0)
+    end
 
-      -- Ensure the cursor position is within the buffer's line count
-      local line_count = vim.api.nvim_buf_line_count(0)
-      if cursor_pos[1] < 1 or cursor_pos[1] > line_count then
-        cursor_pos[1] = math.max(1, math.min(line_count, cursor_pos[1]))
-      end
+    -- Ensure the cursor position is within the buffer's line count
+    local line_count = vim.api.nvim_buf_line_count(0)
+    if cursor_pos[1] < 1 or cursor_pos[1] > line_count then
+      cursor_pos[1] = math.max(1, math.min(line_count, cursor_pos[1]))
+    end
 
-      vim.api.nvim_win_set_cursor(0, cursor_pos)
-      vim.b.cursor_pos = nil
-    else
+    vim.api.nvim_win_set_cursor(0, cursor_pos)
+    vim.b.cursor_pos = nil
+  else
+    vim.schedule(function()
       if vim.fn.line("'c") ~= 0 then
         vim.cmd("normal! g`c")
         vim.api.nvim_buf_del_mark(0, "c")
       end
-    end
-  end)
+    end)
+  end
 end
 
 ---Add new line without entering insert mode
@@ -81,7 +81,6 @@ end
 -- Emacs-like paste
 ---@param key "p" | "P"
 function M.paste(key)
-  local count = vim.v.count1
   local reg_type = vim.fn.getregtype('"')
   local opts = nil
 
@@ -89,7 +88,7 @@ function M.paste(key)
   if reg_type == "V" and vim.fn.mode() == "n" then M.save_cursor_pos() end
   if key == "p" then opts = { row = 1 } end
 
-  vim.cmd("normal! " .. count .. key)
+  vim.cmd("normal! " .. vim.v.count1 .. key)
   M.restore_cursor(opts)
 end
 
