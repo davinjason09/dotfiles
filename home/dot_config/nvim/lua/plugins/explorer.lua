@@ -2,6 +2,7 @@ return {
   {
     "nvim-mini/mini.files",
     version = "*",
+    lazy = vim.fn.argc(-1) == 0,
     opts = {
       mappings = {
         go_in_plus = "<CR>",
@@ -12,7 +13,7 @@ return {
       },
       options = {
         permanent_delete = false,
-        use_as_default_explorer = true,
+        use_as_default_explorer = false,
       },
       windows = {
         width_focus = 30,
@@ -44,11 +45,39 @@ return {
         "<leader>ET",
         function() MiniFiles.open(vim.fn.stdpath("data") .. "/mini.files/trash", true) end,
         desc = "[E]xplorer: [T]rash",
-        silent = true,
       },
     },
     config = function(_, opts)
       require("mini.files").setup(opts)
+
+      -- HACK:
+      -- If we set `use_as_default_explorer` to true, with how this config is setup, the options.lua
+      -- will never be applied, and when pressing `q` or the explorer is out of focus, it will leave
+      -- the editor not being set properly and leave the terminal section of the Snacks dashboard on
+      -- the screen.
+      -- So as a workaround, we disable `use_as_default_explorer` and do this instead on a scheduled
+      -- event.
+      if vim.fn.argc(-1) ~= 0 then vim.schedule(MiniFiles.open) end
+
+      -- NOTE:
+      -- Handle cases when we open another floating window that makes the explorer to be out of focus
+      if Snacks then
+        local pick = Snacks.picker.pick
+        ---@type fun(source?: string, opts?: snacks.picker.Config)
+        Snacks.picker.pick = function(source, opts) ---@diagnostic disable-line
+          MiniFiles.close()
+          return pick(source, opts)
+        end
+      end
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "mason", "lazy" },
+        callback = function()
+          local win = vim.fn.win_getid()
+          MiniFiles.close()
+          vim.fn.win_gotoid(win)
+        end,
+      })
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesWindowOpen",
@@ -173,11 +202,6 @@ return {
               layout = { width = 35, min_width = 35, position = "right" },
             },
             win = {
-              input = {
-                keys = {
-                  ["<C-c>"] = { "stopinsert" },
-                },
-              },
               list = {
                 keys = {
                   ["<leader>/"] = false,
@@ -196,19 +220,17 @@ return {
       {
         "<leader>Et",
         function()
-          -- If its open and unfocused, focus it
-          -- If its focused, close it
-          -- If its closed, open it
           -- https://github.com/folke/snacks.nvim/discussions/1273
           local explorers = Snacks.picker.get({ source = "explorer" })
           for _, v in pairs(explorers) do
             if v:is_focused() then
-              v:close()
+              v:close() -- Close focussed explorer
             else
-              v:focus()
+              v:focus() -- Focus unfocussed explorer
             end
           end
 
+          -- Open explorer if there's none opened
           if #explorers == 0 then Snacks.explorer() end
         end,
         desc = "[E]xplorer: [T]ree",
