@@ -2,6 +2,7 @@ return {
   "catppuccin/nvim",
   name = "catppuccin",
   priority = 1000,
+  lazy = false,
   specs = {
     {
       "akinsho/bufferline.nvim",
@@ -257,6 +258,8 @@ return {
         }
       end,
     })
+
+    vim.cmd.colorscheme("catppuccin")
 
     local palette = require("catppuccin.palettes").get_palette()
     Defaults.filling_palette(palette)

@@ -2,7 +2,7 @@ require("config").init()
 
 return {
   "folke/snacks.nvim",
-  priority = 1000,
+  priority = 10000,
   lazy = false,
   config = function(_, opts)
     local notify = vim.notify
