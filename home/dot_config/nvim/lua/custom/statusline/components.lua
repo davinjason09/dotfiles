@@ -1,7 +1,7 @@
 local M = {}
 
 local C = require("heirline.conditions")
-local U = require("plugins.heirline.helpers")
+local U = require("custom.statusline.utils")
 
 M.Align = { provider = "%=" }
 
@@ -13,7 +13,7 @@ M.Space = function(n) return { provider = string.rep(" ", n or 1) } end
 
 ---@param icon string
 ---@param hl SeparatorHL
----@param update? string | table | (string | table)[] | fun(self: table): bool
+---@param update? string | table | (string | table)[] | fun(self: table): boolean
 ---@param init? (string | table)[]
 ---@return table
 M.Separator = function(icon, hl, update, init)

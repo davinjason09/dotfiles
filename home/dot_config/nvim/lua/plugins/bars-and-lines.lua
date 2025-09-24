@@ -97,8 +97,8 @@ return {
     lazy = vim.fn.argc(-1) == 0,
     config = function()
       local cond = require("heirline.conditions")
-      local C = require("plugins.heirline.components")
-      local U = require("plugins.heirline.helpers")
+      local C = require("custom.statusline.components")
+      local U = require("custom.statusline.utils")
       local colors = require("catppuccin.palettes").get_palette("mocha")
       local icons = Defaults.icons.modes
 
