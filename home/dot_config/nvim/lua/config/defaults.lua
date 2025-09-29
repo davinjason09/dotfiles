@@ -9,7 +9,6 @@ M.palette = {}
 ---@param palette CtpColors<string> | CtpColor
 function M.filling_palette(palette) M.palette = palette end
 
-M.small_screen_threshold = 45
 M.bigfile = {
   size = 1024 * 1024 * 1.5,
   line_length = 1000,
@@ -87,30 +86,6 @@ M.icons = {
     unmerged  = " ",
     untracked = "",
   },
-}
-
--- lazy.nvim default icons
-M.lazy_nvim_icons = {
-  cmd        = "",
-  config     = "",
-  event      = "",
-  ft         = "",
-  import     = "",
-  loaded     = "",
-  not_loaded = "󰊠",
-  plugin     = " ",
-  runtime    = "",
-  source     = "",
-  start      = "",
-  task       = " ",
-  list       = { "●", "○", "", "" },
-}
-
--- Mason default icons
-M.mason_icons = {
-  package_installed   = " ",
-  package_pending     = " ",
-  package_uninstalled = "󰊠 ",
 }
 
 M.special_ft_icons = {

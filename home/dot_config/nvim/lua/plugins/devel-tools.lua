@@ -5,7 +5,15 @@ return {
     build = ":MasonUpdate",
     event = { "BufReadPre", "BufNewFile", "BufWritePre" },
     opts_extend = { "ensure_installed" },
-    opts = { ui = { icons = Defaults.mason_icons } },
+    opts = {
+      ui = {
+        icons = {
+          package_installed = " ",
+          package_pending = " ",
+          package_uninstalled = "󰊠 ",
+        },
+      },
+    },
     config = function(_, opts)
       require("mason").setup(opts)
 

@@ -40,7 +40,24 @@ require("lazy").setup({
     notify = false,
   },
   rocks = { enabled = false },
-  ui = { icons = Defaults.lazy_nvim_icons },
+  ui = {
+    -- stylua: ignore
+    icons = {
+      cmd        = "",
+      config     = "",
+      event      = "",
+      ft         = "",
+      import     = "",
+      loaded     = "",
+      not_loaded = "󰊠",
+      plugin     = " ",
+      runtime    = "",
+      source     = "",
+      start      = "",
+      task       = " ",
+      list       = { "●", "○", "", "" },
+    },
+  },
   performance = {
     rtp = {
       disabled_plugins = {

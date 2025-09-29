@@ -1,12 +1,6 @@
 ---@class Utils.ui
 local M = {}
 
----Check if the current screen is small based on the default threshold
-function M.is_small_screen()
-  local height = vim.o.lines
-  return height <= Defaults.small_screen_threshold
-end
-
 ---@type table<string, boolean>?
 M._installed_parser = nil
 
