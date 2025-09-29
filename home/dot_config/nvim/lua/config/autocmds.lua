@@ -105,6 +105,8 @@ vim.api.nvim_create_autocmd("FileType", {
       end)
     end)
   end,
+  desc = "Set options for bigfiles",
+})
 
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("LazyDiagnostic"),

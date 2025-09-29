@@ -108,13 +108,7 @@ return {
     "stevearc/quicker.nvim",
     ft = "qf",
     opts = {
-      type_icons = {
-        E = " ",
-        W = " ",
-        I = " ",
-        N = " ",
-        H = " ",
-      },
+      type_icons = { E = " ", W = " ", I = " ", N = " ", H = " " },
       borders = {
         vert = "│",
         strong_header = "─",

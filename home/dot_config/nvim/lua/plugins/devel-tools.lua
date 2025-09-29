@@ -34,7 +34,7 @@ return {
       ---@param level? vim.log.levels | integer
       local function notify(msg, level)
         level = level or vim.log.levels.INFO
-        vim.notify(msg, level, { title = "Mason.nvim" })
+        vim.notify(msg, level, { title = "mason.nvim" })
       end
 
       mr.refresh(function()
@@ -166,10 +166,7 @@ return {
     },
     opts = {
       backend = "vim",
-      picker = {
-        "snacks",
-        opts = { layout = "dropdown" },
-      },
+      picker = { "snacks", opts = { layout = "dropdown" } },
     },
   },
 }

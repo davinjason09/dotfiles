@@ -68,7 +68,6 @@ M.init = function()
 end
 
 M.setup = function()
-  -- Boostrap lazy.nvim
   require("config.lazy")
   M.load("commands")
   M.load("lsp")

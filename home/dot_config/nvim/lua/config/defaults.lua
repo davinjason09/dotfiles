@@ -2,6 +2,7 @@
 local M = {}
 
 ---Default colorscheme palette
+---@module "catppuccin"
 ---@type CtpColors<string> | CtpColor
 M.palette = {}
 

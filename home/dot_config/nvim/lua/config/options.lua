@@ -78,25 +78,20 @@ vim.o.iskeyword     = '@,48-57,_,192-255,-'           -- Treat dash separated wo
 vim.o.scrolloff     = math.floor(0.3 * vim.o.lines)   -- Keep 30% of the screen height above and below the cursor
 vim.o.sidescrolloff = math.floor(0.3 * vim.o.columns) -- Keep 30% of the screen width to the left and right of the cursor
 
--- Define pattern for a start of 'numbered' list. This is responsible for
--- correct formatting of lists when using `gw`. This basically reads as 'at
--- least one special character (digit, -, +, *) possibly followed some
--- punctuation (. or `)`) followed by at least one space is a start of list
+-- Define pattern for a start of 'numbered' list. This is responsible for correct formatting of lists when using `gw`. This basically reads as 'at
+-- least one special character (digit, -, +, *) possibly followed some punctuation (. or `)`) followed by at least one space is a start of list
 -- item'
 vim.o.formatlistpat = [[^\s*[0-9\-\+\*]\+[\.\)]*\s\+]]
-vim.o.formatexpr    = "v:lua.require('utils').format.formatexpr()" -- Custom format expression
+vim.o.formatexpr    = "v:lua.Utils.format.formatexpr()" -- Custom format expression
 vim.g.autoformat    = true
 
 -- ╾╼ Folds ╾─────────────────────────────────────────────────────────╼
+vim.g.markdown_folding = 1         -- Use folding by heading in markdown files
 vim.o.foldcolumn = "auto"          -- Fold column width
 vim.o.foldlevel  = 99              -- Display all folds
-vim.o.foldmethod = "expr"          -- Use expression for folding
+vim.o.foldmethod = "indent"        -- Use indent for folding
 vim.o.foldtext   = ""              -- Use underlying text with its highlighting
 vim.o.foldenable = false           -- Disable folding by default
-vim.g.markdown_folding = 1         -- Use folding by heading in markdown files
-
-vim.o.foldexpr   = "v:lua.require('utils').ui.foldexpr()"   -- Treesitter fold
-vim.o.indentexpr = "v:lua.require('utils').ui.indentexpr()" -- Treesitter indent
 
 -- ╾╼ Spelling ╾──────────────────────────────────────────────────────╼
 vim.o.spelllang    = "en"          -- Default spelling dictionary

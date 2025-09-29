@@ -125,12 +125,12 @@ return {
     opts = {},
     -- stylua: ignore
     keys = {
-      ---@diagnostic disable-next-line: undefined-field
+      ---@diagnostic disable: undefined-field
       { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "[S]earch [T]ODO", },
-      ---@diagnostic disable-next-line: undefined-field
       { "<leader>sT", function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "[S]earch [T]ODO/FIX/FIXME", },
       { "[T", function() require("todo-comments").jump_prev() end, desc = "Prev TODO" },
       { "]T", function() require("todo-comments").jump_next() end, desc = "Next TODO" },
+      ---@diagnostic enable: undefined-field
     },
   },
 }
