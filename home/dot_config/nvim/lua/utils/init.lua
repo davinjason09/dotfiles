@@ -199,4 +199,35 @@ function M.clear_lsp_log()
   end
 end
 
+local _defaults = {} ---@type table<string, boolean>
+
+---@param option string
+---@param value string|number|boolean
+---@return boolean was_set
+function M.set_default(option, value)
+  local l = vim.api.nvim_get_option_value(option, { scope = "local" })
+  local g = require("config")._options[option]
+    or vim.api.nvim_get_option_value(option, { scope = "global" })
+
+  _defaults[("%s=%s"):format(option, value)] = true
+  local key = ("%s=%s"):format(option, l)
+
+  if l ~= g and not _defaults[key] then
+    local info = vim.api.nvim_get_option_info2(option, { scope = "local" })
+    local scriptinfo = vim.tbl_filter(
+      ---@param e vim.fn.getscriptinfo.ret
+      function(e) return e.sid == info.last_set_sid end,
+      vim.fn.getscriptinfo()
+    )
+
+    local by_rtp = #scriptinfo == 1
+      and vim.startswith(scriptinfo[1].name, vim.fn.expand("$VIMRUNTIME"))
+
+    if not by_rtp then return false end
+  end
+
+  vim.api.nvim_set_option_value(option, value, { scope = "local" })
+  return true
+end
+
 return M

@@ -49,6 +49,8 @@ M.load = function(name)
 end
 
 M.did_init = false
+M._options = {} ---@type vim.wo|vim.bo
+
 M.init = function()
   if M.did_init then return end
   M.did_init = true
@@ -56,6 +58,10 @@ M.init = function()
   Utils.lazy_notify()
   Utils.clear_lsp_log()
   M.load("options")
+
+  M._options.indentexpr = vim.o.indentexpr
+  M._options.foldmethod = vim.o.foldmethod
+  M._options.foldexpr = vim.o.foldexpr
 
   local mason_path = vim.fn.stdpath("data") .. "/mason/bin"
   if vim.fn.isdirectory(mason_path) == 1 then vim.env.PATH = mason_path .. ":" .. vim.env.PATH end

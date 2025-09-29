@@ -7,18 +7,54 @@ function M.is_small_screen()
   return height <= Defaults.small_screen_threshold
 end
 
--- Optimized treesitter foldexpr
-function M.foldexpr()
-  local buf = vim.api.nvim_get_current_buf()
-  return M.have(vim.b[buf].filetype) and vim.treesitter.foldexpr() or "0"
-end
+---@type table<string, boolean>?
+M._installed_parser = nil
 
+---@type table<string, boolean>
+M._queries = {}
+
+---@param update boolean?
+function M.get_installed(update)
+  if update then
+    M._installed_parser, M._queries = {}, {}
+    for _, lang in ipairs(require("nvim-treesitter").get_installed("parsers")) do
+      M._installed_parser[lang] = true
     end
   end
 
+  return M._installed_parser or {}
+end
+
+---@param lang string
+---@param query string
+function M.have_query(lang, query)
+  local key = lang .. ":" .. query
+  if M._queries[key] == nil then M._queries[key] = vim.treesitter.query.get(lang, query) ~= nil end
+
+  return M._queries[key]
+end
+
+---@param what string|number|nil
+---@param query? string
+---@overload fun(buf?:number):boolean
+---@overload fun(ft:string):boolean
+---@return boolean
+function M.have(what, query)
+  what = what or vim.api.nvim_get_current_buf()
+  what = type(what) == "number" and vim.bo[what].filetype or what --[[@as string]]
+
+  local lang = vim.treesitter.language.get_lang(what)
+  if lang == nil or M.get_installed()[lang] == nil then return false end
+  if query and not M.have_query(lang, query) then return false end
+
+  return true
+end
+
+-- Optimized treesitter foldexpr
+function M.foldexpr() return M.have(nil, "folds") and vim.treesitter.foldexpr() or "0" end
+
 function M.indentexpr()
-  local buf = vim.api.nvim_get_current_buf()
-  return M.have(vim.b[buf].filetype) and require("nvim-treesitter").indentexpr() or -1
+  return M.have(nil, "indents") and require("nvim-treesitter").indentexpr() or -1
 end
 
 ---Add powerline symbols to the title of popups
@@ -41,10 +77,4 @@ function M.noice_title(opts)
   }
 end
 
-M.installed_parser = {}
-
-function M.have(ft)
-  local lang = vim.treesitter.language.get_lang(ft)
-  return vim.tbl_contains(M.installed_parser, lang)
-end
 return M

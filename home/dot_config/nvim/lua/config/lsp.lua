@@ -50,6 +50,12 @@ local function on_attach(client, bufnr)
       vim.lsp.buf.signature_help()
     end, "Signature Help", "i")
   end
+
+  if client:supports_method(methods.textDocument_foldingRange) then
+    if Utils.set_default("foldmethod", "expr") then
+      Utils.set_default("foldexpr", "v:lua.vim.lsp.foldexpr()")
+    end
+  end
 end
 
 -- Override default LSP hover and signature help to use a custom border and max size
