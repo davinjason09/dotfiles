@@ -14,8 +14,6 @@ local function export_file()
   end)
 end
 
-local ignored_files = { "template.typ" }
-
 local map = vim.keymap.set
 -- stylua: ignore
 map("n", "<leader>ce", "<CMD>LspTinymistExportPdf<CR>", { desc = "[C]ode: [E]xport PDF", buffer = true })
@@ -35,25 +33,23 @@ vim.api.nvim_create_autocmd("BufWritePost", {
       -- Check if we're stil in the same root directory
       local root_dir = assert(client.config.root_dir)
       if not vim.startswith(vim.fn.expand("%:p"), root_dir) then
-        vim.notify("File not in the same root directory", vim.log.levels.WARN)
-        return
+        return vim.notify("File not in the same root directory", vim.log.levels.WARN)
       end
 
-      client:exec_cmd({
+      return client:exec_cmd({
         title = "Export PDF on save",
         command = "tinymist.exportPdf",
         arguments = { vim.g.typst_main_file },
       }, { bufnr = 0 }, function(err)
         if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
-        vim.notify("Exported PDF successfully", vim.log.levels.INFO, { title = "tinymist" })
+        local shortname = vim.fn.fnamemodify(vim.g.typst_main_file, ":.")
+        vim.notify(
+          ("Exported %s successfully"):format(shortname),
+          vim.log.levels.INFO,
+          { title = "tinymist" }
+        )
       end)
-      return
-    end
-
-    -- If no main file is set, export the current file
-    if not vim.tbl_contains(ignored_files, vim.fn.expand("%:t")) then
-      vim.cmd.TinymistExportPdf()
     end
   end,
 })
