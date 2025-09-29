@@ -39,11 +39,12 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
-    ft = { "markdown", "snacks_notif" },
+    ft = { "markdown" },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
       enabled = true,
+      file_types = { "markdown", "blink-cmp-documentation" },
       completions = { blink = { enabled = true } },
       render_modes = true,
       checkbox = {
@@ -76,8 +77,7 @@ return {
         icons = function(ctx)
           local icons = { "󰎥 ", "󰎨 ", "󰎫 ", "󰎲 ", "󰎯 ", "󰎴 " }
 
-          -- Disable icons for setex heading
-          if ctx.sections[0] then return "" end
+          if ctx.sections[0] then return "" end -- Disable icons for setex heading
 
           return icons[ctx.level] or "󱧓 "
         end,
@@ -129,7 +129,6 @@ return {
             debounce = 5,
             win_options = {
               concealcursor = { default = "", rendered = "nvic" },
-              conceallevel = { default = 0, rendered = 0 },
             },
           },
         },
