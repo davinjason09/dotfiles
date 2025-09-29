@@ -268,72 +268,93 @@ function M.title_name(filetype, buftype)
   return res.name, res.icon or " "
 end
 
-local nvim_version = ("  v%s "):format(Utils.nvim_version())
-local lua_version = ("  %s "):format(_VERSION)
-local title = Utils.ui.noice_title
+M.noice_cmdline_format = function()
+  ---Add powerline symbols to the title of popups
+  ---@alias title_opts { msg: string, views?: string, kind?: string }
+  ---@param opts title_opts
+  local title = function(opts)
+    opts.views = opts.views or "cmdline_popup" --[[@as string]]
 
-M.noice_cmdline_format = {
-  calculator = {
-    icon = "=",
-    lang = "vim",
-    kind = "calculator",
-    pattern = "^=",
-    title = title({ msg = "  Calculator ", kind = "calculator" }),
-  },
-  cmdline = {
-    icon = "❯",
-    lang = "vim",
-    kind = "cmdline",
-    pattern = "^:",
-    icon_hl_group = "MiniIconsGreen",
-    title = title({ msg = nvim_version, kind = "cmdline" }),
-  },
-  filter = {
-    icon = "",
-    lang = "bash",
-    kind = "filter",
-    pattern = "^:%s*!",
-    icon_hl_group = "MiniIconsGreen",
-    title = title({ msg = "  Shell ", kind = "filter" }),
-  },
-  help = {
-    icon = "",
-    lang = "text",
-    kind = "help",
-    pattern = "^:%s*[hH]e?l?p?%s+",
-    title = title({ msg = "  Help ", kind = "help" }),
-  },
-  lua = {
-    icon = "",
-    lang = "lua",
-    kind = "lua",
-    pattern = "^:%s*lua%s+",
-    icon_hl_group = "MiniIconsAzure",
-    title = title({ msg = lua_version, kind = "lua" }),
-  },
-  lua_eval = {
-    icon = "",
-    lang = "lua",
-    kind = "cmdline",
-    pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" },
-    title = title({ msg = nvim_version, kind = "cmdline" }),
-  },
-  search_down = { icon = "  ", lang = "regex", kind = "search", pattern = "^/" },
-  search_up = { icon = "  ", lang = "regex", kind = "search", pattern = "^%?" },
-  replace = {
-    icon = "  Replace:",
-    lang = "regex",
-    kind = "search",
-    pattern = { "^:%s*%%s?n?o?m?/", "^:'<,'>%s*s?n?m?/", "^:%d+,%d+%s*s?n?m?/" },
-    view = "cmdline",
-  },
-  input = {
-    icon = " ",
-    lang = "text",
-    kind = "input",
-    view = "cmdline_popup",
-    title = title({ msg = "  Input ", kind = "input" }),
-  },
-}
+    local powerline_hl = ""
+    if opts.views == "confirm" then
+      powerline_hl = "NoiceConfirmBorder"
+    elseif opts.kind then
+      powerline_hl = "NoiceCmdlinePopupBorder" .. opts.kind:sub(1, 1):upper() .. opts.kind:sub(2)
+    end
+
+    return {
+      { "", powerline_hl },
+      { opts.msg },
+      { "", powerline_hl },
+    }
+  end
+
+  local nvim_version = ("  v%s "):format(Utils.nvim_version())
+  local lua_version = ("  %s "):format(_VERSION)
+
+  return {
+    calculator = {
+      icon = "=",
+      lang = "vim",
+      kind = "calculator",
+      pattern = "^=",
+      title = title({ msg = "  Calculator ", kind = "calculator" }),
+    },
+    cmdline = {
+      icon = "❯",
+      lang = "vim",
+      kind = "cmdline",
+      pattern = "^:",
+      icon_hl_group = "MiniIconsGreen",
+      title = title({ msg = nvim_version, kind = "cmdline" }),
+    },
+    filter = {
+      icon = "",
+      lang = "bash",
+      kind = "filter",
+      pattern = "^:%s*!",
+      icon_hl_group = "MiniIconsGreen",
+      title = title({ msg = "  Shell ", kind = "filter" }),
+    },
+    help = {
+      icon = "",
+      lang = "text",
+      kind = "help",
+      pattern = "^:%s*[hH]e?l?p?%s+",
+      title = title({ msg = "  Help ", kind = "help" }),
+    },
+    lua = {
+      icon = "",
+      lang = "lua",
+      kind = "lua",
+      pattern = "^:%s*lua%s+",
+      icon_hl_group = "MiniIconsAzure",
+      title = title({ msg = lua_version, kind = "lua" }),
+    },
+    lua_eval = {
+      icon = "",
+      lang = "lua",
+      kind = "cmdline",
+      pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" },
+      title = title({ msg = nvim_version, kind = "cmdline" }),
+    },
+    search_down = { icon = "  ", lang = "regex", kind = "search", pattern = "^/" },
+    search_up = { icon = "  ", lang = "regex", kind = "search", pattern = "^%?" },
+    replace = {
+      icon = "  Replace:",
+      lang = "regex",
+      kind = "search",
+      pattern = { "^:%s*%%s?n?o?m?/", "^:'<,'>%s*s?n?m?/", "^:%d+,%d+%s*s?n?m?/" },
+      view = "cmdline",
+    },
+    input = {
+      icon = " ",
+      lang = "text",
+      kind = "input",
+      view = "cmdline_popup",
+      title = title({ msg = "  Input ", kind = "input" }),
+    },
+  }
+end
 
 return M
