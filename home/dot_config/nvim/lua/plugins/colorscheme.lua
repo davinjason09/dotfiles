@@ -9,7 +9,7 @@ return {
       optional = true,
       opts = function(_, opts)
         if (vim.g.colors_name or ""):find("catppuccin") then
-          opts.highlights = require("catppuccin.groups.integrations.bufferline").get_theme()
+          opts.highlights = require("catppuccin.special.bufferline").get_theme()
         end
       end,
     },
@@ -28,38 +28,28 @@ return {
         loops = { "bold" },
         booleans = { "bold" },
       },
+      lsp_styles = {
+        enabled = true,
+        underlines = {
+          errors = { "undercurl" },
+          hints = { "undercurl" },
+          warnings = { "undercurl" },
+          information = { "undercurl" },
+          ok = { "undercurl" },
+        },
+      },
       default_integrations = false,
       integrations = {
         blink_cmp = true,
         gitsigns = true,
-        markdown = true,
         mason = true,
         mini = { enabled = true },
-        native_lsp = {
-          enabled = true,
-          virtual_text = {
-            errors = { "italic" },
-            hints = { "italic" },
-            warnings = { "italic" },
-            information = { "italic" },
-            ok = { "italic" },
-          },
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
-          inlay_hints = { background = true },
-        },
         noice = true,
         render_markdown = true,
-        semantic_tokens = true,
         snacks = {
           enabled = true,
           indent_scope_color = "sky",
         },
-        treesitter = true,
         which_key = true,
       },
       custom_highlights = function(colors)
