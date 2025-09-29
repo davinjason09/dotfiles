@@ -40,11 +40,13 @@ M.picker = {
       if state.last_term == term_buf then
         vim.schedule(function() utils.cycle_term_buf("prev") end)
       end
+
       table.remove(state.term_bufs, id)
     end
 
     if #state.term_bufs == 0 then
       picker:close()
+      state.last_term = nil
     else
       picker.list:set_selected()
       picker.list:set_target()
