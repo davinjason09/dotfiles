@@ -105,6 +105,16 @@ vim.api.nvim_create_autocmd("FileType", {
       end)
     end)
   end,
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("LazyDiagnostic"),
+  pattern = "lazy",
+  once = true,
+  callback = function()
+    local diagnostic = require("custom.lsp.diagnostic")
+    if not diagnostic._did_setup then diagnostic.setup() end
+  end,
+  desc = "Set up diagnostic on 'Lazy' filetype, if it hasn't been setup",
 })
 
 vim.api.nvim_create_autocmd("FileType", {

@@ -120,24 +120,6 @@ M.special_ft_icons = {
 
 -- stylua: ignore end
 
--- Default vim.diagnostic config
----@type vim.diagnostic.Opts
-M.diagnostics = {
-  signs = {
-    -- stylua: ignore
-    text = {
-      [vim.diagnostic.severity.ERROR] = M.icons.diagnostics.ERROR,
-      [vim.diagnostic.severity.WARN]  = M.icons.diagnostics.WARN,
-      [vim.diagnostic.severity.INFO]  = M.icons.diagnostics.INFO,
-      [vim.diagnostic.severity.HINT]  = M.icons.diagnostics.HINT,
-    },
-  },
-  underline = true,
-  update_in_insert = false,
-  virtual_text = { prefix = "", spacing = 0 },
-  virtual_lines = { current_line = true },
-}
-
 local border = {
   { "╭", "LSPHoverBorder" },
   { "─", "LSPHoverBorder" },
