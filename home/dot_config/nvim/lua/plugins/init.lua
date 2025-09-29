@@ -66,6 +66,8 @@ return {
       Snacks.toggle.profiler_highlights():map("<leader>dph")
       Snacks.toggle.zoom():map("<leader>wm"):map("<leader>uZ")
       Snacks.toggle.zen():map("<leader>uz")
+      Utils.format.snacks_toggle():map("<leader>uf")
+      Utils.format.snacks_toggle(true):map("<leader>uF")
       -- stylua: ignore end
     end)
   end,

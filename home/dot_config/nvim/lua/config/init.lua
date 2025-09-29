@@ -85,6 +85,8 @@ M.setup = function()
       if lazy_autocmds then M.load("autocmds") end
 
       M.load("keymaps")
+
+      Utils.format.setup()
     end,
   })
 end

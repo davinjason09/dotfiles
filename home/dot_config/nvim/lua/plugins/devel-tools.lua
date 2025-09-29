@@ -134,12 +134,12 @@ return {
         zsh = { "shfmt" },
         ["_"] = { "trim_whitespace" },
       },
-      format_on_save = function()
+      format_on_save = function(bufnr)
         -- Don't format when minifiles is open
         if vim.g.minifiles_active then return nil end
 
         -- Stop if we disabled auto-formatting.
-        if not vim.g.autoformat then return nil end
+        if not Utils.format.enabled(bufnr) then return nil end
 
         return { lsp_format = "fallback" }
       end,
