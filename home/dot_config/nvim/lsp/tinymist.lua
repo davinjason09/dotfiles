@@ -88,7 +88,8 @@ return {
       }, { bufnr = bufnr }, function(err)
         if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
-        vim.notify("Successfully pinned " .. file, vim.log.levels.INFO, { title = "tinymist" })
+        local shortname = vim.fn.fnamemodify(file, ":.")
+        vim.notify("Successfully pinned " .. shortname, vim.log.levels.INFO, { title = "tinymist" })
         vim.g.typst_main_file = file
       end)
     end, { desc = "[C]ode: [P]in", buffer = bufnr })
@@ -110,11 +111,8 @@ return {
       }, { bufnr = bufnr }, function(err)
         if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
-        vim.notify(
-          "Unpinned " .. vim.g.typst_main_file,
-          vim.log.levels.INFO,
-          { title = "tinymist" }
-        )
+        local shortname = vim.fn.fnamemodify(vim.g.typst_main_file, ":.")
+        vim.notify("Unpinned " .. shortname, vim.log.levels.INFO, { title = "tinymist" })
         vim.g.typst_main_file = nil
       end)
     end, { desc = "[C]ode: [U]npin", buffer = bufnr })
