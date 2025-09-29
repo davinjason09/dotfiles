@@ -149,7 +149,8 @@ return {
           BlinkCmpMenuSelection       = { fg = colors.mantle,   bg = colors.green },
           BlinkCmpKindKeyword         = { link = "Keyword" },
 
-          BlinkPairsOrange = { link = "@number" },
+          BlinkPairsYellow = { link = "@type" },
+          -- BlinkPairsOrange = { link = "@number" },
           BlinkPairsPurple = { link = "@tag" },
           BlinkPairsBlue = { link = "@method" },
           BlinkPairsUnmatched = { link = "@keyword" },
