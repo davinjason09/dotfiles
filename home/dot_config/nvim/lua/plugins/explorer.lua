@@ -57,7 +57,10 @@ return {
       -- the screen.
       -- So as a workaround, we disable `use_as_default_explorer` and do this instead on a scheduled
       -- event.
-      if vim.fn.argc(-1) ~= 0 then vim.schedule(MiniFiles.open) end
+      if vim.fn.argc(-1) ~= 0 then
+        local arg = vim.fn.argv(0) --[[@as string]]
+        if vim.fn.isdirectory(arg) == 1 then vim.schedule(MiniFiles.open) end
+      end
 
       -- NOTE:
       -- Handle cases when we open another floating window that makes the explorer to be out of focus
