@@ -88,7 +88,7 @@ return {
       Utils.on_very_lazy(function()
         Utils.format.formatter = {
           name = "conform.nvim",
-          format = function(buf) require("conform").format({ async = true, bufnr = buf }) end,
+          format = function(buf) require("conform").format({ bufnr = buf }) end,
         }
       end)
     end,
@@ -142,15 +142,6 @@ return {
         zsh = { "shfmt" },
         ["_"] = { "trim_whitespace" },
       },
-      format_on_save = function(bufnr)
-        -- Don't format when minifiles is open
-        if vim.g.minifiles_active then return nil end
-
-        -- Stop if we disabled auto-formatting.
-        if not Utils.format.enabled(bufnr) then return nil end
-
-        return { lsp_format = "fallback" }
-      end,
     },
   },
   {

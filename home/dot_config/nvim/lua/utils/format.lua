@@ -81,10 +81,7 @@ function M.format(opts)
   local buf = opts.buf or vim.api.nvim_get_current_buf()
   if not ((opts and opts.force) or M.enabled(buf)) then return end
 
-  if M.formatter == nil then
-    vim.notify("**No formatters set**", vim.log.levels.ERROR)
-    return
-  end
+  if M.formatter == nil then return vim.notify("**No formatters set**", vim.log.levels.ERROR) end
 
   xpcall(function() M.formatter.format(buf) end, function(err)
     vim.schedule(function() vim.notify("Code Format Error: " .. err, vim.log.levels.ERROR) end)
@@ -109,7 +106,11 @@ end
 function M.setup()
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("CodeFormat", {}),
-    callback = function(args) M.format({ buf = args.buf }) end,
+    callback = function(args)
+      if vim.g.minifiles_active then return end
+
+      M.format({ buf = args.buf })
+    end,
     desc = "Code Format",
   })
 
