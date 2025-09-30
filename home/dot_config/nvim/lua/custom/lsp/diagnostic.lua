@@ -30,18 +30,18 @@ local function split_line(str, max_width)
   if #str <= max_width then return { str } end
 
   local lines = {}
-  local current_line = ""
+  local cur_line = ""
 
   for word in string.gmatch(str, "%S+") do
-    if #current_line + #word + 1 > max_width then
-      table.insert(lines, current_line)
-      current_line = word
+    if #cur_line + #word + 1 > max_width then
+      table.insert(lines, cur_line)
+      cur_line = word
     else
-      current_line = current_line .. (current_line == "" and "" or " ") .. word
+      cur_line = (cur_line ~= "" and cur_line .. " " or "") .. word
     end
   end
 
-  if current_line ~= "" then table.insert(lines, current_line) end
+  if cur_line ~= "" then table.insert(lines, cur_line) end
   return lines
 end
 
@@ -135,42 +135,47 @@ M.setup = function()
       current_line = true,
       format = virtual_lines_format,
     },
+    severity_sort = { reverse = false },
   }
 
   vim.diagnostic.config(diag_opts)
 
   -- Re-draw diagnostics each line change to account for virtual_text changes
-  local _last_line = vim.fn.getpos(".")
+  local last_line = vim.fn.line(".")
+  local timer = nil ---@type uv.uv_timer_t?
+  local debounce = 100
+
   vim.api.nvim_create_autocmd("CursorMoved", {
     callback = function(args)
-      local ft = vim.bo[args.buf].filetype
-      if ft == "lazy" then return end
+      if vim.bo[args.buf].filetype == "lazy" then return end
 
-      local current_line = vim.fn.getpos(".")
+      local cur_line = vim.fn.line(".")
 
-      if current_line ~= _last_line then
-        vim.diagnostic.hide(nil, args.buf)
-        vim.diagnostic.show(nil, args.buf)
+      if cur_line ~= last_line then
+        if timer then timer:stop() end
+
+        timer = vim.defer_fn(function()
+          pcall(vim.diagnostic.hide, nil, args.buf)
+          pcall(vim.diagnostic.show, nil, args.buf)
+          last_line = cur_line
+        end, debounce)
       end
-
-      _last_line = current_line
     end,
   })
 
   -- Re-render diagnostics when the window is resized or when the diagnostics change
-  vim.api.nvim_create_autocmd({ "VimResized", "DiagnosticChanged" }, {
+  vim.api.nvim_create_autocmd("VimResized", {
     callback = function(args)
-      local ft = vim.bo[args.buf].filetype
-      if ft == "lazy" then return end
+      if vim.bo[args.buf].filetype == "lazy" then return end
 
-      vim.diagnostic.hide(nil, args.buf)
-      vim.diagnostic.show(nil, args.buf)
+      pcall(vim.diagnostic.hide, nil, args.buf)
+      pcall(vim.diagnostic.show, nil, args.buf)
     end,
   })
 
   vim.api.nvim_create_autocmd("ModeChanged", {
     pattern = "n:i",
-    callback = function(args) vim.diagnostic.hide(nil, args.buf) end,
+    callback = function(args) pcall(vim.diagnostic.hide, nil, args.buf) end,
   })
 end
 
