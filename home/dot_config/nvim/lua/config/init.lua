@@ -1,5 +1,8 @@
 local M = {}
 
+M._did_init = false
+M._options = {} ---@type vim.wo|vim.bo
+
 local function get_ft_icon(filename)
   -- PERF:
   -- If the filetype is "prompt" or "nofile", return a default icon
@@ -18,13 +21,28 @@ local title_ignore_ft = {
   "mini.files",
 }
 
+local title_icon_map = {
+  ft = {
+    snacks_picker_list = { name = "Picker", icon = " " },
+    snacks_picker_input = { name = "Picker", icon = " " },
+    snacks_picker_preview = { name = "Picker", icon = " " },
+    lazy = { name = "Lazy", icon = "󰒲 " },
+    mason = { name = "Mason", icon = " " },
+  },
+  bt = {
+    prompt = { name = "[Prompt]", icon = " " },
+    nofile = { name = "[No Name]" },
+  },
+}
+
 M.title = function()
   local ft = vim.bo.filetype
   local filename = vim.fn.expand("%:t")
 
   local icon = filename ~= "" and get_ft_icon(filename) or " "
   if filename == "" then
-    filename, icon = Defaults.title_name(ft, vim.bo.buftype)
+    local res = title_icon_map.ft[ft] or title_icon_map.bt[vim.bo.buftype]
+    filename, icon = res.name or "[No Name]", res.icon or " "
   end
 
   filename = vim.tbl_contains(title_ignore_ft, ft) and "" or filename .. " "
@@ -48,12 +66,9 @@ M.load = function(name)
   if vim.bo.filetype == "lazy" then vim.cmd([[do VimResized]]) end
 end
 
-M.did_init = false
-M._options = {} ---@type vim.wo|vim.bo
-
 M.init = function()
-  if M.did_init then return end
-  M.did_init = true
+  if M._did_init then return end
+  M._did_init = true
 
   Utils.lazy_notify()
   Utils.clear_lsp_log()

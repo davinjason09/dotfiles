@@ -245,30 +245,6 @@ M.formatter_rules = {
   taplo = { ".taplo.toml", "taplo.toml" },
 }
 
----@param filetype string
----@param buftype string?
----@return string, string
-function M.title_name(filetype, buftype)
-  local map = {
-    filetype = {
-      snacks_picker_list = { name = "Picker", icon = " " },
-      snacks_picker_input = { name = "Picker", icon = " " },
-      snacks_picker_preview = { name = "Picker", icon = " " },
-      lazy = { name = "Lazy", icon = "󰒲 " },
-      mason = { name = "Mason", icon = " " },
-    },
-    buftype = {
-      prompt = { name = "[Prompt]", icon = " " },
-      nofile = { name = "[No Name]" },
-    },
-  }
-
-  local res = map.filetype[filetype] or map.buftype[buftype]
-  if not res then return "[No Name]", " " end
-
-  return res.name, res.icon or " "
-end
-
 M.noice_cmdline_format = function()
   ---Add powerline symbols to the title of popups
   ---@alias title_opts { msg: string, views?: string, kind?: string }
