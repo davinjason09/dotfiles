@@ -120,8 +120,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     on_attach(client, args.buf)
 
-    local diagnostic = require("custom.lsp.diagnostic")
-    if not diagnostic._did_setup then diagnostic.setup() end
+    require("custom.lsp.diagnostic").setup()
   end,
   desc = "LSP Keymaps",
 })

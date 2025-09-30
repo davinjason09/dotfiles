@@ -97,6 +97,7 @@ end
 
 M._did_setup = false
 M.setup = function()
+  if M._did_setup then return true end
   M._did_setup = true
 
   -- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.

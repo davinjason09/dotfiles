@@ -112,10 +112,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup("LazyDiagnostic"),
   pattern = "lazy",
   once = true,
-  callback = function()
-    local diagnostic = require("custom.lsp.diagnostic")
-    if not diagnostic._did_setup then diagnostic.setup() end
-  end,
+  callback = function() require("custom.lsp.diagnostic").setup() end,
   desc = "Set up diagnostic on 'Lazy' filetype, if it hasn't been setup",
 })
 
@@ -124,7 +121,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "checkhealth",
   callback = function(args)
     -- HACK:
-    -- somehow this got triggered twice, so we only execute this once the file name is exactly`health://`
+    -- somehow this got triggered twice, so we only execute this once the file name is exactly `health://`
     if args.file ~= "health://" then return end
 
     local width = math.floor(vim.o.columns * 0.8)
@@ -155,7 +152,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.schedule(function()
       vim.api.nvim_set_option_value("modifiable", true, { buf = args.buf })
-      vim.api.nvim_win_set_config(vim.api.nvim_get_current_win(), win_settings)
       vim.api.nvim_buf_set_lines(args.buf, 0, 1, false, {})
 
       for i, line in ipairs(vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)) do
@@ -178,6 +174,7 @@ vim.api.nvim_create_autocmd("FileType", {
       end
 
       vim.api.nvim_set_option_value("modifiable", false, { buf = args.buf })
+      vim.api.nvim_win_set_config(vim.api.nvim_get_current_win(), win_settings)
     end)
   end,
   desc = "Set checkhealth window settings",
