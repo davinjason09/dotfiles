@@ -117,6 +117,14 @@ M.pick = function(cmd)
         vim.defer_fn(function() ctx.picker:action(action) end, 25)
       end
 
+      -- HACK:
+      -- When the input is unhidden, the preview pane doesn't get updated, so as a workaround we
+      -- refresh the picker's list and then move the cursor to the current item.
+      if state.last_win ~= "input" and cur_win == "input" then
+        ctx.picker:find()
+        ctx.picker.list:move(ctx.item.idx)
+      end
+
       state.last_win = cur_win
       if cur_win ~= "input" then return end
 
