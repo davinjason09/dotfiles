@@ -51,6 +51,7 @@ widgets:
     options:
       class_name: "glazewm-grouper"
       widgets: ["glazewm_workspaces", "glazewm_tiling_direction"]
+      hide_empty: true
 
   glazewm_workspaces:
     type: "glazewm.workspaces.GlazewmWorkspacesWidget"
@@ -73,6 +74,7 @@ widgets:
       tooltip: true
       show_only_visible: true
       strict_filtering: true
+      hide_empty: true
       preview:
         enabled: true
         width: 240
@@ -201,6 +203,7 @@ widgets:
     options:
       class_name: "panel-grouper"
       widgets: ["memory", "cpu", "weather"]
+      hide_empty: true
 
   memory:
     type: "yasb.memory.MemoryWidget"
@@ -306,6 +309,7 @@ widgets:
     options:
       class_name: "control-grouper"
       widgets: ["systray", "wallpapers", "wifi", "volume", "notifications"]
+      hide_empty: true
 
   systray:
     type: "yasb.systray.SystrayWidget"
