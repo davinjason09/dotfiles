@@ -104,7 +104,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
         -- Disable lsp if the first line starts with `-- disable`
         local first_line = vim.fn.readfile(file, "", 1)[1] or ""
 
-        if first_line:match("^%-%- disable") then return end
+        if first_line:match("^%-%-%s*disable") then return end
         return vim.fn.fnamemodify(file, ":t:r")
       end)
       :totable()
