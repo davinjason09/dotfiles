@@ -1047,6 +1047,14 @@ QPushButton {
   margin: 3px 0 8px 0;
 }
 
+.notification-widget .label.alt {
+  font-size: 10px;
+  color: var(--blue);
+  position: relative;
+  margin: 0;
+  background-color: transparent;
+}
+
 /*
 * ─[ Power Menu ]───────────────────────────────────────────────────────
 */
