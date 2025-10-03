@@ -59,6 +59,7 @@ M.picker = {
     local new_name = vim.fn.input("New Terminal Name: ", item.item.name)
     state.term_bufs[item.idx].name = new_name
     picker:find()
+    picker.list:move(item.idx, true)
 
     if state.term_bufs[item.idx].bufnr == state.last_term then
       picker.preview:set_title(new_name)

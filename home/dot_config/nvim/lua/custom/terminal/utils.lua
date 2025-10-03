@@ -45,8 +45,9 @@ M.switch_term_buf = function(buf)
   local picker = assert(Snacks.picker.get()[1])
 
   vim.schedule(function()
+    local id, term = assert(M.get_term("bufnr", buf))
+
     if not vim.api.nvim_buf_is_valid(buf) then
-      local id, term = assert(M.get_term("bufnr", buf))
       local opts = term.opts or {} ---@type TermOpts
 
       if opts.persist then
@@ -75,6 +76,8 @@ M.switch_term_buf = function(buf)
       -- previous window was the input or not.
       if not is_term then picker:action("focus_list") end
     end
+
+    vim.schedule(function() picker.list:move(id, true) end)
   end)
 end
 
