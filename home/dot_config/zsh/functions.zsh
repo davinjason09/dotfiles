@@ -150,11 +150,6 @@ yeet() {
   gum confirm "Do you want to remove these packages?" && yay -Rns $filtered_array || echo "Cancelled"
 }
 
-# ╾╼ Avtivate conda environment ╾──────────────────────────────────────╼
-activate_conda() {
-  source ~/miniconda3/bin/activate
-}
-
 # ╾╼ Extract archives based on file extension ╾────────────────────────╼
 extract() {
   case $1 in
