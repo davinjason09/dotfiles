@@ -7,7 +7,6 @@ vim.g.maplocalleader = "\\"
 vim.o.backup         = false       -- Don't store backup
 vim.o.confirm        = true        -- Ask for confirmation before overwriting files
 vim.o.laststatus     = 3           -- Always show status line
-vim.o.mouse          = "a"         -- Enable mouse support
 vim.o.switchbuf      = "usetab"    -- Use already opened buffers when switching
 vim.o.writebackup    = false       -- Don't store backup files
 vim.o.timeoutlen     = 300         -- Time to wait for mapped sequence to complete
@@ -76,7 +75,6 @@ vim.o.grepprg       = "rg --vimgrep"                  -- Use ripgrep for searchi
 vim.o.grepformat    = "%f:%l:%c:%m"                   -- Format for grep results
 vim.o.iskeyword     = '@,48-57,_,192-255,-'           -- Treat dash separated words as a word text object
 vim.o.scrolloff     = math.floor(0.3 * vim.o.lines)   -- Keep 30% of the screen height above and below the cursor
-vim.o.sidescrolloff = math.floor(0.3 * vim.o.columns) -- Keep 30% of the screen width to the left and right of the cursor
 
 -- Define pattern for a start of 'numbered' list. This is responsible for correct formatting of lists when using `gw`. This basically reads as 'at
 -- least one special character (digit, -, +, *) possibly followed some punctuation (. or `)`) followed by at least one space is a start of list
