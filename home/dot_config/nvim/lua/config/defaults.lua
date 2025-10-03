@@ -2,12 +2,12 @@
 local M = {}
 
 ---Default colorscheme palette
----@module "catppuccin"
----@type CtpColors<string> | CtpColor
+
+---@type CtpColors<string>
 M.palette = {}
 
 ---Fill the palette with the default colorscheme
----@param palette CtpColors<string> | CtpColor
+---@param palette CtpColors<string>
 function M.filling_palette(palette) M.palette = palette end
 
 M.bigfile = {
