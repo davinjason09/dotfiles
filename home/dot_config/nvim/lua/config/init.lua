@@ -41,7 +41,7 @@ M.title = function()
 
   local icon = filename ~= "" and get_ft_icon(filename) or " "
   if filename == "" then
-    local res = title_icon_map.ft[ft] or title_icon_map.bt[vim.bo.buftype]
+    local res = title_icon_map.ft[ft] or title_icon_map.bt[vim.bo.buftype] or {}
     filename, icon = res.name or "[No Name]", res.icon or " "
   end
 
