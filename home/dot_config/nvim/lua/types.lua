@@ -3,4 +3,5 @@
 -- ╾╼ Terminal ╾──────────────────────────────────────────────────────╼
 
 ---@alias TermOpts { persist?: boolean, auto_close?: boolean }
----@alias TermBuf { bufnr: number, name: string, cmd?: string | string[], opts?: TermOpts }
+---@alias TermBuf { bufnr: number, name: string, cmd?: string | string[], opts?: TermOpts, job_id: integer }
+

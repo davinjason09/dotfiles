@@ -9,7 +9,7 @@ local function jobstart(cmd, opts)
   return vim.fn.jobstart(cmd, vim.tbl_isempty(opts) and vim.empty_dict() or opts)
 end
 
----@param key "bufnr" | "cmd" | "name"
+---@param key "bufnr" | "cmd" | "name" | "opts" | "job_id"
 ---@param value any
 ---@return integer?, TermBuf?
 M.get_term = function(key, value)
@@ -27,6 +27,7 @@ M.add_term = function(cmd, name, opts)
   if not state.term_bufs then state.term_bufs = {} end
 
   opts = vim.tbl_extend("force", { persist = false, auto_close = false }, opts or {})
+
   local term_name = cmd and (type(cmd) == "table" and cmd[1] or cmd) or name or "Terminal" --[[@as string]]
   term_name = term_name:sub(1, 1):upper() .. term_name:sub(2)
 
@@ -61,15 +62,14 @@ M.switch_term_buf = function(buf)
     state.term_win:map()
     vim.b[buf].managed_term = true
 
-    local details = vim.iter(state.term_bufs):find(function(x) return x.bufnr == buf end)
-    picker.preview:set_title(details.name)
+    picker.preview:set_title(term.name)
     picker:update_titles()
 
     if vim.bo[buf].buftype ~= "terminal" then
       local is_term = picker:current_win() == "preview"
       if not is_term then picker:action("focus_term") end
 
-      jobstart(details.cmd, { term = true })
+      state.term_bufs[id].job_id = jobstart(term.cmd, { term = true })
       vim.schedule(function() picker:find() end)
 
       -- Since the input field is automatically hidden, focus to the list no matter whether if the
@@ -86,10 +86,7 @@ M.cycle_term_buf = function(dir)
   if #state.term_bufs == 0 then return end
 
   local cur_idx = M.get_term("bufnr", state.last_term)
-  if not cur_idx then
-    M.switch_term_buf(state.term_bufs[1].bufnr)
-    return
-  end
+  if not cur_idx then return M.switch_term_buf(state.term_bufs[1].bufnr) end
 
   local new_idx = (cur_idx + (dir == "prev" and -2 or 0)) % #state.term_bufs
   local next_buf = state.term_bufs[new_idx + 1].bufnr
