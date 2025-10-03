@@ -33,10 +33,7 @@ return {
     config = function(_, opts)
       require("copilot").setup(opts)
 
-      local function map(mode, lhs, rhs)
-        mode = mode or "n"
-        vim.keymap.set(mode, lhs, rhs, { expr = true })
-      end
+      local function map(mode, lhs, rhs) vim.keymap.set(mode or "n", lhs, rhs, { expr = true }) end
 
       local suggestion = require("copilot.suggestion")
       map("i", "<C-Right>", function()
