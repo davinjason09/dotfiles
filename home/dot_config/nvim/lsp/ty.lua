@@ -13,8 +13,4 @@ return {
     "ty.toml",
     "uv.lock",
   },
-  on_attach = function(client)
-    client.server_capabilities.inlayHintProvider = false
-    client.server_capabilities.hoverProvider = false
-  end,
 }
