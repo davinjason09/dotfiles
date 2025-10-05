@@ -8,10 +8,7 @@ return {
   {
     "williamboman/mason.nvim",
     opts = {
-      ensure_installed = {
-        "basedpyright",
-        "ruff",
-      },
+      ensure_installed = { "ruff" },
     },
   },
   -- possibly add uv.nvim
