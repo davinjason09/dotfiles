@@ -99,7 +99,8 @@ return {
 
       -- stylua: ignore
       local map = function(buf, key, type, method, query, desc)
-        vim.keymap.set({ "n", "x", "o" }, key, function()
+        local mode = type == "move" and { "n", "x", "o" } or "n"
+        vim.keymap.set(mode, key, function()
           require("nvim-treesitter-textobjects." .. type)[method](query, "textobjects")
         end, { buffer = buf, desc = desc, silent = true })
       end
