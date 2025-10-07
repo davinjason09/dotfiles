@@ -102,10 +102,18 @@ M.reload = function()
   })
 end
 
-M.chezmoi = function()
+---@param type? string
+M.chezmoi = function(type)
   local chezmoi_path = vim.fn.system("chezmoi source-path"):gsub("\n", "")
+  local title = "Chezmoi Files"
+
+  if type ~= nil then
+    chezmoi_path = ("%s/dot_config/%s"):format(chezmoi_path, type)
+    title = "Config Files"
+  end
+
   Snacks.picker.files({
-    title = "Chezmoi Files",
+    title = title,
     cwd = chezmoi_path,
     hidden = true,
   })

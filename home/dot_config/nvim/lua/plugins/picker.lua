@@ -98,7 +98,7 @@ return {
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "[F]ind [B]uffers" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "[F]ind by [G]rep" },
     { "<leader>fw", function() Snacks.picker.grep_word() end, desc = "[F]ind [W]ord", mode = { "n", "x" } },
-    { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "[F]ind [C]onfig File" },
+    { "<leader>fc", function() Utils.picker.chezmoi("nvim") end, desc = "[F]ind [C]onfig File" },
     { "<leader>ff", function() Snacks.picker.files() end, desc = "[F]ind [F]iles" },
     { "<leader>fp", function() Snacks.picker.projects() end, desc = "[F]ind [P]rojects" },
     { "<leader>fr", function() Snacks.picker.recent() end, desc = "[F]ind [R]ecent" },
