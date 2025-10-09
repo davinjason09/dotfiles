@@ -152,6 +152,8 @@ keybindings:
     bindings: ["lwin+b"]
   - commands: ["shell-exec %LOCALAPPDATA%\\Voidstar\\FilePilot\\FPilot.exe"] # File Explorer
     bindings: ["lwin+e"]
+  - commands: ["shell-exec --hide-window FlowLauncher"] # App Launcher
+    bindings: ["lwin+space"]
   # prettier-ignore
   - commands: ["shell-exec --hide-window yasbc toggle-widget powermenu --follow-focus"] # Power Menu
     bindings: ["lwin+ctrl+q"]
