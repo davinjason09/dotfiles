@@ -762,8 +762,9 @@ QPushButton {
 
 .systray .unpinned-visibility-btn {
   border: none;
-  margin-left: 1px;
-  padding: 1px 4px 0 0;
+  font-size: 12px;
+  padding-left: -2px;
+  padding-right: -1px;
 }
 
 .systray .unpinned-visibility-btn:checked {

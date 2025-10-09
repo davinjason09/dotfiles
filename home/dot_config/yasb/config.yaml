@@ -314,8 +314,8 @@ widgets:
   systray:
     type: "yasb.systray.SystrayWidget"
     options:
-      label_collapsed: ""
-      label_expanded: ""
+      label_collapsed: ""
+      label_expanded: ""
       icon_size: 12
       pin_click_modifier: "shift"
       class_name: "systray"
