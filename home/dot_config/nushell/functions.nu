@@ -61,3 +61,7 @@ def nvim [...args] {
   ^nvim ...$args
 }
 
+def get_clock_icon [] {
+  let time = date now | format date '%l' | into int
+  ["" "" "" "" "" "" "" "" "" "" "" ""] | get ($time - 1)
+}
