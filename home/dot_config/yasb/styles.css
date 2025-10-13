@@ -513,8 +513,56 @@ QPushButton {
 
 .clock-widget .icon {
   color: var(--maroon);
+  font-size: 12px;
+  margin-right: 3px;
+}
+
+.clock-widget .icon.clock_01 {
   font-size: 13px;
-  margin-right: 2px;
+}
+
+.clock-widget .icon.clock_02 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_03 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_04 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_05 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_06 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_07 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_08 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_09 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_10 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_11 {
+  font-size: 13px;
+}
+
+.clock-widget .icon.clock_12 {
+  font-size: 13px;
 }
 
 .clock-widget .label {
