@@ -1,3 +1,4 @@
+source zoxide.nu
 source catppuccin.nu
 
 $env.config.show_banner = false
