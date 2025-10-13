@@ -1,3 +1,8 @@
+alias reload = exec nu
+alias lg = lazygit
+alias g = git
+alias edit = msedit
+
 alias l  = ls -lhX
 alias ll = ls -lahX
 alias lt = ls -lahX --tree
