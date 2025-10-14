@@ -517,6 +517,10 @@ QPushButton {
   margin-right: 3px;
 }
 
+.clock-widget .icon.clock_00 {
+  font-size: 13px;
+}
+
 .clock-widget .icon.clock_01 {
   font-size: 13px;
 }

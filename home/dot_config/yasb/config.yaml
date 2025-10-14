@@ -159,6 +159,7 @@ widgets:
       tooltip: true
       timezones: []
       icons:
+        clock_00: ""
         clock_01: ""
         clock_02: ""
         clock_03: ""
