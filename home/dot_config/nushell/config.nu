@@ -1,4 +1,3 @@
-source zoxide.nu
 source functions.nu
 source aliases.nu
 source catppuccin.nu
@@ -12,5 +11,3 @@ $env.TRANSIENT_PROMPT_COMMAND = {|| $"\n(^starship module -s $env.LAST_EXIT_CODE
 $env.TRANSIENT_PROMPT_COMMAND_RIGHT = {|| $"(ansi yellow)(get_clock_icon) (date now | format date '%R')(ansi reset)" }
 $env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = {|| ^starship prompt --continuation }
 
-mkdir ($nu.data-dir | path join "vendor/autoload")
-starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
