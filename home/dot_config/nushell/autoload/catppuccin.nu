@@ -154,13 +154,13 @@ $env.config.color_config = {
 }
 $env.config.highlight_resolved_externals = true
 $env.config.explore = {
-    status_bar_background: { fg: $theme.text, bg: $theme.mantle },
-    command_bar_text: { fg: $theme.text },
-    highlight: { fg: $theme.base, bg: $theme.yellow },
-    status: {
-        error: $theme.red,
-        warn: $theme.yellow,
-        info: $theme.blue,
-    },
-    selected_cell: { bg: $theme.blue fg: $theme.base },
+  status_bar_background: { fg: $theme.text, bg: $theme.mantle },
+  command_bar_text: { fg: $theme.text },
+  highlight: { fg: $theme.base, bg: $theme.yellow },
+  status: {
+    error: $theme.red,
+    warn: $theme.yellow,
+    info: $theme.blue,
+  },
+  selected_cell: { bg: $theme.blue fg: $theme.base },
 }
