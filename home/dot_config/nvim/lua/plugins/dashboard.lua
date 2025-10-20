@@ -55,6 +55,7 @@ return {
         function()
           return {
             section = "recent_files",
+            cwd = true,
             icon = " ",
             title = "Recent Files",
             indent = 2,
