@@ -240,7 +240,7 @@ M.which_key_rules = {
 }
 
 M.formatter_rules = {
-  ["clang-format"] = { ".clang-format", ".clangd", "clang-format" },
+  ["clang-format"] = { ".clang-format", "clang-format" },
   stylua = { ".stylua.toml", "stylua.toml" },
   taplo = { ".taplo.toml", "taplo.toml" },
 }
