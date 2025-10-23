@@ -9,7 +9,7 @@ mime=$(mimetype -b "$input" 2>/dev/null || echo "")
 kind=$(echo "$mime" | cut -d'/' -f2)
 
 if [ -n "$FZF_PREVIEW_LINES" ]; then
-  C=$((FZF_PREVIEW_COLUMNS - 2))
+  C=$FZF_PREVIEW_COLUMNS
   L=$FZF_PREVIEW_LINES
 else
   [ -z $COLUMNS ] && COLUMNS="$(tput cols)"
@@ -48,19 +48,6 @@ view_image() {
 
   chafa -f sixel -s "${C}x${L}" "$img"
   exiftool "$img" | bat --color=always -plyaml
-  return $?
-}
-
-view_gif() {
-  filename=$(printf '%s' "$input" | tr ' ' '_')
-  SHA=$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$input")" | sha256sum | awk '{print $1}')
-  if [[ ! -d "$PREVIEW_DIR" ]]; then
-    mkdir -p "$PREVIEW_DIR"
-  fi
-
-  magick "$input"[0] -coalesce "${PREVIEW_DIR}/${SHA}.jpg"
-  view_image "${PREVIEW_DIR}/${SHA}.jpg"
-  rm -f "${PREVIEW_DIR}/${SHA}.jpg"
   return $?
 }
 
@@ -109,7 +96,7 @@ fi
 case "${input}" in
   *.md) CLICOLOR_FORCE=1 COLORTERM=truecolor glow -s dark -w "${C}" "$input" && exit 0 ;;
   *.json) jq -r . "$input" | bat --color=always -pljson && exit 0 ;;
-  *.zip) ouch list "$input" && exit 0 ;;
+  *.zip | *.rar) ouch list "$input" && exit 0 ;;
   *.cat) view_text && exit 0 ;;
 esac
 
@@ -123,7 +110,9 @@ case "$mime" in
   text/*) view_text ;;
   *)
     echo "Unsupported file type: $mime" >&2
-    exit 1
+    echo "Running fallback preview..."
+    printf "%${C}s\n" | sed 's/ /─/g'
+    bat --color=always -p "$input" || view_binary
     ;;
 esac
 
