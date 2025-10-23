@@ -1,13 +1,16 @@
 source functions.nu
 
+# ╾╼ Prompts ╾─────────────────────────────────────────────────────────╼
+$env.TRANSIENT_PROMPT_COMMAND = { $"\n(ansi "#B4BEFE")(get-clock-icon) (date now | format date '%R')(ansi reset) (^starship module -s $env.LAST_EXIT_CODE character)" }
+$env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = { ^starship prompt --continuation }
+
+$env.CARAPACE_BRIDGES = "inshellisense,carapace,zsh,fish,bash"
+
 $env.config.show_banner = false
 $env.config.highlight_resolved_externals = true
 $env.config.buffer_editor = "nvim"
-$env.config.render_right_prompt_on_last_line = true
+$env.config.use_kitty_protocol = true
 
-$env.TRANSIENT_PROMPT_COMMAND = {|| $"\n(^starship module -s $env.LAST_EXIT_CODE character)" }
-$env.TRANSIENT_PROMPT_COMMAND_RIGHT = {|| $"(ansi yellow)(get_clock_icon) (date now | format date '%R')(ansi reset)" }
-$env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = {|| ^starship prompt --continuation }
 $env.config.shell_integration."osc2" = false
 
 # ╾╼ Custom OSC2 integration ╾─────────────────────────────────────────╼
