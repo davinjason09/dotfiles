@@ -41,7 +41,7 @@ def ls [
     if $du { $DEFAULT_EZA_ARGS = $DEFAULT_EZA_ARGS | append "--total-size" }
     if $full_paths { $DEFAULT_EZA_ARGS = $DEFAULT_EZA_ARGS | append "--absolute" }
 
-    eza -lXF ...$DEFAULT_EZA_ARGS ...$pattern
+    eza -lX ...$DEFAULT_EZA_ARGS ...$pattern
   }
 }
 
