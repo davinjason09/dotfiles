@@ -158,7 +158,7 @@ palette = 'catppuccin_mocha'
 [status]
   disabled       = false
   failure_style  = "fg:red"
-  format         = '[$symbol ]($style)'
+  format         = '[ $symbol]($style)'
   success_style  = "fg:green"
   success_symbol = ""
   symbol         = ""
