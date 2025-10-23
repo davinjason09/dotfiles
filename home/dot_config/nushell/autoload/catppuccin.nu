@@ -1,35 +1,35 @@
 let theme = {
-  rosewater: "#f5e0dc"
-  flamingo: "#f2cdcd"
-  pink: "#f5c2e7"
-  mauve: "#cba6f7"
-  red: "#f38ba8"
-  maroon: "#eba0ac"
-  peach: "#fab387"
-  yellow: "#f9e2af"
-  green: "#a6e3a1"
-  teal: "#94e2d5"
-  sky: "#89dceb"
-  sapphire: "#74c7ec"
-  blue: "#89b4fa"
-  lavender: "#b4befe"
-  text: "#cdd6f4"
-  subtext1: "#bac2de"
-  subtext0: "#a6adc8"
-  overlay2: "#9399b2"
-  overlay1: "#7f849c"
-  overlay0: "#6c7086"
-  surface2: "#585b70"
-  surface1: "#45475a"
+  rosewater: "#F5E0DC"
+  flamingo: "#F2CDCD"
+  pink: "#F5C2E7"
+  mauve: "#CBA6F7"
+  red: "#F38BA8"
+  maroon: "#EBA0AC"
+  peach: "#FAB387"
+  yellow: "#F9E2AF"
+  green: "#A6E3A1"
+  teal: "#94E2D5"
+  sky: "#89DCEB"
+  sapphire: "#74C7EC"
+  blue: "#89B4FA"
+  lavender: "#B4BEFE"
+  text: "#CDD6F4"
+  subtext1: "#BAC2DE"
+  subtext0: "#A6ADC8"
+  overlay2: "#9399B2"
+  overlay1: "#7F849C"
+  overlay0: "#6C7086"
+  surface2: "#585B70"
+  surface1: "#45475A"
   surface0: "#313244"
-  base: "#1e1e2e"
+  base: "#1E1E2E"
   mantle: "#181825"
-  crust: "#11111b"
+  crust: "#11111B"
 }
 
 let scheme = {
-  recognized_command: $theme.blue
-  unrecognized_command: $theme.text
+  recognized_command: { fg: $theme.blue attr: b }
+  unrecognized_command: { fg: $theme.red attr: b }
   constant: $theme.peach
   punctuation: $theme.overlay2
   operator: $theme.sky
@@ -136,7 +136,7 @@ $env.config.color_config = {
   shape_globpattern: $scheme.filepath
   shape_int: $scheme.constant
   int: $scheme.constant
-  bool: $scheme.constant
+  bool: {|x| if $x { $theme.green } else { $theme.red } }
   float: $scheme.constant
   nothing: $scheme.constant
   binary: $scheme.constant
@@ -154,13 +154,13 @@ $env.config.color_config = {
 }
 $env.config.highlight_resolved_externals = true
 $env.config.explore = {
-  status_bar_background: { fg: $theme.text, bg: $theme.mantle },
+  status_bar_background: { fg: $theme.text, bg: $theme.crust },
   command_bar_text: { fg: $theme.text },
   highlight: { fg: $theme.base, bg: $theme.yellow },
   status: {
     error: $theme.red,
     warn: $theme.yellow,
-    info: $theme.blue,
+    info: $theme.sky,
   },
-  selected_cell: { bg: $theme.blue fg: $theme.base },
+  selected_cell: { bg: $theme.sky fg: $theme.base },
 }
