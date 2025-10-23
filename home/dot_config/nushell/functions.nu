@@ -61,7 +61,39 @@ def nvim [...args] {
   ^nvim ...$args
 }
 
-def get_clock_icon [] {
-  let time = date now | format date '%l' | into int
-  ["" "" "" "" "" "" "" "" "" "" "" ""] | get ($time - 1)
+def get-clock-icon []: [nothing -> string] {
+  ["" "" "" "" "" "" "" "" "" "" "" ""]
+  | get ((
+    date now
+    | format date '%l'
+    | into int
+  ) - 1)
+}
+
+def get-git-root []: [nothing -> string] {
+  git rev-parse --show-toplevel | complete | get stdout | str trim
+}
+
+def get-title []: [nothing -> string] {
+  mut path: string = $env.PWD
+  let git_dir = get-git-root
+
+  if ($git_dir | is-not-empty) {
+    let prefix = $" ($git_dir | split row '/' | last)"
+    $path = ($path | str replace $git_dir $prefix)
+  }
+
+  $path = $path | str replace $env.HOME ~
+
+  mut split = $path | split row "/"
+  if ($split.0 | is-empty) and ($split.0 != ~) {
+    $split = $split | drop nth 0
+    $split.0 = "/" + $split.0
+  }
+
+  if (($split | length) > 3) {
+    return $"($split.0)/…/($split | last 2 | str join '/')"
+  }
+
+  $path
 }
