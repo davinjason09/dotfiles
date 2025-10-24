@@ -17,7 +17,7 @@ let menus = [
       max_completion_height: 25
       padding: 0
       border: false
-      cursor_offset: -1
+      cursor_offset: 0
       description_mode: "prefer_right"
       min_description_width: 0
       max_description_width: 50
