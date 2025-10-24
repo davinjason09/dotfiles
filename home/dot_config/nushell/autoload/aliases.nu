@@ -17,3 +17,5 @@ def lazyvim [...args] {
     nvim ...$args
   }
 }
+
+alias y = yazi
