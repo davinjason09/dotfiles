@@ -2,5 +2,6 @@
 local config = require("config")
   :init()
   :append(require("config.appearance"))
+  :append(require("config.domains"))
 
 return config
