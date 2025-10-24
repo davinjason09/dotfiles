@@ -1,5 +1,7 @@
 # TODO: setup completion menu and completers
 
+$env.CARAPACE_BRIDGES = "inshellisense,carapace,zsh,fish,bash"
+
 $env.config.completions.algorithm = "substring"
 
 # ╾╼ Menus ╾───────────────────────────────────────────────────────────╼

@@ -1,3 +1,11 @@
+def has [command] {
+  which $command | is-not-empty
+}
+
+def --env path-prepend [paths] {
+  $env.PATH = ($env.PATH | split row (char esep) | prepend $paths | uniq)
+}
+
 alias core-ls = ls
 
 def ls [

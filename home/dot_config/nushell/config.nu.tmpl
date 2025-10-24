@@ -1,0 +1,124 @@
+source functions.nu
+
+# ╾╼ Environment Variables ╾───────────────────────────────────────────╼
+
+$env.ENV_CONVERSIONS = {
+  "PATH": {
+    from_string: { |s| $s | split row (char esep)    | path expand --no-symlink }
+    to_string:   { |v| $v | path expand --no-symlink | str join (char esep) }
+  }
+  "Path": {
+    from_string: { |s| $s | split row (char esep)    | path expand --no-symlink }
+    to_string:   { |v| $v | path expand --no-symlink | str join (char esep) }
+  }
+}
+
+$env.XDG_STATE_HOME  = $env.HOME | path join ".local" "state"
+$env.XDG_DATA_HOME   = $env.HOME | path join ".local" "share"
+$env.XDG_CONFIG_HOME = $env.HOME | path join ".config"
+$env.XDG_CACHE_HOME  = $env.HOME | path join ".cache"
+$env.DOTFILES        = $env.HOME | path join "dotfiles"
+
+{{ if .isWSL -}}
+$env.WIN_C      = "/mnt/c"
+$env.WIN_D      = "/mnt/d"
+$env.WIN        = $env.WIN_C | path join "WINDOWS"
+$env.WIN_SYSTEM = $env.WIN   | path join "system32"
+$env.WIN_HOME   = $env.WIN_C | path join "Users" "{{ .windowsUsername }}"
+{{- end }}
+
+path-prepend [
+  ($env.XDG_CONFIG_HOME | path join "scripts")
+  ($env.HOME | path join ".local" "bin")
+  "/usr/local/sbin"
+  "/usr/local/bin"
+  "/usr/bin"
+  "/usr/bin/site_perl"
+  "/usr/bin/vendor_perl"
+  "/usr/bin/core_perl"
+  {{ if .isWSL -}}
+  $env.WIN
+  $env.WIN_SYSTEM
+  {{- end }}
+]
+
+if (has bob) {
+  path-prepend ($env.XDG_DATA_HOME | path join "bob" "nvim-bin")
+}
+
+if (has go) {
+  $env.GOPATH = $env.HOME | path join "code" "go"
+  path-prepend ($env.GOPATH | path join "bin")
+}
+
+if (has cargo) {
+  $env.CARGO_HOME = $env.HOME | path join "cargo"
+  path-prepend ($env.CARGO_HOME | path join "bin")
+}
+
+let $bun_dir = $env.HOME | path join ".bun"
+if ($bun_dir | path exists) {
+  $env.BUN_INSTALL = $bun_dir
+  path-prepend ($env.BUN_INSTALL | path join "bin")
+}
+
+if ("/usr/lib/rustup/bin" | path exists) {
+  path-prepend "/usr/lib/rustup/bin"
+}
+
+$env.EDITOR = if (has nvim) { "nvim" } else { "vim" }
+$env.VISUAL = $env.EDITOR
+
+$env.LS_COLORS = (vivid generate catppuccin-mocha)
+
+# ╾╼ Config ╾────────────────────────────────────────────────────────────╼
+$env.config.buffer_editor = 'nvim'
+$env.config.highlight_resolved_externals = true
+$env.config.show_banner = false
+$env.config.use_kitty_protocol = true
+
+$env.config.shell_integration.osc2 = false
+$env.config.shell_integration.osc633 = false
+
+$env.config.table.missing_value_symbol = $"(ansi red)"
+
+$env.config.cursor_shape = {
+  emacs: "line"
+  vi_insert: "line"
+  vi_normal: "block"
+}
+
+$env.config.history = {
+  file_format: sqlite
+  max_size: 1_000_000
+  sync_on_enter: true
+  isolation: true
+}
+
+# ╾╼ Prompts ╾─────────────────────────────────────────────────────────╼
+$env.TRANSIENT_PROMPT_COMMAND = { $"\n(ansi "#B4BEFE")(get-clock-icon) (date now | format date '%R')(ansi reset) (^starship module -s $env.LAST_EXIT_CODE character)" }
+$env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = { ^starship prompt --continuation }
+
+# ╾╼ Custom OSC2 integration ╾─────────────────────────────────────────╼
+$env.config.hooks.pre_prompt ++= [
+  { print -n $"(ansi title)(get-title)(ansi st)" }
+]
+
+$env.config.hooks.pre_execution ++= [
+  { print -n $"(ansi title)(get-title) - (commandline)(ansi st)" }
+]
+
+# ╾╼ Run onefetch only when entering a new git directory ╾─────────────╼
+
+# Don't run onefetch if our entry point is a git directory
+$env.LAST_REPO = get-git-root
+$env.config.hooks.env_change = {
+  PWD: [{
+    let git_root = get-git-root
+    if ($git_root | is-not-empty) and ($git_root != $env.LAST_REPO ) {
+      $env.LAST_REPO = $git_root
+      print (onefetch)
+    }
+  }]
+}
+
