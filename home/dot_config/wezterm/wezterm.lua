@@ -5,5 +5,6 @@ local config = require("config")
   :append(require("config.domains"))
   :append(require("config.general"))
   :append(require("config.keymaps"))
+  :append(require("config.launch"))
 
 return config
