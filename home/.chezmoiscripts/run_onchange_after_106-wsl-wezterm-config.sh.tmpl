@@ -1,0 +1,32 @@
+#!{{ lookPath "bash" }}
+
+set -euo pipefail
+
+{{ $config_root := joinPath .chezmoi.workingTree "home/dot_config/wezterm" }}
+# wezterm hash: {{ output "bash" "-c" (print "fd . " $config_root " -t file -E 'README.md' -x sha256sum -b {} \\; | sort | sha256sum | cut -d \" \" -f1") }}
+
+if [ -z "${WIN_HOME:-}" ]; then
+  echo "WIN_HOME is not set. Please set it to your Windows home directory."
+  exit 1
+fi
+
+if [ -d "$WIN_HOME/.config/wezterm/" ]; then
+  echo "Updating Wezterm configuration..."
+  files=$(fd . {{ joinPath .chezmoi.sourceDir "dot_config" "wezterm" | quote }} -t file -E "README.md")
+  dest="$WIN_HOME/.config/wezterm/"
+
+  for file in $files; do
+    relative_path=$(echo "$file" | sed "s|^{{ joinPath .chezmoi.sourceDir "dot_config" "wezterm" | quote }}/||")
+    dir_name=$(dirname "$relative_path")
+
+    if [ ! -d "$dest/$dir_name" ]; then
+      mkdir -p "$dest/$dir_name"
+    fi
+
+    cp "$file" "$dest/$relative_path"
+  done
+else
+  echo "Wezterm directory not found."
+fi
+
+

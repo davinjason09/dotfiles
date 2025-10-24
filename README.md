@@ -49,8 +49,8 @@
   - [x] yazi
     - [x] Custom catppuccin
     - [x] Yatline
-  - [ ] wezterm
-    - [ ] Modularize config
+  - [x] wezterm
+    - [x] Modularize config
   - [x] glazewm
   - [x] yasb
   - [x] windhawk
