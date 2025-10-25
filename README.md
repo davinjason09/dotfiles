@@ -21,7 +21,7 @@
 
 - **OS**: Windows 11, Arch WSL2
 - **WM**: GlazeWM
-- **Shell**: zsh
+- **Shell**: nu
 - **Terminal**: Wezterm
 - **Panel**: Yasb
 - **Editor**: Neovim
