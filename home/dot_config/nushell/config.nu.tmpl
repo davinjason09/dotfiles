@@ -96,7 +96,7 @@ $env.config.history = {
 }
 
 # ╾╼ Prompts ╾─────────────────────────────────────────────────────────╼
-$env.TRANSIENT_PROMPT_COMMAND = { $"\n(ansi "#B4BEFE")(get-clock-icon) (date now | format date '%R')(ansi reset) (^starship module -s $env.LAST_EXIT_CODE character)" }
+$env.TRANSIENT_PROMPT_COMMAND = { $"\n(ansi "#B4BEFE")(get-clock-icon) (date now | format date '%R')(ansi reset) (^starship module -s ($env.LAST_EXIT_CODE | math abs) character)" }
 $env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = { ^starship prompt --continuation }
 
 # ╾╼ Custom OSC2 integration ╾─────────────────────────────────────────╼
