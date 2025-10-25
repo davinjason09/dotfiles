@@ -24,7 +24,7 @@ return {
           return {
             section = "terminal",
             align = "center",
-            cmd = "cat " .. vim.fn.stdpath("config") .. "/static/" .. logo .. ".cat",
+            cmd = "cat " .. vim.fn.stdpath("config") .. "/static/" .. logo .. ".cat; sleep 100ms #",
             indent = is_small_screen and 10 or 6,
             padding = 1,
             height = is_small_screen and 8 or 19,
