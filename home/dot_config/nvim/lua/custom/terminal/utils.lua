@@ -70,6 +70,8 @@ M.switch_term_buf = function(buf)
       if not is_term then picker:action("focus_term") end
 
       state.term_bufs[id].job_id = jobstart(term.cmd, { term = true })
+
+      vim.cmd("noh")
       vim.schedule(function() picker:find() end)
 
       -- Since the input field is automatically hidden, focus to the list no matter whether if the

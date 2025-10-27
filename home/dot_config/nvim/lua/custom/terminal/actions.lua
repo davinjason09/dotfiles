@@ -5,21 +5,12 @@ local utils = require("custom.terminal.utils")
 ---@type table<string, snacks.picker.Action.spec>
 M.picker = {
   confirm = function(picker, item)
-    if picker:current_win() == "input" then
-      picker:action("clear_input")
-      picker:find()
-    end
+    if picker:current_win() == "input" then picker:action("clear_input") end
 
     picker:action("focus_term")
     vim.schedule(function() utils.switch_term_buf(item.item.bufnr) end)
   end,
   focus_term = function(picker) picker:action("focus_preview") end,
-  defer_focus_list = function(picker)
-    vim.defer_fn(function() picker:action("focus_list") end, 25)
-  end,
-  defer_focus_term = function(picker)
-    vim.defer_fn(function() picker:action("focus_term") end, 25)
-  end,
   startinsert = function() vim.cmd.startinsert() end,
   add_term = function(picker)
     utils.add_term()
@@ -45,8 +36,8 @@ M.picker = {
     end
 
     if #state.term_bufs == 0 then
-      picker:close()
       state.last_term = nil
+      picker:close()
     else
       picker.list:set_selected()
       picker.list:set_target()
@@ -65,18 +56,20 @@ M.picker = {
       picker.preview:set_title(new_name)
       picker:update_titles()
     end
+
+    picker:action("startinsert")
   end,
   cycle_next = function() utils.cycle_term_buf("next") end,
   cycle_prev = function() utils.cycle_term_buf("prev") end,
-  term_normal = function(self)
+  term_normal = function(picker)
     ---@diagnostic disable-next-line: inject-field
-    self.esc_timer = self.esc_timer or assert(vim.uv.new_timer())
+    picker.esc_timer = picker.esc_timer or assert(vim.uv.new_timer())
 
-    if self.esc_timer:is_active() then
-      self.esc_timer:stop()
-      self:action("stopinsert")
+    if picker.esc_timer:is_active() then
+      picker.esc_timer:stop()
+      picker:action("stopinsert")
     else
-      self.esc_timer:start(200, 0, function() end)
+      picker.esc_timer:start(200, 0, function() end)
       vim.api.nvim_exec_autocmds("User", { pattern = "ForceRedraw", modeline = false })
       return "<ESC>"
     end

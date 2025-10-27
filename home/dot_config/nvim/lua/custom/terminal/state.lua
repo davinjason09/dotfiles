@@ -7,6 +7,7 @@ local M = {
     ---@type snacks.picker.layout.Config
     picker_layout = {
       auto_hide = { "input" },
+      hidden = { "input" },
       layout = {
         box = "horizontal",
         width = 0.9,
@@ -15,8 +16,8 @@ local M = {
         {
           box = "vertical",
           border = "rounded",
-          width = 25,
-          min_width = 15,
+          width = 0.1,
+          min_width = 20,
           title = "{live} {flags}",
           { win = "input", height = 1, border = "bottom" },
           { win = "list" },
@@ -26,9 +27,9 @@ local M = {
     },
     keys = {
       input = {
-        ["<C-`>"] = { "close", mode = { "n", "i" } },
-        ["<C-j>"] = { { "clear_input", "defer_focus_list" }, mode = { "n", "i" } },
-        ["<C-l>"] = { { "clear_input", "defer_focus_term" }, mode = { "n", "i" } },
+        ["<C-`>"] = { "close", mode = { "n", "i", "x" } },
+        ["<C-j>"] = { { "clear_input", "focus_list" }, mode = { "n", "i" } },
+        ["<C-l>"] = { { "clear_input", "focus_term" }, mode = { "n", "i" } },
         ["d"] = { "delete_term", desc = "Delete Terminal" },
         ["a"] = { "add_term", desc = "Add Terminal" },
         ["A"] = { "add_term_cmd", desc = "Add Terminal with Command" },
@@ -44,10 +45,10 @@ local M = {
         ["e"] = { "rename_term", desc = "Edit Terminal Name" },
       },
       preview = {
-        ["<C-`>"] = { "close", mode = { "n", "t", "i" } },
-        ["<C-h>"] = { { "focus_list", "stopinsert" }, mode = { "n", "t", "i" } },
-        ["<C-j>"] = { "cycle_next", mode = { "n", "t", "i" } },
-        ["<C-k>"] = { "cycle_prev", mode = { "n", "t", "i" } },
+        ["<C-`>"] = { "close", mode = { "n", "t", "x" } },
+        ["<C-h>"] = { { "focus_list", "stopinsert" }, mode = { "n", "t" } },
+        ["<A-j>"] = { "cycle_next", mode = { "n", "t" } },
+        ["<A-k>"] = { "cycle_prev", mode = { "n", "t" } },
         ["<ESC>"] = { "term_normal", mode = { "t" }, expr = true },
         ["gf"] = { "goto_file" },
         ["i"] = { "startinsert", mode = { "n" } },

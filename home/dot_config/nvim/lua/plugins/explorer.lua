@@ -203,6 +203,7 @@ return {
             layout = {
               auto_hide = { "input" },
               layout = { width = 35, min_width = 35, position = "right" },
+              cycle = false,
             },
             win = {
               list = {

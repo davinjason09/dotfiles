@@ -48,7 +48,10 @@ return {
         notifications = {
           layout = "vertical",
           win = {
-            preview = { minimal = true },
+            preview = {
+              minimal = true,
+              wo = { wrap = true },
+            },
           },
         },
         undo = { layout = "dropdown" },
@@ -62,7 +65,10 @@ return {
       end,
       actions = {
         stopinsert = function() vim.cmd.stopinsert() end,
-        clear_input = function(picker) picker.input:set("", "") end,
+        clear_input = function(picker)
+          picker.input:set("", "")
+          picker:find()
+        end,
       },
       win = {
         input = {
@@ -78,9 +84,9 @@ return {
             ["<C-n>"] = { "history_forward", mode = { "n", "i" } },
             ["<C-BS>"] = { "<C-S-w>", mode = { "i" }, expr = true },
           },
-        },
-        preview = {
-          wo = { signcolumn = "no" },
+          b = {
+            blink_pairs = false,
+          },
         },
       },
       icons = {
