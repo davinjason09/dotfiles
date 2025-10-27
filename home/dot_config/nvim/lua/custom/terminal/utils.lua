@@ -58,8 +58,8 @@ M.switch_term_buf = function(buf)
     end
 
     state.last_term = buf
-    state.term_win:set_buf(buf)
-    state.term_win:map()
+    picker.preview.win:set_buf(buf)
+    picker.preview.win:map()
     vim.b[buf].managed_term = true
 
     picker.preview:set_title(term.name)

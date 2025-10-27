@@ -1,9 +1,7 @@
----@type { term_bufs: TermBuf[], last: integer?, term_win: snacks.win? }
 local M = {
-  last_term = nil,
-  term_bufs = {},
-  term_win = nil,
-  last_win = nil,
+  last_term = nil, ---@type integer?
+  term_bufs = {}, ---@type TermBuf[]
+  last_win = nil, ---@type string?
 
   config = {
     ---@type snacks.picker.layout.Config

@@ -46,28 +46,32 @@ local function find_term()
   return items
 end
 
-local function setup_autocmd()
-  state.term_win:on("BufEnter", function() vim.cmd.startinsert() end)
-  state.term_win:on({ "VimResized", "WinResized" }, function()
-    local picker = Snacks.picker.get()[1]
-    if picker then utils.switch_term_buf(state.last_term) end
-  end)
-  state.term_win:on("TermClose", function()
-    if type(vim.v.event) == "table" and vim.v.event.status ~= 0 then
-      return Snacks.notify.error("Terminal exited with code " .. vim.v.event.status .. ".")
+---@param picker snacks.Picker
+local function setup_autocmd(picker)
+  picker.preview.win:on("BufEnter", function() vim.cmd.startinsert() end)
+  picker.preview.win:on(
+    { "VimResized", "WinResized" },
+    function() utils.switch_term_buf(state.last_term) end
+  )
+  picker.preview.win:on("TermClose", function(_, ev)
+    -- NOTE:
+    -- ignore exit code if less than 0 (e.g. -1)
+    if type(vim.v.event) == "table" and vim.v.event.status > 0 then
+      return Snacks.notify.error(
+        "Terminal exited with code " .. vim.v.event.status .. ".",
+        { title = "Terminal" }
+      )
     end
 
-    local picker = assert(Snacks.picker.get()[1])
-    local closed_buf = vim.api.nvim_get_current_buf()
-    local _, term = utils.get_term("bufnr", closed_buf)
+    local _, term = utils.get_term("bufnr", ev.buf)
     local opts = term and term.opts or {} ---@type TermOpts
 
     if opts.persist then
       picker:close()
-      return vim.api.nvim_buf_delete(closed_buf, { force = true })
+      return vim.api.nvim_buf_delete(ev.buf, { force = true })
     end
 
-    state.term_bufs = vim.tbl_filter(function(t) return t.bufnr ~= closed_buf end, state.term_bufs)
+    state.term_bufs = vim.tbl_filter(function(t) return t.bufnr ~= ev.buf end, state.term_bufs)
 
     vim.schedule(function()
       if #state.term_bufs == 0 or opts.auto_close then
@@ -93,8 +97,7 @@ M.pick = function(cmd)
     finder = find_term,
     on_show = function(picker)
       picker:action("focus_preview")
-      state.term_win = picker.layout.wins.preview
-      setup_autocmd()
+      setup_autocmd(picker)
 
       local buf ---@type integer
       if cmd then
