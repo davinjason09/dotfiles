@@ -15,7 +15,7 @@ vim.o.undolevels     = 10000       -- Number of undo levels to keep
 vim.o.updatetime     = 250         -- Time to wait before writing swap file and triggering CursorHold
 
 vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit what is stored in ShaDa file
-vim.o.shell = "/usr/bin/zsh -l"
+vim.o.shell = "/usr/bin/nu"
 
 vim.g.markdown_recommended_style = 0 -- Don't use recommended style for markdown
 vim.o.sessionoptions = table.concat( -- Options to save in session files
