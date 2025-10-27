@@ -27,14 +27,14 @@ return {
         {
           "<leader>cp",
           function()
-            vim.cmd("LivePreview " .. (require("livepreview").is_running() and "stop" or "start"))
+            vim.cmd("LivePreview " .. (require("livepreview").is_running() and "close" or "start"))
           end,
           desc = "[C]ode: [P]review",
           ft = plugin.ft,
         },
       }
     end,
-    opts = {},
+    opts = { dynamic_root = true },
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
