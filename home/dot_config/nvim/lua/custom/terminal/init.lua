@@ -4,7 +4,7 @@ local state = require("custom.terminal.state")
 local utils = require("custom.terminal.utils")
 local config = state.config
 
-local function id_to_icon(id, len)
+local function id_to_icon(id)
   local icons = { "󰎡", "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "󰎼" }
   local icon = ""
 
@@ -14,21 +14,26 @@ local function id_to_icon(id, len)
     id = math.floor(id / #icons)
   end
 
-  return string.rep(icons[1], len - #icon) .. icon
+  return icon
 end
 
 ---@type snacks.picker.format
 local function format_item(item, picker)
-  local a = Snacks.picker.util.align
   local ret = {}
   local k = item.item
-  local id = id_to_icon(item.idx, #tostring(item.idx))
+  local id = id_to_icon(item.idx)
   local width = vim.api.nvim_win_get_width(picker.list.win.win)
   local icon = Snacks.util.icon(k.name:lower(), "file", { fallback = { file = " " } })
+  local name = #k.name > width and k.name:sub(1, width - #id - 2 - 1) .. "…" or k.name
 
   ret[#ret + 1] = { icon, "@text" }
-  ret[#ret + 1] = { k.name, "@text" }
-  ret[#ret + 1] = { a(id, width - #k.name - 5, { align = "right" }), "@text" }
+  ret[#ret + 1] = { name, "@text" }
+  ret[#ret + 1] = {
+    col = 0,
+    virt_text = { { id .. " ", "@text" } },
+    virt_text_pos = "right_align",
+    hl_mode = "combine",
+  }
 
   return ret
 end
@@ -39,7 +44,7 @@ local function find_term()
     table.insert(items, {
       item = term,
       text = id .. " " .. Snacks.picker.util.text(term, { "name", "bufnr" }),
-      title = id_to_icon(id, #tostring(id)) .. " " .. term.name,
+      title = id_to_icon(id) .. " " .. term.name,
       file = vim.api.nvim_buf_get_name(term.bufnr),
     })
   end
