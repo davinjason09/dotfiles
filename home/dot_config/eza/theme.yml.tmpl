@@ -19,9 +19,15 @@ perms:
   other_execute:      { foreground: "{{ .colors.green }}" }
 
 filenames:
+  .bash_history:
+    filename: { foreground: "{{ .colors.overlay1 }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.overlay1 }}" } }
+  .bash_logout:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
   .bash_profile:
     filename: { foreground: "{{ .colors.text }}" }
-    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.green }}" } }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
   .bashrc:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰒓, style: { foreground: "{{ .colors.green }}" } }
@@ -46,9 +52,15 @@ filenames:
   .git:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰊢, style: { foreground: "{{ .colors.peach }}" } }
+  .gitconfig:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰊢, style: { foreground: "{{ .colors.peach }}" } }
   .gitkeep:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰊢, style: { foreground: "{{ .colors.red }}" } }
+  .histfile:
+    filename: { foreground: "{{ .colors.overlay1 }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.overlay1 }}" } }
   .keep:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰊢, style: { foreground: "{{ .colors.text }}" } }
@@ -56,6 +68,9 @@ filenames:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰊢, style: { foreground: "{{ .colors.teal }}" } }
   .node-version:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  .node_repl_history:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
   .npmignore:
@@ -70,9 +85,36 @@ filenames:
   .prettierrc:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.mauve }}" } }
+  .profile:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  .tabiew_history:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱈝, style: { foreground: "{{ .colors.green }}" } }
+  .wget-hsts:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.blue }}" } }
+  .wslconfig:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.text }}" } }
   .yarnrc.yml:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.blue }}" } }
+  .zcompdump:
+    filename: { foreground: "{{ .colors.yellow }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.yellow }}" } }
+  .zprofile:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  # HACK:
+  # overriding zsh extention will make folder named .zsh also uses the icon defined in the
+  # extension override, as we cant have .zsh as a filename, define it as a folder
+  .zsh:
+    filename: { foreground: "{{ .colors.blue }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.blue }}" } }
+  .zshenv:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
   .zshrc:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰒓, style: { foreground: "{{ .colors.green }}" } }
@@ -103,6 +145,12 @@ filenames:
   CONTRIBUTING.md:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰺾, style: { foreground: "{{ .colors.sapphire }}" } }
+  Desktop:
+    filename: { foreground: "{{ .colors.blue }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.blue }}" } }
+  Documents:
+    filename: { foreground: "{{ .colors.blue }}" }
+    icon: { glyph: 󱧶, style: { foreground: "{{ .colors.blue }}" } }
   FUNDING.yml:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰇁, style: { foreground: "{{ .colors.green }}" } }
@@ -145,15 +193,24 @@ filenames:
   TODO.md:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰝖, style: { foreground: "{{ .colors.mauve }}" } }
+  Videos:
+    filename: { foreground: "{{ .colors.blue }}" }
+    icon: { glyph: 󱧺, style: { foreground: "{{ .colors.blue }}" } }
   constraints.txt:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󱘎, style: { foreground: "{{ .colors.mauve }}" } }
+  # HACK:
+  # same case as the zsh file extension, this folder has .lua behind it, making the glyph
+  # got overidden, as I don't have a file named copilot.lua, it will be just fine... I hope
+  copilot.lua:
+    filename: { foreground: "{{ .colors.blue }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.blue }}" } }
   devcontainer.json:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.sapphire }}" } }
   dot_gitconfig.tmpl:
     filename: { foreground: "{{ .colors.text }}" }
-    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
   dot_zprofile.tmpl:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
@@ -219,6 +276,12 @@ extensions:
   avi:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰈫, style: { foreground: "{{ .colors.text }}" } }
+  appx:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰏖, style: { foreground: "{{ .colors.yellow }}" } }
+  bak:
+    filename: { foreground: "{{ .colors.overlay1 }}" }
+    icon: { glyph: 󰁯, style: { foreground: "{{ .colors.overlay1 }}" } }
   bash:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
@@ -240,15 +303,24 @@ extensions:
   cast:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰈫, style: { foreground: "{{ .colors.red }}" } }
+  cer:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󱆈, style: { foreground: "{{ .colors.yellow }}" } }
   class:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰬷, style: { foreground: "{{ .colors.sapphire}}" } }
   cpp:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰙲, style: { foreground: "{{ .colors.sapphire }}" } }
+  css:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.mauve }}" } }
   csv:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  dll:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.yellow }}" } }
   doc:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󱎒, style: { foreground: "{{ .colors.sapphire }}" } }
@@ -285,6 +357,9 @@ extensions:
   h:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰫵, style: { foreground: "{{ .colors.mauve }}" } }
+  ini:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.blue }}" } }
   ipynb:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰠮, style: { foreground: "{{ .colors.peach }}" } }
@@ -300,12 +375,21 @@ extensions:
   json.tmpl:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  kml:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰦂, style: { foreground: "{{ .colors.green }}" } }
   lua:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰢱, style: { foreground: "{{ .colors.sapphire }}" } }
   luau:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰢱, style: { foreground: "{{ .colors.green }}" } }
+  log:
+    filename: { foreground: "{{ .colors.overlay1 }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.overlay1 }}" } }
+  lnk:
+    filename: { foreground: "{{ .colors.pink }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.pink }}" } }
   m4a:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰈣, style: { foreground: "{{ .colors.mauve }}" } }
@@ -333,9 +417,21 @@ extensions:
   msi:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰖳, style: { foreground: "{{ .colors.red }}" } }
+  nss:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰒓, style: { foreground: "{{ .colors.red }}" } }
+  nu:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.green }}" } }
+  nu.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
   ogg:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰈣, style: { foreground: "{{ .colors.text }}" } }
+  ovpn:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰖂, style: { foreground: "{{ .colors.peach }}" } }
   pdf:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰈦, style: { foreground: "{{ .colors.red }}" } }
@@ -375,6 +471,9 @@ extensions:
   rar:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰗄, style: { foreground: "{{ .colors.green }}" } }
+  rdp:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.teal }}" } }
   rpm:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰗄, style: { foreground: "{{ .colors.red }}" } }
@@ -399,12 +498,18 @@ extensions:
   tgz:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰗄, style: { foreground: "{{ .colors.text }}" } }
+  theme:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: 󰥶, style: { foreground: "{{ .colors.teal }}" } }
   tif:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰈟, style: { foreground: "{{ .colors.yellow }}" } }
   tiff:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰈟, style: { foreground: "{{ .colors.yellow }}" } }
+  toml:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.peach }}" } }
   toml.tmpl:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
@@ -453,9 +558,18 @@ extensions:
   xz:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰗄, style: { foreground: "{{ .colors.green }}" } }
+  yaml:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.mauve }}" } }
   yaml.tmpl:
     filename: { foreground: "{{ .colors.text }}" }
-    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
+  yml:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.mauve }}" } }
+  yml.tmpl:
+    filename: { foreground: "{{ .colors.text }}" }
+    icon: { glyph: , style: { foreground: "{{ .colors.text }}" } }
   z:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󰗄, style: { foreground: "{{ .colors.text }}" } }
