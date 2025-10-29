@@ -56,18 +56,19 @@ return {
         },
         undo = { layout = "dropdown" },
       },
-      on_close = function()
-        local last_win = vim.fn.win_getid(vim.fn.winnr("#"))
-        vim.schedule(Utils.edit.escape)
-
-        if last_win == 0 or not vim.api.nvim_win_is_valid(last_win) then return end
-        vim.api.nvim_set_current_win(last_win)
-      end,
+      --- @diagnostic disable-next-line: inject-field
+      on_show = function(picker) picker.last_win = vim.fn.win_getid(vim.fn.winnr("#")) end,
+      on_close = function(picker) picker:action("restore_win") end,
       actions = {
         stopinsert = function() vim.cmd.stopinsert() end,
         clear_input = function(picker)
           picker.input:set("", "")
           picker:find()
+        end,
+        restore_win = function(picker)
+          --- @diagnostic disable-next-line: undefined-field
+          vim.api.nvim_set_current_win(picker.last_win)
+          vim.schedule(Utils.edit.escape)
         end,
       },
       win = {
