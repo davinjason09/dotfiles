@@ -22,13 +22,13 @@ $docker_context\
 [](fg:blue bg:pink)\
 ${custom.clock-icon}\
 $time\
-$fill\
 [](fg:pink)\
 $status\
-$cmd_duration\
 $line_break\
 $character
 """
+# $fill\
+# $cmd_duration\
 
 continuation_prompt = "[❯❯](bright-black) "
 
