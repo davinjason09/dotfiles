@@ -1,11 +1,8 @@
----@class Utils.ui
+---@class Utils.treesitter
 local M = {}
 
----@type table<string, boolean>?
-M._installed_parser = nil
-
----@type table<string, boolean>
-M._queries = {}
+M._installed_parser = nil ---@type table<string, boolean>?
+M._queries = {} ---@type table<string, boolean>
 
 ---@param update boolean?
 function M.get_installed(update)
