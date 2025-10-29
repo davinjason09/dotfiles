@@ -101,6 +101,8 @@ M.pick = function(cmd)
     format = format_item,
     finder = find_term,
     on_show = function(picker)
+      --- @diagnostic disable-next-line: inject-field
+      picker.last_win = vim.fn.win_getid(vim.fn.winnr("#"))
       picker:action("focus_preview")
       setup_autocmd(picker)
 
@@ -112,6 +114,16 @@ M.pick = function(cmd)
       end
 
       utils.switch_term_buf(buf)
+    end,
+    on_close = function(picker)
+      picker:action("restore_win")
+
+      -- Clean buf that is deleted from the term list
+      for i = #state.buf_to_clear, 1, -1 do
+        vim.api.nvim_buf_delete(state.buf_to_clear[i], { force = true })
+      end
+
+      state.buf_to_clear = {}
     end,
     actions = actions.picker,
     preview = function(ctx)

@@ -43,7 +43,8 @@ end
 
 ---@param buf integer
 M.switch_term_buf = function(buf)
-  local picker = assert(Snacks.picker.get()[1])
+  local picker = Snacks.picker.get()[1]
+  if not picker then return end
 
   vim.schedule(function()
     local id, term = assert(M.get_term("bufnr", buf))

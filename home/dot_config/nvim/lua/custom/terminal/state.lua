@@ -2,6 +2,7 @@ local M = {
   last_term = nil, ---@type integer?
   term_bufs = {}, ---@type TermBuf[]
   last_win = nil, ---@type string?
+  buf_to_clear = {}, ---@type integer[]
 
   config = {
     ---@type snacks.picker.layout.Config

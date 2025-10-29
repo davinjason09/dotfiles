@@ -25,15 +25,20 @@ M.picker = {
   end,
   delete_term = function(picker)
     local term_bufs = picker:selected({ fallback = true })
-    for id, item in pairs(term_bufs) do
-      local term_buf = item.item.bufnr
+    for _, item in pairs(term_bufs) do
+      local term_buf = item.item
 
-      if state.last_term == term_buf then
+      table.insert(state.buf_to_clear, term_buf.bufnr)
+
+      if state.last_term == term_buf.bufnr then
         vim.schedule(function() utils.cycle_term_buf("prev") end)
       end
-
-      table.remove(state.term_bufs, id)
     end
+
+    state.term_bufs = vim.tbl_filter(
+      function(t) return not vim.tbl_contains(state.buf_to_clear, t.bufnr) end,
+      state.term_bufs
+    )
 
     if #state.term_bufs == 0 then
       state.last_term = nil
