@@ -20,14 +20,14 @@
 ## Core System Info
 
 - **OS**: Windows 11, Arch WSL2
-- **WM**: GlazeWM
-- **Shell**: nu
-- **Terminal**: Wezterm
-- **Panel**: Yasb
-- **Editor**: Neovim
-- **Browser**: Zen-Browser
-- **File Manager**: Yazi
-- **Colorscheme**: Catppuccin Mocha
+- **WM**: [GlazeWM](https://github.com/glzr-io/glazewm)
+- **Shell**: [nu](https://github.com/nushell/nushell/)
+- **Terminal**: [Wezterm](https://github.com/wezterm/wezterm)
+- **Panel**: [Yasb](https://github.com/amnweb/yasb)
+- **Editor**: [Neovim](https://github.com/neovim/neovim/)
+- **Browser**: [Zen-Browser](https://zen-browser.app/)
+- **File Manager**: [Yazi](https://github.com/sxyazi/yazi)
+- **Colorscheme**: [Catppuccin Mocha](https://github.com/catppuccin/)
 
 ## TODO
 
@@ -41,6 +41,7 @@
     - [x] Custom blink-documentation parser for better docs (esp. typst)
     - [x] Custom terminal manager
     - [x] Migrate nvim-treesitter to main branch
+    - [ ] Integrate fff.nvim to picker (maybe move picker to custom folder)
     - [ ] Custom ui_attach
   - [x] zsh
     - [x] Optimize startup time (~780ms to ~300ms)
