@@ -53,22 +53,6 @@ def ls [
   }
 }
 
-def nvim [...args] {
-  if (ps | where name == socat | is-empty) {
-    let ipc_path = '/tmp/discord-ipc-0'
-
-    if ($ipc_path | path exists) { rm -f $ipc_path }
-
-    let exec_arg = $"EXEC:($env.WIN_HOME)/bin/npiperelay.exe //./pipe/discord-ipc-0"
-    let socat_args = [$"UNIX-LISTEN:($ipc_path),fork" $"($exec_arg)"]
-    job spawn { ^socat ...$socat_args | complete | ignore }
-
-    print "Started socat for Discord IPC"
-  }
-
-  ^nvim ...$args
-}
-
 def get-clock-icon []: [nothing -> string] {
   ["" "" "" "" "" "" "" "" "" "" "" ""]
   | get ((
