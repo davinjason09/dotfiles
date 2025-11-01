@@ -243,7 +243,6 @@ input {
 }
 
 @media (-moz-bool-pref: "zen.view.compact.hide-toolbar") {
-  /* zen default hide toolbar */
   #nav-bar,
   #zen-sidebar-top-buttons,
   #PersonalToolbar,
@@ -264,7 +263,6 @@ input {
 
   &:not([zen-compact-mode="true"]):not([zen-single-toolbar="true"])
     .browserContainer {
-    /* only on non single toolbar */
     margin-top: calc(var(--zen-toolbar-height) * -1);
   }
 }
@@ -290,7 +288,6 @@ input {
   }
 
   #PersonalToolbar {
-    /* only on non single toolbar */
     height: 0 !important;
     min-height: 0 !important;
   }
@@ -501,7 +498,7 @@ tabpanels .browserStack browser {
 .browserStack browser[style*="transform: none"] {
 }
 
-/* ctrl tab visuals and animations */
+/* ----------------- Ctrl-Tab styling ------------------ */
 #ctrlTab-panel {
   --panel-background: var(--zen-colors-tertiary) !important;
   --panel-padding: 0 1em !important;
@@ -523,7 +520,6 @@ slot:nth-child(1) {
 }
 
 .ctrlTab-preview-inner {
-  /* 	padding: 0 !important; */
   margin: 0 !important;
   transition: all 0.2s ease-in-out;
 
@@ -761,12 +757,6 @@ slot:nth-child(1) {
     outline-color: var(--tab-hover-outline-color);
   }
 
-  &:not([selected], [multiselected]) {
-    --tab-hover-background-color: #313244 !important;
-    background-color: var(--tab-hover-background-color);
-    outline-color: var(--tab-hover-outline-color);
-  }
-
   &:is([selected], [multiselected]) {
     --tab-selected-bgcolor: #313244 !important;
     background-color: var(--tab-selected-bgcolor) !important;
@@ -779,14 +769,14 @@ slot:nth-child(1) {
   top: 0px;
   width: 3px;
   height: 100%;
-  background-color: #89dceb !important;
+  background-color: #283040 !important;
 }
 
 .zen-essentials-container > .tabbrowser-tab,
 #zen-welcome-initial-essentials-browser-sidebar-essentials .tabbrowser-tab {
   @media -moz-pref("zen.theme.essentials-favicon-bg") {
     &[visuallyselected] > .tab-stack > .tab-background {
-      background-color: var(--zen-primary-color) !important;
+      background-color: #283040 !important;
     }
   }
 }
@@ -867,7 +857,11 @@ slot:nth-child(1) {
 tab-group[split-view-group] {
   & .tab-group-container {
     &:has(> tab:is([visuallyselected], [multiselected])) {
-      background-color: #89dceb !important;
+      background-color: #283040 !important;
+    }
+
+    :root:not([zen-sidebar-expanded="true"]) & {
+      outline: 1px solid #89dceb !important;
     }
   }
 }
