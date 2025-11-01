@@ -1,0 +1,205 @@
+{
+  "document": {
+    "block_prefix": "\n",
+    "block_suffix": "\n",
+    "color": "{{ .colors.text }}"
+  },
+  "block_quote": {
+    "indent": 1,
+    "indent_token": "▍ "
+  },
+  "paragraph": {},
+  "list": {
+    "color": "{{ .colors.text }}",
+    "level_indent": 2
+  },
+  "heading": {
+    "block_suffix": "\n",
+    "color": "{{ .colors.blue }}",
+    "bold": true
+  },
+  "h1": {
+    "prefix": " 󰎥 ",
+    "suffix": " ",
+    "background_color": "{{ .colors.red_dimmed }}",
+    "color": "{{ .colors.red }}",
+    "bold": true
+  },
+  "h2": {
+    "prefix": " 󰎨 ",
+    "suffix": " ",
+    "background_color": "{{ .colors.peach_dimmed }}",
+    "color": "{{ .colors.peach }}"
+  },
+  "h3": {
+    "prefix": " 󰎫 ",
+    "suffix": " ",
+    "background_color": "{{ .colors.yellow_dimmed }}",
+    "color": "{{ .colors.yellow }}"
+  },
+  "h4": {
+    "prefix": " 󰎲 ",
+    "suffix": " ",
+    "background_color": "{{ .colors.green_dimmed }}",
+    "color": "{{ .colors.green }}"
+  },
+  "h5": {
+    "prefix": " 󰎯 ",
+    "suffix": " ",
+    "background_color": "{{ .colors.sapphire_dimmed }}",
+    "color": "{{ .colors.sapphire }}"
+  },
+  "h6": {
+    "prefix": " 󰎴 ",
+    "suffix": " ",
+    "background_color": "{{ .colors.lavender_dimmed }}",
+    "color": "{{ .colors.lavender }}"
+  },
+  "text": {},
+  "strikethrough": {
+    "crossed_out": true
+  },
+  "emph": {
+    "italic": true
+  },
+  "strong": {
+    "bold": true
+  },
+  "hr": {
+    "color": "{{ .colors.overlay1 }}",
+    "format": "\n--------\n"
+  },
+  "item": {
+    "block_prefix": "• "
+  },
+  "enumeration": {
+    "block_prefix": "󰨕 ",
+    "color": "{{ .colors.sky }}"
+  },
+  "task": {
+    "ticked": "[✓] ",
+    "unticked": "[ ] "
+  },
+  "link": {
+    "color": "{{ .colors.flamingo }}",
+    "underline": true
+  },
+  "link_text": {
+    "color": "{{ .colors.teal }}"
+  },
+  "image": {
+    "color": "{{ .colors.blue }}",
+    "underline": true
+  },
+  "image_text": {
+    "color": "{{ .colors.teal }}",
+    "format": "Image: {{ "{{.text}}" }} →"
+  },
+  "code": {
+    "prefix": " ",
+    "suffix": " ",
+    "color": "{{ .colors.teal }}",
+    "background_color": "{{ .colors.surface0 }}"
+  },
+  "code_block": {
+    "color": "{{ .colors.peach }}",
+    "margin": 2,
+    "chroma": {
+      "text": {
+        "color": "{{ .colors.text }}"
+      },
+      "error": {
+        "bold": true,
+        "color": "{{ .colors.base }}",
+        "background_color": "{{ .colors.red }}"
+      },
+      "comment": {
+        "color": "{{ .colors.overlay2 }}"
+      },
+      "comment_preproc": {
+        "color": "{{ .colors.teal }}"
+      },
+      "keyword": {
+        "color": "{{ .colors.red }}"
+      },
+      "keyword_reserved": {
+        "color": "{{ .colors.red }}"
+      },
+      "keyword_namespace": {
+        "color": "{{ .colors.red }}"
+      },
+      "keyword_type": {
+        "color": "{{ .colors.yellow }}"
+      },
+      "operator": {
+        "color": "{{ .colors.sky }}"
+      },
+      "punctuation": {
+        "color": "{{ .colors.overlay2 }}"
+      },
+      "name": {
+        "color": "{{ .colors.text }}"
+      },
+      "name_builtin": {
+        "color": "{{ .colors.blue }}"
+      },
+      "name_tag": {
+        "color": "{{ .colors.mauve }}"
+      },
+      "name_attribute": {
+        "color": "{{ .colors.peach }}"
+      },
+      "name_class": {
+        "color": "{{ .colors.yellow }}"
+      },
+      "name_constant": {
+        "color": "{{ .colors.peach }}"
+      },
+      "name_decorator": {
+        "color": "{{ .colors.peach }}"
+      },
+      "name_exception": {},
+      "name_function": {
+        "color": "{{ .colors.blue }}"
+      },
+      "name_other": {},
+      "literal": {},
+      "literal_number": {
+        "color": "{{ .colors.peach }}"
+      },
+      "literal_date": {},
+      "literal_string": {
+        "color": "{{ .colors.green }}"
+      },
+      "literal_string_escape": {
+        "color": "{{ .colors.pink }}"
+      },
+      "generic_deleted": {
+        "color": "{{ .colors.red }}"
+      },
+      "generic_emph": {
+        "italic": true
+      },
+      "generic_inserted": {
+        "color": "{{ .colors.green }}"
+      },
+      "generic_strong": {
+        "bold": true
+      },
+      "generic_subheading": {
+        "color": "{{ .colors.mauve }}"
+      },
+      "background": {
+        "background_color": "{{ .colors.crust }}"
+      }
+    }
+  },
+  "table": {},
+  "definition_list": {},
+  "definition_term": {},
+  "definition_description": {
+    "block_prefix": "\n🠶 "
+  },
+  "html_block": {},
+  "html_span": {}
+}
