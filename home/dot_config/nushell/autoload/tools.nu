@@ -30,7 +30,7 @@ def yeet-completer [context: string] {
     },
     completions: (
       yay -Q
-      | split row "\n"
+      | lines
       | split column " "
       | get column1
       | where {|x| $x not-in $parts }
@@ -39,8 +39,8 @@ def yeet-completer [context: string] {
 }
 
 # Yeet package with style 😎
-def yeet [...packages: list<string>@yeet-completer] {
-  let all_packages: list<string> = yay -Q | split row "\n" | split column " " | get column1
+def yeet [...packages: string@yeet-completer] {
+  let all_packages: list<string> = yay -Q | lines | split column " " | get column1
   mut removed_packages = []
 
   if ($packages | is-not-empty) {
@@ -48,7 +48,9 @@ def yeet [...packages: list<string>@yeet-completer] {
       if ($all_packages | where $it == $package | is-not-empty) {
         $removed_packages = $removed_packages | append $package
       } else {
-        gum log --level warn $"($package) is not installed, skipping..."
+        with-env { GUM_LOG_LEVEL_FOREGROUND: $theme.yellow } {
+          gum log --level warn $"($package) is not installed, skipping..."
+        }
       }
     }
   } else {
@@ -61,18 +63,34 @@ def yeet [...packages: list<string>@yeet-completer] {
   }
 
   if ($removed_packages | is-empty) {
-    gum log --level info "No package to remove, exiting..."
+    with-env { GUM_LOG_LEVEL_FOREGROUND: $theme.sky } {
+      gum log --level info "No package to remove, exiting..."
+    }
     return
   }
 
   let formatted = $removed_packages | each {|x| $"- ($x)\n" } | str join ""
-  $"# Package to remove:\n($formatted)" | gum format
-  print "\n"
+  with-env {
+    GUM_FORMAT_THEME: ($nu.home-path | path join ".config" "glamour" "catppuccin.json")
+  } {
+    $"# Package to remove:\n($formatted)" | gum format
+  }
 
   try {
-    gum confirm --default=no "Do you want to remove these packages?"
+    with-env {
+      GUM_CONFIRM_SELECTED_BACKGROUND: $theme.sky
+      GUM_CONFIRM_SELECTED_FOREGROUND: $theme.base
+      GUM_CONFIRM_UNSELECTED_BACKGROUND: $theme.surface0
+      GUM_CONFIRM_UNSELECTED_FOREGROUND: $theme.text
+      GUM_CONFIRM_PROMPT_FOREGROUND: $theme.lavender
+    } {
+      gum confirm --default=no " Do you want to remove these packages?"
+    }
+
     yay -Rns ($removed_packages | str join " ")
   } catch {
-    gum log --level info "\nCancelling..."
+    with-env { GUM_LOG_LEVEL_FOREGROUND: $theme.sky } {
+      gum log --level info "\nCancelling..."
+    }
   }
 }
