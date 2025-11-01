@@ -56,9 +56,10 @@
   - [x] yasb
   - [x] windhawk
   - [x] kanata
-  - [ ] zen-browser
-    - [ ] userChrome.css
-    - [ ] user.js
+  - [x] zen-browser
+    - [x] userChrome.css
+    - [x] userContent.css
+    - [x] user.js
   - [ ] windhawk
     - [ ] update start menu
     - [ ] update notification center
