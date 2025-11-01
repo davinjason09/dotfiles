@@ -117,31 +117,16 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("CheckhealthSettings"),
+  group = augroup("BetterCheckhealth"),
   pattern = "checkhealth",
   callback = function(args)
-    -- HACK:
-    -- somehow this got triggered twice, so we only execute this once the file name is exactly `health://`
-    if args.file ~= "health://" then return end
-
-    local width = math.floor(vim.o.columns * 0.8)
-    local height = math.floor(vim.o.lines * 0.8)
-
-    ---@type vim.api.keyset.win_config
-    local win_settings = {
-      border = "rounded",
-      relative = "editor",
-      width = width,
-      height = height,
-      row = math.floor((vim.o.lines - height) / 2),
-      col = math.floor((vim.o.columns - width) / 2),
-      title_pos = "center",
-      title = {
-        { "", "CheckHealthTitleBg" },
-        { "  Checkhealth ", "CheckHealthTitle" },
-        { "", "CheckHealthTitleBg" },
-      },
-    }
+    if args.file ~= "health://" then
+      return vim.schedule(function()
+        vim.cmd("hi Cursor blend=100")
+        vim.opt_local.guicursor:append("a:Cursor/lCursor")
+        vim.api.nvim_win_set_config(0, { hide = true })
+      end)
+    end
 
     local ns_id = vim.api.nvim_create_namespace("checkhealth_icons")
     local icon_map = {
@@ -150,34 +135,66 @@ vim.api.nvim_create_autocmd("FileType", {
       ["❌"] = { icon = " ", hl = "@error" },
     }
 
-    vim.schedule(function()
-      vim.api.nvim_set_option_value("modifiable", true, { buf = args.buf })
-      vim.api.nvim_buf_set_lines(args.buf, 0, 1, false, {})
-
-      for i, line in ipairs(vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)) do
-        local res = vim
-          .iter(icon_map)
-          :map(function(emoji, val)
-            local col = line:find(emoji)
-            if col then return { col = col - 1, icon = val.icon, hl = val.hl } end
-          end)
-          :totable()
-
-        if not vim.tbl_isempty(res) then
-          for _, r in ipairs(res) do
-            vim.api.nvim_buf_set_extmark(args.buf, ns_id, i - 1, r.col, {
-              virt_text = { { r.icon, r.hl } },
-              virt_text_pos = "overlay",
-            })
+    local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
+    local extmarks = {}
+    lines = vim.tbl_map(function(s)
+      s = vim.trim(s)
+      local ext = vim
+        .iter(icon_map)
+        :map(function(emoji, val)
+          local col = s:find(emoji)
+          if col then
+            s = s:gsub(emoji, val.icon)
+            return { col - 1, col, val.hl }
           end
+        end)
+        :totable()
+
+      table.insert(extmarks, ext)
+      return s
+    end, lines)
+
+    local win = Snacks.win({
+      show = false,
+      border = "rounded",
+      width = 0.8,
+      height = 0.8,
+      minimal = true,
+      ft = "checkhealth",
+      style = "minimal",
+      wo = { concealcursor = "nvic" },
+      title_pos = "center",
+      title = {
+        { "", "CheckHealthTitleBg" },
+        { "  Checkhealth ", "CheckHealthTitle" },
+        { "", "CheckHealthTitleBg" },
+      },
+    })
+
+    ---@diagnostic disable-next-line: invisible
+    local buf = win:open_buf()
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+    vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
+
+    vim.schedule(function()
+      vim.api.nvim_win_close(0, false)
+      vim.cmd("hi Cursor blend=0")
+      vim.opt_local.guicursor:remove("a:Cursor/lCursor")
+
+      win:show()
+      for i, line in ipairs(extmarks) do
+        for _, ext in ipairs(line) do
+          if vim.tbl_isempty(ext) then return end
+
+          vim.api.nvim_buf_set_extmark(buf, ns_id, i - 1, ext[1], {
+            end_col = ext[2],
+            hl_group = ext[3],
+          })
         end
       end
-
-      vim.api.nvim_set_option_value("modifiable", false, { buf = args.buf })
-      vim.api.nvim_win_set_config(vim.api.nvim_get_current_win(), win_settings)
     end)
   end,
-  desc = "Set checkhealth window settings",
+  desc = "Better Floating Checkhealth",
 })
 
 vim.api.nvim_create_autocmd("User", {
