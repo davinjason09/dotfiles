@@ -4,7 +4,6 @@ gui:
   sidePanelWidth: 0.2
   tabWidth: 2
   nerdFontsVersion: ""
-
   theme:
     activeBorderColor:
       - "#89dceb"
@@ -25,10 +24,8 @@ gui:
       - "#cdd6f4"
     searchingActiveBorderColor:
       - "#f9e2af"
-
   authorColors:
     "*": "#b4befe"
-
   spinner:
     frames:
       - "⠋"
@@ -42,12 +39,10 @@ gui:
       - "⠇"
       - "⠏"
     rate: 50
-
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
-
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
 customCommands:
   - key: "C"
     command: "meteor"
