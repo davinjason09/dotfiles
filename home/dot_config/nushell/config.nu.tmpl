@@ -27,7 +27,7 @@ $env.WIN_SYSTEM = $env.WIN   | path join "system32"
 $env.WIN_HOME   = $env.WIN_C | path join "Users" "{{ .windowsUsername }}"
 {{- end }}
 
-path-prepend [
+path add [
   ($env.XDG_CONFIG_HOME | path join "scripts")
   ($env.HOME | path join ".local" "bin")
   "/usr/local/sbin"
@@ -43,37 +43,34 @@ path-prepend [
 ]
 
 if (has bob) {
-  path-prepend ($env.XDG_DATA_HOME | path join "bob" "nvim-bin")
+  path add ($env.XDG_DATA_HOME | path join "bob" "nvim-bin")
 }
 
 if (has go) {
   $env.GOPATH = $env.HOME | path join "code" "go"
-  path-prepend ($env.GOPATH | path join "bin")
+  path add ($env.GOPATH | path join "bin")
 }
 
 if (has cargo) {
-  $env.CARGO_HOME = $env.HOME | path join "cargo"
-  path-prepend ($env.CARGO_HOME | path join "bin")
+  $env.CARGO_HOME = $env.HOME | path join ".cargo"
+  path add ($env.CARGO_HOME | path join "bin")
 }
 
 let $bun_dir = $env.HOME | path join ".bun"
 if ($bun_dir | path exists) {
   $env.BUN_INSTALL = $bun_dir
-  path-prepend ($env.BUN_INSTALL | path join "bin")
+  path add ($env.BUN_INSTALL | path join "bin")
 }
 
 if ("/usr/lib/rustup/bin" | path exists) {
-  path-prepend "/usr/lib/rustup/bin"
+  path add "/usr/lib/rustup/bin"
 }
 
 $env.EDITOR = if (has nvim) { "nvim" } else { "vim" }
 $env.VISUAL = $env.EDITOR
 
-$env.LS_COLORS = (vivid generate catppuccin-mocha)
-
 # ╾╼ Config ╾────────────────────────────────────────────────────────────╼
 $env.config.buffer_editor = 'nvim'
-$env.config.highlight_resolved_externals = true
 $env.config.show_banner = false
 $env.config.use_kitty_protocol = true
 
@@ -121,4 +118,3 @@ $env.config.hooks.env_change = {
     }
   }]
 }
-
