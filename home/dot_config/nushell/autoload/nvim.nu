@@ -76,13 +76,16 @@ def nvim [
   }
 
   let args = $args
-  with-env { NVIM_APPNAME: $app } { ^nvim ...$args }
+  with-env {
+    NVIM_APPNAME: $app
+    LLS_Addons: $"($env.HOME)/Code/LLS-Addons/addons"
+  } { ^nvim ...$args }
 }
 
 def rm_nvim_cache [appname: string] {
-  try { rm -r $'($env.XDG_DATA_HOME)/($appname)' }
-  try { rm -r $'($env.XDG_STATE_HOME)/($appname)' }
-  try { rm -r $'($env.XDG_CACHE_HOME)/($appname)' }
+  try { rm -r $"($env.XDG_DATA_HOME)/($appname)" }
+  try { rm -r $"($env.XDG_STATE_HOME)/($appname)" }
+  try { rm -r $"($env.XDG_CACHE_HOME)/($appname)" }
 }
 
 alias n = nvim
