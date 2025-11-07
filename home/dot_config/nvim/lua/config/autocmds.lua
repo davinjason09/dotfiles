@@ -138,7 +138,7 @@ vim.api.nvim_create_autocmd("FileType", {
     local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
     local extmarks = {}
     lines = vim.tbl_map(function(s)
-      s = vim.trim(s)
+      s = s:gsub("^%s", "")
       local ext = vim
         .iter(icon_map)
         :map(function(emoji, val)
