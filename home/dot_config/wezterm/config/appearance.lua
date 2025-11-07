@@ -1,8 +1,7 @@
 local wez = require("wezterm") ---@type Wezterm
 
 return {
-  -- Fonts
-  font_size = 7.5,
+  font_size = 7.75,
   command_palette_font_size = 7.75,
   char_select_font_size = 7.75,
 
@@ -45,32 +44,26 @@ return {
     },
   },
 
-  line_height = 1.05,
   underline_thickness = 2,
   underline_position = -4,
   freetype_load_target = "Normal",
   anti_alias_custom_block_glyphs = true,
   custom_block_glyphs = true,
 
-  -- Theme
   color_scheme = "Catppuccin Mocha",
-  colors = {
-    split = "#89DCEB",
-  },
+  colors = { split = "#89DCEB" },
 
-  -- Window
-  window_padding = {
-    left = 0,
-    right = 0,
-    top = 1,
-    bottom = 0,
-  },
   window_frame = {
     font = wez.font(
       "JetBrainsMono Nerd Font",
       { weight = "Bold", stretch = "Normal", style = "Normal" }
     ),
     font_size = 9,
+  },
+
+  window_content_alignment = {
+    horizontal = "Center",
+    vertical = "Center",
   },
 
   -- Cursor
