@@ -147,7 +147,7 @@ palette = 'catppuccin_mocha'
 
 # Taken from: https://github.com/starship/starship/discussions/1252#discussioncomment-9914579
 [custom.clock-icon]
-  command = 'h=""; echo ${h:$(date +%l):1}'
+  command = 'h=""; echo ${h:$(date +%l)%12:1}'
   format  = "[ $output]($style)"
   shell   = ["sh"]
   style   = "fg:base bg:pink"
