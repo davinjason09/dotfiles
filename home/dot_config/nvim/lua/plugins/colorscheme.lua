@@ -104,6 +104,8 @@ return {
           ["@lsp.typemod.type.defaultLibrary"]       = { link = "@type" },
           ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
 
+          ["@lsp.type.string.lua"] = { link = "@lsp" },
+
           ["@string.special.url"] = { fg = colors.rosewater, style = { "italic", "underline" } }, -- urls, links and emails
           ["@string.plain.css"]   = { fg = colors.peach },
 
@@ -112,8 +114,6 @@ return {
           ["@type.builtin.c"]   = { fg = colors.yellow },
           ["@type.builtin.cpp"] = { fg = colors.yellow },
 
-
-          ["@property"]            = { fg = colors.lavender }, -- Same as TSField.
           ["@property.css"]        = { fg = colors.lavender },
           ["@property.id.css"]     = { fg = colors.blue },
           ["@property.typescript"] = { fg = colors.lavender },
