@@ -197,6 +197,10 @@ window_rules:
     name: "XamlExplorerHostIslandWindow"
     enabled: False
 
+  - match: Class
+    name: "zBubbleBaseClass"
+    enabled: False
+
   - match: Process
     name: "zebar"
     enabled: False
