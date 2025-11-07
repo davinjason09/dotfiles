@@ -21,7 +21,6 @@ return {
         "html",
         "json",
         "printf",
-        "query",
         "regex",
         "vim",
         "vimdoc",
