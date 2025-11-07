@@ -56,7 +56,7 @@ return {
         },
         undo = { layout = "dropdown" },
       },
-      --- @diagnostic disable-next-line: inject-field
+      ---@diagnostic disable-next-line: inject-field
       on_show = function(picker) picker.last_win = vim.fn.win_getid(vim.fn.winnr("#")) end,
       on_close = function(picker) picker:action("restore_win") end,
       actions = {
@@ -66,8 +66,10 @@ return {
           picker:find()
         end,
         restore_win = function(picker)
-          --- @diagnostic disable-next-line: undefined-field
-          vim.api.nvim_set_current_win(picker.last_win)
+          if picker.last_win then
+            vim.api.nvim_set_current_win(picker.last_win)
+            picker.last_win = nil
+          end
           vim.schedule(Utils.edit.escape)
         end,
       },
