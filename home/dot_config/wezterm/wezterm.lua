@@ -7,4 +7,7 @@ local config = require("config")
   :append(require("config.keymaps"))
   :append(require("config.launch"))
 
+local tabline = require("config.tabline")
+tabline.apply_to_config(config)
+
 return config
