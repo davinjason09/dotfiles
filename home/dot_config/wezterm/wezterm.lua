@@ -1,6 +1,5 @@
----@diagnostic disable: undefined-field
 local config = require("config")
-  :init()
+  .init()
   :append(require("config.appearance"))
   :append(require("config.domains"))
   :append(require("config.general"))
