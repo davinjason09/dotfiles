@@ -17,6 +17,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight on yank and preserve cursor position",
 })
 
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "[vV\22]*:*",
+  group = augroup("RestoreCursor"),
+  callback = function() Utils.edit.restore_cursor() end,
+  desc = "Try restoring cursor when leaving Visual mode",
+})
+
 vim.api.nvim_create_autocmd("VimResized", {
   group = augroup("ResizeSplits"),
   callback = function()

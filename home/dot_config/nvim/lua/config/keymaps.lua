@@ -153,7 +153,6 @@ map({ "n", "i", "v", "s" }, "<ESC>", function()
   if ls.expand_or_jumpable() then ls.unlink_current() end
 
   vim.cmd("noh")
-  Utils.edit.restore_cursor()
   return "<ESC>"
 end, { expr = true, desc = "Escape, clear hlsearch, and stop snippet session" })
 
