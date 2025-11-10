@@ -14,6 +14,7 @@ return {
     opts = {
       ensure_installed = {
         "lua-language-server",
+        "emmylua_ls",
         "stylua",
       },
     },

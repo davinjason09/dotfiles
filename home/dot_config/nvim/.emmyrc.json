@@ -1,0 +1,29 @@
+{
+  "$schema": "https://raw.githubusercontent.com/EmmyLuaLs/emmylua-analyzer-rust/refs/heads/main/crates/emmylua_code_analysis/resources/schema.json",
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "workspace": {
+    "library": [
+      "$VIMRUNTIME",
+      "$LLS_Addons/luvit",
+      "$XDG_DATA_HOME/chezmoi/home/dot_config/nvim/lua",
+      "$XDG_DATA_HOME/nvim/lazy/lazy.nvim/lua",
+      "$XDG_DATA_HOME/nvim/lazy/"
+    ],
+    "checkThirdParty": false,
+    "ignoreDir": ["/lua"],
+    "ignoreGlobs": ["**/*_spec.lua"]
+  },
+  "diagnostics": {
+    "disable": [
+      "assign-type-mismatch",
+      "global-in-non-module",
+      "missing-fields",
+      "need-check-nil",
+      "param-type-mismatch",
+      "unnecessary-if",
+      "unnecessary-assert"
+    ]
+  }
+}
