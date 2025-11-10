@@ -14,13 +14,41 @@ vim.o.undofile       = true        -- Enable persistent undo
 vim.o.undolevels     = 10000       -- Number of undo levels to keep
 vim.o.updatetime     = 250         -- Time to wait before writing swap file and triggering CursorHold
 
-vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit what is stored in ShaDa file
-vim.o.shell = "/usr/bin/nu"
-
-vim.g.markdown_recommended_style = 0 -- Don't use recommended style for markdown
-vim.o.sessionoptions = table.concat( -- Options to save in session files
+vim.g.markdown_recommended_style = 0                    -- Don't use recommended style for markdown
+vim.o.shada          = "'100,<50,s10,:1000,/100,@100,h" -- Limit what is stored in ShaDa file
+vim.o.sessionoptions = table.concat(                    -- Options to save in session files
   { "buffers", "curdir", "folds", "globals", "help", "skiprtp", "tabpages", "winsize" }, ","
 )
+
+-- ╾╼ Shell ╾─────────────────────────────────────────────────────────╼
+vim.o.shell        = "nu"          -- Set nu as default shell
+vim.o.shelltemp    = false         -- Use stdin pipe for shell command since nushell doesn't support input redirection
+vim.o.shellxquote  = ""            -- Disable quoting
+vim.o.shellxescape = ""            -- Disable escaping
+vim.o.shellquote   = ""            -- Disable quoting
+
+-- INJECT: nu
+vim.o.shellredir = "out+err> %s" -- Redirect stdout and stderr to temp file
+
+-- Shell flags
+-- * `--login`       start as a login shell
+-- * `--stdin`       redirect all input to -c
+-- * `--no-newline`  do not append `\n` to stdout
+-- * `--commands -c` execute a command
+vim.o.shellcmdflag = table.concat({ "--login", "--stdin", "--no-newline", "-c" }, " ")
+
+-- Shell pipe, used for makeprg and grepprg
+-- 1. Save the complete output of the command (stdout, stderr)
+-- 2. Strip all ansi coloring from stderr
+-- 3. If stderr is not empty, get the stderr, otherwise get stdout
+-- 4. Save into temp file
+vim.o.shellpipe = table.concat({
+  -- INJECT: nu
+  "| complete",
+  "| update stderr { ansi strip }",
+  "| tee { if ($in.stderr | is-empty) { get stdout } else { get stderr } | save --raw --force %s }",
+  "| into record"
+}, " ")
 
 -- ╾╼ UI ╾────────────────────────────────────────────────────────────╼
 vim.o.breakindent    = true        -- Indent wrapped lines to match the line start
@@ -51,10 +79,10 @@ vim.o.listchars = table.concat(    -- Special text symbols
 vim.o.breakindentopt = "list:-1"   -- Add padding for list when `wrap` is enabled
 vim.o.cursorlineopt  = "both"      -- Highlight text line and number where the cursor is
 vim.o.termguicolors  = true        -- Enable 24-bit RGB colors in the TUI
-vim.o.winborder      = "none"      -- Use no border for windows (at least until all plugins are updated to 0.11)
 
-vim.g.health         = { style = "float" }  -- Use floating window for :checkhealth
-vim.o.guicursor      = "n-v-sm:block,i-c-ci-ve-t:ver25,r-cr-o:hor20"    -- Change terminal and command mode cursor to bar
+vim.g.health         = { style = "float" }                            -- Use floating window for :checkhealth
+vim.o.guicursor      = "n-v-sm:block,i-c-ci-ve-t:ver25,r-cr-o:hor20"  -- Change terminal and command mode cursor to bar
+vim.o.statuscolumn   = [[%!v:lua.Utils.statuscolumn()]]               -- Wrapper for statuscolumn
 
 -- ╾╼ Editing ╾───────────────────────────────────────────────────────╼
 vim.o.autoindent    = true         -- Use auto indent
@@ -71,16 +99,17 @@ vim.o.tabstop       = 2            -- Number of spaces for a tab
 vim.o.whichwrap     = "b,s,[,]"    -- Allow moving to previous/next line with <Left>/<Right> in insert mode
 vim.o.virtualedit   = "block"      -- Allow going past the end of line in V-BLOCK mode
 
-vim.o.grepprg       = "rg --vimgrep"                  -- Use ripgrep for searching
-vim.o.grepformat    = "%f:%l:%c:%m"                   -- Format for grep results
-vim.o.iskeyword     = '@,48-57,_,192-255,-'           -- Treat dash separated words as a word text object
-vim.o.scrolloff     = math.floor(0.3 * vim.o.lines)   -- Keep 30% of the screen height above and below the cursor
+-- INJECT: nu
+vim.o.grepprg       = "rg --vimgrep --no-heading --smart-case --hidden" -- Use ripgrep for searching
+vim.o.grepformat    = "%f:%l:%c:%m"                                     -- Format for grep results
+vim.o.iskeyword     = '@,48-57,_,192-255,-'                             -- Treat dash separated words as a word text object
+vim.o.scrolloff     = math.floor(0.3 * vim.o.lines)                     -- Keep 30% of the screen height above and below the cursor
 
 -- Define pattern for a start of 'numbered' list. This is responsible for correct formatting of lists when using `gw`. This basically reads as 'at
 -- least one special character (digit, -, +, *) possibly followed some punctuation (. or `)`) followed by at least one space is a start of list
 -- item'
 vim.o.formatlistpat = [[^\s*[0-9\-\+\*]\+[\.\)]*\s\+]]
-vim.o.formatexpr    = "v:lua.Utils.format.formatexpr()" -- Custom format expression
+vim.o.formatexpr    = "v:lua.Utils.format.formatexpr()"  -- Custom format expression
 vim.g.autoformat    = true
 
 -- ╾╼ Folds ╾─────────────────────────────────────────────────────────╼
@@ -96,8 +125,8 @@ vim.o.spelllang    = "en"          -- Default spelling dictionary
 vim.o.spelloptions = "camel"       -- Treat camel case words as separate words
 
 -- ╾╼ Clipboard ╾─────────────────────────────────────────────────────╼
-vim.o.clipboard = "unnamedplus" -- Use system clipboard for all operations
-vim.g.clipboard = {             -- WSL clipboard (win32yank) 
+vim.o.clipboard = "unnamedplus"    -- Use system clipboard for all operations
+vim.g.clipboard = {                -- WSL clipboard (win32yank)
   name = "wsl-clipboard",
   copy = {
     ["+"] = { "wslyank", "-i", "--crlf" },
