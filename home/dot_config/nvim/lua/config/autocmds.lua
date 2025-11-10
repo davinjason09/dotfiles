@@ -116,17 +116,22 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Set up diagnostic on 'Lazy' filetype, if it hasn't been setup",
 })
 
+local did_setup = false
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("BetterCheckhealth"),
   pattern = "checkhealth",
   callback = function(args)
     if args.file ~= "health://" then
+      did_setup = false
+
       return vim.schedule(function()
         vim.cmd("hi Cursor blend=100")
         vim.opt_local.guicursor:append("a:Cursor/lCursor")
         vim.api.nvim_win_set_config(0, { hide = true })
       end)
     end
+
+    if did_setup then return end
 
     local ns_id = vim.api.nvim_create_namespace("checkhealth_icons")
     local icon_map = {
@@ -171,7 +176,7 @@ vim.api.nvim_create_autocmd("FileType", {
       },
     })
 
-    ---@diagnostic disable-next-line: invisible
+    ---@diagnostic disable-next-line: access-invisible
     local buf = win:open_buf()
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
     vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
@@ -192,6 +197,10 @@ vim.api.nvim_create_autocmd("FileType", {
           })
         end
       end
+
+      did_setup = true
+      vim.api.nvim_buf_set_name(win.buf or 0, "health://")
+      vim.bo[0].filetype = "checkhealth"
     end)
   end,
   desc = "Better Floating Checkhealth",
