@@ -13,6 +13,7 @@ vim.filetype.add({
     mdx = "mdx",
     pyx = "cython",
     pxd = "cython",
+    tmpl = "gotmpl",
     xaml = "xml",
     zsh = "sh",
   },
@@ -48,26 +49,14 @@ vim.filetype.add({
       end,
       { priority = -math.huge },
     },
-    [".*%.tmpl"] = function(path, buf)
-      local content_ft = vim.filetype.match({ buf = buf, filename = path:gsub("%.tmpl", "") })
-      if not content_ft then return "gotmpl" end
-
-      local lang = vim.treesitter.language.get_lang(content_ft)
-      local scm = string.format(
-        [[
-          ((text) @injection.content
-          (#set! injection.language "%s")
-          (#set! injection.combined))
-        ]],
-        lang
-      )
-      return "gotmpl",
-        function(bufnr)
-          vim.treesitter.query.set("gotmpl", "injections", scm)
-          vim.treesitter.start(bufnr, "gotmpl")
-        end
-    end,
   },
 })
 
 vim.treesitter.language.register("markdown", "blink-cmp-documentation")
+
+-- .tmpl file injection
+vim.treesitter.query.add_directive("inject-gotmpl!", function(_, _, bufnr, _, metadata)
+  local fname = vim.fs.basename(vim.api.nvim_buf_get_name(bufnr))
+  local ext = vim.filetype.match({ buf = bufnr, filename = fname:gsub("%.tmpl", "") })
+  metadata["injection.language"] = ext
+end, {})
