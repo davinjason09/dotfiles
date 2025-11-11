@@ -4,15 +4,14 @@
     "version": "LuaJIT"
   },
   "workspace": {
+    "workspaceRoots": ["lua"],
     "library": [
       "$VIMRUNTIME",
       "$LLS_Addons/luvit",
-      "$XDG_DATA_HOME/chezmoi/home/dot_config/nvim/lua",
       "$XDG_DATA_HOME/nvim/lazy/lazy.nvim/lua",
-      "$XDG_DATA_HOME/nvim/lazy/"
+      "$XDG_DATA_HOME/nvim/lazy"
     ],
     "checkThirdParty": false,
-    "ignoreDir": ["/lua"],
     "ignoreGlobs": ["**/*_spec.lua"]
   },
   "diagnostics": {
