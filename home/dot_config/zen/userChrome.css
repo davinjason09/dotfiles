@@ -71,13 +71,14 @@
 
   toolbar .toolbarbutton-1 {
     &:not([disabled]) {
-      &:is([open], [checked])
+      &:is(:hover:active, [open], [checked])
         > :is(
           .toolbarbutton-icon,
           .toolbarbutton-text,
           .toolbarbutton-badge-stack
         ) {
-        fill: #11111b;
+        background-color: var(--toolbarbutton-active-background);
+        color: var(--toolbarbutton-icon-fill);
       }
     }
   }
