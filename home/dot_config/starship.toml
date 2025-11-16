@@ -27,10 +27,10 @@ $status\
 $line_break\
 $character
 """
-# $fill\
-# $cmd_duration\
 
 continuation_prompt = "[❯❯](bright-black) "
+
+scan_timeout = 500
 
 palette = 'catppuccin_mocha'
 
@@ -153,9 +153,6 @@ palette = 'catppuccin_mocha'
   style   = "fg:base bg:pink"
   when    = true
 
-[fill]
-  symbol = " "
-
 [status]
   disabled       = false
   failure_style  = "fg:red"
@@ -163,10 +160,6 @@ palette = 'catppuccin_mocha'
   success_style  = "fg:green"
   success_symbol = ""
   symbol         = ""
-
-[cmd_duration]
-  format   = "[󰔟 took $duration](italic bright-yellow)"
-  min_time = 1000
 
 [line_break]
   disabled = false
