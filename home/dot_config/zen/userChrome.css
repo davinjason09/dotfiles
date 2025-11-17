@@ -136,7 +136,7 @@ input {
 
 :root:not([zen-single-toolbar="true"]) #nav-bar {
   margin: 0.4rem 0;
-  margin-bottom: 0.1rem !important;
+  margin-bottom: 0rem !important;
 }
 
 :root:not([zen-single-toolbar="true"]):not([zen-compact-mode="true"])
@@ -837,7 +837,7 @@ slot:nth-child(1) {
 }
 
 #zen-essentials {
-  margin-top: 0.8rem;
+  margin-top: 0.7rem;
 }
 
 .zen-essentials-container > .tabbrowser-tab,
