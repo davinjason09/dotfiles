@@ -63,7 +63,7 @@ return {
 
   window_content_alignment = {
     horizontal = "Center",
-    vertical = "Center",
+    vertical = "Top",
   },
 
   -- Cursor
