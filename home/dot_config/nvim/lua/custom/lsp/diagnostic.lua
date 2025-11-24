@@ -47,8 +47,11 @@ end
 
 ---@param diagnostic vim.Diagnostic
 local function virtual_lines_format(diagnostic)
-  local win = buf_to_win(diagnostic.bufnr or 0)
-  local sign_column_width = vim.fn.getwininfo(win)[1].textoff
+  local buf = diagnostic.bufnr or vim.api.nvim_get_current_buf()
+  local win = buf_to_win(buf)
+  local win_info = vim.fn.getwininfo(win)
+
+  local sign_column_width = #win_info > 0 and win_info[1].textoff or 8
   local text_area_width = vim.api.nvim_win_get_width(win) - sign_column_width
   local center_width = 5
   local left_width = 1
@@ -102,16 +105,6 @@ M.setup = function()
 
   -- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.
   -- Taken from https://github.com/MariaSolOs/dotfiles/blob/8cdc092c0c340f669bef33a932f235dcde3c2019/.config/nvim/lua/lsp.lua#L185
-  local show_handler = assert(vim.diagnostic.handlers.virtual_text.show)
-  local hide_handler = vim.diagnostic.handlers.virtual_text.hide
-
-  vim.diagnostic.handlers.virtual_text = {
-    show = function(ns, bufnr, diagnostics, opts)
-      table.sort(diagnostics, function(diag1, diag2) return diag1.severity > diag2.severity end)
-      return show_handler(ns, bufnr, diagnostics, opts)
-    end,
-    hide = hide_handler,
-  }
 
   ---@type vim.diagnostic.Opts
   local diag_opts = {
@@ -135,14 +128,14 @@ M.setup = function()
       current_line = true,
       format = virtual_lines_format,
     },
-    severity_sort = { reverse = false },
+    severity_sort = true,
   }
 
   vim.diagnostic.config(diag_opts)
 
   -- Re-draw diagnostics each line change to account for virtual_text changes
   local last_line = vim.fn.line(".")
-  local timer = nil ---@type uv.uv_timer_t?
+  local timer = nil ---@type uv_timer_t?
   local debounce = 100
 
   vim.api.nvim_create_autocmd("CursorMoved", {
