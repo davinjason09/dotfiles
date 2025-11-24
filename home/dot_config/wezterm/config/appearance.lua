@@ -53,19 +53,10 @@ return {
   color_scheme = "Catppuccin Mocha",
   colors = { split = "#89DCEB" },
 
-  window_frame = {
-    font = wez.font(
-      "JetBrainsMono Nerd Font",
-      { weight = "Bold", stretch = "Normal", style = "Normal" }
-    ),
-    font_size = 9,
-  },
-
   window_content_alignment = {
     horizontal = "Center",
     vertical = "Top",
   },
 
-  -- Cursor
   default_cursor_style = "SteadyBar",
 }
