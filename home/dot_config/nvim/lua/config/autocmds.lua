@@ -129,8 +129,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "checkhealth",
   callback = function(args)
     if args.file ~= "health://" then
-      did_setup = false
-
       return vim.schedule(function()
         vim.cmd("hi Cursor blend=100")
         vim.opt_local.guicursor:append("a:Cursor/lCursor")
@@ -181,6 +179,7 @@ vim.api.nvim_create_autocmd("FileType", {
         { "  Checkhealth ", "CheckHealthTitle" },
         { "", "CheckHealthTitleBg" },
       },
+      on_close = function() did_setup = false end,
     })
 
     ---@diagnostic disable-next-line: access-invisible
