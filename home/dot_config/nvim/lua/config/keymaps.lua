@@ -218,9 +218,13 @@ map("n", "<leader>dx", "<CMD>source %<CR>", { desc = "[D]ebug: E[X]ecute file" }
 -- ╰─────────────────────────────────────────────────────────╯
 
 -- Buffers
-map("n", "<leader>bd", function() Snacks.bufdelete() end,       { desc = "Delete Buffer" })
-map("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffer" })
-map("n", "<leader>bD", "<CMD>:bd<CR>",                          { desc = "Delete Buffer and Window" })
+map("n", "H",          "[b",                                                                     { desc = "Prev Buffer", remap = true })
+map("n", "L",          "]b",                                                                     { desc = "Next Buffer", remap = true })
+map("n", "<leader>bd", function() Snacks.bufdelete() end,                                        { desc = "Delete Buffer" })
+map("n", "<leader>bo", function() Snacks.bufdelete.other() end,                                  { desc = "Delete Other Buffer" })
+map("n", "<leader>bD", "<CMD>:bd<CR>",                                                           { desc = "Delete Buffer and Window" })
+map("n", "<leader>bl", function() require("custom.lines.utils").close_in_direction("left") end,  { desc = "Delete Buffer to the Left" })
+map("n", "<leader>br", function() require("custom.lines.utils").close_in_direction("right") end, { desc = "Delete Buffer to the Right" })
 
 -- Windows
 map("n", "<leader>|",  "<C-w>v", { remap = true, desc = "Split Window Right [|]" })
