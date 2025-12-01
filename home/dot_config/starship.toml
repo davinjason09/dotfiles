@@ -1,5 +1,5 @@
-"$schema" = 'https://starship.rs/config-schema.json'
-
+#:tombi format.disabled = true
+"$schema" = "https://starship.rs/config-schema.json"
 format = """
 [](surface0)\
 $os\
@@ -27,139 +27,138 @@ $status\
 $line_break\
 $character
 """
-
 continuation_prompt = "[❯❯](bright-black) "
-
 scan_timeout = 500
-
-palette = 'catppuccin_mocha'
+palette = "catppuccin_mocha"
+#:tombi format.disabled = false
 
 [palettes.catppuccin_mocha]
-  base      = "#1E1E2E"
-  blue      = "#89B4FA"
-  crust     = "#11111B"
-  flamingo  = "#F2CDCD"
-  green     = "#A6E3A1"
-  lavender  = "#B4BEFE"
+  base      = "#1e1e2e"
+  blue      = "#89b4fa"
+  crust     = "#11111b"
+  flamingo  = "#f2cdcd"
+  green     = "#a6e3a1"
+  lavender  = "#b4befe"
   mantle    = "#181825"
-  maroon    = "#EBA0AC"
-  mauve     = "#CBA6F7"
-  overlay0  = "#6C7086"
-  overlay1  = "#7F849C"
-  overlay2  = "#9399B2"
-  peach     = "#FAB387"
-  pink      = "#F5C2E7"
-  red       = "#F38BA8"
-  rosewater = "#F5E0DC"
-  sapphire  = "#74C7EC"
-  sky       = "#89DCEB"
-  subtext0  = "#A6ADC8"
-  subtext1  = "#BAC2DE"
+  maroon    = "#eba0ac"
+  orange    = "#cba6f7"
+  overlay0  = "#6c7086"
+  overlay1  = "#7f849c"
+  overlay2  = "#9399b2"
+  peach     = "#fab387"
+  pink      = "#f5c2e7"
+  red       = "#f38ba8"
+  rosewater = "#f5e0dc"
+  sapphire  = "#74c7ec"
+  sky       = "#89dceb"
+  subtext0  = "#a6adc8"
+  subtext1  = "#bac2de"
   surface0  = "#313244"
-  surface1  = "#45475A"
-  surface2  = "#585B70"
-  teal      = "#94E2D5"
-  text      = "#CDD6F4"
-  yellow    = "#F9E2AF"
+  surface1  = "#45475a"
+  surface2  = "#585b70"
+  teal      = "#94e2d5"
+  text      = "#cdd6f4"
+  yellow    = "#f9e2af"
 
 [os]
   disabled = false
   style    = "bg:surface0 fg:text"
 
-[os.symbols]
-  Alpine  = ""
-  Amazon  = ""
-  Android = ""
-  Arch    = ""
-  Artix   = ""
-  CentOS  = ""
-  Debian  = ""
-  Fedora  = ""
-  Gentoo  = ""
-  Linux   = ""
-  Macos   = ""
-  Manjaro = ""
-  Mint    = "󰣭"
-  Redhat  = "󱄛"
-  SUSE    = ""
-  Ubuntu  = ""
-  Windows = ""
+  # tombi: format.rules.table-keys-order = "ascending"
+  [os.symbols]
+    Alpine  = ""
+    Amazon  = ""
+    Android = ""
+    Arch    = ""
+    Artix   = ""
+    CentOS  = ""
+    Debian  = ""
+    Fedora  = ""
+    Gentoo  = ""
+    Linux   = ""
+    Macos   = ""
+    Manjaro = ""
+    Mint    = "󰣭"
+    Redhat  = "󱄛"
+    SUSE    = ""
+    Ubuntu  = ""
+    Windows = ""
 
 [username]
-  format      = '[ $user ]($style)'
   show_always = true
+  format      = "[ $user ]($style)"
   style_root  = "bg:surface0 fg:text"
   style_user  = "bg:surface0 fg:text"
 
 [directory]
-  format            = "[ $path ]($style)"
-  style             = "fg:mantle bg:peach"
   truncation_length = 1
   truncation_symbol = "…/"
+  format            = "[ $path ]($style)"
+  style             = "fg:mantle bg:peach"
 
 [git_branch]
-  format = '[ $symbol $branch ]($style)'
-  style  = "fg:base bg:yellow"
   symbol = ""
+  format = "[ $symbol $branch ]($style)"
+  style  = "fg:base bg:yellow"
 
 [git_status]
-  ahead    = '󱦲${count}'
-  behind   = '󱦳${count}'
-  diverged = '󱦲${ahead_count}󱦳${behind_count}'
-  format   = '[($all_status$ahead_behind )]($style)'
+  ahead    = "󱦲${count}"
+  behind   = "󱦳${count}"
+  diverged = "󱦲${ahead_count}󱦳${behind_count}"
+  format   = "[($all_status$ahead_behind )]($style)"
   style    = "fg:base bg:yellow"
 
 [nodejs]
-  format = '[ $symbol( $version) ]($style)'
-  style  = "fg:base bg:sky"
   symbol = ""
+  format = "[ $symbol( $version) ]($style)"
+  style  = "fg:base bg:sky"
 
 [c]
-  format = '[ $symbol( $version) ]($style)'
-  style  = "fg:base bg:sky"
   symbol = ""
+  format = "[ $symbol( $version) ]($style)"
+  style  = "fg:base bg:sky"
 
 [cpp]
-  format = '[ $symbol( $version) ]($style)'
-  style  = "fg:base bg:sky"
   symbol = ""
+  format = "[ $symbol( $version) ]($style)"
+  style  = "fg:base bg:sky"
 
 [rust]
-  format = '[ $symbol( $version) ]($style)'
-  style  = "fg:base bg:sky"
   symbol = ""
+  format = "[ $symbol( $version) ]($style)"
+  style  = "fg:base bg:sky"
 
 [golang]
-  format = '[ $symbol( $version) ]($style)'
-  style  = "fg:base bg:sky"
   symbol = ""
+  format = "[ $symbol( $version) ]($style)"
+  style  = "fg:base bg:sky"
 
 [python]
-  format = '[ $symbol( $version) ]($style)'
-  style  = "fg:base bg:sky"
   symbol = ""
+  format = "[ $symbol( $version) ]($style)"
+  style  = "fg:base bg:sky"
 
 [time]
   disabled    = false
-  format      = '[ $time ]($style)'
-  style       = "fg:mantle bg:pink"
   time_format = "%R"
+  format      = "[ $time ]($style)"
+  style       = "fg:mantle bg:pink"
 
 # Taken from: https://github.com/starship/starship/discussions/1252#discussioncomment-9914579
 [custom.clock-icon]
   command = 'h=""; echo ${h:$(date +%l)%12:1}'
+  when    = true
   format  = "[ $output]($style)"
   shell   = ["sh"]
   style   = "fg:base bg:pink"
-  when    = true
 
 [status]
   disabled       = false
   failure_style  = "fg:red"
-  format         = '[ $symbol]($style)'
   success_style  = "fg:green"
   success_symbol = ""
   symbol         = ""
+  format         = "[ $symbol]($style)"
 
 [line_break]
   disabled = false
