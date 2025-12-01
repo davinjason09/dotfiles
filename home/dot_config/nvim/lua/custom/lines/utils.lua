@@ -104,3 +104,37 @@ M.pretty_path = function(filename, path_type)
   return output
 end
 
+M.get_bufs = function()
+  return vim.tbl_filter(
+    function(bufnr) return vim.api.nvim_get_option_value("buflisted", { buf = bufnr }) end,
+    vim.api.nvim_list_bufs()
+  )
+end
+
+M.get_current_buffer_index = function(buf)
+  for idx, b in ipairs(M.get_bufs()) do
+    if b == buf then return idx end
+  end
+
+  return nil
+end
+
+---@param dir "left"|"right"
+M.close_in_direction = function(dir)
+  local buf = vim.api.nvim_get_current_buf()
+  local idx = M.get_current_buffer_index(buf)
+
+  if not idx then return end
+  local buflist = M.get_bufs()
+  local length = #buflist
+
+  if not (idx == length and dir == "right") and not (idx == 1 and dir == "left") then
+    local start = dir == "left" and 1 or idx + 1
+    local _end = dir == "left" and idx - 1 or length
+    for _, item in ipairs(vim.list_slice(buflist, start, _end)) do
+      Snacks.bufdelete(item)
+    end
+  end
+end
+
+return M

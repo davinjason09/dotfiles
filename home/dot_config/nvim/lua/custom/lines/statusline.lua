@@ -83,6 +83,11 @@ local MainStatusLine = {
   Comp.Git.Branch,
   Comp.FileName,
   Common.Align,
+  {
+    condition = function() return vim.o.showtabline ~= 2 end,
+    Comp.Macro,
+    Comp.Git.Status,
+  },
   Comp.Lazy,
   Comp.AI.Copilot,
   Comp.Lsp,
