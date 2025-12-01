@@ -769,6 +769,12 @@ slot:nth-child(1) {
   background-color: #89dceb !important;
 }
 
+.tab-content {
+  &:is([selected], [multiselected]) {
+    color: #181825 !important;
+  }
+}
+
 .zen-essentials-container > .tabbrowser-tab,
 #zen-welcome-initial-essentials-browser-sidebar-essentials .tabbrowser-tab {
   @media -moz-pref("zen.theme.essentials-favicon-bg") {
