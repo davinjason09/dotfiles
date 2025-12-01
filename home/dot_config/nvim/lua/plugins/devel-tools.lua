@@ -136,7 +136,7 @@ return {
         markdown = { "prettier" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         sh = { "shfmt" },
-        toml = { "taplo" },
+        toml = { "tombi" },
         typst = { "typstyle", lsp_format = "prefer" },
         yaml = { "prettier" },
         zsh = { "shfmt" },

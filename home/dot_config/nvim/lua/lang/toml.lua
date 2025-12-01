@@ -8,7 +8,7 @@ return {
   {
     "mason-org/mason.nvim",
     opts = {
-      ensure_installed = { "taplo" },
+      ensure_installed = { "tombi" },
     },
   },
 }
