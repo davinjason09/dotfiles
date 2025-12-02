@@ -24,10 +24,12 @@ return {
       extension = {
         ["bash.tmpl"] = { glyph = "", hl = "MiniIconsGrey" },
         ["json.tmpl"] = { glyph = "", hl = "MiniIconsGrey" },
+        ["nu.tmpl"]   = { glyph = "", hl = "MiniIconsGrey" },
         ["ps1.tmpl"]  = { glyph = "󰨊", hl = "MiniIconsGrey" },
         ["sh.tmpl"]   = { glyph = "", hl = "MiniIconsGrey" },
         ["toml.tmpl"] = { glyph = "", hl = "MiniIconsGrey" },
-        ["yaml.tmpl"] = { glyph = "", hl = "MiniIconsGrey" },
+        ["yaml.tmpl"] = { glyph = "", hl = "MiniIconsGrey" },
+        ["yml.tmpl"]  = { glyph = "", hl = "MiniIconsGrey" },
         ["zsh.tmpl"]  = { glyph = "", hl = "MiniIconsGrey" },
       },
     },

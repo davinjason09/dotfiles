@@ -90,8 +90,9 @@ M.icons = {
 }
 
 M.special_ft_icons = {
-  yazi = { "󰇥", "MiniIconsYellow" },
-  vim  = { "", "MiniIconsGreen" },
+  yazi    = { "󰇥", "MiniIconsYellow" },
+  vim     = { "", "MiniIconsGreen" },
+  wezterm = { "", "MiniIconsPurple" }
 }
 
 -- stylua: ignore end
@@ -167,29 +168,29 @@ M.which_key_rules = {
     { icon = "󰼢 ", pattern = "visual", color = "purple" },
 
     { icon = " ", pattern = "c%]?md", color = "orange" },
-    { icon = " ", pattern = "c%]?olor", color = "azure" },
+    { icon = " ", pattern = "c%]?olor", color = "azure" },
     { icon = " ", pattern = "c%]?ommand", color = "orange" },
     { icon = " ", pattern = "c%]?onfig", color = "red" },
     { icon = "󱖫 ", pattern = "diagnostics", color = "green" },
     { icon = " ", pattern = "%f[%a/%p]%[?f%]?ile", color = "cyan" },
     { icon = "󱩾 ", pattern = "g%]?rep", color = "green" },
-    { icon = " ", pattern = "h%]?ighlight", color = "purple" },
+    { icon = " ", pattern = "h%]?ighlight", color = "purple" },
     { icon = " ", pattern = "i%]?con", color = "yellow" },
     { icon = "󰜎 ", pattern = "j%]?ump", color = "orange" },
     { icon = " ", pattern = "k%]?eymap", color = "yellow" },
     { icon = " ", pattern = "%f[%a]%[?l%]?ine", color = "cyan" },
     { icon = "󱖫 ", pattern = "l%]?ocation list", color = "green" },
     { icon = "󰸕 ", pattern = "m%]?ark%f[%a]", color = "orange" },
-    { icon = "󰪻 ", pattern = "p%]?roject", color = "cyan" },
+    { icon = " ", pattern = "p%]?roject", color = "cyan" },
     { icon = "󱖫 ", pattern = "q%]?uickfix", color = "green" },
-    { icon = "󱋢 ", pattern = "r%]?ecent", color = "cyan" },
+    { icon = " ", pattern = "r%]?ecent", color = "cyan" },
     { icon = "󰑓 ", pattern = "r%]?eload", color = "purple" },
     { icon = " ", pattern = "r%]?egister", color = "orange" },
     { icon = " ", pattern = "r%]?eplace", color = "red" },
-    { icon = "󱩾 ", pattern = "r%]?esume", color = "green" },
+    { icon = " ", pattern = "r%]?esume", color = "green" },
     { icon = " ", pattern = "t%]?erminal", color = "red" },
     { icon = " ", pattern = "t%]?odo", color = "purple" },
-    { icon = "󰙅 ", pattern = "u%]?ndotree", color = "orange" },
+    { icon = "󰙅 ", pattern = "u%]?ndo", color = "orange" },
     { icon = " ", pattern = "w%]?ord", color = "yellow" },
 
     { icon = " ", pattern = "b%]?uffer", color = "cyan" },
