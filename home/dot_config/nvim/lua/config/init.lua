@@ -70,6 +70,9 @@ M.init = function()
   if M._did_init then return end
   M._did_init = true
 
+  _G.Utils = require("utils")
+  _G.Defaults = require("config.defaults")
+
   Utils.lazy_notify()
   Utils.clear_lsp_log()
   M.load("options")
