@@ -39,8 +39,7 @@ vim.api.nvim_create_user_command("LspStart", function(ctx)
 
   if #servers == 0 then
     local ft = vim.bo.filetype
-    ---@diagnostic disable-next-line: undefined-field
-    for name, _ in pairs(vim.lsp.config._configs) do
+    for name, _ in pairs(vim.lsp._enabled_configs) do
       local fts = vim.lsp.config[name].filetypes
       if fts and vim.tbl_contains(fts, ft) then table.insert(servers, name) end
     end
