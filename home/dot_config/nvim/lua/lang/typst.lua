@@ -9,16 +9,6 @@ return {
     },
   },
   {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "tinymist",
-        "typstyle",
-        "bibtex-tidy",
-      },
-    },
-  },
-  {
     "chomosuke/typst-preview.nvim",
     ft = "typst",
     cmd = { "TypstPreview", "TypstPreviewToggle", "TypstPreviewUpdate" },

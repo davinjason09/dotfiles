@@ -74,7 +74,7 @@ return {
       end
 
       vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "mason", "lazy" },
+        pattern = { "lazy" },
         callback = function()
           local win = vim.fn.win_getid()
           MiniFiles.close()

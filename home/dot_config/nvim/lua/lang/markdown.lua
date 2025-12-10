@@ -9,15 +9,6 @@ return {
     },
   },
   {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "marksman",
-        "prettier",
-      },
-    },
-  },
-  {
     "brianhuster/live-preview.nvim",
     dependencies = { "folke/snacks.nvim" },
     ft = { "markdown" },

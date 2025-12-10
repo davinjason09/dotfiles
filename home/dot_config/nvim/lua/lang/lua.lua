@@ -9,16 +9,6 @@ return {
       },
     },
   },
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "lua-language-server",
-        "emmylua_ls",
-        "stylua",
-      },
-    },
-  },
   { "DrKJeff16/wezterm-types" },
   {
     "folke/lazydev.nvim",

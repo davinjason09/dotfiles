@@ -27,7 +27,6 @@ local title_icon_map = {
     snacks_picker_input = { name = "Picker", icon = " " },
     snacks_picker_preview = { name = "Picker", icon = " " },
     lazy = { name = "Lazy", icon = "󰒲 " },
-    mason = { name = "Mason", icon = " " },
   },
   bt = {
     prompt = { name = "[Prompt]", icon = " " },
@@ -80,9 +79,6 @@ M.init = function()
   M._options.indentexpr = vim.o.indentexpr
   M._options.foldmethod = vim.o.foldmethod
   M._options.foldexpr = vim.o.foldexpr
-
-  local mason_path = vim.fn.stdpath("data") .. "/mason/bin"
-  if vim.fn.isdirectory(mason_path) == 1 then vim.env.PATH = mason_path .. ":" .. vim.env.PATH end
 end
 
 M.setup = function()

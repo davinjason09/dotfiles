@@ -5,10 +5,4 @@ return {
       ensure_installed = { "toml" },
     },
   },
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = { "tombi" },
-    },
-  },
 }

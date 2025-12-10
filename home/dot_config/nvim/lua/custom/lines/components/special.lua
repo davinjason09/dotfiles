@@ -32,14 +32,6 @@ local function lazy_stats()
   return ("Loaded: %s/%s"):format(stats.loaded, stats.count)
 end
 
--- TODO: handle if the registry returns an error
-local function mason_stats()
-  local registry = require("mason-registry")
-  local installed = #registry.get_installed_packages()
-  local total = #registry.get_all_package_specs()
-  return ("Installed: %s/%s"):format(installed, total)
-end
-
 local function picker_stats()
   local filetype = vim.bo.filetype
   local picker = get_picker(Snacks.picker.get())
@@ -88,7 +80,6 @@ end
 
 local SpecialInfo = {
   lazy = lazy_stats,
-  mason = mason_stats,
   qf = qf_title,
   picker = picker_stats,
   minifiles = minifiles_cwd,
@@ -99,7 +90,6 @@ M.Mode = {
   static = {
     filetype_map = {
       lazy = "󰒲 Lazy",
-      mason = " Mason",
       minifiles = " MiniFiles",
       ["minifiles-help"] = " MiniFiles",
       qf = "󰅖 Quickfix List",
