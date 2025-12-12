@@ -42,7 +42,6 @@ return {
       integrations = {
         blink_cmp = true,
         gitsigns = true,
-        mason = true,
         mini = { enabled = true },
         noice = true,
         render_markdown = true,
@@ -53,11 +52,15 @@ return {
         which_key = true,
       },
       custom_highlights = function(colors)
+        -- NOTE:
+        -- Just in case where Snacks wasn't loaded while catppuccin is already loaded
+        local Snacks = _G.Snacks or require("snacks")
+
         -- stylua: ignore
         return {
           -- Syntax
           Identifier   = { fg = colors.text },
-          PreProc      = { fg = colors.pink },
+          PreProc      = { fg = colors.teal },
           Label        = { fg = colors.rosewater },
           Keyword      = { fg = colors.red },
           Exception    = { fg = colors.peach },
@@ -102,7 +105,7 @@ return {
           ["@lsp.typemod.macro.defaultLibrary"]      = { link = "@constant.macro" },
           ["@lsp.typemod.method.defaultLibrary"]     = { link = "@function" },
           ["@lsp.typemod.type.defaultLibrary"]       = { link = "@type" },
-          ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
+          ["@lsp.typemod.variable.defaultLibrary"]   = { link = "@variable.builtin" },
 
           ["@lsp.type.string.lua"] = { link = "@lsp" },
 
@@ -150,7 +153,6 @@ return {
           BlinkCmpKindKeyword         = { link = "Keyword" },
 
           BlinkPairsYellow = { link = "@type" },
-          -- BlinkPairsOrange = { link = "@number" },
           BlinkPairsPurple = { link = "@tag" },
           BlinkPairsBlue = { link = "@method" },
           BlinkPairsUnmatched = { link = "@keyword" },
@@ -237,6 +239,7 @@ return {
 
           -- BufferLine underline
           TabLineSel = { fg = colors.sky },
+          TabLineFill = { bg = colors.crust },
 
           -- QuickFix
           BqfPreviewSbar  = { bg = colors.sky },
