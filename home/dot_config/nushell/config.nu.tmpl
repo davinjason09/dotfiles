@@ -114,7 +114,8 @@ $env.config.hooks.env_change = {
     let git_root = get-git-root
     if ($git_root | is-not-empty) and ($git_root != $env.LAST_REPO ) {
       $env.LAST_REPO = $git_root
-      print (onefetch)
+      let fetch = (onefetch | complete | get stdout)
+      if $fetch != "" { print $fetch }
     }
   }]
 }
