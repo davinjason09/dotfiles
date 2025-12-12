@@ -1,8 +1,15 @@
-# TODO: setup completion menu and completers
+$env.ARGC_SHELL_PATH = (which nu | get path | to text | str trim)
+$env.ARGC_COMPLETIONS_ROOT = ($nu.default-config-dir | path join "argc-completions")
+$env.ARGC_COMPLETIONS_PATH = ($env.ARGC_COMPLETIONS_ROOT + '/completions/linux' + ':' + $env.ARGC_COMPLETIONS_ROOT + '/completions' + ":" + $nu.default-config-dir + "/completions")
 
-$env.CARAPACE_BRIDGES = "inshellisense,carapace,zsh,fish,bash"
+$env.config.completions = {
+  algorithm: "substring"
+  case_sensitive: false
+}
 
-$env.config.completions.algorithm = "substring"
+def argc-generate [cmd: string] {
+  bash ($env.ARGC_COMPLETIONS_ROOT + "/scripts/generate.sh") $cmd | save -f ($nu.default-config-dir + "/completions/" + $cmd + ".sh")
+}
 
 # ╾╼ Menus ╾───────────────────────────────────────────────────────────╼
 let menus = [
@@ -54,14 +61,15 @@ let fish_completer = {|spans|
   }
 }
 
-let carapace_completer = {|spans: list<string>|
-  carapace $spans.0 nushell ...$spans
-  | from json
-  | if ($in | default [] | where value =~ '^-.*ERR$' | is-empty) { $in } else { null }
-}
-
 let zoxide_completer = {|spans|
   $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
+}
+
+let argc_completer = {|spans|
+  argc --argc-compgen nushell "" ...$spans
+  | split row "\n"
+  | each {|line| $line | split column "\t" value description }
+  | flatten
 }
 
 let external_completer = {|spans|
@@ -78,13 +86,15 @@ let external_completer = {|spans|
   }
 
   match $spans.0 {
-    # carapace completions are incorrect for nu
-    nu => $fish_completer
     # fish completes commits and branch names in a nicer way
     git => $fish_completer
+    chezmoi => $fish_completer
+    bat => $fish_completer
+    gum => $fish_completer
+    yay => $fish_completer
     # use zoxide completions for zoxide commands
     __zoxide_z | __zoxide_zi | z | zi => $zoxide_completer
-    _ => $carapace_completer
+    _ => $argc_completer
   } | do $in $spans
 }
 
