@@ -16,9 +16,9 @@ return {
     cmd = "LazyDev",
     opts = {
       library = {
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "$LLS_Addons/luvit", words = { "vim%.uv", "uv" } },
         { path = "snacks.nvim", words = { "Snacks", "snacks" } },
-        { path = "wezterm-types", modes = { "wezterm" } },
+        { path = "wezterm-types", mods = { "wezterm" } },
       },
     },
   },
