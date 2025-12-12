@@ -1,0 +1,4 @@
+[".config/nushell/argc-completions"]
+  refreshPeriod = "168h"
+  type          = "git-repo"
+  url           = "https://github.com/sigoden/argc-completions.git"
