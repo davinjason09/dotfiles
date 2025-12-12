@@ -47,6 +47,8 @@ end
 
 ---@param diagnostic vim.Diagnostic
 local function virtual_lines_format(diagnostic)
+  if vim.fn.line(".") ~= diagnostic.lnum + 1 then return nil end
+
   local buf = diagnostic.bufnr or vim.api.nvim_get_current_buf()
   local win = buf_to_win(buf)
   local win_info = vim.fn.getwininfo(win)
