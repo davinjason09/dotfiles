@@ -32,7 +32,7 @@ def yeet-completer [context: string] {
       yay -Q
       | lines
       | split column " "
-      | get column1
+      | get column0
       | where {|x| $x not-in $parts }
     )
   }
@@ -40,7 +40,7 @@ def yeet-completer [context: string] {
 
 # Yeet package with style 😎
 def yeet [...packages: string@yeet-completer] {
-  let all_packages: list<string> = yay -Q | lines | split column " " | get column1
+  let all_packages: list<string> = yay -Q | lines | split column " " | get column0
   mut removed_packages = []
 
   if ($packages | is-not-empty) {
