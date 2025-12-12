@@ -8,7 +8,7 @@ local SpecialStatusLine = {
   condition = function()
     return cond.buffer_matches({
       buftype = { "quickfix" },
-      filetype = { "lazy", "mason", "snacks_picker*", "minifiles*" },
+      filetype = { "lazy", "snacks_picker*", "minifiles*" },
     })
   end,
 
@@ -33,32 +33,30 @@ local TerminalStatusLine = {
   static = {
     -- stylua: ignore
     mode_map = {
-      ["t"]     = { "TERMINAL",  "sky" },
-      ["nt"]    = { "NTERMINAL", "yellow" },
-      ["ntT"]   = { "NTERMINAL", "yellow" },
-      ["no"]    = { "O-PENDING", "blue" },
-      ["nov"]   = { "O-PENDING", "blue" },
-      ["noV"]   = { "O-PENDING", "blue" },
-      ["no\22"] = { "O-PENDING", "blue" },
-      ["v"]     = { "VISUAL",    "mauve" },
-      ["vs"]    = { "VISUAL",    "mauve" },
-      ["V"]     = { "V-LINE",    "mauve" },
-      ["Vs"]    = { "V-LINE",    "mauve" },
-      ["\22"]   = { "V-BLOCK",   "mauve" },
-      ["\22s"]  = { "V-BLOCK",   "mauve" },
-      ["c"]     = { "COMMAND",   "peach" },
-      ["cv"]    = { "COMMAND",   "peach" },
-      ["ce"]    = { "COMMAND",   "peach" },
-      ["cr"]    = { "COMMAND",   "peach" },
+      ["t"]     = { name = "TERMINAL",  color = "sky" },
+      ["nt"]    = { name = "NTERMINAL", color = "yellow" },
+      ["ntT"]   = { name = "NTERMINAL", color = "yellow" },
+      ["no"]    = { name = "O-PENDING", color = "blue" },
+      ["nov"]   = { name = "O-PENDING", color = "blue" },
+      ["noV"]   = { name = "O-PENDING", color = "blue" },
+      ["no\22"] = { name = "O-PENDING", color = "blue" },
+      ["v"]     = { name = "VISUAL",    color = "mauve" },
+      ["vs"]    = { name = "VISUAL",    color = "mauve" },
+      ["V"]     = { name = "V-LINE",    color = "mauve" },
+      ["Vs"]    = { name = "V-LINE",    color = "mauve" },
+      ["\22"]   = { name = "V-BLOCK",   color = "mauve" },
+      ["\22s"]  = { name = "V-BLOCK",   color = "mauve" },
+      ["c"]     = { name = "COMMAND",   color = "peach" },
+      ["cv"]    = { name = "COMMAND",   color = "peach" },
+      ["ce"]    = { name = "COMMAND",   color = "peach" },
+      ["cr"]    = { name = "COMMAND",   color = "peach" },
     },
-    mode_name = function(self)
-      local mode = vim.fn.mode(1) or "t"
-      return self.mode_map[mode][1] or "TERMINAL"
+    get_map_value = function(self, field, default)
+      local res = self.mode_map[vim.fn.mode(1)] or nil
+      return res and res[field] or default
     end,
-    mode_color = function(self)
-      local mode = vim.fn.mode(1) or "t"
-      return self.mode_map[mode][2] or "sky"
-    end,
+    mode_name = function(self) return self:get_map_value("name", "TERMINAL") end,
+    mode_color = function(self) return self:get_map_value("color", "sky") end,
   },
   Comp.Terminal.Mode,
   Comp.Terminal.CWD,
