@@ -1,7 +1,6 @@
 local M = {}
 
 M._did_init = false
-M._options = {} ---@type vim.wo|vim.bo
 
 local function get_ft_icon(filename)
   -- PERF:
@@ -75,10 +74,6 @@ M.init = function()
   Utils.lazy_notify()
   Utils.clear_lsp_log()
   M.load("options")
-
-  M._options.indentexpr = vim.o.indentexpr
-  M._options.foldmethod = vim.o.foldmethod
-  M._options.foldexpr = vim.o.foldexpr
 end
 
 M.setup = function()

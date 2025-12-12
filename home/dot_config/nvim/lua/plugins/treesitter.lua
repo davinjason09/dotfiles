@@ -12,9 +12,6 @@ return {
     cmd = { "TSUpdate", "TSUninstall", "TSInstall", "TSLog" },
     opts_extend = { "ensure_installed" },
     opts = {
-      highlight = { enable = true },
-      indent = { enable = true },
-      folds = { enable = true },
       ensure_installed = {
         "comment",
         "css",
@@ -58,28 +55,21 @@ return {
         group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
         callback = function(ev)
           local ft = ev.match
-          local lang = vim.treesitter.language.get_lang(ft)
+
           if not Utils.treesitter.have(ft) then return end
 
-          local function enabled(feat, query)
-            local f = opts[feat] or {}
-            return f.enable ~= false
-              and not (type(f.disable) == "table" and vim.tbl_contains(f.disable, lang))
-              and Utils.treesitter.have(ft, query)
-          end
-
-          if enabled("highlight", "highlights") then pcall(vim.treesitter.start, ev.buf) end
+          if Utils.treesitter.have(ft, "highlights") then pcall(vim.treesitter.start, ev.buf) end
 
           -- stylua: ignore
-          if enabled("indent", "indents") then
-            Utils.set_default("indentexpr", "v:lua.Utils.treesitter.indentexpr()")
+          if Utils.treesitter.have(ft, "indents") then
+            vim.api.nvim_set_option_value("indentexpr", "v:lua.Utils.treesitter.indentexpr()", { scope = "local" })
           end
 
           -- folds
-          if enabled("fold", "folds") then
-            if Utils.set_default("foldmethod", "expr") then
-              Utils.set_default("foldexpr", "v:lua.Utils.treesitter.foldexpr()")
-            end
+          -- stylua: ignore
+          if Utils.treesitter.have(ft, "folds") then
+            vim.api.nvim_set_option_value("foldmethod", "expr", { scope = "local" })
+            vim.api.nvim_set_option_value("foldexpr", "v:lua.Utils.treesitter.foldexpr()", { scope = "local" })
           end
         end,
       })
@@ -133,6 +123,7 @@ return {
               local desc = query:gsub("@", ""):gsub("%..*", "")
               desc = desc:sub(1, 1):upper() .. desc:sub(2)
               desc = (key:sub(1, 1) == "[" and "Prev " or "Next ") .. desc
+
               if type == "move" then
                 desc = desc .. (key:sub(2, 2) == key:sub(2, 2):upper() and " End" or " Start")
               end

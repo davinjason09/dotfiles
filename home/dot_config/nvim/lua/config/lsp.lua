@@ -51,11 +51,10 @@ local function on_attach(client, bufnr)
     end, "Signature Help", "i")
   end
 
-  if client:supports_method(methods.textDocument_foldingRange) then
-    if Utils.set_default("foldmethod", "expr") then
-      Utils.set_default("foldexpr", "v:lua.vim.lsp.foldexpr()")
-    end
-  end
+  Snacks.util.lsp.on({ method = ms.textDocument_foldingRange }, function()
+    vim.api.nvim_set_option_value("foldmethod", "expr", { scope = "local" })
+    vim.api.nvim_set_option_value("foldexpr", "v:lua.vim.lsp.foldexpr()", { scope = "local" })
+  end)
 end
 
 -- Override default LSP hover and signature help to use a custom border and max size

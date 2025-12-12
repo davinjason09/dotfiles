@@ -17,7 +17,7 @@ setmetatable(M, {
 ---@return string #The current nvim version
 function M.nvim_version()
   local v = vim.version()
-  return string.format("%d.%d.%d", v.major, v.minor, v.patch)
+  return ("%d.%d.%d"):format(v.major, v.minor, v.patch)
 end
 
 ---Load a module lazily
@@ -74,8 +74,8 @@ function M.on_load(name, func)
   else
     vim.api.nvim_create_autocmd("User", {
       pattern = "LazyLoad",
-      callback = function(event)
-        if event.data == name then
+      callback = function(ev)
+        if ev.data == name then
           func(name)
           return true
         end
@@ -103,7 +103,6 @@ function M.lazy_notify()
       vim.notify = orig -- put back the original notify if needed
     end
     vim.schedule(function()
-      ---@diagnostic disable-next-line: no-unknown
       for _, notif in ipairs(notifs) do
         vim.notify(vim.F.unpack_len(notif))
       end
@@ -137,8 +136,8 @@ function M.dedup(list)
 end
 
 ---Get the icon and color for a file based on its filename and extension
----@param entry { fs_type: string, path: string } #The file entry containing type and path
----@return string, string, boolean #The icon, color, and whether it's a default icon
+---@param entry { fs_type: IconType, path: string } The file entry containing type and path
+---@return string, string, boolean The icon, color, and whether it's a default icon
 function M.get_icon(entry)
   local MiniIcons = require("mini.icons")
   local name = vim.fn.fnamemodify(entry.path, ":t")
@@ -172,7 +171,7 @@ function M.get_icon(entry)
 end
 
 ---Get all LSP clients attached to the current buffer
----@return string[] #A list of LSP client names
+---@return string[] A list of LSP client names
 function M.get_lsp_clients()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
   local attached = {}
@@ -197,37 +196,6 @@ function M.clear_lsp_log()
       vim.notify("LSP log file exceeded size limit and was deleted")
     end
   end
-end
-
-local _defaults = {} ---@type table<string, boolean>
-
----@param option string
----@param value string|number|boolean
----@return boolean was_set
-function M.set_default(option, value)
-  local l = vim.api.nvim_get_option_value(option, { scope = "local" })
-  local g = require("config")._options[option]
-    or vim.api.nvim_get_option_value(option, { scope = "global" })
-
-  _defaults[("%s=%s"):format(option, value)] = true
-  local key = ("%s=%s"):format(option, l)
-
-  if l ~= g and not _defaults[key] then
-    local info = vim.api.nvim_get_option_info2(option, { scope = "local" })
-    local scriptinfo = vim.tbl_filter(
-      ---@param e vim.fn.getscriptinfo.ret
-      function(e) return e.sid == info.last_set_sid end,
-      vim.fn.getscriptinfo()
-    )
-
-    local by_rtp = #scriptinfo == 1
-      and vim.startswith(scriptinfo[1].name, vim.fn.expand("$VIMRUNTIME"))
-
-    if not by_rtp then return false end
-  end
-
-  vim.api.nvim_set_option_value(option, value, { scope = "local" })
-  return true
 end
 
 return M
