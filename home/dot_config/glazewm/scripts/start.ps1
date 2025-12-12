@@ -17,7 +17,7 @@ if (-not (Has-Started "Flow.Launcher")) {
   start FlowLauncher
 }
 
-start $HOME/.glzr/scripts/disablewintoopenmenu.ahk
+start $HOME/.glzr/glazewm/scripts/keymaps.ahk
 start Everything --startup
 
 if (-not (Has-Started "kanata-tray")) {

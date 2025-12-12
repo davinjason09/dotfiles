@@ -147,22 +147,6 @@ window_rules:
         window_title: { equals: "Settings" }
 
 keybindings:
-  # Launch Apps
-  - commands: ["shell-exec --hide-window wezterm"] # Terminal
-    bindings: ["lwin+enter"]
-  - commands: ["shell-exec zen"] # Browser
-    bindings: ["lwin+b"]
-  - commands: ["shell-exec %LOCALAPPDATA%\\Voidstar\\FilePilot\\FPilot.exe"] # File Explorer
-    bindings: ["lwin+e"]
-  - commands: ["shell-exec --hide-window FlowLauncher"] # App Launcher
-    bindings: ["lwin+space"]
-  # prettier-ignore
-  - commands: ["shell-exec --hide-window yasbc toggle-widget powermenu --follow-focus"] # Power Menu
-    bindings: ["lwin+ctrl+q"]
-  # prettier-ignore
-  - commands: ["shell-exec --hide-window yasbc toggle-widget wallpapers --follow-focus"] # Wallpapers
-    bindings: ["lwin+ctrl+w"]
-
   # Shift focus in a given direction.
   - commands: ["focus --direction left"]
     bindings: ["lwin+left"]
