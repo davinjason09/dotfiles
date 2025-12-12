@@ -17,14 +17,15 @@ local function id_to_icon(id)
   return icon
 end
 
----@type snacks.picker.format
+---@param item snacks.picker.Item
+---@param picker snacks.Picker
 local function format_item(item, picker)
   local ret = {}
   local k = item.item
   local id = id_to_icon(item.idx)
   local width = vim.api.nvim_win_get_width(picker.list.win.win)
   local icon = Snacks.util.icon(k.name:lower(), "file", { fallback = { file = " " } })
-  local name = #k.name > width and k.name:sub(1, width - #id - 2 - 1) .. "…" or k.name
+  local name = #k.name > width and k.name:sub(1, width - #id - 2 - 2) .. "…" or k.name
 
   ret[#ret + 1] = { icon, "@text" }
   ret[#ret + 1] = { name, "@text" }

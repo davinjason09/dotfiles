@@ -7,6 +7,7 @@ return {
   config = function(_, opts)
     local notify = vim.notify
     require("snacks").setup(opts)
+
     -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
     -- this is needed to have early notifications show up in noice history
     if Utils.has("noice.nvim") then vim.notify = notify end
@@ -22,12 +23,10 @@ return {
     layout.vertical.layout.width = 0.8
     layout.vertical.layout.height = 0.65
     layout.vertical.layout[2].height = 0.4
-    layout.vertical.layout[3].height = 0.6
-    layout.vertical.layout[3].border = { "", "─", "", "", "", "─", "", "" }
 
     -- NOTE: Override Snacks.util.icon with our own implementation
 
-    ---@param name string
+    ---@param name IconType
     ---@param cat? string
     ---@param icon_opts? { fallback: { dir: string, file: string }? }
     Snacks.util.icon = function(name, cat, icon_opts)
@@ -37,20 +36,20 @@ return {
       return icon, hl
     end
   end,
-    -- stylua: ignore
-    keys = {
-      { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
-      { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-      { "<leader>dps", function() Snacks.profiler.scratch() end, desc = "[D]ebug: [P]rofiler [S]cratch Buffer" },
-      { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
-      { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
-      { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
-    },
+  -- stylua: ignore
+  keys = {
+    { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+    { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+    { "<leader>dps", function() Snacks.profiler.scratch() end, desc = "[D]ebug: [P]rofiler [S]cratch Buffer" },
+    { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
+    { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+    { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
+  },
   init = function()
     Utils.on_very_lazy(function()
       _G.dd = function(...) Snacks.debug.inspect(...) end
       _G.bt = function() Snacks.debug.backtrace() end
-      vim._print = function(_, ...) dd(...) end ---@diagnostic disable-line: duplicate-set-field
+      vim._print = function(_, ...) dd(...) end
 
       -- Create some toggle mappings
       -- stylua: ignore start

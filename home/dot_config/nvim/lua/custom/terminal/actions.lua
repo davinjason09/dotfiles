@@ -2,6 +2,8 @@ local M = {}
 local state = require("custom.terminal.state")
 local utils = require("custom.terminal.utils")
 
+---@diagnostic disable: undefined-field
+
 ---@type table<string, snacks.picker.Action.spec>
 M.picker = {
   confirm = function(picker, item)
@@ -75,7 +77,6 @@ M.picker = {
       picker:action("stopinsert")
     else
       picker.esc_timer:start(200, 0, function() end)
-      vim.api.nvim_exec_autocmds("User", { pattern = "ForceRedraw", modeline = false })
       return "<ESC>"
     end
   end,

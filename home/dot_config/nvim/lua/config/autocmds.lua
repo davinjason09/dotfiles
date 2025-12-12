@@ -59,12 +59,9 @@ vim.api.nvim_create_autocmd("FileType", {
     "checkhealth",
     "gitsigns-blame",
     "help",
-    "query",
     "qf",
   },
   callback = function(args)
-    if vim.bo[args.buf].filetype == "query" and vim.bo[args.buf].buftype ~= "nofile" then return end
-
     vim.bo[args.buf].buflisted = false
     vim.schedule(function()
       vim.keymap.set("n", "q", function()
@@ -92,17 +89,15 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "bigfile",
   callback = function(args)
     local buf = args.buf
-    local ft = vim.filetype.match({ buf = args.buf }) or ""
+    local ft = vim.filetype.match({ buf = buf }) or ""
     local path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":p:~:.")
-
-    vim.print(("Big file detected `%s` with filetype `%s`."):format(path, ft))
 
     Snacks.notify.warn({
       ("Big file detected `%s`."):format(path),
       "Some Neovim features have been **disabled**.",
     }, { title = "Big File" })
 
-    vim.api.nvim_buf_call(args.buf, function()
+    vim.api.nvim_buf_call(buf, function()
       if vim.fn.exists(":NoMatchParen") ~= 0 then vim.cmd([[NoMatchParen]]) end
 
       Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
@@ -153,7 +148,7 @@ vim.api.nvim_create_autocmd("FileType", {
         .iter(icon_map)
         :map(function(emoji, val)
           local col = s:find(emoji)
-          if col then
+          if col ~= nil then
             s = s:gsub(emoji, val.icon)
             return { col - 1, col, val.hl }
           end
@@ -233,23 +228,6 @@ vim.api.nvim_create_autocmd("User", {
   desc = "Show Copilot suggestion when BlinkCmp menu is closed",
 })
 
-
-vim.api.nvim_create_autocmd("InsertEnter", {
-  pattern = "*",
-  callback = function()
-    if vim.o.number then vim.o.relativenumber = false end
-  end,
-  desc = "Disable relative number in insert mode",
-})
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-  pattern = "*",
-  callback = function()
-    if vim.o.number then vim.o.relativenumber = true end
-  end,
-  desc = "Enable relative number in normal mode",
-})
-
 -- Remove the default TermClose autocmd
 local default_term_close = vim.api.nvim_get_autocmds({
   group = "nvim.terminal",
@@ -288,7 +266,9 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         if obj.stderr then notify(obj.stderr:gsub("\n$", ""), vim.log.levels.WARN) end
       else
         notify("Successfully applied files")
-        if obj.stdout ~= "" then notify(obj.stdout:gsub("\n$", ""), vim.log.levels.INFO) end
+        if obj.stdout and obj.stdout ~= "" then
+          notify(obj.stdout:gsub("\n$", ""), vim.log.levels.INFO)
+        end
       end
     end)
   end,

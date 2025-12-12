@@ -3,7 +3,7 @@ local M = {}
 
 ---Default colorscheme palette
 
----@type CtpColors<string>
+---@type CtpColors<string>|{}
 M.palette = {}
 
 ---Fill the palette with the default colorscheme
@@ -137,7 +137,6 @@ M.excluded_filetypes = {
   "",
   "help",
   "lazy",
-  "mason",
   "markdown",
   "neo-tree",
   "netrw",

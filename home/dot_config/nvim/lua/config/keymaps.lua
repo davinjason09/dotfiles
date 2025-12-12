@@ -38,8 +38,8 @@ map("i", "<Down>", function() vim.cmd("normal! gj") end)
 map("i", "<Up>",   function() vim.cmd("normal! gk") end)
 
 -- Better keymaps on select mode
-map("s", "<BS>", '<C-g>"_c')
-map("s", "<Left>", "<ESC>i")
+map("s", "<BS>",    '<C-g>"_c')
+map("s", "<Left>",  "<ESC>i")
 map("s", "<Right>", "<C-g>o<ESC>a")
 
 -- Don't include trailing whitespace on visual mode
@@ -69,10 +69,10 @@ map({ "n", "x" }, "<leader>/", Utils.edit.comment, { desc = "Comment / Uncomment
 map("i",          "<C-/>",     Utils.edit.comment, { desc = "Comment / Uncomment" })
 
 -- Emacs paste behavior
-map("n", "p", function() Utils.edit.paste("p") end, { noremap = true, silent = true, desc = "Paste (After)" })
-map("n", "P", function() Utils.edit.paste("P") end, { noremap = true, silent = true, desc = "Paste (Before)" })
-map("x", "p", function() Utils.edit.paste("P") end, { noremap = true, silent = true, desc = "Paste without yanking" })
-map("x", "P", function() Utils.edit.paste("p") end, { noremap = true, silent = true, desc = "Paste with yank" })
+map("n", "p", function() Utils.edit.paste("p") end, { desc = "Paste (After)", silent = true })
+map("n", "P", function() Utils.edit.paste("P") end, { desc = "Paste (Before)", silent = true })
+map("x", "p", function() Utils.edit.paste("P") end, { desc = "Paste without yanking", silent = true })
+map("x", "P", function() Utils.edit.paste("p") end, { desc = "Paste with yank", silent = true })
 
 -- stylua: ignore end
 
@@ -149,7 +149,7 @@ map("n", "<C-u>", "<C-u>zz")
 
 -- Clear search and stop snippet
 map({ "n", "i", "v", "s" }, "<ESC>", function()
-  local ls = Utils.lazy_require("luasnip")
+  local ls = require("luasnip")
   if ls.expand_or_jumpable() then ls.unlink_current() end
 
   vim.cmd("noh")
@@ -227,21 +227,21 @@ map("n", "<leader>bl", function() require("custom.lines.utils").close_in_directi
 map("n", "<leader>br", function() require("custom.lines.utils").close_in_direction("right") end, { desc = "Delete Buffer to the Right" })
 
 -- Windows
-map("n", "<leader>|",  "<C-w>v", { remap = true, desc = "Split Window Right [|]" })
-map("n", "<leader>_",  "<C-w>s", { remap = true, desc = "Split Window Below [_]" })
-map("n", "<leader>wd", "<C-w>c", { remap = true, desc = "Delete Window" })
+map("n", "<leader>|",  "<C-w>v", { desc = "Split Window Right [|]", remap = true })
+map("n", "<leader>_",  "<C-w>s", { desc = "Split Window Below [_]", remap = true })
+map("n", "<leader>wd", "<C-w>c", { desc = "Delete Window", remap = true })
 
 -- Resize
-map("n", "<C-Up>",    "<CMD>resize +2<CR>",          { desc = "Increase Window Height" })
-map("n", "<C-Down>",  "<CMD>resize -2<CR>",          { desc = "Decrease Window Height" })
+map("n", "<C-Down>",  "<CMD>resize +2<CR>",          { desc = "Increase Window Height" })
+map("n", "<C-Up>",    "<CMD>resize -2<CR>",          { desc = "Decrease Window Height" })
 map("n", "<C-Left>",  "<CMD>vertical resize +2<CR>", { desc = "Increase Window Width" })
 map("n", "<C-Right>", "<CMD>vertical resize -2<CR>", { desc = "Decrease Window Width" })
 
 -- Navigate Window
-map("n", "<C-h>", "<C-w>h", { remap = true, desc = "Go to Left Window" })
-map("n", "<C-j>", "<C-w>j", { remap = true, desc = "Go to Lower Window" })
-map("n", "<C-k>", "<C-w>k", { remap = true, desc = "Go to Upper Window" })
-map("n", "<C-l>", "<C-w>l", { remap = true, desc = "Go to Right Window" })
+map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window",  remap = true })
+map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
+map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
+map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 
 -- ╭─────────────────────────────────────────────────────────╮
 -- │                        Terminal                         │

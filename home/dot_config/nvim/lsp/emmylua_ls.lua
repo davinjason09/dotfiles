@@ -7,9 +7,7 @@ return {
     ".luacheckrc",
     ".luarc.json",
     ".stylua.toml",
-    "lazy-lock.json",
     "stylua.toml",
-    "lua/",
   },
   workspace_required = false,
   on_attach = function(client)

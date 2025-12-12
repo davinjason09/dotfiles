@@ -21,7 +21,7 @@ vim.o.sessionoptions = table.concat(                    -- Options to save in se
 )
 
 -- ╾╼ Shell ╾─────────────────────────────────────────────────────────╼
-vim.o.shell        = "nu"          -- Set nu as default shell
+vim.o.shell        = "/usr/bin/nu" -- Set nu as default shell
 vim.o.shelltemp    = false         -- Use stdin pipe for shell command since nushell doesn't support input redirection
 vim.o.shellxquote  = ""            -- Disable quoting
 vim.o.shellxescape = ""            -- Disable escaping
@@ -82,7 +82,6 @@ vim.o.termguicolors  = true        -- Enable 24-bit RGB colors in the TUI
 
 vim.g.health         = { style = "float" }                            -- Use floating window for :checkhealth
 vim.o.guicursor      = "n-v-sm:block,i-c-ci-ve-t:ver25,r-cr-o:hor20"  -- Change terminal and command mode cursor to bar
-vim.o.statuscolumn   = [[%!v:lua.Utils.statuscolumn()]]               -- Wrapper for statuscolumn
 
 -- ╾╼ Editing ╾───────────────────────────────────────────────────────╼
 vim.o.autoindent    = true         -- Use auto indent

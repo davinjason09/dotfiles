@@ -1,7 +1,7 @@
 local M = {}
 local state = require("custom.terminal.state")
 
----@param cmd string | string[]
+---@param cmd string|string[]
 ---@param opts? table
 ---@return integer
 local function jobstart(cmd, opts)
@@ -9,7 +9,7 @@ local function jobstart(cmd, opts)
   return vim.fn.jobstart(cmd, vim.tbl_isempty(opts) and vim.empty_dict() or opts)
 end
 
----@param key "bufnr" | "cmd" | "name" | "opts" | "job_id"
+---@param key "bufnr"|"cmd"|"name"|"opts"|"job_id"
 ---@param value any
 ---@return integer?, TermBuf?
 M.get_term = function(key, value)
@@ -33,7 +33,7 @@ M.add_term = function(cmd, name, opts)
 
   local term_buf = {
     bufnr = vim.api.nvim_create_buf(false, true),
-    cmd = Snacks.terminal.parse(cmd or vim.o.shell), ---@diagnostic disable-line: invisible
+    cmd = Snacks.terminal.parse(cmd or vim.o.shell), ---@diagnostic disable-line: access-invisible
     name = term_name,
     opts = opts,
   }
@@ -84,7 +84,7 @@ M.switch_term_buf = function(buf)
   end)
 end
 
----@param dir "prev" | "next"
+---@param dir "prev"|"next"
 M.cycle_term_buf = function(dir)
   if #state.term_bufs == 0 then return end
 

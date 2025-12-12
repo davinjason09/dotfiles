@@ -3,7 +3,6 @@
 local function create_tinymist_command(command_name)
   local export_type = command_name:match("tinymist%.export(%w+)")
   local info_type = command_name:match("tinymist%.(%w+)")
-  local log = vim.log.levels
 
   if info_type and info_type:match("^get") then info_type = info_type:gsub("^get", "Get") end
 
@@ -21,11 +20,11 @@ local function create_tinymist_command(command_name)
     local title_str = export_type and ("Export " .. cmd_display) or cmd_display
 
     local function handler(err, res)
-      if err then return vim.notify(err.code .. ": " .. err.message, log.ERROR) end
+      if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
       vim.notify(
         export_type and "Saved to " .. res or vim.inspect(res),
-        log.INFO,
+        vim.log.levels.INFO,
         { title = "tinymist" }
       )
     end

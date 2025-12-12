@@ -28,7 +28,6 @@ return {
       end
 
       -- Navigation
-      ---@diagnostic disable: param-type-mismatch
       map("n", "[h", function()
         if vim.wo.diff then
           vim.cmd("normal! [c")
@@ -54,7 +53,6 @@ return {
       map("n", "<leader>ghD", function() gs.diffthis("~") end, "[G]it [H]unk: [D]iff This (~)")
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "Select Git Hunk")
-      ---@diagnostic enable: param-type-mismatch
     end,
   },
 }

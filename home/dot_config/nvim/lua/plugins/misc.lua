@@ -28,7 +28,6 @@ return {
         flavor = "accent",
       },
       hooks = {
-        ---@diagnostic disable-next-line: unused-vararg
         ready = function(...)
           local msg = {
             { "  ", "DiscordBlurple" },
