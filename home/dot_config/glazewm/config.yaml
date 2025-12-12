@@ -81,7 +81,7 @@ window_behavior:
   state_defaults:
     floating:
       centered: true
-      shown_on_top: false
+      shown_on_top: true
     fullscreen:
       maximized: false
       shown_on_top: true
@@ -145,6 +145,9 @@ window_rules:
       - window_process: { equals: "oklch-color-picker" }
       - window_class: { regex: 'HwndWrapper\[Flow\.Launcher.*?\]' }
         window_title: { equals: "Settings" }
+      - window_process: { equals: "YourPhoneAppProxy" }
+      - window_process: { equals: "zen" }
+        window_title: { equals: "Sign in - Google Accounts — Zen Browser" }
 
 keybindings:
   # Shift focus in a given direction.
