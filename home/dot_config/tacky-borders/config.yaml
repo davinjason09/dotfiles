@@ -24,7 +24,7 @@ global:
   #   - Round: Fully rounded corners
   #   - RoundSmall: Slightly rounded corners
   #   - Or specify any numeric value for a custom radius
-  border_radius: Auto
+  border_radius: 6
 
   # border_z_order: Z-order of the border relative to its window. Supported values:
   #   - AboveWindow: Place the border above its window
@@ -194,15 +194,15 @@ window_rules:
     enabled: False
 
   - match: Class
+    name: "MsiDialogCloseClass"
+    enabled: True
+
+  - match: Class
     name: "XamlExplorerHostIslandWindow"
     enabled: False
 
   - match: Class
     name: "zBubbleBaseClass"
-    enabled: False
-
-  - match: Process
-    name: "zebar"
     enabled: False
 
   - match: Title
