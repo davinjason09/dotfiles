@@ -135,42 +135,64 @@ M.setup = function()
 
   vim.diagnostic.config(diag_opts)
 
+  local augroup = vim.api.nvim_create_augroup("FormattedDiagnostics", { clear = true })
+
+  local diag_cache = {}
+  vim.api.nvim_create_autocmd("DiagnosticChanged", {
+    group = augroup,
+    callback = function(ev)
+      diag_cache[ev.buf] = {}
+      vim.tbl_map(
+        function(diag) diag_cache[ev.buf][diag.lnum + 1] = true end,
+        vim.diagnostic.get(ev.buf)
+      )
+    end,
+  })
+
   -- Re-draw diagnostics each line change to account for virtual_text changes
   local last_line = vim.fn.line(".")
   local timer = nil ---@type uv_timer_t?
   local debounce = 100
 
   vim.api.nvim_create_autocmd("CursorMoved", {
-    callback = function(args)
-      if vim.bo[args.buf].filetype == "lazy" then return end
+    group = augroup,
+    callback = function(ev)
+      if vim.bo[ev.buf].filetype == "lazy" then return end
 
       local cur_line = vim.fn.line(".")
+      if cur_line == last_line then return end
 
-      if cur_line ~= last_line then
-        if timer then timer:stop() end
+      local buf_diag = diag_cache[ev.buf]
+      if not buf_diag then return end
 
-        timer = vim.defer_fn(function()
-          pcall(vim.diagnostic.hide, nil, args.buf)
-          pcall(vim.diagnostic.show, nil, args.buf)
-          last_line = cur_line
-        end, debounce)
-      end
+      local line_has_diagnostic = buf_diag[cur_line] or buf_diag[last_line] or false
+      if not line_has_diagnostic then return end
+
+      if timer then timer:stop() end
+
+      last_line = cur_line
+      timer = vim.defer_fn(function()
+        pcall(vim.diagnostic.hide, nil, ev.buf)
+        pcall(vim.diagnostic.show, nil, ev.buf)
+      end, debounce)
     end,
   })
 
   -- Re-render diagnostics when the window is resized or when the diagnostics change
   vim.api.nvim_create_autocmd("VimResized", {
-    callback = function(args)
-      if vim.bo[args.buf].filetype == "lazy" then return end
+    group = augroup,
+    callback = function(ev)
+      if vim.bo[ev.buf].filetype == "lazy" then return end
 
-      pcall(vim.diagnostic.hide, nil, args.buf)
-      pcall(vim.diagnostic.show, nil, args.buf)
+      pcall(vim.diagnostic.hide, nil, ev.buf)
+      pcall(vim.diagnostic.show, nil, ev.buf)
     end,
   })
 
   vim.api.nvim_create_autocmd("ModeChanged", {
+    group = augroup,
     pattern = "n:i",
-    callback = function(args) pcall(vim.diagnostic.hide, nil, args.buf) end,
+    callback = function(ev) pcall(vim.diagnostic.hide, nil, ev.buf) end,
   })
 end
 
