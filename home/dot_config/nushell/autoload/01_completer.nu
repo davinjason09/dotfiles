@@ -51,13 +51,15 @@ let fish_completer = {|spans|
   fish --command $"complete '--do-complete=($spans | str replace --all "'" "\\'" | str join ' ')'"
   | from tsv --flexible --noheaders --no-infer
   | rename value description
+  # NOTE: remove value if it contains more than 1 word
+  | take while {|row| ($row.value | split row " " | length) == 1 }
   | update value {|row|
     let value = $row.value
     let need_quote = ['\' ',' '[' ']' '(' ')' ' ' '\t' "'" '"' "`"] | any {$in in $value}
     if ($need_quote and ($value | path exists)) {
       let expanded_path = if ($value starts-with ~) {$value | path expand --no-symlink} else {$value}
       $'"($expanded_path | str replace --all "\"" "\\\"")"'
-    } else {$value}
+    } else { $value }
   }
 }
 
