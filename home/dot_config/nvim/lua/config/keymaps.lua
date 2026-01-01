@@ -33,9 +33,9 @@ map({ "i", "c", "t" }, "<C-BS>", "<C-w>")
 map({ "i", "c", "t" }, "<C-w>",  "<NOP>") -- disable default behavior, rewiring my brain
 map({ "i", "c", "t" }, "<C-S-BS>", "<C-u>")
 
--- Better movement in insert mode, especially around wrapped lines
-map("i", "<Down>", function() vim.cmd("normal! gj") end)
-map("i", "<Up>",   function() vim.cmd("normal! gk") end)
+-- Better movement in insert mode when wrap is on
+map("i", "<Down>", function() return vim.wo.wrap and "<CMD>norm! gj<CR>" or "<Down>" end, { expr = true })
+map("i", "<Up>",   function() return vim.wo.wrap and "<CMD>norm! gk<CR>" or "<Up>" end,   { expr = true })
 
 -- Better keymaps on select mode
 map("s", "<BS>",    '<C-g>"_c')
