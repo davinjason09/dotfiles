@@ -18,7 +18,7 @@ local SpecialStatusLine = {
   { condition = function() return vim.bo.buftype == "quickfix" end, Comp.Ruler },
   {
     condition = function() return vim.bo.buftype ~= "quickfix" end,
-    Common.Separator2({
+    Common.Separator({
       icon = "",
       hl = function(self) return { fg = self:mode_color() } end,
       update = { "ModeChanged", pattern = "*:*", callback = function() U.redraw() end },
@@ -62,13 +62,13 @@ local TerminalStatusLine = {
   Comp.Terminal.CWD,
   {
     condition = function() return not (vim.b.term_title or ""):find("term://") end,
-    Common.Separator2({ icon = "", hl = { fg = "surface0" } }),
+    Common.Separator({ icon = "", hl = { fg = "surface0" } }),
   },
   Common.Align,
   Comp.Terminal.Command,
   Comp.Terminal.Name,
   Common.Space(),
-  Common.Separator2({
+  Common.Separator({
     icon = "",
     hl = function(self) return { fg = self:mode_color() } end,
     update = { "ModeChanged", pattern = "*:*", callback = function() U.redraw() end },

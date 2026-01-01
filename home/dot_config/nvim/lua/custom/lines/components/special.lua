@@ -142,7 +142,7 @@ M.Info = {
     return (" %s "):format(SpecialInfo[filetype]())
   end,
   hl = function(self) return { fg = self:mode_color(), bg = "surface0" } end,
-  Comp.Separator2({
+  Comp.Separator({
     icon = "",
     hl = { fg = "surface0", bg = "crust" },
   }),

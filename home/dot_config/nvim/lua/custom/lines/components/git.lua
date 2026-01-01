@@ -18,7 +18,7 @@ M.Branch = {
     return ("  %s "):format(branch ~= "" and branch or "main")
   end,
   hl = function(self) return { fg = self:mode_color(), bg = "surface0" } end,
-  Comp.Separator2({ icon = "", hl = { fg = "surface0", bg = "crust" } }),
+  Comp.Separator({ icon = "", hl = { fg = "surface0", bg = "crust" } }),
 }
 
 M.Status = {

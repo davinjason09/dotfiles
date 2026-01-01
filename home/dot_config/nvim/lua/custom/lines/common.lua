@@ -20,7 +20,7 @@ M.components = {
 
   ---@param opts SepOpts
   ---@return table
-  Separator2 = function(opts)
+  Separator = function(opts)
     local comp = { provider = opts.icon, hl = opts.hl }
 
     if opts.init then comp.init = U.update_events(opts.init) end

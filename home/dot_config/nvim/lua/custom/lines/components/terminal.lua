@@ -15,7 +15,7 @@ M.Mode = {
   condition = function() return vim.bo.buftype == "terminal" end,
   provider = function(self) return ("  %s "):format(self:mode_name()) end,
   hl = function(self) return { fg = "mantle", bg = self:mode_color() } end,
-  Comp.Separator2({
+  Comp.Separator({
     icon = "",
     hl = function(self)
       return {
