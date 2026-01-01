@@ -88,13 +88,7 @@ let external_completer = {|spans|
   }
 
   match $spans.0 {
-    # fish completes commits and branch names in a nicer way
-    git => $fish_completer
-    chezmoi => $fish_completer
-    bat => $fish_completer
-    gum => $fish_completer
-    yay => $fish_completer
-    # use zoxide completions for zoxide commands
+    git | chezmoi | bat | gum | yay | mise | nvim | bob => $fish_completer
     __zoxide_z | __zoxide_zi | z | zi => $zoxide_completer
     _ => $argc_completer
   } | do $in $spans
