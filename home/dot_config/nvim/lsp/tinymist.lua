@@ -1,32 +1,24 @@
 ---@param command_name string
+---@param client vim.lsp.Client
+---@param bufnr integer
 ---@return fun():nil run_tinymist_command, string cmd_name, string cmd_desc
-local function create_tinymist_command(command_name)
+local function create_tinymist_command(command_name, client, bufnr)
   local export_type = command_name:match("tinymist%.export(%w+)")
   local info_type = command_name:match("tinymist%.(%w+)")
-
-  if info_type and info_type:match("^get") then info_type = info_type:gsub("^get", "Get") end
-
-  local cmd_display = export_type or info_type
+  local cmd_display = export_type or info_type:gsub("^get", "Get"):gsub("^pin", "Pin")
 
   local function run_tinymist_command()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local client = vim.lsp.get_clients({ name = "tinymist", bufnr = bufnr })[1]
-
-    if not client then
-      return vim.notify("No Tinymist client attached to the current buffer", vim.log.levels.ERROR)
-    end
-
     local arguments = { vim.api.nvim_buf_get_name(bufnr) }
     local title_str = export_type and ("Export " .. cmd_display) or cmd_display
 
+    ---@param err lsp.ResponseError?
+    ---@param res any
     local function handler(err, res)
       if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
-      vim.notify(
-        export_type and "Saved to " .. res or vim.inspect(res),
-        vim.log.levels.INFO,
-        { title = "tinymist" }
-      )
+      local message = export_type and "Saved to " .. vim.fn.fnamemodify(res.path, ":.")
+        or vim.inspect(res)
+      vim.notify(message, vim.log.levels.INFO, { title = "tinymist" })
     end
 
     return client:exec_cmd({
@@ -36,8 +28,8 @@ local function create_tinymist_command(command_name)
     }, { bufnr = bufnr }, handler)
   end
 
-  local cmd_name = (export_type and "TinymistExport" or "Tinymist") .. cmd_display
-  local cmd_desc = (export_type and "Export to " or "Get ") .. cmd_display
+  local cmd_name = (export_type and "TinymistExport" or "Tinymist") .. cmd_display ---@type string
+  local cmd_desc = (export_type and "Export to " or "Get ") .. cmd_display ---@type string
   return run_tinymist_command, cmd_name, cmd_desc
 end
 
@@ -66,17 +58,16 @@ return {
       "tinymist.getDocumentTrace",
       "tinymist.getWorkspaceLabels",
       "tinymist.getDocumentMetrics",
+      "tinymist.pinMain",
     }) do
-      local cmd_func, cmd_name, cmd_desc = create_tinymist_command(command)
-      vim.api.nvim_create_user_command(cmd_name, cmd_func, { nargs = 0, desc = cmd_desc })
+      local cmd_func, cmd_name, cmd_desc = create_tinymist_command(command, client, bufnr)
+      -- stylua: ignore
+      vim.api.nvim_buf_create_user_command(bufnr, cmd_name, cmd_func, { nargs = 0, desc = cmd_desc }) 
     end
 
     local map = vim.keymap.set
     map("n", "<leader>cp", function()
-      if not client then
-        vim.notify("Tinymist is not attached", vim.log.levels.WARN)
-        return
-      end
+      if not client then return vim.notify("Tinymist is not attached", vim.log.levels.WARN) end
 
       local file = vim.api.nvim_buf_get_name(bufnr)
 
@@ -94,10 +85,7 @@ return {
     end, { desc = "[C]ode: [P]in", buffer = bufnr })
 
     map("n", "<leader>cu", function()
-      if not client then
-        vim.notify("Tinymist is not attached", vim.log.levels.WARN)
-        return
-      end
+      if not client then return vim.notify("Tinymist is not attached", vim.log.levels.WARN) end
 
       if not vim.g.typst_main_file then
         return vim.notify("No main file pinned", vim.log.levels.WARN, { title = "tinymist" })
