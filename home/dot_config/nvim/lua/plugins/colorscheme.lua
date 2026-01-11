@@ -181,6 +181,8 @@ return {
 
           -- snacks.nvim
           SnacksNormal              = { fg = colors.text,      bg = colors.mantle },
+          SnacksInputDarken         = { fg = colors.sky,       bg = colors.mantle },
+          SnacksInputNormalDarken   = { fg = colors.text,      bg = colors.mantle },
           SnacksPicker              = { fg = colors.none,      bg = colors.mantle },
           SnacksPickerBorder        = { fg = colors.sky,       bg = colors.mantle },
           SnacksPickerTitle         = { fg = colors.subtext0,  bg = colors.mantle,   style = { "bold" } },
