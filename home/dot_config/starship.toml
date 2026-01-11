@@ -28,7 +28,7 @@ $line_break\
 $character
 """
 continuation_prompt = "[❯❯](bright-black) "
-scan_timeout = 500
+scan_timeout = 350
 palette = "catppuccin_mocha"
 #:tombi format.disabled = false
 
