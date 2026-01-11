@@ -21,24 +21,36 @@ M.setup = function()
 
   Comp.AI.setup()
 
-  vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "BufAdd", "BufDelete", "BufRead" }, {
-    callback = vim.schedule_wrap(function()
-      local buffers = U.get_bufs()
-      for i, v in ipairs(buffers) do
-        M._buflist_cache[i] = v
-      end
+  local has_enter = false
+  vim.api.nvim_create_autocmd(
+    { "VimEnter", "UIEnter", "BufEnter", "BufAdd", "BufDelete", "BufRead" },
+    {
+      callback = function(ev)
+        if ev.event == "BufEnter" and not has_enter then
+          return
+        else
+          has_enter = true
+        end
 
-      for i = #buffers + 1, #M._buflist_cache do
-        M._buflist_cache[i] = nil
-      end
+        vim.schedule(function()
+          local buffers = U.get_bufs()
+          for i, v in ipairs(buffers) do
+            M._buflist_cache[i] = v
+          end
 
-      if #M._buflist_cache > 1 then
-        vim.o.showtabline = 2
-      elseif vim.o.showtabline ~= 1 then -- otherwise it breaks startup screen
-        vim.o.showtabline = 1
-      end
-    end),
-  })
+          for i = #buffers + 1, #M._buflist_cache do
+            M._buflist_cache[i] = nil
+          end
+
+          if #M._buflist_cache > 1 then
+            vim.o.showtabline = 2
+          elseif vim.o.showtabline ~= 1 then -- otherwise it breaks startup screen
+            vim.o.showtabline = 1
+          end
+        end)
+      end,
+    }
+  )
 
   -- HACK: update the showtabline to make sure the tabline macro component gets updated
   vim.api.nvim_create_autocmd({ "RecordingEnter", "RecordingLeave" }, {
