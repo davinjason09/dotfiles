@@ -113,7 +113,6 @@ vim.g.autoformat    = true
 
 -- ╾╼ Folds ╾─────────────────────────────────────────────────────────╼
 vim.g.markdown_folding = 1         -- Use folding by heading in markdown files
-vim.o.foldcolumn = "auto"          -- Fold column width
 vim.o.foldlevel  = 99              -- Display all folds
 vim.o.foldmethod = "indent"        -- Use indent for folding
 vim.o.foldtext   = ""              -- Use underlying text with its highlighting

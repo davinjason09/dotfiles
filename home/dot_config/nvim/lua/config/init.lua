@@ -78,7 +78,6 @@ end
 
 M.setup = function()
   require("config.lazy")
-  M.load("commands")
   M.load("lsp")
 
   -- Lazy load autocmds when not opening a file
@@ -99,7 +98,7 @@ M.setup = function()
       if lazy_autocmds then M.load("autocmds") end
 
       M.load("keymaps")
-
+      M.load("commands")
       Utils.format.setup()
     end,
   })

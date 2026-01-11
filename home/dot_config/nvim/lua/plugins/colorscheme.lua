@@ -107,7 +107,7 @@ return {
           ["@lsp.typemod.type.defaultLibrary"]       = { link = "@type" },
           ["@lsp.typemod.variable.defaultLibrary"]   = { link = "@variable.builtin" },
 
-          ["@lsp.type.string.lua"] = { link = "@lsp" },
+          ["@lsp.type.string"] = { link = "@lsp" },
 
           ["@string.special.url"] = { fg = colors.rosewater, style = { "italic", "underline" } }, -- urls, links and emails
           ["@string.plain.css"]   = { fg = colors.peach },

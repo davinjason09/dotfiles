@@ -16,10 +16,10 @@ return {
             winhighlight = "Normal:SnacksNormal,FloatBorder:SnacksWinBorder",
           },
         },
+        ---@type snacks.scratch.Config
         scratch = {
-          height = 0.6,
-          width = 0.85,
-          bo = { buflisted = false, bufhidden = "wipe" },
+          height = 0.8,
+          width = 0.8,
           wo = {
             winhighlight = "Normal:SnacksNormal,FloatBorder:SnacksWinBorder",
           },

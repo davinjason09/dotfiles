@@ -1,8 +1,6 @@
 return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = { "vimdoc" },
-    },
+  "nvim-treesitter/nvim-treesitter",
+  opts = {
+    ensure_installed = { "vimdoc" },
   },
 }

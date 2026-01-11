@@ -135,11 +135,13 @@ function M.dedup(list)
   return ret
 end
 
+---@alias IconType "file"|"filetype"|"dir"
+
 ---Get the icon and color for a file based on its filename and extension
 ---@param entry { fs_type: IconType, path: string } The file entry containing type and path
 ---@return string, string, boolean The icon, color, and whether it's a default icon
 function M.get_icon(entry)
-  local MiniIcons = require("mini.icons")
+  local MiniIcons = _G.MiniIcons or require("mini.icons")
   local name = vim.fn.fnamemodify(entry.path, ":t")
   local icon, color, is_default = MiniIcons.get(entry.fs_type, name)
 

@@ -248,7 +248,7 @@ map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 -- ╰─────────────────────────────────────────────────────────╯
 
 local Terminal = Utils.lazy_require("custom.terminal")
-map({ "n", "i", "x" }, "<C-`>", Terminal.toggle, { desc = "Toggle Terminal" })
+map({ "n", "i", "x" }, "<C-`>", function() Terminal.toggle() end, { desc = "Toggle Terminal" })
 
 -- ╭─────────────────────────────────────────────────────────╮
 -- │                           Git                           │

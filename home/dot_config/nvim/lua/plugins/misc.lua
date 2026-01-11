@@ -1,7 +1,6 @@
 return {
   {
     "LudoPinelli/comment-box.nvim",
-    event = "InsertEnter",
     opts = {
       doc_width = 80,
       box_width = 60,
@@ -9,17 +8,18 @@ return {
     },
     -- stylua: ignore
     keys = {
-      { "gcb", ":CBccbox<CR>",    desc = "[C]omment - [B]ox",        mode = { "n", "v" } },
-      { "gct", ":CBllline12<CR>", desc = "[C]omment - [T]itle Line", mode = { "n", "v" } },
-      { "gcl", ":CBlline<CR>",    desc = "[C]omment - [L]ine",       mode = { "n", "v" } },
-      { "gcm", ":CBllbox14<CR>",  desc = "[C]omment - [M]arked",     mode = { "n", "v" } },
-      { "gcd", ":CBd<CR>",        desc = "[C]omment - [D]elete",     mode = { "n", "v" } },
+      { "gcb", "<CMD>CBccbox<CR>",    desc = "[C]omment - [B]ox",        mode = { "n", "x" } },
+      { "gct", "<CMD>CBllline12<CR>", desc = "[C]omment - [T]itle Line", mode = { "n", "x" } },
+      { "gcl", "<CMD>CBlline<CR>",    desc = "[C]omment - [L]ine",       mode = { "n", "x" } },
+      { "gcm", "<CMD>CBllbox14<CR>",  desc = "[C]omment - [M]arked",     mode = { "n", "x" } },
+      { "gcd", "<CMD>CBd<CR>",        desc = "[C]omment - [D]elete",     mode = { "n", "x" } },
     },
   },
   {
     "vyfor/cord.nvim",
     build = ":Cord update",
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
+    version = "*",
     opts = {
       editor = { tooltip = "I use Neovim btw" },
       log_level = vim.log.levels.OFF,
@@ -37,15 +37,6 @@ return {
           vim.api.nvim_set_hl(0, "DiscordBlurple", { fg = "#7289DA" })
           vim.api.nvim_echo(msg, false, { verbose = false })
         end,
-      },
-      advanced = {
-        discord = {
-          reconnect = {
-            enabled = true,
-            initial = true,
-            interval = 3600 * 1000, -- Keep trying to reconnect for 1 hour
-          },
-        },
       },
     },
   },

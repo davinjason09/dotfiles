@@ -1,14 +1,16 @@
+-- TODO: consider moving this to custom/picker
+
 ---@class Utils.picker
 local M = {}
 
 local a = Snacks.picker.util.align
 
----@param str string
-local function display_termcodes(str)
-  return str:gsub(string.char(9), "<TAB>"):gsub("\6", "<C-F>"):gsub(" ", "<Space>")
-end
-
 M.options = function()
+  ---@param str string
+  local function display_termcodes(str)
+    return str:gsub(string.char(9), "<TAB>"):gsub("\6", "<C-F>"):gsub(" ", "<Space>")
+  end
+
   local options = {}
   for _, v in pairs(vim.api.nvim_get_all_options_info()) do
     local ok, value = pcall(vim.api.nvim_get_option_value, v.name, {})
@@ -40,16 +42,15 @@ M.options = function()
   end
 
   local items = vim.tbl_map(
-    function(option)
+    function(opts)
       return {
-        text = string.format(
-          "%s %s %s %s",
-          option.name,
-          option.type,
-          option.scope,
-          display_termcodes(tostring(option.value))
+        text = ("%s %s %s %s"):format(
+          opts.name,
+          opts.type,
+          opts.scope,
+          display_termcodes(tostring(opts.value))
         ),
-        item = option,
+        item = opts,
       }
     end,
     options
