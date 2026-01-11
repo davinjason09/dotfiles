@@ -1,6 +1,7 @@
 vim.opt_local.wrap = true
 vim.opt_local.linebreak = true
 vim.opt_local.spell = true
+vim.opt_local.iskeyword = "@,48-57,192-255"
 
 -- Custom export picker
 local export_types = { "pdf", "html", "png", "svg" }
@@ -71,16 +72,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   callback = function()
     if vim.g.typst_main_file then
       local client = vim.lsp.get_clients({ bufnr = 0, name = "tinymist" })[1]
-      if not client then
-        vim.notify("Tinymist is not attached", vim.log.levels.WARN)
-        return
-      end
-
-      -- Check if we're stil in the same root directory
-      local root_dir = assert(client.config.root_dir)
-      if not vim.startswith(vim.fn.expand("%:p"), root_dir) then
-        return vim.notify("File not in the same root directory", vim.log.levels.WARN)
-      end
+      if not client then return vim.notify("Tinymist is not attached", vim.log.levels.WARN) end
 
       return client:exec_cmd({
         title = "Export PDF on save",
@@ -96,6 +88,8 @@ vim.api.nvim_create_autocmd("BufWritePost", {
           { title = "tinymist" }
         )
       end)
+    else
+      vim.cmd("TinymistExportPdf")
     end
   end,
 })
