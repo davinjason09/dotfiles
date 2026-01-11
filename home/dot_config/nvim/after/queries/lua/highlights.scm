@@ -5,18 +5,21 @@
 ; https://github.com/LazyVim/LazyVim/blob/main/queries/lua/highlights.scm
 ((identifier) @namespace.builtin
   (#any-of? @namespace.builtin "vim" "Snacks" "Utils" "Defaults")
-  (#set! "priority" 126))
+  (#set! "priority" 130))
+
+(dot_index_expression
+  table: (identifier) @namespace.builtin
+  field: (identifier)
+  (#any-of? @namespace.builtin "vim" "Snacks" "Utils" "Defaults")
+  (#set! "priority" 130))
 
 ; ╾╼ Highlight as @property even if the value is a function ╾──────────╼
+; NOTE:
+; score higher than 128 as the debug hl override priority is 128, this is to ensure the property field
+; always use the @property highlight no matter if the identifier matched any of the @module.builtin
 (field
   name: (identifier) @property
-  value: (function_definition)
-  (#set! "priority" 126))
-
-(field
-  name: (identifier) @property
-  value: (identifier)
-  (#set! "priority" 126))
+  (#set! "priority" 130))
 
 ; ╾╼ Set 2nd argument of `vim.split` and `vim.gsplit` to regex ╾─────────╼
 ; Taken from: https://github.com/ribru17/.dotfiles/blob/master/.config/nvim/queries/lua/highlights.scm
