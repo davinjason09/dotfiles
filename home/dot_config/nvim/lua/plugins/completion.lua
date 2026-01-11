@@ -7,8 +7,6 @@ return {
     { "rafamadriz/friendly-snippets" },
     { "MeanderingProgrammer/render-markdown.nvim" },
   },
-  ---@module "blink-cmp"
-  ---@type blink.cmp.Config
   opts = {
     appearance = { kind_icons = Defaults.icons.kind },
     completion = {
@@ -34,6 +32,7 @@ return {
           min_width = 30,
           border = "rounded",
         },
+        ---@param opts blink.cmp.CompletionDocumentationDrawOpts
         draw = function(opts)
           local buf = opts.window.buf ---@type integer
           local win = opts.window:get_win()
@@ -41,11 +40,11 @@ return {
           local parsed = require("custom.blink.documentation").parse(opts)
           vim.api.nvim_buf_set_lines(buf, 0, -1, false, parsed)
 
-          local render = require("render-markdown.core.ui").update
+          local render = require("render-markdown").render
 
           if win then
             vim.bo[buf].ft = "blink-cmp-documentation"
-            vim.schedule(function() render(buf, win, "BlinkDraw", true) end)
+            vim.schedule(function() render({ buf = buf, event = "BlinkDraw" }) end)
           end
 
           vim.defer_fn(function()
@@ -53,7 +52,7 @@ return {
 
             if win then
               vim.bo[buf].ft = "blink-cmp-documentation"
-              vim.schedule(function() render(buf, win, "BlinkDraw", true) end)
+              vim.schedule(function() render({ buf = buf, event = "BlinkDraw" }) end)
             end
           end, 25)
         end,
@@ -62,12 +61,16 @@ return {
     },
     signature = {
       enabled = true,
-      window = { border = "rounded" },
+      window = {
+        border = "rounded",
+        show_documentation = true,
+      },
     },
     snippets = { preset = "luasnip" },
     sources = {
       per_filetype = {
         lua = { "lazydev", "lsp", "path", "snippets" },
+        query = { "lsp", "omni", "buffer" },
       },
       default = { "lsp", "path", "snippets", "buffer" },
       providers = {
@@ -95,9 +98,8 @@ return {
       ["<Up>"] = { "select_prev", "fallback" },
       ["<Down>"] = { "select_next", "fallback" },
 
-      ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-      ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-      ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+      ["<C-u>"] = { "scroll_documentation_up", "scroll_signature_up", "fallback" },
+      ["<C-d>"] = { "scroll_documentation_down", "scroll_signature_down", "fallback" },
     },
     cmdline = {
       completion = {
@@ -111,6 +113,7 @@ return {
           auto_show = function() return vim.fn.getcmdtype() == ":" end,
           draw = { columns = { { "kind_icon" }, { "label" }, { "kind" } } },
         },
+        ghost_text = { enabled = true },
       },
       sources = function()
         local type = vim.fn.getcmdtype()
@@ -128,12 +131,13 @@ return {
 
         ["<C-Right>"] = { "accept", "fallback" },
         ["<CR>"] = {
+          ---@param cmp blink.cmp.API
           function(cmp)
-            if cmp.get_selected_item() and cmp.is_menu_visible() then
-              cmp.accept()
-            else
-              vim.fn.feedkeys(Snacks.util.keycode("<CR>"), "n")
+            if (cmp.is_visible() and cmp.get_selected_item()) or cmp.is_ghost_text_visible() then
+              return cmp.accept()
             end
+
+            return vim.fn.feedkeys(Snacks.util.keycode("<CR>"), "n")
           end,
         },
 
