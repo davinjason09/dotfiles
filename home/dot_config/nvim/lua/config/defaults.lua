@@ -242,7 +242,6 @@ M.which_key_rules = {
 M.formatter_rules = {
   ["clang-format"] = { ".clang-format", "clang-format" },
   stylua = { ".stylua.toml", "stylua.toml" },
-  taplo = { ".taplo.toml", "taplo.toml" },
 }
 
 M.noice_cmdline_format = function()

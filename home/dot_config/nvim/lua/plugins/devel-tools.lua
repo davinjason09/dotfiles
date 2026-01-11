@@ -38,13 +38,6 @@ return {
             end
           end,
         },
-        taplo = {
-          append_args = function(_, ctx)
-            if not Utils.format.has_config(ctx.dirname, "taplo") then
-              return { "--config", vim.fn.stdpath("config") .. "/rules/taplo.toml" }
-            end
-          end,
-        },
       },
       formatters_by_ft = {
         bash = { "shfmt" },
@@ -52,11 +45,12 @@ return {
         c = { "clang-format" },
         cpp = { "clang-format" },
         css = { "prettier" },
-        lua = { "stylua" },
+        html = { "prettier" },
         json = { "prettier" },
+        lua = { "stylua" },
         markdown = { "prettier" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-        query = { "format-queries" },
+        query = { lsp_format = "prefer" },
         sh = { "shfmt" },
         toml = { "tombi" },
         typst = { "typstyle", lsp_format = "prefer" },
