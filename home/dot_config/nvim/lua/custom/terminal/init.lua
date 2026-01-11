@@ -41,6 +41,7 @@ end
 
 local function find_term()
   local items = {}
+
   for id, term in pairs(state.term_bufs) do
     local buf = term.bufnr
     term_file = vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_name(buf) or ""
@@ -62,10 +63,11 @@ local function setup_autocmd(picker)
     function() utils.switch_term_buf(state.last_term) end
   )
   picker.preview.win:on("TermClose", function(_, ev)
-    -- NOTE:
-    -- ignore exit code if less than 0 (e.g. -1)
+    -- NOTE: ignore exit code if less than 0 (e.g. -1)
+    local is_error = false
     if type(vim.v.event) == "table" and vim.v.event.status > 0 then
-      return Snacks.notify.error(
+      is_error = true
+      Snacks.notify.error(
         "Terminal exited with code " .. vim.v.event.status .. ".",
         { title = "Terminal" }
       )
@@ -81,6 +83,8 @@ local function setup_autocmd(picker)
 
     state.term_bufs = vim.tbl_filter(function(t) return t.bufnr ~= ev.buf end, state.term_bufs)
 
+    if is_error then return end
+
     vim.schedule(function()
       if #state.term_bufs == 0 or opts.auto_close then
         state.last_term = nil
@@ -89,7 +93,6 @@ local function setup_autocmd(picker)
         utils.cycle_term_buf("prev")
       end
 
-      vim.cmd.checktime()
       picker:find()
     end)
   end)
