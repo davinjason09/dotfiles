@@ -5,6 +5,7 @@ local utils = require("custom.terminal.utils")
 local config = state.config
 
 local function id_to_icon(id)
+  ---@type string[]
   local icons = { "󰎡", "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "󰎼" }
   local icon = ""
 

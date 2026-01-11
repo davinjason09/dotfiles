@@ -47,7 +47,8 @@ M.switch_term_buf = function(buf)
   if not picker then return end
 
   vim.schedule(function()
-    local id, term = assert(M.get_term("bufnr", buf))
+    local id, term = M.get_term("bufnr", buf)
+    if not id or not term then return end
 
     if not vim.api.nvim_buf_is_valid(buf) then
       local opts = term.opts or {} ---@type TermOpts

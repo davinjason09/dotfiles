@@ -2,7 +2,6 @@ local M = {}
 local state = require("custom.terminal.state")
 local utils = require("custom.terminal.utils")
 
----@diagnostic disable: undefined-field
 ---@param prompt string
 ---@param on_confirm fun(value: string?)
 ---@param opts? { icon: string?, default: string? }
@@ -113,7 +112,7 @@ M.picker = {
   cycle_next = function() utils.cycle_term_buf("next") end,
   cycle_prev = function() utils.cycle_term_buf("prev") end,
   term_normal = function(picker)
-    ---@diagnostic disable-next-line: inject-field
+    ---@diagnostic disable: undefined-field, inject-field
     picker.esc_timer = picker.esc_timer or assert(vim.uv.new_timer())
 
     if picker.esc_timer:is_active() then
@@ -123,13 +122,14 @@ M.picker = {
       picker.esc_timer:start(200, 0, function() end)
       return "<ESC>"
     end
+    ---@diagnostic enable: undefined-field, inject-field
   end,
-  goto_file = function(self)
+  goto_file = function(picker)
     local f = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
     if f ~= "" then
       Snacks.notify.warn("No file under cursor")
     else
-      self:close()
+      picker:close()
       vim.schedule(function() vim.cmd("e " .. f) end)
     end
   end,
