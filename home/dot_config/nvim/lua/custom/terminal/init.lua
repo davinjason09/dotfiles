@@ -102,6 +102,8 @@ local function setup_autocmd(picker)
   end)
 end
 
+-- TODO: make this a source
+
 ---@param cmd? string | string[]
 M.pick = function(cmd)
   Snacks.picker.pick({
@@ -134,17 +136,6 @@ M.pick = function(cmd)
       end
 
       state.buf_to_clear = {}
-
-      -- HACK:
-      -- - If we ever use input to search and preview the terminal, `snacks_picker_loaded` field will
-      --   be set to true as the buffer is being previewed. However, when we close the picker, this
-      --   buffer will get deleted because the picker assume that it's part of the picker due to that
-      --   field being set to true.
-      -- - We don't want that, so we set the field to false here, since this `on_close` function is
-      --   called before the preview is closed
-      for _, term in ipairs(state.term_bufs) do
-        vim.b[term.bufnr].snacks_picker_loaded = false
-      end
     end,
     actions = actions.picker,
     preview = function(ctx)
@@ -171,6 +162,16 @@ M.pick = function(cmd)
 
       Snacks.picker.preview.file(ctx)
       ctx.preview:set_title("Previewing: " .. ctx.item.title)
+
+      -- HACK:
+      -- - If we ever use input to search and preview the terminal, `snacks_picker_loaded` field will
+      --   be set to true as the buffer is being previewed. However, when we close the picker, this
+      --   buffer will get deleted because the picker assume that it's part of the picker due to that
+      --   field being set to true.
+      -- - We don't want that, so we set the field to false here, after we done previewing it
+
+      ---@cast ctx.buf integer
+      vim.b[ctx.buf].snacks_picker_loaded = false
     end,
     win = {
       input = { keys = config.keys.input },
