@@ -55,6 +55,7 @@ M.switch_term_buf = function(buf)
       if opts.persist then
         buf = vim.api.nvim_create_buf(false, true)
         state.term_bufs[id].bufnr = buf
+        picker:find()
       end
     end
 

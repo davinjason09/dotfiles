@@ -42,11 +42,13 @@ end
 local function find_term()
   local items = {}
   for id, term in pairs(state.term_bufs) do
+    local buf = term.bufnr
+    term_file = vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_name(buf) or ""
     table.insert(items, {
       item = term,
       text = id .. " " .. Snacks.picker.util.text(term, { "name", "bufnr" }),
       title = id_to_icon(id) .. " " .. term.name,
-      file = vim.api.nvim_buf_get_name(term.bufnr),
+      file = term_file,
     })
   end
   return items
@@ -125,6 +127,17 @@ M.pick = function(cmd)
       end
 
       state.buf_to_clear = {}
+
+      -- HACK:
+      -- - If we ever use input to search and preview the terminal, `snacks_picker_loaded` field will
+      --   be set to true as the buffer is being previewed. However, when we close the picker, this
+      --   buffer will get deleted because the picker assume that it's part of the picker due to that
+      --   field being set to true.
+      -- - We don't want that, so we set the field to false here, since this `on_close` function is
+      --   called before the preview is closed
+      for _, term in ipairs(state.term_bufs) do
+        vim.b[term.bufnr].snacks_picker_loaded = false
+      end
     end,
     actions = actions.picker,
     preview = function(ctx)
