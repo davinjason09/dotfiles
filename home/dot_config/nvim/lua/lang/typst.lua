@@ -26,4 +26,31 @@ return {
       end,
     },
   },
+  {
+    "pxwg/math-conceal.nvim",
+    event = { "BufReadPre *.md", "BufReadPre *.tex", "BufReadPre *.typ" },
+    main = "math-conceal",
+    opts = {
+      conceal = {
+        "greek",
+        "script",
+        "math",
+        "font",
+        "delim",
+        "phy",
+      },
+      ft = { "tex", "markdown", "typst" },
+      highlights = {
+        ["@conceal"] = { link = "@function" },
+      },
+    },
+    config = function(_, opts)
+      require("math-conceal").setup(opts)
+
+      -- NOTE: for some reason, the Conceal highlight is gone, so redefine it here
+      vim.schedule(
+        function() vim.api.nvim_set_hl(0, "Conceal", { fg = Defaults.palette.overlay1 }) end
+      )
+    end,
+  },
 }
