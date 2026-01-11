@@ -39,7 +39,7 @@ require("lazy").setup({
     enabled = true,
     notify = false,
   },
-  rocks = { enabled = false },
+  rocks = { enabled = true },
   ui = {
     -- stylua: ignore
     icons = {
