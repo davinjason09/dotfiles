@@ -38,15 +38,13 @@ local function picker_stats()
   if not picker then return "" end
 
   if filetype == "snacks_picker_list" then
-    if picker:count() > 0 then
-      if picker:current().file then
-        return " " .. U.pretty_path(picker:dir(), "absolute")
-      else
-        return picker:current().idx .. " of " .. picker:count() .. " results"
-      end
-    else
-      return "Empty"
-    end
+    local count = picker:count()
+    local cur_item = picker:current()
+
+    if count == 0 then return "Empty" end
+    if cur_item.file then return " " .. U.pretty_path(picker:dir(), "absolute") end
+
+    return cur_item.idx .. " of " .. count .. " results"
   elseif filetype == "snacks_picker_input" then
     local input = picker.input and picker.input:get() or ""
     local count = input == "" and picker:count() or #picker:items()
@@ -86,6 +84,8 @@ local SpecialInfo = {
   ["minifiles-help"] = minifiles_cwd,
 }
 
+-- ╾╼ Components ╾────────────────────────────────────────────────────╼
+
 M.Mode = {
   static = {
     filetype_map = {
@@ -93,39 +93,35 @@ M.Mode = {
       minifiles = " MiniFiles",
       ["minifiles-help"] = " MiniFiles",
       qf = "󰅖 Quickfix List",
-      snacks_picker_list = "🍿%s",
-      snacks_picker_input = "🍿%s",
-      snacks_picker_preview = "🍿%s",
+      snacks_picker = "🍿%s",
     },
   },
   init = U.update_events({ "BufEnter" }),
   update = { "ModeChanged", pattern = "*:*", callback = function() U.redraw() end },
   provider = function(self)
     local ft = vim.bo.filetype
-    if ft:find("snacks_picker_preview") ~= nil then ft = "snacks_picker_preview" end
-    local title = self.filetype_map[ft]
+    local is_picker = false
 
-    local picker = nil
-    if ft:match("snacks_picker*") then picker = get_picker(Snacks.picker.get()) end
-
-    if picker then
-      local name = (" (%s)"):format(picker.title)
-      local picker_type = "Picker"
-
-      if ft == "snacks_picker_list" and picker.title == "Explorer" then
-        picker_type = "Explorer"
-        name = ""
-      end
-
-      return (" %s%s "):format(title:format(picker_type), name)
+    if ft:find("snacks_picker") ~= nil then
+      ft = "snacks_picker"
+      is_picker = true
     end
 
-    if ft == "qf" and is_loclist() then title = " Location List" end
+    local title = self.filetype_map[ft]
 
-    return (" %s "):format(title)
+    if ft == "qf" and is_loclist() then return "  Location List " end
+    if not is_picker then return " " .. title .. " " end
+
+    local picker = get_picker(Snacks.picker.get())
+    local is_explorer = ft == "snacks_picker_list" and picker.title == "Explorer"
+
+    local name = is_explorer and "" or (" (%s)"):format(picker.title)
+    local picker_type = is_explorer and "Explorer" or "Picker"
+
+    return (" %s%s "):format(title:format(picker_type), name)
   end,
   hl = function(self) return { fg = "mantle", bg = self:mode_color(), bold = true } end,
-  Comp.Separator2({
+  Comp.Separator({
     icon = "",
     hl = function(self) return { fg = self:mode_color(), bg = "surface0" } end,
   }),
