@@ -57,7 +57,10 @@ end
 
 ---@param picker snacks.Picker
 local function setup_autocmd(picker)
-  picker.preview.win:on("BufEnter", function() vim.cmd.startinsert() end)
+  picker.preview.win:on("BufEnter", function()
+    vim.cmd.nohl()
+    vim.cmd.startinsert()
+  end)
   picker.preview.win:on(
     { "VimResized", "WinResized" },
     function() utils.switch_term_buf(state.last_term) end
