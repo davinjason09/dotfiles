@@ -23,7 +23,6 @@ return {
         "printf",
         "regex",
         "vim",
-        "vimdoc",
       },
     },
     config = function(_, opts)
@@ -50,6 +49,14 @@ return {
         TS.install(install, { summary = true })
           :await(function() Utils.treesitter.get_installed(true) end)
       end
+
+      local installed = Utils.treesitter.get_installed()
+      local uninstall = vim
+        .iter(installed)
+        :map(function(a) return not vim.tbl_contains(needed, a) and a end)
+        :totable()
+
+      if #uninstall > 0 then TS.uninstall(uninstall, { summary = true }) end
 
       vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
