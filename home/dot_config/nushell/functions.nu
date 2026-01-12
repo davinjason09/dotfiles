@@ -89,3 +89,25 @@ def get-title []: [nothing -> string] {
 
   $path
 }
+
+def --env print_onefetch [root: path] {
+  if ($env.ONEFETCH_CACHE? | is-empty) { $env.ONEFETCH_CACHE = [] }
+
+  let $cur_commit = do { git rev-parse --short HEAD } | complete | get stdout | str trim
+  if ($cur_commit | is-empty) { return }
+
+  let cached_entry = $env.ONEFETCH_CACHE | where path == $root
+  if ($cached_entry | is-not-empty) and ($cached_entry.0.commit == $cur_commit) {
+    print $cached_entry.0.output
+  } else {
+    let output = (do { onefetch } | complete | get stdout)
+    if ($output | is-empty) { return }
+
+    print $output
+    $env.ONEFETCH_CACHE = (
+      $env.ONEFETCH_CACHE
+      | where path != $root
+      | append [[path, commit, output]; [$root, $cur_commit, $output]]
+    )
+  }
+}

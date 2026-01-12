@@ -112,10 +112,9 @@ $env.LAST_REPO = get-git-root
 $env.config.hooks.env_change = {
   PWD: [{
     let git_root = get-git-root
-    if ($git_root | is-not-empty) and ($git_root != $env.LAST_REPO ) {
-      $env.LAST_REPO = $git_root
-      let fetch = (onefetch | complete | get stdout)
-      if $fetch != "" { print $fetch }
-    }
+    if ($git_root | is-empty) or ($git_root == $env.LAST_REPO) { return }
+
+    $env.LAST_REPO = $git_root
+    print_onefetch $git_root
   }]
 }
