@@ -1,23 +1,27 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+
 [tools]
   # LSP
-  "ubi:clangd/clangd"                   = "latest"  # C++
-  "ubi:EmmyLuaLs/emmylua-analyzer-rust" = { version = "latest", exe = "emmylua_ls", matching_regex = "^emmylua_ls" }  # Lua
-  "aqua:artempyanykh/marksman"          = "latest"  # Markdown
-  "aqua:tombi-toml/tombi"               = "latest"  # TOML
-  "npm:bash-language-server"            = "latest"  # Bash
-  "aqua:Myriad-Dreamin/tinymist"        = "latest"  # Typst
-  "npm:yaml-language-server"            = "latest"  # YAML
-  "ubi:ribru17/ts_query_ls"             = "latest"  # Treesitter Query
-  "ubi:astral-sh/ty"                    = "latest"  # Python
-  "npm:@typescript/native-preview"      = "latest"  # Typescript
-  "npm:@astrojs/language-server"        = "latest"  # Astro
-  "npm:@tailwindcss/language-server"    = "latest"  # Tailwind
+  "github:clangd/clangd"                   = "latest"  # C++
+  "github:EmmyLuaLs/emmylua-analyzer-rust" = { version = "latest", exe = "emmylua_ls", matching_regex = "^emmylua_ls" }  # Lua
+  "aqua:artempyanykh/marksman"             = "latest"  # Markdown
+  "aqua:tombi-toml/tombi"                  = "latest"  # TOML
+  "npm:bash-language-server"               = "latest"  # Bash
+  "aqua:Myriad-Dreamin/tinymist"           = "latest"  # Typst
+  "npm:yaml-language-server"               = "latest"  # YAML
+  "github:ribru17/ts_query_ls"             = "latest"  # Treesitter Query
+  "github:astral-sh/ty"                    = "latest"  # Python
+  "npm:@typescript/native-preview"         = "latest"  # Typescript
+  "npm:@astrojs/language-server"           = "latest"  # Astro
+  "npm:@tailwindcss/language-server"       = "latest"  # Tailwind
+  "npm:vscode-langservers-extracted"       = "latest"  # JSON
   # Formatter
-  "pipx:clang-format"                   = "latest"  # C++
-  "aqua:JohnnyMorganz/StyLua"           = "latest"  # Lua
-  "npm:prettier"                        = "latest"  # YAML, JSON, CSS
-  "aqua:mvdan/sh"                       = "latest"  # Bash
-  "npm:bibtex-tidy"                     = "latest"  # Bibtex
-  "aqua:Enter-tainer/typstyle"          = "latest"  # Typst
+  "pipx:clang-format"                      = "latest"  # C++
+  "aqua:JohnnyMorganz/StyLua"              = "latest"  # Lua
+  "aqua:mvdan/sh"                          = "latest"  # Bash
+  "npm:bibtex-tidy"                        = "latest"  # Bibtex
+  "aqua:Enter-tainer/typstyle"             = "latest"  # Typst
+  "npm:oxfmt"                              = "latest"  # TS, TSX, JSON, CSS, YAML, Markdown, MDX
+  "aqua:biomejs/biome"                     = "latest"  # Astro (temp)
   # Linter
-  "aqua:astral-sh/ruff"                 = "latest"  # Python
+  "aqua:astral-sh/ruff"                    = "latest"  # Python
