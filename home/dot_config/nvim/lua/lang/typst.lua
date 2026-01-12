@@ -28,7 +28,7 @@ return {
   },
   {
     "pxwg/math-conceal.nvim",
-    event = { "BufReadPre *.md", "BufReadPre *.tex", "BufReadPre *.typ" },
+    event = "BufReadPost *.typ",
     main = "math-conceal",
     opts = {
       conceal = {
@@ -39,7 +39,7 @@ return {
         "delim",
         "phy",
       },
-      ft = { "tex", "markdown", "typst" },
+      ft = { "bibtex", "typst" },
       highlights = {
         ["@conceal"] = { link = "@function" },
       },
