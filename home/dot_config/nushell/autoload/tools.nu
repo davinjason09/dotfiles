@@ -20,6 +20,22 @@ def 0short [url: string] {
   http post https://envs.sh --content-type "multipart/form-data" { shorter: $url }
 }
 
+def cc [file: string] {
+  let clang_ver = clang --version | lines | parse --regex '(\d+)' | get capture0.0
+  (
+    zig c++
+      -O3
+      -Wall
+      -Wno-vla-cxx-extension
+      -std=c++20
+      -march=native
+      -fsanitize=address
+      -L$"/usr/lib/clang/($clang_ver)/lib/linux/"
+      -lclang_rt.asan-x86_64
+      $file
+  )
+}
+
 def yeet-completer [context: string] {
   let parts = $context | split row " " | skip 1
   {
