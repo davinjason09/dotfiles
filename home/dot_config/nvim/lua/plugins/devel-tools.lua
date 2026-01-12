@@ -17,7 +17,14 @@ return {
         lsp_format = "fallback",
       },
       formatters = {
-        injected = { options = { ignore_errors = true } },
+        biome = {
+          args = { "format", "--stdin-file-path", "$FILENAME" },
+          prepend_args = function(_, ctx)
+            if not Utils.format.has_config(ctx.dirname, "biome") then
+              return { "--config-path", vim.fn.stdpath("config") .. "/rules/biome.json" }
+            end
+          end,
+        },
         ["clang-format"] = {
           prepend_args = function(_, ctx)
             if not Utils.format.has_config(ctx.dirname, "clang-format") then
@@ -25,8 +32,13 @@ return {
             end
           end,
         },
-        prettier = {
-          prepend_args = function() return { "--parser", vim.bo.filetype } end,
+        injected = { options = { ignore_errors = true } },
+        oxfmt = {
+          prepend_args = function(_, ctx)
+            if not Utils.format.has_config(ctx.dirname, "oxfmt") then
+              return { "-c", vim.fn.stdpath("config") .. "/rules/.oxfmtrc.json" }
+            end
+          end,
         },
         shfmt = {
           prepend_args = { "-i", "2", "-ci" },
@@ -40,21 +52,26 @@ return {
         },
       },
       formatters_by_ft = {
+        astro = { "biome" },
         bash = { "shfmt" },
         bib = { "bibtex-tidy" },
         c = { "clang-format" },
         cpp = { "clang-format" },
-        css = { "prettier" },
-        html = { "prettier" },
-        json = { "prettier" },
+        css = { "oxfmt" },
+        html = { "oxfmt" },
+        javascript = { "oxfmt" },
+        javascriptreact = { "oxfmt" },
+        json = { "oxfmt" },
         lua = { "stylua" },
-        markdown = { "prettier" },
+        markdown = { "oxfmt" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         query = { lsp_format = "prefer" },
         sh = { "shfmt" },
         toml = { "tombi" },
+        typescript = { "oxfmt" },
+        typescriptreact = { "oxfmt" },
         typst = { "typstyle", lsp_format = "prefer" },
-        yaml = { "prettier" },
+        yaml = { "oxfmt" },
         zsh = { "shfmt" },
         ["_"] = { "trim_whitespace" },
       },

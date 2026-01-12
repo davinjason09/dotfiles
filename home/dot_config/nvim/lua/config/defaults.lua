@@ -240,7 +240,9 @@ M.which_key_rules = {
 }
 
 M.formatter_rules = {
+  biome = { "biome.json", "biome.jsonc" },
   ["clang-format"] = { ".clang-format", "clang-format" },
+  oxfmt = { ".oxfmtrc.json", ".oxfmtrc.jsonc" },
   stylua = { ".stylua.toml", "stylua.toml" },
 }
 
