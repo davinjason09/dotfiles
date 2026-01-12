@@ -251,24 +251,36 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
   end,
 })
 
+---@param msg string
+---@param level? vim.log.levels
+local function chezmoi_notify(msg, level)
+  level = level or vim.log.levels.INFO
+  vim.schedule(function() vim.notify(msg, level, { title = "Chezmoi" }) end)
+end
+
+---@param args string[]
+---@param success_message string
+---@param handle_error? fun()
+local function chezmoi(args, success_message, handle_error)
+  vim.system({ "chezmoi", unpack(args) }, { text = true }, function(obj)
+    if obj.code ~= 0 then
+      if obj.stdout then chezmoi_notify(obj.stdout, vim.log.levels.WARN) end
+      if obj.stderr then chezmoi_notify(obj.stderr, vim.log.levels.WARN) end
+      if handle_error then handle_error() end
+    else
+      chezmoi_notify(success_message)
+      if obj.stdout and obj.stdout ~= "" then chezmoi_notify(obj.stdout, vim.log.levels.INFO) end
+    end
+  end)
+end
+
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   group = augroup("ChezmoiApply"),
   pattern = vim.env.HOME .. "/.local/share/chezmoi/**",
   callback = function()
-    local function notify(msg, level)
-      level = level or vim.log.levels.INFO
-      vim.schedule(function() vim.notify(msg, level, { title = "Chezmoi" }) end)
-    end
-
-    vim.system({ "chezmoi", "apply", "--no-tty" }, nil, function(obj)
-      if obj.code ~= 0 then
-        if obj.stdout then notify(obj.stdout:gsub("\n$", ""), vim.log.levels.WARN) end
-        if obj.stderr then notify(obj.stderr:gsub("\n$", ""), vim.log.levels.WARN) end
-      else
-        notify("Successfully applied files")
-        if obj.stdout and obj.stdout ~= "" then
-          notify(obj.stdout:gsub("\n$", ""), vim.log.levels.INFO)
-        end
+    chezmoi({ "apply", "--no-tty", "-k" }, "Successfully applied files", function()
+      if vim.fn.confirm("Fix conflict?", "&Yes\n&No", 2) == 1 then
+        require("custom.terminal").open({ "chezmoi", "apply" })
       end
     end)
   end,
