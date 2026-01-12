@@ -286,3 +286,12 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   end,
   desc = "Apply changes to chezmoi files after writing",
 })
+
+vim.api.nvim_create_autocmd("User", {
+  group = augroup("ChezmoiUpdateLazyLock"),
+  pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
+  callback = vim.schedule_wrap(function()
+    local lock_file = vim.fs.normalize(vim.fn.stdpath("config") .. "/lazy-lock.json")
+    chezmoi({ "add", lock_file }, "Successfully updated lazy-lock.json")
+  end),
+})
