@@ -9,6 +9,9 @@
   "npm:yaml-language-server"            = "latest"  # YAML
   "ubi:ribru17/ts_query_ls"             = "latest"  # Treesitter Query
   "ubi:astral-sh/ty"                    = "latest"  # Python
+  "npm:@typescript/native-preview"      = "latest"  # Typescript
+  "npm:@astrojs/language-server"        = "latest"  # Astro
+  "npm:@tailwindcss/language-server"    = "latest"  # Tailwind
   # Formatter
   "pipx:clang-format"                   = "latest"  # C++
   "aqua:JohnnyMorganz/StyLua"           = "latest"  # Lua
