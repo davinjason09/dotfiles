@@ -67,6 +67,17 @@ let zoxide_completer = {|spans|
   $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
 }
 
+let yeet_completer = {|spans|
+  let packages = ($spans | skip 1)
+  let cur_prompt = ($spans | last)
+
+  yay -Q
+  | lines
+  | split column " "
+  | get column0
+  | where {|x| $x not-in ($packages) and ($x | str contains $cur_prompt)}
+}
+
 let argc_completer = {|spans|
   argc --argc-compgen nushell "" ...$spans
   | split row "\n"
@@ -90,6 +101,7 @@ let external_completer = {|spans|
   match $spans.0 {
     git | chezmoi | bat | gum | yay | mise | nvim | bob => $fish_completer
     __zoxide_z | __zoxide_zi | z | zi => $zoxide_completer
+    yeet => $yeet_completer
     _ => $argc_completer
   } | do $in $spans
 }

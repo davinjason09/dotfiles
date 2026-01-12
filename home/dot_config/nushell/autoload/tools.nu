@@ -34,26 +34,9 @@ def cc [file: string] {
   )
 }
 
-def yeet-completer [context: string] {
-  let parts = $context | split row " " | skip 1
-  {
-    options: {
-      sort: true,
-      completion_algorithm: substring,
-      case_sensitive: false,
-    },
-    completions: (
-      yay -Q
-      | lines
-      | split column " "
-      | get column0
-      | where {|x| $x not-in $parts }
-    )
-  }
-}
-
 # Yeet package with style 😎
-def yeet [...packages: string@yeet-completer] {
+@complete external
+def yeet [...packages] {
   let all_packages: list<string> = yay -Q | lines | split column " " | get column0
   mut removed_packages = []
 
