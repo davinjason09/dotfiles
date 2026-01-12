@@ -1,7 +1,7 @@
 @complete external
 def --wrapped nvim [
-  --app (-A): string          # [cfgfile]: Use NVIM_APPNAME [cfgfile]
-  ...rest: string               # file arguments to open nvim
+  --app (-A): string # [cfgfile]: Use NVIM_APPNAME [cfgfile]
+  ...rest: string    # file arguments to open nvim
 ] {
   let setup_socat = ($rest | split row " " | any {|x| $x in [-Es -es --embed --headless]})
 

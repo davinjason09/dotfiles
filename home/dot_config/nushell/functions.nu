@@ -68,7 +68,7 @@ def get-git-root []: [nothing -> string] {
 
 def get-title []: [nothing -> string] {
   mut path: string = $env.PWD
-  let git_dir = get-git-root
+  let git_dir = $env.LAST_REPO
 
   if ($git_dir | is-not-empty) {
     let prefix = $" ($git_dir | split row '/' | last)"

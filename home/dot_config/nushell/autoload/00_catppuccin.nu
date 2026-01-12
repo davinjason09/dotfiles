@@ -150,7 +150,7 @@ $env.config.color_config = {
   shape_string: $scheme.string
   shape_string_interpolation: $theme.flamingo
   shape_raw_string: $scheme.string
-  shape_externalarg: $scheme.string
+  shape_externalarg: $theme.flamingo
 }
 
 $env.config.highlight_resolved_externals = true
