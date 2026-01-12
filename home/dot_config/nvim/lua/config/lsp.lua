@@ -1,8 +1,4 @@
--- ╭─────────────────────────────────────────────────────────╮
--- │                           LSP                           │
--- ╰─────────────────────────────────────────────────────────╯
-
-local methods = vim.lsp.protocol.Methods
+local ms = vim.lsp.protocol.Methods
 
 -- Set up LSP keymaps and for the current buffer
 ---@param client vim.lsp.Client
@@ -17,11 +13,11 @@ local function on_attach(client, bufnr)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
   end
 
-  map("gs", Snacks.picker.lsp_symbols, "[G]oto [S]ymbol")
-  map("gr", Snacks.picker.lsp_references, "[G]oto [R]eferences")
-  map("gd", Snacks.picker.lsp_definitions, "[G]oto [D]efinition")
-  map("gi", Snacks.picker.lsp_implementations, "[G]oto [I]mplementation")
-  map("gD", Snacks.picker.lsp_declarations, "[G]oto [D]eclaration")
+  map("gs", function() Snacks.picker.lsp_symbols() end, "[G]oto [S]ymbol")
+  map("gr", function() Snacks.picker.lsp_references() end, "[G]oto [R]eferences")
+  map("gd", function() Snacks.picker.lsp_definitions() end, "[G]oto [D]efinition")
+  map("gi", function() Snacks.picker.lsp_implementations() end, "[G]oto [I]mplementation")
+  map("gD", function() Snacks.picker.lsp_declarations() end, "[G]oto [D]eclaration")
   map("gO", vim.lsp.buf.document_symbol, "[G]oto [O]utline")
 
   map("<leader>ca", require("tiny-code-action").code_action, "[C]ode: [A]ction", { "n", "v" })
@@ -32,22 +28,23 @@ local function on_attach(client, bufnr)
   map("K", function() vim.lsp.buf.hover() end, "Hover Documentation")
 
   if Snacks.words.is_enabled() and client.server_capabilities.documentHighlightProvider then
-    map("]]", function() Snacks.words.jump(vim.v.count1) end, "Next Reference")
-    map("[[", function() Snacks.words.jump(-vim.v.count1) end, "Previous Reference")
+    map("]]", function() Snacks.words.jump(vim.v.count1, true) end, "Next Reference")
+    map("[[", function() Snacks.words.jump(-vim.v.count1, true) end, "Previous Reference")
   end
 
-  if client:supports_method(methods.textDocument_inlayHint) then
-    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    Snacks.toggle.inlay_hints():map("<leader>uh")
-  end
+  Snacks.util.lsp.on({ method = ms.textDocument_inlayHint }, function(buf)
+    if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == "" then
+      vim.lsp.inlay_hint.enable(true, { bufnr = buf })
+      Snacks.toggle.inlay_hints():map("<leader>uh")
+    end
+  end)
 
-  if client:supports_method(methods.textDocument_signatureHelp) then
-    local blink_window = Utils.lazy_require("blink.cmp.completion.windows.menu")
+  if client:supports_method(ms.textDocument_signatureHelp) then
     local blink = Utils.lazy_require("blink.cmp")
 
     map("<C-k>", function()
-      if blink_window.win:is_open() then blink.hide() end
-      vim.lsp.buf.signature_help()
+      if blink.is_signature_visible() then blink.hide_signature() end
+      vim.lsp.buf.signature_help(Defaults.hover_opts --[[@as vim.lsp.buf.signature_help.Opts]])
     end, "Signature Help", "i")
   end
 
@@ -58,9 +55,7 @@ local function on_attach(client, bufnr)
 end
 
 -- Override default LSP hover and signature help to use a custom border and max size
----@diagnostic disable: duplicate-set-field
 local hover = vim.lsp.buf.hover
-local signature_help = vim.lsp.buf.signature_help
 
 vim.lsp.buf.hover = function()
   local client = assert(vim.lsp.get_clients({ bufnr = 0, method = "textDocument/hover" })[1])
@@ -78,14 +73,8 @@ vim.lsp.buf.hover = function()
   return hover(opts)
 end
 
-vim.lsp.buf.signature_help = function()
-  return signature_help(Defaults.hover_opts --[[@as vim.lsp.buf.signature_help.Opts]])
-end
-
----@diagnostic enable: duplicate-set-field
-
-local register_capability = vim.lsp.handlers[methods.client_registerCapability]
-vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
+local register_capability = vim.lsp.handlers[ms.client_registerCapability]
+vim.lsp.handlers[ms.client_registerCapability] = function(err, res, ctx)
   local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
 
   on_attach(client, vim.api.nvim_get_current_buf())
