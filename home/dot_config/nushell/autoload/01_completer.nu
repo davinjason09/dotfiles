@@ -98,9 +98,17 @@ let external_completer = {|spans|
     $spans
   }
 
+  let fish_cmd = [
+    git chezmoi bat gum yay mise nvim bob cowsay cowthink
+  ]
+
+  let zoxide_cmd = [
+    __zoxide_z __zoxide_zi
+  ]
+
   match $spans.0 {
-    git | chezmoi | bat | gum | yay | mise | nvim | bob => $fish_completer
-    __zoxide_z | __zoxide_zi | z | zi => $zoxide_completer
+    $cmd if ($cmd in $fish_cmd) => $fish_completer
+    $cmd if ($cmd in $zoxide_cmd) => $zoxide_completer
     yeet => $yeet_completer
     _ => $argc_completer
   } | do $in $spans
