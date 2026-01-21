@@ -3,6 +3,8 @@ vim.opt_local.linebreak = true
 vim.opt_local.spell = true
 vim.opt_local.iskeyword = "@,48-57,192-255"
 
+vim.b.auto_export = false
+
 -- Custom export picker
 local export_types = { "pdf", "html", "png", "svg" }
 
@@ -23,6 +25,12 @@ local function surround(word)
 
   vim.fn.feedkeys(Snacks.util.keycode(start .. rest))
 end
+
+Snacks.toggle({
+  name = "Auto Export",
+  get = function() return vim.b.auto_export end,
+  set = function(enabled) vim.b.auto_export = enabled end,
+}):map("<leader>cx")
 
 local map = vim.keymap.set
 -- stylua: ignore start
@@ -88,7 +96,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
           { title = "tinymist" }
         )
       end)
-    else
+    elseif vim.b.auto_export then
       vim.cmd("TinymistExportPdf")
     end
   end,
