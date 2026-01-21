@@ -75,7 +75,7 @@ return {
             ["<C-b>"] = { "list_scroll_up", mode = { "n", "i" } },
             ["<C-p>"] = { "history_back", mode = { "n", "i" } },
             ["<C-n>"] = { "history_forward", mode = { "n", "i" } },
-            ["<C-BS>"] = { "<C-S-w>", mode = { "i" }, expr = true },
+            ["<C-BS>"] = { "<C-S-w>", mode = { "i" }, expr = true, desc = "delete word" },
           },
           b = {
             blink_pairs = false,
@@ -95,16 +95,16 @@ return {
     -- Top Pickers
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     -- Find
-    { "<leader>fb", function() Snacks.picker.buffers() end,      desc = "[F]ind [B]uffers" },
-    { "<leader>fg", function() Snacks.picker.grep() end,         desc = "[F]ind by [G]rep" },
-    { "<leader>fw", function() Snacks.picker.grep_word() end,    desc = "[F]ind [W]ord", mode = { "n", "x" } },
-    { "<leader>fc", function() Utils.picker.chezmoi("nvim") end, desc = "[F]ind [C]onfig File" },
-    { "<leader>ff", function() Snacks.picker.files() end,        desc = "[F]ind [F]iles" },
-    { "<leader>fp", function() Snacks.picker.projects() end,     desc = "[F]ind [P]rojects" },
-    { "<leader>fr", function() Snacks.picker.recent() end,       desc = "[F]ind [R]ecent" },
-    { "<leader>fl", function() Snacks.picker.lines() end,        desc = "[F]ind [L]ines" },
-    { "<leader>fh", function() Snacks.picker.help() end,         desc = "[F]ind [H]elp" },
-    { "<leader>fk", function() Snacks.picker.keymaps() end,      desc = "[F]ind [K]eymaps" },
+    { "<leader>fb", function() Snacks.picker.buffers() end,                  desc = "[F]ind [B]uffers" },
+    { "<leader>fg", function() Snacks.picker.grep() end,                     desc = "[F]ind by [G]rep" },
+    { "<leader>fw", function() Snacks.picker.grep_word() end,                desc = "[F]ind [W]ord", mode = { "n", "x" } },
+    { "<leader>fc", function() Snacks.picker.chezmoi({ kind = "nvim" }) end, desc = "[F]ind [C]onfig File" },
+    { "<leader>ff", function() Snacks.picker.files() end,                    desc = "[F]ind [F]iles" },
+    { "<leader>fp", function() Snacks.picker.projects() end,                 desc = "[F]ind [P]rojects" },
+    { "<leader>fr", function() Snacks.picker.recent() end,                   desc = "[F]ind [R]ecent" },
+    { "<leader>fl", function() Snacks.picker.lines() end,                    desc = "[F]ind [L]ines" },
+    { "<leader>fh", function() Snacks.picker.help() end,                     desc = "[F]ind [H]elp" },
+    { "<leader>fk", function() Snacks.picker.keymaps() end,                  desc = "[F]ind [K]eymaps" },
     -- Search
     { '<leader>s"', function() Snacks.picker.registers() end,       desc = "[S]earch Registers [\"]" },
     { '<leader>s/', function() Snacks.picker.search_history() end,  desc = "[S]earch History [/]" },
@@ -136,8 +136,9 @@ return {
     { "<leader>:",  function() Snacks.picker.command_history() end, desc = "Command History" },
     { "z=",         function() Snacks.picker.spelling() end,        desc = "Spelling Suggestions" },
     -- Custom
-    { "<leader>dr", function() Utils.picker.reload() end,  desc = "[D]ebug: [R]eload Plugins" },
-    { "<leader>so", function() Utils.picker.options() end, desc = "[S]earch [O]ption" },
-    { "<leader>sz", function() Utils.picker.chezmoi() end, desc = "[S]earch Che[z]moi File" },
+    ---@diagnostic disable: undefined-field
+    { "<leader>dr", function() Snacks.picker.reload() end,  desc = "[D]ebug: [R]eload Plugins" },
+    { "<leader>so", function() Snacks.picker.options() end, desc = "[S]earch [O]ption" },
+    { "<leader>sz", function() Snacks.picker.chezmoi() end, desc = "[S]earch Che[z]moi File" },
   },
 }

@@ -24,6 +24,9 @@ return {
     layout.vertical.layout.height = 0.65
     layout.vertical.layout[2].height = 0.4
 
+    -- Setup custom pickers
+    require("custom.picker").setup()
+
     -- NOTE: Override Snacks.util.icon with our own implementation
 
     ---@param name IconType

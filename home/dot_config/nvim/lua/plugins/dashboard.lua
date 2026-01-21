@@ -10,7 +10,7 @@ return {
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = "󱩾 ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')", },
-          { icon = " ", key = "c", desc = "Config", action = ":lua Utils.picker.chezmoi('nvim')" },
+          { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.picker.chezmoi({ kind = 'nvim' })" },
           { icon = " ", key = "s", desc = "Restore Session", section = "session" },
           { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },

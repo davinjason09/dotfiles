@@ -2,7 +2,6 @@
 ---@field edit       Utils.edit
 ---@field format     Utils.format
 ---@field mini       Utils.mini
----@field picker     Utils.picker
 ---@field treesitter Utils.treesitter
 local M = {}
 
