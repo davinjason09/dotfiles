@@ -82,6 +82,7 @@ M.switch_term_buf = function(buf)
       if not is_term then picker:action("focus_list") end
     end
 
+    vim.cmd("checktime")
     vim.schedule(function() picker.list:move(id, true) end)
   end)
 end

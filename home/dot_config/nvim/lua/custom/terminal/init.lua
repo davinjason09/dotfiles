@@ -130,6 +130,7 @@ M.pick = function(cmd)
       end
 
       state.buf_to_clear = {}
+      vim.cmd("checktime")
     end,
     actions = actions.picker,
     preview = function(ctx)
