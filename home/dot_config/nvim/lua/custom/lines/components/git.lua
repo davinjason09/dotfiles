@@ -27,11 +27,9 @@ M.Status = {
   update = {
     "User",
     pattern = "GitSigns*",
-    callback = function()
-      local what = vim.o.showtabline ~= 2 and "stl" or "tab"
-      U.redraw(what)
-    end,
+    callback = function() U.redraw(vim.o.showtabline ~= 2 and "stl" or "tab") end,
   },
+  { provider = " " },
   {
     provider = function()
       local count = vim.b.gitsigns_status_dict.added or 0
