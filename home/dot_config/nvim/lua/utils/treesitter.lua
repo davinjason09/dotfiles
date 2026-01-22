@@ -44,8 +44,6 @@ end
 -- Optimized treesitter foldexpr
 function M.foldexpr() return M.have(nil, "folds") and vim.treesitter.foldexpr() or "0" end
 
-function M.indentexpr()
-  return M.have(nil, "indents") and require("nvim-treesitter").indentexpr() or -1
-end
+function M.indentexpr() return M.have(nil, "indents") and require("nvim-treesitter").indentexpr() or -1 end
 
 return M

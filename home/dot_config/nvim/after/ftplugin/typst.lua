@@ -90,11 +90,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
         if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
         local shortname = vim.fn.fnamemodify(vim.g.typst_main_file, ":.")
-        vim.notify(
-          ("Exported %s successfully"):format(shortname),
-          vim.log.levels.INFO,
-          { title = "tinymist" }
-        )
+        vim.notify(("Exported %s successfully"):format(shortname), vim.log.levels.INFO, { title = "tinymist" })
       end)
     elseif vim.b.auto_export then
       vim.cmd("TinymistExportPdf")

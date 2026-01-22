@@ -29,10 +29,7 @@ return {
       if vim.fn.executable("tree-sitter") == 0 then
         return vim.notify("nvim-treesitter: tree-sitter CLI not found!", vim.log.levels.ERROR)
       elseif type(opts.ensure_installed) ~= "table" then
-        return vim.notify(
-          "nvim-treesitter: ensure_installed should be a table!",
-          vim.log.levels.ERROR
-        )
+        return vim.notify("nvim-treesitter: ensure_installed should be a table!", vim.log.levels.ERROR)
       end
 
       local TS = require("nvim-treesitter")
@@ -40,21 +37,14 @@ return {
       Utils.treesitter.get_installed(true)
 
       local needed = Utils.dedup(opts.ensure_installed)
-      local install = vim.tbl_filter(
-        function(lang) return not Utils.treesitter.have(lang) end,
-        needed
-      )
+      local install = vim.tbl_filter(function(lang) return not Utils.treesitter.have(lang) end, needed)
 
       if #install > 0 then
-        TS.install(install, { summary = true })
-          :await(function() Utils.treesitter.get_installed(true) end)
+        TS.install(install, { summary = true }):await(function() Utils.treesitter.get_installed(true) end)
       end
 
       local installed = Utils.treesitter.get_installed()
-      local uninstall = vim
-        .iter(installed)
-        :map(function(a) return not vim.tbl_contains(needed, a) and a end)
-        :totable()
+      local uninstall = vim.iter(installed):map(function(a) return not vim.tbl_contains(needed, a) and a end):totable()
 
       if #uninstall > 0 then TS.uninstall(uninstall, { summary = true }) end
 
@@ -131,13 +121,9 @@ return {
               desc = desc:sub(1, 1):upper() .. desc:sub(2)
               desc = (key:sub(1, 1) == "[" and "Prev " or "Next ") .. desc
 
-              if type == "move" then
-                desc = desc .. (key:sub(2, 2) == key:sub(2, 2):upper() and " End" or " Start")
-              end
+              if type == "move" then desc = desc .. (key:sub(2, 2) == key:sub(2, 2):upper() and " End" or " Start") end
 
-              if not (vim.wo.diff and key:find("[cC]")) then
-                map(buf, key, type, method, query, desc)
-              end
+              if not (vim.wo.diff and key:find("[cC]")) then map(buf, key, type, method, query, desc) end
             end
           end
         end

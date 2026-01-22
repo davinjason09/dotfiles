@@ -65,9 +65,7 @@ M.picker = {
 
       table.insert(state.buf_to_clear, term_buf.bufnr)
 
-      if state.last_term == term_buf.bufnr then
-        vim.schedule(function() utils.cycle_term_buf("prev") end)
-      end
+      if state.last_term == term_buf.bufnr then vim.schedule(function() utils.cycle_term_buf("prev") end) end
     end
 
     state.term_bufs = vim.tbl_filter(

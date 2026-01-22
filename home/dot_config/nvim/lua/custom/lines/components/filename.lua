@@ -31,9 +31,7 @@ local FilePrettyPath = {
 
 local FileInfo = {
   {
-    condition = function(self)
-      return (self.errors > 0 or self.warnings > 0 or self.hints > 0 or self.info > 0)
-    end,
+    condition = function(self) return (self.errors > 0 or self.warnings > 0 or self.hints > 0 or self.info > 0) end,
     provider = function(self)
       local icon = Defaults.icons.diagnostics[self.diag_type] or ""
       return ("%s%s"):format(icon ~= "" and " " or "", vim.trim(icon))

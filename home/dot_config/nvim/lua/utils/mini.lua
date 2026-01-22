@@ -15,9 +15,7 @@ ai.buffer = function(ai_type)
     local first_nonblank = vim.fn.nextnonblank(start_line)
     local last_nonblank = vim.fn.prevnonblank(end_line)
 
-    if first_nonblank == 0 or last_nonblank == 0 then
-      return { from = { line = start_line, col = 1 } }
-    end
+    if first_nonblank == 0 or last_nonblank == 0 then return { from = { line = start_line, col = 1 } } end
 
     start_line = first_nonblank
     end_line = last_nonblank

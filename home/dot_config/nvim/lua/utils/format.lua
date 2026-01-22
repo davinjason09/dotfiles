@@ -58,10 +58,7 @@ function M.info(buf)
   local enabled = M.enabled(buf)
 
   local lines = {
-    ("- [%s] `global` %s"):format(
-      global_format and "x" or " ",
-      global_format and "enabled" or "disabled"
-    ),
+    ("- [%s] `global` %s"):format(global_format and "x" or " ", global_format and "enabled" or "disabled"),
     ("- [%s] `buffer` %s"):format(
       enabled and "x" or " ",
       buffer_format == nil and "inherit" or buffer_format and "enabled" or "disabled"
@@ -120,11 +117,7 @@ function M.setup()
     { desc = "Format Selection or Buffer" }
   )
 
-  vim.api.nvim_create_user_command(
-    "CodeFormatInfo",
-    function() M.info() end,
-    { desc = "Formatter Info (Buffer)" }
-  )
+  vim.api.nvim_create_user_command("CodeFormatInfo", function() M.info() end, { desc = "Formatter Info (Buffer)" })
 end
 
 function M.snacks_toggle(buf)

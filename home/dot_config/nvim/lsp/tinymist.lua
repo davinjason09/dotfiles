@@ -16,8 +16,7 @@ local function create_tinymist_command(command_name, client, bufnr)
     local function handler(err, res)
       if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
-      local message = export_type and "Saved to " .. vim.fn.fnamemodify(res.path, ":.")
-        or vim.inspect(res)
+      local message = export_type and "Saved to " .. vim.fn.fnamemodify(res.path, ":.") or vim.inspect(res)
       vim.notify(message, vim.log.levels.INFO, { title = "tinymist" })
     end
 

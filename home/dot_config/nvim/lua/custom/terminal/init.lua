@@ -62,19 +62,13 @@ local function setup_autocmd(picker)
     vim.cmd.nohl()
     vim.cmd.startinsert()
   end)
-  picker.preview.win:on(
-    { "VimResized", "WinResized" },
-    function() utils.switch_term_buf(state.last_term) end
-  )
+  picker.preview.win:on({ "VimResized", "WinResized" }, function() utils.switch_term_buf(state.last_term) end)
   picker.preview.win:on("TermClose", function(_, ev)
     -- NOTE: ignore exit code if less than 0 (e.g. -1)
     local is_error = false
     if type(vim.v.event) == "table" and vim.v.event.status > 0 then
       is_error = true
-      Snacks.notify.error(
-        "Terminal exited with code " .. vim.v.event.status .. ".",
-        { title = "Terminal" }
-      )
+      Snacks.notify.error("Terminal exited with code " .. vim.v.event.status .. ".", { title = "Terminal" })
     end
 
     local _, term = utils.get_term("bufnr", ev.buf)

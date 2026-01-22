@@ -107,9 +107,7 @@ return {
         local clients = vim.lsp.get_clients
         for _, client in pairs(clients({ method = request_method })) do
           local resp = client:request_sync(request_method, changes, 1000, 0)
-          if resp and resp.result ~= nil then
-            vim.lsp.util.apply_workspace_edit(resp.result, client.offset_encoding)
-          end
+          if resp and resp.result ~= nil then vim.lsp.util.apply_workspace_edit(resp.result, client.offset_encoding) end
         end
 
         for _, client in pairs(clients({ method = notif_method })) do

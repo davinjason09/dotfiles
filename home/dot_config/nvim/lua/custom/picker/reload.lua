@@ -1,10 +1,7 @@
 local M = {}
 
 local function find_plugin()
-  local plugin_names = vim.tbl_map(
-    function(plugin) return plugin.name end,
-    require("lazy").plugins()
-  )
+  local plugin_names = vim.tbl_map(function(plugin) return plugin.name end, require("lazy").plugins())
   local items = vim.tbl_map(function(name) return { text = name, item = name } end, plugin_names)
   table.sort(items, function(a, b) return a.item < b.item end)
 

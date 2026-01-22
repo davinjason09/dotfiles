@@ -17,9 +17,7 @@ return {
       return {
         {
           "<leader>cp",
-          function()
-            vim.cmd("LivePreview " .. (require("livepreview").is_running() and "close" or "start"))
-          end,
+          function() vim.cmd("LivePreview " .. (require("livepreview").is_running() and "close" or "start")) end,
           desc = "[C]ode: [P]review",
           ft = plugin.ft,
         },

@@ -35,9 +35,7 @@ local BufferName = {
     provider = function(self)
       local bufname = self.bufname.tail
 
-      if #bufname > self.max_name_len then
-        bufname = bufname:sub(1, self.max_name_len - 1) .. "…"
-      end
+      if #bufname > self.max_name_len then bufname = bufname:sub(1, self.max_name_len - 1) .. "…" end
 
       local icon = Defaults.icons.diagnostics[self.diag_type] or ""
       if icon ~= "" then icon = " " .. vim.trim(icon) end
@@ -57,9 +55,7 @@ local BufferName = {
 local BufferCloseButton = {
   update = { "BufModifiedSet", "BufEnter" },
   {
-    condition = function(self)
-      return not vim.api.nvim_get_option_value("modified", { buf = self.bufnr })
-    end,
+    condition = function(self) return not vim.api.nvim_get_option_value("modified", { buf = self.bufnr }) end,
     provider = "",
     hl = function(self) return { fg = self.is_active and "red" or "surface2" } end,
     on_click = {
@@ -76,9 +72,7 @@ local BufferCloseButton = {
   },
   -- If buffer has changes, notify user instead and don't show the close icon
   {
-    condition = function(self)
-      return vim.api.nvim_get_option_value("modified", { buf = self.bufnr })
-    end,
+    condition = function(self) return vim.api.nvim_get_option_value("modified", { buf = self.bufnr }) end,
     provider = " ",
     hl = { fg = "peach" },
   },

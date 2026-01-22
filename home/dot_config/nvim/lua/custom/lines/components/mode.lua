@@ -60,14 +60,10 @@ return {
     pattern = { "*:*", "GitSigns*" },
     callback = function() U.redraw() end,
   },
-  provider = function(self)
-    return (" %s %s "):format(self:mode_icon(), self.mode_map[vim.fn.mode(1)])
-  end,
+  provider = function(self) return (" %s %s "):format(self:mode_icon(), self.mode_map[vim.fn.mode(1)]) end,
   hl = function(self) return { fg = "mantle", bg = self:mode_color(), bold = true } end,
   Comp.Separator({
     icon = "",
-    hl = function(self)
-      return { fg = self:mode_color(), bg = C.is_git_repo() and "surface0" or "crust" }
-    end,
+    hl = function(self) return { fg = self:mode_color(), bg = C.is_git_repo() and "surface0" or "crust" } end,
   }),
 }

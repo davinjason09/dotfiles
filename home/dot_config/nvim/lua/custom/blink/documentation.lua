@@ -23,9 +23,7 @@ local lang_parse = {
       :gsub("\n+%s*<(%s+<[%u%l%-]+>)", "\n```\n\n%1") -- Special case for <CTRL-...>
     docs = vim.split(docs --[[@as string]], "\n", { trimempty = true })
 
-    if not vim.tbl_isempty(docs) and docs[1] ~= "___" and #details > 0 then
-      table.insert(docs, 1, "___")
-    end
+    if not vim.tbl_isempty(docs) and docs[1] ~= "___" and #details > 0 then table.insert(docs, 1, "___") end
 
     -- stylua: ignore start
     local INC_INDENT = {

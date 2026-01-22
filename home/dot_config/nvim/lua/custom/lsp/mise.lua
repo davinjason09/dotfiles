@@ -10,9 +10,7 @@ local function get_data()
   local full_command = opts.cmd .. " " .. opts.args
   local env_sh = vim.fn.system(full_command)
 
-  if env_sh:find("^mise") ~= nil then
-    return vim.notify(env_sh:match("^[^\n]*"), vim.log.levels.ERROR)
-  end
+  if env_sh:find("^mise") ~= nil then return vim.notify(env_sh:match("^[^\n]*"), vim.log.levels.ERROR) end
 
   local ok, data = pcall(vim.json.decode, env_sh)
   if not ok or data == nil then

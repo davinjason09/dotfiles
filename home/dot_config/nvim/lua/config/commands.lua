@@ -69,9 +69,7 @@ vim.api.nvim_create_user_command("LspStop", function(ctx)
       vim.notify(("Invalid LSP client name: %s"):format(name), "warn", { title = "LSP" })
     else
       vim.lsp.enable(name, false)
-      if ctx.bang then
-        vim.iter(vim.lsp.get_clients({ name = name })):each(function(client) client:stop(true) end)
-      end
+      if ctx.bang then vim.iter(vim.lsp.get_clients({ name = name })):each(function(client) client:stop(true) end) end
     end
   end
 end, {
@@ -98,9 +96,7 @@ vim.api.nvim_create_user_command("LspRestart", function(ctx)
       vim.notify(("Invalid LSP client name: %s"):format(name), "warn", { title = "LSP" })
     else
       vim.lsp.enable(name, false)
-      if ctx.bang then
-        vim.iter(vim.lsp.get_clients({ name = name })):each(function(client) client:stop(true) end)
-      end
+      if ctx.bang then vim.iter(vim.lsp.get_clients({ name = name })):each(function(client) client:stop(true) end) end
     end
   end
 

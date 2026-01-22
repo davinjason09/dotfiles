@@ -245,9 +245,7 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
 
     local info = vim.api.nvim_get_chan_info(vim.bo[args.buf].channel)
     local argv = info.argv or {}
-    if table.concat(argv, " ") == vim.o.shell then
-      vim.api.nvim_buf_delete(args.buf, { force = true })
-    end
+    if table.concat(argv, " ") == vim.o.shell then vim.api.nvim_buf_delete(args.buf, { force = true }) end
   end,
 })
 
@@ -281,9 +279,7 @@ end
 
 ---@param args string[]
 ---@param on_exit? fun(obj: vim.SystemCompleted)
-local function chezmoi(args, on_exit)
-  vim.system({ "chezmoi", unpack(args) }, { text = true }, on_exit)
-end
+local function chezmoi(args, on_exit) vim.system({ "chezmoi", unpack(args) }, { text = true }, on_exit) end
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   group = augroup("ChezmoiApply"),
@@ -310,9 +306,6 @@ vim.api.nvim_create_autocmd("User", {
   pattern = { "LazyDone", "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
   callback = vim.schedule_wrap(function()
     local lock_file = vim.fs.normalize(vim.fn.stdpath("config") .. "/lazy-lock.json")
-    chezmoi(
-      { "add", lock_file },
-      chezmoi_on_exit("Successfully updated lazy-lock.json", nil, { verbose = true })
-    )
+    chezmoi({ "add", lock_file }, chezmoi_on_exit("Successfully updated lazy-lock.json", nil, { verbose = true }))
   end),
 })
