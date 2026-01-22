@@ -42,6 +42,10 @@ path add [
   {{- end }}
 ]
 
+if (has chezmoi) {
+  $env.CHEZMOI_PATH = do { chezmoi source-path } | str trim
+}
+
 if (has bob) {
   path add ($env.XDG_DATA_HOME | path join "bob" "nvim-bin")
 }
@@ -77,7 +81,7 @@ $env.config.use_kitty_protocol = true
 $env.config.shell_integration.osc2 = false
 $env.config.shell_integration.osc633 = false
 
-$env.config.table.missing_value_symbol = $"(ansi red)"
+$env.config.table.missing_value_symbol = $"(ansi red)(ansi reset)"
 
 $env.config.cursor_shape = {
   emacs: "line"
@@ -91,6 +95,8 @@ $env.config.history = {
   sync_on_enter: true
   isolation: true
 }
+
+$env.config.hooks.display_output = "if (term size).columns >= 100 { table -eo } else { table -o }"
 
 # ╾╼ Prompts ╾─────────────────────────────────────────────────────────╼
 $env.TRANSIENT_PROMPT_COMMAND = { $"\n(ansi "#B4BEFE")(get-clock-icon) (date now | format date '%R')(ansi reset) (^starship module -s ($env.LAST_EXIT_CODE | math abs) character)" }
