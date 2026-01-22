@@ -43,7 +43,7 @@ path add [
 ]
 
 if (has chezmoi) {
-  $env.CHEZMOI_PATH = do { chezmoi source-path } | str trim
+  $env.CHEZMOI_HOME = do { chezmoi source-path } | str trim
 }
 
 if (has bob) {

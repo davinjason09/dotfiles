@@ -287,7 +287,7 @@ end
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   group = augroup("ChezmoiApply"),
-  pattern = vim.env.HOME .. "/.local/share/chezmoi/**",
+  pattern = vim.env.CHEZMOI_HOME .. "/**",
   callback = function()
     chezmoi({ "diff" }, function(obj)
       if obj.code ~= 0 or obj.stdout == "" then return end
