@@ -254,34 +254,52 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
 ---@param msg string
 ---@param level? vim.log.levels
 local function chezmoi_notify(msg, level)
-  level = level or vim.log.levels.INFO
-  vim.schedule(function() vim.notify(msg, level, { title = "Chezmoi" }) end)
+  if msg == "" or msg == nil then return end
+  vim.schedule(function() vim.notify(msg, level or vim.log.levels.INFO, { title = "Chezmoi" }) end)
+end
+
+---@param success_message? string
+---@param handle_error? fun()
+---@param opts? { verbose: boolean }
+local function chezmoi_on_exit(success_message, handle_error, opts)
+  local default_opts = { verbose = false }
+  opts = vim.tbl_deep_extend("force", default_opts, opts or {})
+  success_message = success_message or ""
+
+  ---@param obj vim.SystemCompleted
+  return function(obj)
+    if obj.code ~= 0 then
+      if obj.stdout and opts.verbose then chezmoi_notify(obj.stdout, vim.log.levels.WARN) end
+      if obj.stderr and opts.verbose then chezmoi_notify(obj.stderr, vim.log.levels.WARN) end
+      if handle_error then vim.schedule(handle_error) end
+    else
+      chezmoi_notify(success_message)
+      if obj.stdout and opts.verbose then chezmoi_notify(obj.stdout, vim.log.levels.INFO) end
+    end
+  end
 end
 
 ---@param args string[]
----@param success_message string
----@param handle_error? fun()
-local function chezmoi(args, success_message, handle_error)
-  vim.system({ "chezmoi", unpack(args) }, { text = true }, function(obj)
-    if obj.code ~= 0 then
-      if obj.stdout then chezmoi_notify(obj.stdout, vim.log.levels.WARN) end
-      if obj.stderr then chezmoi_notify(obj.stderr, vim.log.levels.WARN) end
-      if handle_error then handle_error() end
-    else
-      chezmoi_notify(success_message)
-      if obj.stdout and obj.stdout ~= "" then chezmoi_notify(obj.stdout, vim.log.levels.INFO) end
-    end
-  end)
+---@param on_exit? fun(obj: vim.SystemCompleted)
+local function chezmoi(args, on_exit)
+  vim.system({ "chezmoi", unpack(args) }, { text = true }, on_exit)
 end
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   group = augroup("ChezmoiApply"),
   pattern = vim.env.HOME .. "/.local/share/chezmoi/**",
   callback = function()
-    chezmoi({ "apply", "--no-tty", "-k" }, "Successfully applied files", function()
-      if vim.fn.confirm("Fix conflict?", "&Yes\n&No", 2) == 1 then
-        require("custom.terminal").open({ "chezmoi", "apply" })
-      end
+    chezmoi({ "diff" }, function(obj)
+      if obj.code ~= 0 or obj.stdout == "" then return end
+
+      chezmoi(
+        { "apply", "--no-tty", "-k" },
+        chezmoi_on_exit("Successfully applied files", function()
+          if vim.fn.confirm("Fix conflict?", "&Yes\n&No", 2) == 1 then
+            require("custom.terminal").open({ "chezmoi", "apply" })
+          end
+        end)
+      )
     end)
   end,
   desc = "Apply changes to chezmoi files after writing",
@@ -289,9 +307,12 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 
 vim.api.nvim_create_autocmd("User", {
   group = augroup("ChezmoiUpdateLazyLock"),
-  pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
+  pattern = { "LazyDone", "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
   callback = vim.schedule_wrap(function()
     local lock_file = vim.fs.normalize(vim.fn.stdpath("config") .. "/lazy-lock.json")
-    chezmoi({ "add", lock_file }, "Successfully updated lazy-lock.json")
+    chezmoi(
+      { "add", lock_file },
+      chezmoi_on_exit("Successfully updated lazy-lock.json", nil, { verbose = true })
+    )
   end),
 })
