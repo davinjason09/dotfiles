@@ -14,43 +14,38 @@ M.setup = function()
   vim.uv.new_timer():start(
     (60 - tonumber(os.date("%S"))) * 1000,
     60000,
-    vim.schedule_wrap(
-      function() vim.api.nvim_exec_autocmds("User", { pattern = "UpdateTime", modeline = false }) end
-    )
+    vim.schedule_wrap(function() vim.api.nvim_exec_autocmds("User", { pattern = "UpdateTime", modeline = false }) end)
   )
 
   Comp.AI.setup()
 
   local has_enter = false
-  vim.api.nvim_create_autocmd(
-    { "VimEnter", "UIEnter", "BufEnter", "BufAdd", "BufDelete", "BufRead" },
-    {
-      callback = function(ev)
-        if ev.event == "BufEnter" and not has_enter then
-          return
-        else
-          has_enter = true
+  vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "BufAdd", "BufDelete", "BufEnter" }, {
+    callback = function(ev)
+      if ev.event == "BufEnter" and has_enter then
+        return
+      else
+        has_enter = true
+      end
+
+      vim.schedule(function()
+        local buffers = U.get_bufs()
+        for i, v in ipairs(buffers) do
+          M._buflist_cache[i] = v
         end
 
-        vim.schedule(function()
-          local buffers = U.get_bufs()
-          for i, v in ipairs(buffers) do
-            M._buflist_cache[i] = v
-          end
+        for i = #buffers + 1, #M._buflist_cache do
+          M._buflist_cache[i] = nil
+        end
 
-          for i = #buffers + 1, #M._buflist_cache do
-            M._buflist_cache[i] = nil
-          end
-
-          if #M._buflist_cache > 1 then
-            vim.o.showtabline = 2
-          elseif vim.o.showtabline ~= 1 then -- otherwise it breaks startup screen
-            vim.o.showtabline = 1
-          end
-        end)
-      end,
-    }
-  )
+        if #M._buflist_cache > 1 then
+          vim.o.showtabline = 2
+        elseif vim.o.showtabline ~= 1 then -- otherwise it breaks startup screen
+          vim.o.showtabline = 1
+        end
+      end)
+    end,
+  })
 
   -- HACK: update the showtabline to make sure the tabline macro component gets updated
   vim.api.nvim_create_autocmd({ "RecordingEnter", "RecordingLeave" }, {
@@ -63,16 +58,18 @@ M.setup = function()
     end,
   })
 
-  vim.api.nvim_create_autocmd(
-    { "VimEnter", "UIEnter", "BufAdd", "BufRead", "BufDelete", "TermOpen" },
-    {
-      callback = vim.schedule_wrap(function()
+  vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "BufEnter", "BufAdd", "BufDelete", "TermOpen" }, {
+    callback = function(ev)
+      if not vim.api.nvim_get_option_value("buflisted", { buf = ev.buf }) then return end
+
+      vim.schedule(function()
+        local buf_list = U.get_bufs()
         local seen = {}
         local items = vim.tbl_map(function(bufnr)
           local path = vim.api.nvim_buf_get_name(bufnr)
           local parts = vim.split(path, "/")
           return { path = path, parts = parts, depth = 1, name = parts[#parts] }
-        end, U.get_bufs())
+        end, buf_list)
 
         vim.iter(items):map(function(item) seen[item.name] = (seen[item.name] or 0) + 1 end)
 
@@ -104,9 +101,10 @@ M.setup = function()
 
         ---@diagnostic disable-next-line: inject-field
         require("heirline").tabline.buf_map = res
-      end),
-    }
-  )
+        vim.api.nvim_exec_autocmds("User", { pattern = "UpdateBufName", modeline = false })
+      end)
+    end,
+  })
 end
 
 return M
