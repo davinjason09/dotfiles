@@ -10,7 +10,6 @@ local BufferName = {
     self.pad = math.floor((self.min_width - #fullname - #self.icon) / 2)
     if self.pad == 0 then self.pad = 1 end
   end,
-  update = { "DiagnosticChanged", "BufEnter" },
   on_click = {
     callback = function(_, minwid) vim.api.nvim_win_set_buf(0, minwid) end,
     minwid = function(self) return self.bufnr end,
@@ -53,7 +52,6 @@ local BufferName = {
 }
 
 local BufferCloseButton = {
-  update = { "BufModifiedSet", "BufEnter" },
   {
     condition = function(self) return not vim.api.nvim_get_option_value("modified", { buf = self.bufnr }) end,
     provider = "",
@@ -104,7 +102,6 @@ return {
       self.text_hl = "teal"
     end
   end,
-  update = { "User", pattern = "UpdateBufName" },
   hl = function(self)
     return {
       fg = self.is_active and "text" or "surface0",
@@ -117,8 +114,14 @@ return {
     provider = "",
     hl = function(self) return { bg = self.is_active and "base" or "mantle", fg = "crust" } end,
   },
-  BufferName,
-  BufferCloseButton,
+  {
+    update = { "User", "DiagnosticChanged", "BufEnter", pattern = { "UpdateBufName", "*" } },
+    BufferName,
+  },
+  {
+    update = { "BufModifiedSet", "BufEnter" },
+    BufferCloseButton,
+  },
   {
     provider = "",
     hl = function(self) return { bg = self.is_active and "base" or "mantle", fg = "crust" } end,
