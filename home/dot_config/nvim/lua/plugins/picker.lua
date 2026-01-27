@@ -57,9 +57,12 @@ return {
         end,
         restore_win = function(picker)
           if picker.last_win then
+            if not vim.api.nvim_win_is_valid(picker.last_win) then picker.last_win = 1000 end
+
             vim.api.nvim_set_current_win(picker.last_win)
             picker.last_win = nil
           end
+
           vim.schedule(Utils.edit.escape)
         end,
       },
