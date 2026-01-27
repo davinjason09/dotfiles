@@ -4,7 +4,7 @@ local M = {}
 
 ---An `init` function to build multiple update events which is not supported yet by Heirline's update field
 ---@param opts (string | table)[] An array like table of autocmd events as either just a string or a table with custom patterns and callbacks.
----@return function #Heirline init function
+---@return function Heirline init function
 M.update_events = function(opts)
   if not vim.islist(opts) then opts = { opts } end
 
@@ -38,15 +38,15 @@ end
 M.redraw = function(what)
   what = what or "stl"
 
-  if what == "stl" then
-    vim.schedule(function() vim.cmd.redrawstatus() end)
-  elseif what == "tab" then
-    vim.schedule(function() vim.cmd.redrawtabline() end)
-  elseif what == "all" then
+  if what == "all" then
     vim.schedule(function()
       vim.cmd.redrawstatus()
       vim.cmd.redrawtabline()
     end)
+  elseif what == "tab" then
+    vim.schedule(function() vim.cmd.redrawtabline() end)
+  else
+    vim.schedule(function() vim.cmd.redrawstatus() end)
   end
 end
 
@@ -83,12 +83,10 @@ end
 ---Get the pretty path for a file
 ---@param filename string
 ---@param path_type "absolute" | "relative"
+---@return string
 M.pretty_path = function(filename, path_type)
-  if path_type == "absolute" then
-    filename = vim.fn.fnamemodify(filename, ":~")
-  else
-    filename = vim.fn.fnamemodify(filename, ":.")
-  end
+  local pattern = path_type == "absolute" and ":~" or ":."
+  filename = vim.fn.fnamemodify(filename, pattern)
 
   local splits = vim.split(filename, "/")
   local output = ""
@@ -111,6 +109,8 @@ M.get_bufs = function()
   )
 end
 
+---@param buf integer
+---@return integer?
 M.get_current_buffer_index = function(buf)
   for idx, b in ipairs(M.get_bufs()) do
     if b == buf then return idx end
