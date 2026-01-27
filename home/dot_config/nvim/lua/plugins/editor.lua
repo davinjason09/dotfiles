@@ -1,5 +1,20 @@
 return {
   {
+    "windwp/nvim-ts-autotag",
+    ft = {
+      "astro",
+      "html",
+      "javascript",
+      "javascriptreact",
+      "jsx",
+      "markdown",
+      "tsx",
+      "typescript",
+      "typescriptreact",
+      "xml",
+    },
+    opts = {},
+  },
   {
     "saghen/blink.pairs",
     event = { "InsertEnter", "BufReadPost", "BufNewFile" },
