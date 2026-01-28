@@ -16,7 +16,7 @@ local BufferName = {
     name = "heirline_buffer_callback",
   },
   {
-    provider = function(self) return (" %s%s"):format(string.rep(" ", self.pad), self.icon) end,
+    provider = function(self) return (" %s%s"):format((" "):rep(self.pad), self.icon) end,
     hl = function(self) return { fg = self.color } end,
   },
   {
@@ -39,7 +39,7 @@ local BufferName = {
       local icon = Defaults.icons.diagnostics[self.diag_type] or ""
       if icon ~= "" then icon = " " .. vim.trim(icon) end
 
-      return ("%s%s%s "):format(bufname, icon, string.rep(" ", self.pad))
+      return ("%s%s%s "):format(bufname, icon, (" "):rep(self.pad))
     end,
     hl = function(self)
       return {

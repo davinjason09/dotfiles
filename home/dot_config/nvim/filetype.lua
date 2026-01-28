@@ -2,12 +2,13 @@ vim.filetype.add({
   filename = {
     [".chezmoiignore"] = "gitignore",
     [".chezmoiremove"] = "gitignore",
+    [".clang-format"] = "yaml",
+    [".env.example"] = "sh",
     [".prettierignore"] = "gitignore",
     [".styluaignore"] = "gitignore",
     [".zshenv"] = "zsh",
     [".zprofile"] = "zsh",
     [".zshrc"] = "zsh",
-    [".clang-format"] = "yaml",
   },
   extension = {
     mdx = "mdx",
@@ -17,7 +18,8 @@ vim.filetype.add({
     xaml = "xml",
   },
   pattern = {
-    ["tsconfig*.json"] = "jsonc",
+    [".*%.gitconfig"] = "gitconfig",
+    ["tsconfig*.json"] = "json",
     [".*"] = function(path, buf)
       if not path or not buf or vim.bo[buf].filetype == "bigfile" then return end
       if path ~= vim.api.nvim_buf_get_name(buf) then return end
@@ -55,7 +57,10 @@ vim.treesitter.language.register("markdown", "blink-cmp-documentation")
 
 -- .tmpl file injection
 vim.treesitter.query.add_directive("inject-gotmpl!", function(_, _, bufnr, _, metadata)
-  local fname = vim.fs.basename(vim.api.nvim_buf_get_name(bufnr))
+  local ok, buf_name = pcall(vim.api.nvim_buf_get_name, bufnr)
+  if not ok then return end
+
+  local fname = vim.fs.basename(buf_name)
   local ext = vim.filetype.match({ buf = bufnr, filename = fname:gsub("%.tmpl", "") })
   metadata["injection.language"] = ext
 end, {})

@@ -58,7 +58,7 @@ local lang_parse = {
 
         if word and DEC_INDENT[word] or line:find("^%s*}") then indent = math.max(2, indent - 2) end
 
-        docs[i] = line:gsub("^%s+", string.rep(" ", indent))
+        docs[i] = line:gsub("^%s+", (" "):rep(indent))
 
         if word and INC_INDENT[word] or line:find("{$") then indent = indent + 2 end
 
@@ -99,7 +99,7 @@ local lang_parse = {
 
             table.insert(new_docs, "  " .. arg_split[1])
             for i = 2, #arg_split do
-              table.insert(new_docs, ("  %s| %s"):format(string.rep(" ", #first_arg), arg_split[i]))
+              table.insert(new_docs, ("  %s| %s"):format((" "):rep(#first_arg), arg_split[i]))
             end
             new_docs[#new_docs] = new_docs[#new_docs] .. ","
           else

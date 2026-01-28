@@ -7,7 +7,7 @@ M.components = {
 
   ---@param n? number The amount of spaces to add
   ---@return table
-  Space = function(n) return { provider = string.rep(" ", n or 1) } end,
+  Space = function(n) return { provider = (" "):rep(n or 1) } end,
 
   ---@alias SeparatorHL { fg?: string, bg?: string } | fun(self: table): { fg?: string, bg?: string }
 

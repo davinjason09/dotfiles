@@ -1,7 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/EmmyLuaLs/emmylua-analyzer-rust/refs/heads/main/crates/emmylua_code_analysis/resources/schema.json",
   "runtime": {
-    "version": "LuaJIT"
+    "version": "LuaJIT",
+    "pathStrict": true
   },
   "workspace": {
     "workspaceRoots": ["lua"],
@@ -12,6 +13,7 @@
       "$XDG_DATA_HOME/nvim/lazy"
     ],
     "checkThirdParty": false,
+    "ignoreDir": ["/lua"],
     "ignoreGlobs": ["**/*_spec.lua"]
   },
   "diagnostics": {

@@ -48,9 +48,7 @@ return {
       require("math-conceal").setup(opts)
 
       -- NOTE: for some reason, the Conceal highlight is gone, so redefine it here
-      vim.schedule(
-        function() vim.api.nvim_set_hl(0, "Conceal", { fg = Defaults.palette.overlay1 }) end
-      )
+      vim.schedule(function() vim.api.nvim_set_hl(0, "Conceal", { fg = Defaults.palette.overlay1 }) end)
     end,
   },
 }

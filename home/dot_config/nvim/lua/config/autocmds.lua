@@ -11,7 +11,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("HighlightYank"),
   callback = function()
-    vim.hl.on_yank()
+    vim.hl.on_yank({ timeout = 100 })
     Utils.edit.restore_cursor()
   end,
   desc = "Highlight on yank and preserve cursor position",
