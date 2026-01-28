@@ -25,6 +25,7 @@ return {
       {
         "<leader>e",
         function()
+          local MiniFiles = _G.MiniFiles or require("mini.files")
           local buf_name = vim.api.nvim_buf_get_name(0)
           local dir_name = vim.fn.fnamemodify(buf_name, ":p:h")
 
@@ -43,12 +44,16 @@ return {
       },
       {
         "<leader>ET",
-        function() MiniFiles.open(vim.fn.stdpath("data") .. "/mini.files/trash", true) end,
+        function()
+          local MiniFiles = _G.MiniFiles or require("mini.files")
+          MiniFiles.open(vim.fn.stdpath("data") .. "/mini.files/trash", true)
+        end,
         desc = "[E]xplorer: [T]rash",
       },
     },
     config = function(_, opts)
-      require("mini.files").setup(opts)
+      local MiniFiles = require("mini.files")
+      MiniFiles.setup(opts)
 
       -- HACK:
       -- If we set `use_as_default_explorer` to true, with how this config is setup, the options.lua
