@@ -85,8 +85,16 @@ return {
       self.text_hl = "teal"
     end
   end,
-  update = { "DiagnosticChanged", "BufEnter", "BufModifiedSet" },
-  FileIcons,
-  FilePrettyPath,
-  FileInfo,
+  {
+    update = { "BufEnter", "BufModifiedSet" },
+    FileIcons,
+  },
+  {
+    update = { "User", "BufEnter", pattern = { "UpdateDiagnostic", "*" } },
+    FilePrettyPath,
+  },
+  {
+    update = { "BufEnter", "BufModifiedSet" },
+    FileInfo,
+  },
 }
