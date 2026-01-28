@@ -143,6 +143,7 @@ M.setup = function()
     callback = function(ev)
       diag_cache[ev.buf] = {}
       vim.tbl_map(function(diag) diag_cache[ev.buf][diag.lnum + 1] = true end, vim.diagnostic.get(ev.buf))
+      vim.api.nvim_exec_autocmds("User", { pattern = "UpdateDiagnostic" })
     end,
   })
 

@@ -115,7 +115,7 @@ return {
     hl = function(self) return { bg = self.is_active and "base" or "mantle", fg = "crust" } end,
   },
   {
-    update = { "User", "DiagnosticChanged", "BufEnter", pattern = { "UpdateBufName", "*" } },
+    update = { "User", "DiagnosticChanged", "BufEnter", pattern = { "UpdateBufName", "UpdateDiagnostic", "*" } },
     BufferName,
   },
   {
