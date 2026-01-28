@@ -5,6 +5,7 @@ return {
       "javascript",
       "typescript",
       "tsx",
+      "html",
     },
   },
 }

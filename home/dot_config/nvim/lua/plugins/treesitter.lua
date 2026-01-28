@@ -14,11 +14,9 @@ return {
     opts = {
       ensure_installed = {
         "comment",
-        "css",
         "diff",
         "git_config",
         "gitignore",
-        "html",
         "json",
         "printf",
         "regex",
@@ -37,16 +35,16 @@ return {
       Utils.treesitter.get_installed(true)
 
       local needed = Utils.dedup(opts.ensure_installed)
-      local install = vim.tbl_filter(function(lang) return not Utils.treesitter.have(lang) end, needed)
+      local to_install = vim.tbl_filter(function(lang) return not Utils.treesitter.have(lang) end, needed)
 
-      if #install > 0 then
-        TS.install(install, { summary = true }):await(function() Utils.treesitter.get_installed(true) end)
+      if #to_install > 0 then
+        TS.install(to_install, { summary = true }):await(function() Utils.treesitter.get_installed(true) end)
       end
 
-      local installed = Utils.treesitter.get_installed()
-      local uninstall = vim.iter(installed):map(function(a) return not vim.tbl_contains(needed, a) and a end):totable()
+      local installed = vim.tbl_keys(Utils.treesitter.get_installed())
+      local to_uninstall = vim.tbl_filter(function(lang) return not vim.tbl_contains(needed, lang) end, installed)
 
-      if #uninstall > 0 then TS.uninstall(uninstall, { summary = true }) end
+      if #to_uninstall > 0 then TS.uninstall(to_uninstall, { summary = true }) end
 
       vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
@@ -62,7 +60,6 @@ return {
             vim.api.nvim_set_option_value("indentexpr", "v:lua.Utils.treesitter.indentexpr()", { scope = "local" })
           end
 
-          -- folds
           -- stylua: ignore
           if Utils.treesitter.have(ft, "folds") then
             vim.api.nvim_set_option_value("foldmethod", "expr", { scope = "local" })
