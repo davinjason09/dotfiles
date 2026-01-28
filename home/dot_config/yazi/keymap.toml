@@ -1,7 +1,7 @@
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
 [mgr]
-  append_keymap = [
+  append_keymap  = [
     { on = "H", run = "tab_switch -1 --relative", desc = "Switch to the previous tab" },
     { on = "L", run = "tab_switch 1 --relative", desc = "Switch to the next tab" },
     { on = "<", run = "tab_swap -1", desc = "Swap current tab with previous tab" },
@@ -9,7 +9,7 @@
     { on = "C", run = "plugin ouch", desc = "Compress with ouch" },
   ]
   prepend_keymap = [
-    # Wait for 25.6.1
-    # { on = "+", run = "plugin zoom 1", desc = "Zoom in hovered file" },
-    # { on = "-", run = "plugin zoom -1", desc = "Zoom out hovered file" },
+    { on = "+", run = "plugin zoom 1", desc = "Zoom in hovered file" },
+    { on = "-", run = "plugin zoom -1", desc = "Zoom out hovered file" },
+    { on = "<Enter>", run = "plugin smart-enter", desc = "Enter the child directory, or open the file" }
   ]
