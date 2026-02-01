@@ -25,3 +25,5 @@
   "aqua:biomejs/biome"                     = "latest"  # Astro (temp)
   # Linter
   "aqua:astral-sh/ruff"                    = "latest"  # Python
+  # Tools
+  "aqua:tree-sitter/tree-sitter"           = "latest"  # Treesitter (pacman is out of date)

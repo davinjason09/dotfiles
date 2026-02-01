@@ -86,9 +86,6 @@ end
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
   once = true,
   callback = function()
-    -- Load LSP downloaded with mise
-    require("custom.lsp.mise").setup()
-
     local server_configs = vim
       .iter(vim.api.nvim_get_runtime_file("lsp/*.lua", true))
       :map(function(file)

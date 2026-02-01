@@ -74,6 +74,9 @@ M.init = function()
   Utils.lazy_notify()
   Utils.clear_lsp_log()
   M.load("options")
+
+  -- Load LSP and tools downloaded with mise
+  require("custom.lsp.mise").setup()
 end
 
 M.setup = function()
