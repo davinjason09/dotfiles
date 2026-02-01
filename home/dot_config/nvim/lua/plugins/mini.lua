@@ -63,6 +63,7 @@ return {
           U = fc({ name_pattern = "[%w_]" }), -- without dot in function name
           ["*"] = pr("*", "*", { type = "greedy" }),
           ["_"] = pr("_", "_", { type = "greedy" }),
+          ["$"] = pr("$", "$", { type = "greedy" }),
         },
       }
     end,
@@ -87,6 +88,8 @@ return {
         PKGBUILD                = { glyph = "", hl = "MiniIconsYellow" },
         README                  = { glyph = "󰂺", hl = "MiniIconsYellow" },
         [".eslintrc.js"]        = { glyph = "󰱺", hl = "MiniIconsYellow" },
+        [".env"]                = { glyph = "", hl = "MiniIconsYellow" },
+        [".env.example"]        = { glyph = "", hl = "MiniIconsYellow" },
         [".gitconfig"]          = { glyph = "󰊢", hl = "MiniIconsOrange" },
         [".keep"]               = { glyph = "󰊢", hl = "MiniIconsGrey" },
         [".histfile"]           = { glyph = "", hl = "Conceal" },
@@ -98,6 +101,7 @@ return {
         [".zcompdump"]          = { glyph = "", hl = "MiniIconsYellow" },
         ["README.md"]           = { glyph = "󰂺", hl = "MiniIconsYellow" },
         ["README.txt"]          = { glyph = "󰂺", hl = "MiniIconsYellow" },
+        ["bun.lock"]            = { glyph = "", hl = "Label" },
         ["devcontainer.json"]   = { glyph = "", hl = "MiniIconsAzure" },
         ["eslint.config.js"]    = { glyph = "󰱺", hl = "MiniIconsYellow" },
         ["init.lua"]            = { glyph = "", hl = "MiniIconsGreen" },
@@ -117,7 +121,6 @@ return {
         c      = { glyph = "", hl = "MiniIconsAzure" },
         cpp    = { glyph = "", hl = "MiniIconsAzure" },
         css    = { glyph = "", hl = "MiniIconsPurple" },
-        dotenv = { glyph = "", hl = "MiniIconsYellow" },
         elvish = { glyph = "󰘧", hl = "MiniIconsGreen" },
         fish   = { glyph = "", hl = "MiniIconsGreen" },
         gotmpl = { glyph = "", hl = "MiniIconsGrey" },
