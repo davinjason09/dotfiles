@@ -18,7 +18,7 @@ return {
       },
       formatters = {
         biome = {
-          args = { "format", "--stdin-file-path", "$FILENAME" },
+          args = { "check", "--write", "--stdin-file-path", "$FILENAME" },
           append_args = function(_, ctx)
             if not Utils.format.has_config(ctx.dirname, "biome") then
               return { "--config-path", vim.fn.stdpath("config") .. "/rules/biome.json" }
