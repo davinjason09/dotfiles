@@ -306,6 +306,11 @@ vim.api.nvim_create_autocmd("User", {
   pattern = { "LazyDone", "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
   callback = vim.schedule_wrap(function()
     local lock_file = vim.fs.normalize(vim.fn.stdpath("config") .. "/lazy-lock.json")
-    chezmoi({ "add", lock_file }, chezmoi_on_exit("Successfully updated lazy-lock.json", nil, { verbose = true }))
+
+    chezmoi({ "diff", lock_file }, function(obj)
+      if obj.code ~= 0 or obj.stdout == "" then return end
+
+      chezmoi({ "add", lock_file }, chezmoi_on_exit("Successfully updated lazy-lock.json", nil, { verbose = true }))
+    end)
   end),
 })
