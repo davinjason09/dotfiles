@@ -68,7 +68,7 @@ def yeet [...packages] {
 
   let formatted = $removed_packages | each {|x| $"- ($x)\n" } | str join ""
   with-env {
-    GUM_FORMAT_THEME: ($nu.home-path | path join ".config" "glamour" "catppuccin.json")
+    GUM_FORMAT_THEME: ($nu.home-dir | path join ".config" "glamour" "catppuccin.json")
   } {
     $"# Package to remove:\n($formatted)" | gum format
   }
