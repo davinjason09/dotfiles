@@ -71,25 +71,25 @@ M.setup = function()
           return { path = path, parts = parts, depth = 1, name = parts[#parts] }
         end, buf_list)
 
-        vim.iter(items):map(function(item) seen[item.name] = (seen[item.name] or 0) + 1 end)
+        vim.tbl_map(function(item) seen[item.name] = (seen[item.name] or 0) + 1 end, items)
 
         while true do
           local changes_made = false
 
-          vim.iter(items):map(function(item)
+          vim.tbl_map(function(item)
             if seen[item.name] > 1 and item.depth < #item.parts then
               item.depth = item.depth + 1
               item.name = table.concat(item.parts, "/", #item.parts - item.depth + 1)
               seen[item.name] = (seen[item.name] or 0) + 1
               changes_made = true
             end
-          end)
+          end, items)
 
           if not changes_made then break end
         end
 
         local res = {}
-        vim.iter(items):map(function(i)
+        vim.tbl_map(function(i)
           local parent_dir = table.concat(i.parts, "/", #i.parts - i.depth + 1, #i.parts - 1)
           local tail = i.parts[#i.parts]
 
@@ -97,7 +97,7 @@ M.setup = function()
             parent = parent_dir .. (parent_dir ~= "" and "/" or ""),
             tail = tail ~= "" and tail or "[No Name]",
           }
-        end)
+        end, items)
 
         ---@diagnostic disable-next-line: inject-field
         require("heirline").tabline.buf_map = res
