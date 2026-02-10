@@ -99,6 +99,7 @@ vim.o.tabstop       = 2            -- Number of spaces for a tab
 vim.o.whichwrap     = "b,s,[,]"    -- Allow moving to previous/next line with <Left>/<Right> in insert mode
 vim.o.virtualedit   = "block"      -- Allow going past the end of line in V-BLOCK mode
 
+vim.o.backspace     = "indent,eol,start,nostop"                         -- Don't stop on the start of insert when backspacing
 -- INJECT: nu
 vim.o.grepprg       = "rg --vimgrep --no-heading --smart-case --hidden" -- Use ripgrep for searching
 vim.o.grepformat    = "%f:%l:%c:%m"                                     -- Format for grep results
