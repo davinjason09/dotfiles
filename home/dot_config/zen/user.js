@@ -96,6 +96,7 @@ user_pref('dom.media.webcodecs.h265.enabled', true);
 user_pref('media.wmf.hevc.enabled', true);
 user_pref('media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled', true);
 user_pref('media.ffmpeg.vaapi.enabled', true);
+user_pref('browser.download.open_pdf_attachments_inline', true);
 
 // Security & Privacy
 user_pref('privacy.trackingprotection.enabled', false);
