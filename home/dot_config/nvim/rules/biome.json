@@ -1,9 +1,33 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
   "formatter": {
     "formatWithErrors": true,
     "lineWidth": 120,
     "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": "off"
+      },
+      "style": {
+        "noNonNullAssertion": { "level": "warn" },
+        "useImportType": { "level": "error" }
+      },
+      "a11y": {
+        "noSvgWithoutTitle": {
+          "level": "off"
+        }
+      },
+      "suspicious": {
+        "noArrayIndexKey": { "level": "warn" }
+      },
+      "complexity": {
+        "useLiteralKeys": "off"
+      }
+    }
   },
   "javascript": {
     "formatter": {
@@ -12,5 +36,14 @@
       "indentStyle": "space",
       "lineWidth": 120
     }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true,
+      "allowTrailingCommas": true
+    }
+  },
+  "files": {
+    "ignoreUnknown": true
   }
 }
