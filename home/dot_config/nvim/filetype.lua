@@ -3,7 +3,6 @@ vim.filetype.add({
     [".chezmoiignore"] = "gitignore",
     [".chezmoiremove"] = "gitignore",
     [".clang-format"] = "yaml",
-    [".env.example"] = "sh",
     [".prettierignore"] = "gitignore",
     [".styluaignore"] = "gitignore",
     [".zshenv"] = "zsh",
@@ -16,8 +15,10 @@ vim.filetype.add({
     pxd = "cython",
     tmpl = "gotmpl",
     xaml = "xml",
+    yml = "yaml",
   },
   pattern = {
+    ["%.env.*"] = "sh",
     [".*%.gitconfig"] = "gitconfig",
     ["tsconfig*.json"] = "json",
     [".*"] = function(path, buf)
