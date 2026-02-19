@@ -50,26 +50,35 @@ return {
       ---@type snacks.notifier.Config
       notifier = {
         enabled = true,
-        margin = { right = 0 },
+        width = { max = 0.3, min = 40 },
         ---@type snacks.notifier.render
         style = function(buf, notif, ctx)
-          local width = math.max(40, vim.o.columns * 0.4)
-          local time = os.date(ctx.notifier.opts.date_format, notif.added)
-          local gap = width - #time - #(notif.title or "") - (#notif.icon or "")
-          local title = (" %s%s%s%s"):format(notif.icon or "", vim.trim(notif.title or ""), (" "):rep(gap), time)
+          local time = os.date(ctx.notifier.opts.date_format, notif.added) ---@as string
 
-          if title ~= "" then ctx.opts.title = title end
-          ctx.opts.border = { "▍", " ", "🮈", "🮈", "🮈", " ", "▍", "▍" }
-
-          -- stylua: ignore start
           vim.api.nvim_buf_set_lines(buf, 0, 1, false, { "", "" })
-          vim.api.nvim_buf_set_lines(buf, 1, -1, false, vim.split(notif.msg, "\n"))
+          vim.api.nvim_buf_set_lines(buf, 2, -1, false, vim.split(notif.msg, "\n"))
           vim.api.nvim_buf_set_extmark(buf, ctx.ns, 0, 0, {
-            virt_text = { { ("🭸"):rep(width - 2), ctx.hl.border }, { " " } },
+            virt_text = { { notif.icon, ctx.hl.icon }, { notif.title or "", ctx.hl.title } },
             virt_text_win_col = 0,
             priority = 10,
           })
-          -- stylua: ignore end
+          vim.api.nvim_buf_set_extmark(buf, ctx.ns, 0, 0, {
+            virt_text = { { " " }, { " " .. time, ctx.hl.title }, { " " } },
+            virt_text_pos = "right_align",
+            priority = 10,
+          })
+          vim.api.nvim_buf_set_extmark(buf, ctx.ns, 1, 0, {
+            virt_text = { { ("🭸"):rep(vim.o.columns - 2), ctx.hl.border } },
+            virt_text_win_col = 0,
+            priority = 10,
+          })
+          -- HACK:
+          -- Add this to ensure the line has the same padding on the left and right side of the notif
+          vim.api.nvim_buf_set_extmark(buf, ctx.ns, 1, 0, {
+            virt_text = { { " " } },
+            virt_text_pos = "right_align",
+            priority = 10,
+          })
         end,
       },
       quickfile = { enabled = true },
