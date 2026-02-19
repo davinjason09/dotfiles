@@ -251,8 +251,10 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
 
 ---@param msg string
 ---@param level? vim.log.levels
-local function chezmoi_notify(msg, level)
-  if msg == "" or msg == nil then return end
+---@param show? boolean
+local function chezmoi_notify(msg, level, show)
+  show = show or true
+  if msg == "" or msg == nil or not show then return end
   vim.schedule(function() vim.notify(msg, level or vim.log.levels.INFO, { title = "Chezmoi" }) end)
 end
 
@@ -266,14 +268,14 @@ local function chezmoi_on_exit(success_message, handle_error, opts)
 
   ---@param obj vim.SystemCompleted
   return function(obj)
-    if obj.code ~= 0 then
-      if obj.stdout and opts.verbose then chezmoi_notify(obj.stdout, vim.log.levels.WARN) end
-      if obj.stderr and opts.verbose then chezmoi_notify(obj.stderr, vim.log.levels.WARN) end
-      if handle_error then vim.schedule(handle_error) end
-    else
+    if obj.code == 0 then
       chezmoi_notify(success_message)
-      if obj.stdout and opts.verbose then chezmoi_notify(obj.stdout, vim.log.levels.INFO) end
+      return chezmoi_notify(obj.stdout, vim.log.levels.INFO, opts.verbose)
     end
+
+    chezmoi_notify(obj.stdout, vim.log.levels.WARN, opts.verbose)
+    chezmoi_notify(obj.stderr, vim.log.levels.WARN, opts.verbose)
+    if handle_error then vim.schedule(handle_error) end
   end
 end
 
