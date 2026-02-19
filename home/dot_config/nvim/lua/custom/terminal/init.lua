@@ -83,6 +83,12 @@ local function setup_autocmd(picker)
 
     if opts.persist then
       picker:close()
+
+      if is_error then
+        state.term_bufs = vim.tbl_filter(function(t) return t.bufnr ~= ev.buf end, state.term_bufs)
+        state.last_term = nil
+      end
+
       return vim.api.nvim_buf_delete(ev.buf, { force = true })
     end
 
