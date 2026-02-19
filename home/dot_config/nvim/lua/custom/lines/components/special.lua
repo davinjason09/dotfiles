@@ -42,6 +42,7 @@ local function picker_stats()
     local cur_item = picker:current()
 
     if count == 0 then return "Empty" end
+    -- TODO: handle this differently for specific picker
     if cur_item.file then return " " .. U.pretty_path(picker:dir(), "absolute") end
 
     return cur_item.idx .. " of " .. count .. " results"
@@ -70,7 +71,7 @@ end
 local function minifiles_cwd()
   local MiniFiles = _G.MiniFiles or require("mini.files")
 
-  if vim.bo.filetype:find("help") == 1 then return " Help" end
+  if vim.bo.filetype:find("help") ~= nil then return " Help" end
 
   local cwd = (MiniFiles.get_fs_entry() or {}).path
   return " " .. U.pretty_path(vim.fn.fnamemodify(cwd, ":h"), "absolute")
