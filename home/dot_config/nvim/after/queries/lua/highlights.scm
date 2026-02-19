@@ -125,3 +125,12 @@
 
 ("return" @keyword.return
   (#set! "priority" 126))
+
+(ERROR
+  [
+    "if"
+    "for"
+    "while"
+    "do"
+  ] @keyword.conditional
+  (#set! "priority" 126))
