@@ -124,6 +124,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "checkhealth",
   callback = function(args)
     if args.file ~= "health://" then
+      vim.notify(" Running Healthchecks…", vim.log.levels.INFO, { title = "vim.health" })
       return vim.schedule(function()
         vim.cmd("hi Cursor blend=100")
         vim.opt_local.guicursor:append("a:Cursor/lCursor")
