@@ -100,6 +100,7 @@ let external_completer = {|spans|
 
   let fish_cmd = [
     git chezmoi bat gum yay mise nvim bob cowsay cowthink
+    pdflatex latex sudo
   ]
 
   let zoxide_cmd = [
