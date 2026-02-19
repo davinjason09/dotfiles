@@ -1,33 +1,43 @@
+local utils = require("utils")
 local wez = require("wezterm") ---@type Wezterm
-local tabline = wez.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+local tabline = wez.plugin.require("https://github.com/michaelbrusegard/tabline.wez") ---@type TablineWez
 
 local M = {}
 
 local icon_map = {
-  default = { icon = "" },
+  default = {
+    icon = "",
+  },
   nvim = {
-    icon = { "", color = "#a6e3a1" },
+    icon = { "", color = "#A6E3A1" },
   },
   lg = {
-    icon = { "󰒲", color = "#fab387" },
+    icon = { "󰒲", color = "#FAB387" },
     name = "lazygit",
   },
   nu = {
-    icon = { "", color = "#a6e3a1" },
+    icon = { "", color = "#A6E3A1" },
+  },
+  pwsh = {
+    icon = { "", color = "#74C7EC" },
   },
 }
 
-local function get_icon_and_name(title)
+---@param title string
+---@param domain string
+local function get_icon_and_name(title, domain)
   local split = {}
-  for i in title:gmatch("([^-]+)") do
+  for i in utils.gsplit(title, " - ", { plain = true }) do
     table.insert(split, i)
   end
 
   local process_name = split[#split]:match("^%s*(.-)%s*$")
   if process_name:find("") then
     process_name = "nvim"
-  elseif process_name:find("") then
-    process_name = "nu"
+  elseif process_name:find("") or process_name:match("[/~]") then
+    process_name = utils.isWSL(domain) and "nu" or "pwsh"
+  else
+    process_name = utils.isWSL(domain) and "nu" or "pwsh"
   end
 
   local map = icon_map[process_name] or icon_map["default"]
@@ -36,6 +46,8 @@ local function get_icon_and_name(title)
   return map.icon, process_name
 end
 
+local offset = 0
+
 ---@param window Window
 local function pad(window)
   local tabs = window:mux_window():tabs()
@@ -43,7 +55,8 @@ local function pad(window)
 
   for idx, tab in ipairs(tabs) do
     local pane_title = tab:active_pane():get_title()
-    local icon, title = get_icon_and_name(pane_title)
+    local domain = tab:active_pane():get_domain_name()
+    local icon, title = get_icon_and_name(pane_title, domain)
     local icon_len = type(icon) == "table" and #icon[1] or #icon
 
     mid_width = mid_width + math.floor(math.log(idx, 10)) + 1
@@ -51,29 +64,42 @@ local function pad(window)
   end
 
   local tab_width = window:active_tab():get_size().cols
-  local max_left = tab_width / 2 - mid_width / 2 - 10
+  local max_left = tab_width / 2 - mid_width / 2 - offset
 
-  return string.rep(" ", math.floor(max_left))
+  return (" "):rep(math.floor(max_left))
+end
+
+---@param tab_info TabInformation
+local function tab_icon(tab_info)
+  local title = tab_info.active_pane.title
+  local domain = wez.mux.get_pane(tab_info.active_pane.pane_id):get_domain_name()
+  local icon, _ = get_icon_and_name(title, domain)
+
+  local fmt = {}
+  if type(icon) == "table" then
+    if icon.color then table.insert(fmt, { Foreground = { Color = icon.color } }) end
+    table.insert(fmt, { Text = icon[1] })
+  else
+    table.insert(fmt, { Text = icon })
+  end
+
+  return wez.format(fmt)
 end
 
 ---@param tab_info TabInformation
 local function tab_title(tab_info)
   local title = tab_info.active_pane.title
-  local icon, process_name = get_icon_and_name(title)
+  local domain = wez.mux.get_pane(tab_info.active_pane.pane_id):get_domain_name()
+  local _, process_name = get_icon_and_name(title, domain)
 
-  local fmt = {}
-  if type(icon) == "table" then
-    if icon.color then table.insert(fmt, { Foreground = { Color = icon.color } }) end
-    table.insert(fmt, { Text = icon[1] .. " " })
-  else
-    table.insert(fmt, { Text = icon .. " " })
+  if tab_info.is_active then
+    return wez.format({
+      { Foreground = { Color = "#89B4FA" } },
+      { Text = process_name },
+    })
   end
 
-  table.insert(fmt, { Foreground = { Color = "#89B4FA" } })
-  table.insert(fmt, { Text = process_name })
-  table.insert(fmt, "ResetAttributes")
-
-  return wez.format(fmt)
+  return process_name
 end
 
 ---@param is_active boolean
@@ -81,6 +107,9 @@ local function tab_section(is_active)
   return {
     { Attribute = { Intensity = is_active and "Bold" or "Half" } },
     { "index" },
+    tab_icon,
+    { Attribute = { Intensity = is_active and "Bold" or "Normal" } },
+    " ",
     tab_title,
     " ",
   }
@@ -108,7 +137,16 @@ function M.apply_to_config(config)
       },
     },
     sections = {
-      tabline_a = { { "mode", icon = "" } },
+      tabline_a = {
+        {
+          "mode",
+          icon = "",
+          fmt = function(str)
+            offset = #str + 2 + 2
+            return str
+          end,
+        },
+      },
       tabline_b = {},
       tabline_c = { pad },
       tab_active = tab_section(true),
