@@ -1,13 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/amnweb/yasb/main/schema.json
+
 watch_stylesheet: true
 watch_config: true
 debug: false
 bars:
   primary-bar:
     enabled: true
-    screens: ["*"]
-    class_name: "yasb-bar"
+    screens: ['*']
+    class_name: 'yasb-bar'
     alignment:
-      position: "top"
+      position: 'top'
       center: false
     animation:
       enabled: true
@@ -17,13 +19,13 @@ bars:
       acrylic: false
       dark_mode: false
       round_corners: false
-      round_corners_type: "normal"
-      border_color: "System"
+      round_corners_type: 'normal'
+      border_color: 'System'
     window_flags:
       always_on_top: false
       windows_app_bar: true
     dimensions:
-      width: "100%"
+      width: '100%'
       height: 20
     padding:
       top: 7
@@ -32,43 +34,43 @@ bars:
       right: 7
     layouts:
       left:
-        alignment: "left"
+        alignment: 'left'
         stretch: true
       center:
-        alignment: "center"
+        alignment: 'center'
         stretch: false
       right:
-        alignment: "right"
+        alignment: 'right'
         stretch: true
     widgets:
-      left: ["glazewm-grouper", "taskbar", "media"]
-      center: ["clock"]
-      right: ["cava", "panel-grouper", "control-grouper", "power_menu"]
+      left: ['glazewm-grouper', 'taskbar', 'media']
+      center: ['clock']
+      right: ['cava', 'panel-grouper', 'control-grouper', 'power_menu']
 
 widgets:
   glazewm-grouper:
-    type: "yasb.grouper.GrouperWidget"
+    type: 'yasb.grouper.GrouperWidget'
     options:
-      class_name: "glazewm-grouper"
-      widgets: ["glazewm_workspaces", "glazewm_tiling_direction"]
+      class_name: 'glazewm-grouper'
+      widgets: ['glazewm_workspaces', 'glazewm_tiling_direction']
       hide_empty: true
 
   glazewm_workspaces:
-    type: "glazewm.workspaces.GlazewmWorkspacesWidget"
+    type: 'glazewm.workspaces.GlazewmWorkspacesWidget'
     options:
-      offline_label: " Offline"
+      offline_label: ' Offline'
       hide_empty_workspaces: true
       hide_if_offline: false
       enable_scroll_switching: false
 
   glazewm_tiling_direction:
-    type: "glazewm.tiling_direction.GlazewmTilingDirectionWidget"
+    type: 'glazewm.tiling_direction.GlazewmTilingDirectionWidget'
     options:
-      horizontal_label: "󰓡"
-      vertical_label: "󰓢"
+      horizontal_label: '󰓡'
+      vertical_label: '󰓢'
 
   taskbar:
-    type: "yasb.taskbar.TaskbarWidget"
+    type: 'yasb.taskbar.TaskbarWidget'
     options:
       icon_size: 13
       tooltip: true
@@ -83,22 +85,17 @@ widgets:
         margin: 6
       title_label:
         enabled: true
-        show: "focused"
+        show: 'focused'
         min_length: 1
         max_length: 12
       ignore_apps:
-        classes:
-          [
-            "Awake.MessageWindow",
-            "Windows.UI.Core.CoreWindow",
-            "LockScreenControllerProxyWindow",
-          ]
-        titles: ["Flow.Launcher"]
+        classes: ['Awake.MessageWindow', 'Windows.UI.Core.CoreWindow', 'LockScreenControllerProxyWindow']
+        titles: ['Flow.Launcher']
 
   media:
-    type: "yasb.media.MediaWidget"
+    type: 'yasb.media.MediaWidget'
     options:
-      label: "{title} - {artist}"
+      label: '{title} - {artist}'
       max_field_size:
         label: 15
       controls_only: false
@@ -106,9 +103,9 @@ widgets:
       hide_empty: true
       # callbacks
       callbacks:
-        on_left: "toggle_media_menu"
-        on_middle: "do_nothing"
-        on_right: "do_nothing"
+        on_left: 'toggle_media_menu'
+        on_middle: 'do_nothing'
+        on_right: 'do_nothing'
       # thumbnail settings
       show_thumbnail: true
       thumbnail_alpha: 80
@@ -116,16 +113,16 @@ widgets:
       thumbnail_corner_radius: 6
       # icons
       icons:
-        prev_track: "󰒮"
-        next_track: "󰒭"
-        play: ""
-        pause: ""
+        prev_track: '󰒮'
+        next_track: '󰒭'
+        play: ''
+        pause: ''
       # scrolling settings
       scrolling_label:
         enabled: true
         update_interval_ms: 33
-        style: "left"
-        separator: " | "
+        style: 'left'
+        separator: ' | '
         label_padding: 1
         ease_slope: 20
         ease_pos: 0.8
@@ -133,8 +130,8 @@ widgets:
       # media menu settings
       media_menu:
         blur: false
-        alignment: "left"
-        direction: "down"
+        alignment: 'left'
+        direction: 'down'
         offset_top: 4
         offset_left: 0
         thumbnail_corner_radius: 8
@@ -144,55 +141,55 @@ widgets:
         show_source: true
         show_volume_slider: true
       media_menu_icons:
-        prev_track: "󰒮"
-        next_track: "󰒭"
-        play: ""
-        pause: ""
-        mute: ""
-        unmute: ""
+        prev_track: '󰒮'
+        next_track: '󰒭'
+        play: ''
+        pause: ''
+        mute: ''
+        unmute: ''
 
   clock:
-    type: "yasb.clock.ClockWidget"
+    type: 'yasb.clock.ClockWidget'
     options:
-      label: "<span>{icon}</span>{%H:%M}"
-      label_alt: "<span></span>{%a %d %b %H:%M}"
+      label: '<span>{icon}</span>{%H:%M}'
+      label_alt: '<span></span>{%a %d %b %H:%M}'
       tooltip: true
       timezones: []
       icons:
-        clock_00: ""
-        clock_01: ""
-        clock_02: ""
-        clock_03: ""
-        clock_04: ""
-        clock_05: ""
-        clock_06: ""
-        clock_07: ""
-        clock_08: ""
-        clock_09: ""
-        clock_10: ""
-        clock_11: ""
-        clock_12: ""
+        clock_00: ''
+        clock_01: ''
+        clock_02: ''
+        clock_03: ''
+        clock_04: ''
+        clock_05: ''
+        clock_06: ''
+        clock_07: ''
+        clock_08: ''
+        clock_09: ''
+        clock_10: ''
+        clock_11: ''
+        clock_12: ''
       calendar:
         blur: false
-        alignment: "center"
-        direction: "down"
+        alignment: 'center'
+        direction: 'down'
         offset_top: 4
-        country_code: "$env:YASB_COUNTRY_CODE"
+        country_code: '$env:YASB_COUNTRY_CODE'
         show_holidays: true
-        holiday_color: "#F38BA8"
+        holiday_color: '#F38BA8'
 
   cava:
-    type: "yasb.cava.CavaWidget"
+    type: 'yasb.cava.CavaWidget'
     options:
       bar_height: 15
       sleep_timer: 2
       gradient: 1
       reverse: 0
       sensitivity: 100
-      foreground: "#89DCEB"
-      gradient_color_1: "#74C7EC"
-      gradient_color_2: "#89B4FA"
-      gradient_color_3: "#CBA6F7"
+      foreground: '#89DCEB'
+      gradient_color_1: '#74C7EC'
+      gradient_color_2: '#89B4FA'
+      gradient_color_3: '#CBA6F7'
       bars_number: 10
       bar_spacing: 2
       bar_width: 4
@@ -200,37 +197,37 @@ widgets:
       hide_empty: true
 
   panel-grouper:
-    type: "yasb.grouper.GrouperWidget"
+    type: 'yasb.grouper.GrouperWidget'
     options:
-      class_name: "panel-grouper"
-      widgets: ["memory", "cpu", "weather"]
+      class_name: 'panel-grouper'
+      widgets: ['memory', 'cpu', 'weather']
       hide_empty: true
 
   memory:
-    type: "yasb.memory.MemoryWidget"
+    type: 'yasb.memory.MemoryWidget'
     options:
-      label: "MEM {virtual_mem_percent}%"
-      label_alt: "MEM {virtual_mem_outof}"
+      label: 'MEM {virtual_mem_percent}%'
+      label_alt: 'MEM {virtual_mem_outof}'
       update_interval: 10000
       callbacks:
-        on_left: "toggle_label"
-        on_right: "exec cmd /c Taskmgr"
+        on_left: 'toggle_label'
+        on_right: 'exec cmd /c Taskmgr'
       memory_thresholds:
         low: 25
         medium: 50
         high: 80
       progress_bar:
         enabled: true
-        color: "#F2CDCD"
-        background_color: "#6C7086"
+        color: '#F2CDCD'
+        background_color: '#6C7086'
         thickness: 2
         size: 13
 
   cpu:
-    type: "yasb.cpu.CpuWidget"
+    type: 'yasb.cpu.CpuWidget'
     options:
-      label: "CPU {info[percent][total]}%"
-      label_alt: "CPU {info[histograms][cpu_percent]}"
+      label: 'CPU {info[percent][total]}%'
+      label_alt: 'CPU {info[histograms][cpu_percent]}'
       update_interval: 2000
       cpu_thresholds:
         low: 25
@@ -249,77 +246,77 @@ widgets:
         ]
       histogram_num_columns: 8
       callbacks:
-        on_left: "toggle_label"
-        on_right: "exec cmd /c Taskmgr"
+        on_left: 'toggle_label'
+        on_right: 'exec cmd /c Taskmgr'
       progress_bar:
         enabled: true
-        color: "#CBA6F7"
-        background_color: "#6C7086"
+        color: '#CBA6F7'
+        background_color: '#6C7086'
         thickness: 2
         size: 13
 
   weather:
-    type: "yasb.weather.WeatherWidget"
+    type: 'yasb.weather.WeatherWidget'
     options:
-      label: "<span>{icon}</span> {temp}"
-      label_alt: "<span>{icon}</span>{location}: <span></span>{min_temp},<span></span>{max_temp}, <span>󰖌</span>{humidity}"
-      api_key: "$env:YASB_WEATHER_API_KEY"
+      label: '<span>{icon}</span> {temp}'
+      label_alt: '<span>{icon}</span>{location}: <span></span>{min_temp},<span></span>{max_temp}, <span>󰖌</span>{humidity}'
+      api_key: '$env:YASB_WEATHER_API_KEY'
       show_alerts: true
       update_interval: 3600
       hide_decimal: true
-      units: "metric"
-      location: "$env:YASB_WEATHER_LOCATION"
+      units: 'metric'
+      location: '$env:YASB_WEATHER_LOCATION'
       callbacks:
-        on_left: "toggle_card"
-        on_middle: "do_nothing"
-        on_right: "toggle_label"
+        on_left: 'toggle_card'
+        on_middle: 'do_nothing'
+        on_right: 'toggle_label'
       icons:
-        sunnyDay: "󰖨"
-        clearNight: ""
-        cloudyDay: ""
-        cloudyNight: ""
-        rainyDay: ""
-        rainyNight: ""
-        snowyIcyDay: ""
-        snowyIcyNight: ""
-        blizzardDay: ""
-        blizzardNight: ""
-        foggyDay: ""
-        foggyNight: ""
-        thunderstormDay: ""
-        thunderstormNight: ""
-        default: ""
+        sunnyDay: '󰖨'
+        clearNight: ''
+        cloudyDay: ''
+        cloudyNight: ''
+        rainyDay: ''
+        rainyNight: ''
+        blizzardDay: ''
+        blizzardNight: ''
+        snowyDay: '󰖘'
+        snowyNight: '󰖘'
+        foggyDay: ''
+        foggyNight: ''
+        thunderstormDay: ''
+        thunderstormNight: ''
+        default: ''
       weather_card:
         blur: false
-        alignment: "right"
-        direction: "down"
+        alignment: 'right'
+        direction: 'down'
         distance: 6
         icon_size: 64
         show_hourly_forecast: true
-        time_format: "24h"
+        time_format: '24h'
         hourly_point_spacing: 76
         hourly_icon_size: 32
         icon_smoothing: true
         temp_line_width: 2
-        current_line_color: "#585B70"
+        current_line_color: '#585B70'
         current_line_width: 2
-        current_line_style: "dot"
+        current_line_style: 'dot'
 
   control-grouper:
-    type: "yasb.grouper.GrouperWidget"
+    type: 'yasb.grouper.GrouperWidget'
     options:
-      class_name: "control-grouper"
-      widgets: ["systray", "wallpapers", "wifi", "volume", "notifications"]
+      class_name: 'control-grouper'
+      widgets: ['systray', 'wallpapers', 'wifi', 'volume', 'notifications']
       hide_empty: true
 
   systray:
-    type: "yasb.systray.SystrayWidget"
+    type: 'yasb.systray.SystrayWidget'
     options:
-      label_collapsed: ""
-      label_expanded: ""
+      label_collapsed: ''
+      label_expanded: ''
       icon_size: 12
-      pin_click_modifier: "shift"
-      class_name: "systray"
+      pin_click_modifier: 'shift'
+      class_name: 'systray'
       show_unpinned: false
       show_unpinned_button: true
       show_battery: true
@@ -327,10 +324,10 @@ widgets:
       show_network: false
 
   wallpapers:
-    type: "yasb.wallpapers.WallpapersWidget"
+    type: 'yasb.wallpapers.WallpapersWidget'
     options:
-      label: "<span>󰸉</span>"
-      image_path: "$env:USERPROFILE/Pictures/Wallpaper"
+      label: '<span>󰸉</span>'
+      image_path: '$env:USERPROFILE/Pictures/Wallpaper'
       change_automatically: false
       gallery:
         enabled: true
@@ -338,7 +335,7 @@ widgets:
         image_width: 250
         image_per_page: 5
         show_buttons: false
-        orientation: "portrait"
+        orientation: 'portrait'
         image_spacing: 10
         lazy_load: true
         lazy_load_delay: 80
@@ -347,57 +344,57 @@ widgets:
         enable_cache: true
 
   wifi:
-    type: "yasb.wifi.WifiWidget"
+    type: 'yasb.wifi.WifiWidget'
     options:
-      label: "<span>{wifi_icon}</span>"
-      label_alt: "<span>{wifi_icon}</span> {wifi_name}"
+      label: '<span>{wifi_icon}</span>'
+      label_alt: '<span>{wifi_icon}</span> {wifi_name}'
       update_interval: 5000
       callbacks:
-        on_left: "toggle_menu"
-        on_middle: "do_nothing"
-        on_right: "toggle_label"
-      ethernet_icon: ""
+        on_left: 'toggle_menu'
+        on_middle: 'do_nothing'
+        on_right: 'toggle_label'
+      ethernet_icon: ''
       wifi_icons: [
-          "󰤯", # Icon for 0% strength
-          "󰤟", # Icon for 1-24% strength
-          "󰤢", # Icon for 25-49% strength
-          "󰤥", # Icon for 50-74% strength
-          "󰤨", # Icon for 75-100% strength
+          '󰤯', # Icon for 0% strength
+          '󰤟', # Icon for 1-24% strength
+          '󰤢', # Icon for 25-49% strength
+          '󰤥', # Icon for 50-74% strength
+          '󰤨', # Icon for 75-100% strength
         ]
       menu_config:
         blur: false
-        alignment: "center"
-        direction: "down"
+        alignment: 'center'
+        direction: 'down'
         offset_top: 4
         offset_left: 0
         wifi_icons_secured: ["\ue670", "\ue671", "\ue672", "\ue673"]
         wifi_icons_unsecured: ["\uec3c", "\uec3d", "\uec3e", "\uec3f"]
 
   volume:
-    type: "yasb.volume.VolumeWidget"
+    type: 'yasb.volume.VolumeWidget'
     options:
-      label: "<span>{icon}</span>"
-      label_alt: "{volume}"
+      label: '<span>{icon}</span>'
+      label_alt: '{volume}'
       tooltip: true
       audio_menu:
         blur: false
         offset_top: 4
-        alignment: "center"
+        alignment: 'center'
 
   notifications:
-    type: "yasb.notifications.NotificationsWidget"
+    type: 'yasb.notifications.NotificationsWidget'
     options:
-      label: "<span></span>{count}"
-      label_alt: "{count} notifs"
+      label: '<span></span>{count}'
+      label_alt: '{count} notifs'
       hide_empty: false
       tooltip: true
       callbacks:
-        on_left: "toggle_notification"
-        on_middle: "do_nothing"
-        on_right: "toggle_label"
+        on_left: 'toggle_notification'
+        on_middle: 'do_nothing'
+        on_right: 'toggle_label'
 
   power_menu:
-    type: "yasb.power_menu.PowerMenuWidget"
+    type: 'yasb.power_menu.PowerMenuWidget'
     options:
       label: "\uf011"
       uptime: true
@@ -406,9 +403,9 @@ widgets:
       animation_duration: 200
       button_row: 5
       buttons:
-        shutdown: ["\uf011", "Shut Down"]
-        restart: ["\uead2", "Restart"]
-        signout: ["\udb80\udf43", "Sign out"]
-        hibernate: ["\uf28e", "Hibernate"]
-        sleep: ["\u23fe", "Sleep"]
-        cancel: ["", "Cancel"]
+        shutdown: ["\uf011", 'Shut Down']
+        restart: ["\uead2", 'Restart']
+        signout: ["\udb80\udf43", 'Sign out']
+        hibernate: ["\uf28e", 'Hibernate']
+        sleep: ["\u23fe", 'Sleep']
+        cancel: ['', 'Cancel']

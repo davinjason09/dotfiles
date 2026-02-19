@@ -1,9 +1,6 @@
 general:
   # Commands to run when the WM has started
-  startup_commands:
-    [
-      "shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1",
-    ]
+  startup_commands: ['shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1']
 
   # Commands to run just before the WM is shutdown.
   shutdown_commands: []
@@ -11,8 +8,8 @@ general:
   # Commands to run after the WM config is reloaded.
   config_reload_commands:
     [
-      "shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1",
-      "shell-exec --hide-window yasbc reload",
+      'shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1',
+      'shell-exec --hide-window yasbc reload',
     ]
 
   # Whether to automatically focus windows underneath the cursor.
@@ -29,12 +26,12 @@ general:
     # Trigger for cursor jump:
     # - 'monitor_focus': Jump when focus changes between monitors.
     # - 'window_focus': Jump when focus changes between windows.
-    trigger: "monitor_focus"
+    trigger: 'monitor_focus'
 
   # How windows should be hidden when switching workspaces.
   # - 'cloak': Recommended. Hides windows with no animation.
   # - 'hide': Legacy method (v3.5 and earlier) that has a brief animation, but has stability issues with some apps.
-  hide_method: "cloak"
+  hide_method: 'cloak'
 
   # Affects which windows get shown in the native Windows taskbar. Has no effect if `hide_method: 'hide'`.
   # - 'true': Show all windows (regardless of workspace).
@@ -43,41 +40,41 @@ general:
 
 gaps:
   scale_with_dpi: true
-  inner_gap: "4px"
+  inner_gap: '4px'
   outer_gap:
-    top: "9px"
-    right: "7px"
-    bottom: "10px"
-    left: "7px"
+    top: '9px'
+    right: '7px'
+    bottom: '10px'
+    left: '7px'
 
 window_effects:
   focused_window:
     border:
       enabled: false
-      color: "#89dceb"
+      color: '#89dceb'
     corner_style:
       enabled: true
-      style: "rounded"
+      style: 'rounded'
     transparency:
       enabled: true
-      opacity: "95%"
+      opacity: '95%'
       # opacity: '100%'
   other_windows:
     border:
       enabled: false
-      color: "#7f849c"
+      color: '#7f849c'
     corner_style:
       enabled: true
-      style: "rounded"
+      style: 'rounded'
     transparency:
       enabled: true
-      opacity: "95%"
+      opacity: '95%'
       # opacity: '100%'
 
 window_behavior:
   # New windows are created in this state whenever possible.
   # Allowed values: 'tiling', 'floating'.
-  initial_state: "tiling"
+  initial_state: 'tiling'
   state_defaults:
     floating:
       centered: true
@@ -87,183 +84,183 @@ window_behavior:
       shown_on_top: true
 
 workspaces:
-  - name: "1"
+  - name: '1'
     keep_alive: true
-  - name: "2"
+  - name: '2'
     keep_alive: true
-  - name: "3"
-  - name: "4"
-  - name: "5"
-  - name: "6"
-  - name: "7"
-  - name: "8"
-  - name: "9"
+  - name: '3'
+  - name: '4'
+  - name: '5'
+  - name: '6'
+  - name: '7'
+  - name: '8'
+  - name: '9'
 
 window_rules:
-  - commands: ["ignore"]
+  - commands: ['ignore']
     match:
-      - window_process: { equals: "yasb" }
+      - window_process: { equals: 'yasb' }
 
       # Picture-to-picture
-      - window_title: { regex: "[Pp]icture.in.[Pp]icture" }
-        window_class: { regex: "Chrome_WidgetWin_1|MozillaDialogClass" }
+      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
+        window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
 
       # Ignore rules for various 3rd-party apps.
-      - window_process: { equals: "PowerToys" }
+      - window_process: { equals: 'PowerToys' }
         window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
-      - window_process: { equals: "PowerToys" }
-        window_title: { regex: ".*? - Peek" }
-      - window_process: { equals: "Lively" }
-        window_class: { regex: "HwndWrapper" }
-      - window_process: { equals: "EXCEL" }
-        window_class: { not_regex: "XLMAIN" }
-      - window_process: { equals: "WINWORD" }
-        window_class: { not_regex: "OpusApp" }
-      - window_process: { equals: "POWERPNT" }
-        window_class: { not_regex: "PPTFrameClass" }
-      - window_process: { equals: "Zoom" }
-        window_class: { equals: "zBubbleBaseClass" }
+      - window_process: { equals: 'PowerToys' }
+        window_title: { regex: '.*? - Peek' }
+      - window_process: { equals: 'Lively' }
+        window_class: { regex: 'HwndWrapper' }
+      - window_process: { equals: 'EXCEL' }
+        window_class: { not_regex: 'XLMAIN' }
+      - window_process: { equals: 'WINWORD' }
+        window_class: { not_regex: 'OpusApp' }
+      - window_process: { equals: 'POWERPNT' }
+        window_class: { not_regex: 'PPTFrameClass' }
+      - window_process: { equals: 'Zoom' }
+        window_class: { equals: 'zBubbleBaseClass' }
 
       # Snipping tool bar
-      - window_process: { equals: "SnippingTool" }
-        window_title: { equals: "Recording toolbar" }
+      - window_process: { equals: 'SnippingTool' }
+        window_title: { equals: 'Recording toolbar' }
 
-  - commands: ["set-floating"]
+  - commands: ['set-floating']
     match:
-      - window_process: { equals: "SnippingTool" }
-      - window_process: { regex: "AutoHotkeyUX*" }
-        window_class: { regex: "AutoHotkeyGUI*" }
-      - window_process: { equals: "explorer" }
-        window_class: { equals: "ApplicationFrameWindow" }
-      - window_class: { equals: "TWizardForm" }
-      - window_process: { equals: "WINWORD" }
-        window_class: { equals: "bosa_sdm_msword" }
-      - window_process: { equals: "WINWORD" }
-        window_class: { equals: "NUIDialog" }
-      - window_process: { equals: "EXCEL" }
-        window_class: { equals: "NUIDialog" }
-      - window_process: { equals: "oklch-color-picker" }
+      - window_process: { equals: 'SnippingTool' }
+      - window_process: { regex: 'AutoHotkeyUX*' }
+        window_class: { regex: 'AutoHotkeyGUI*' }
+      - window_process: { equals: 'explorer' }
+        window_class: { equals: 'ApplicationFrameWindow' }
+      - window_class: { equals: 'TWizardForm' }
+      - window_process: { equals: 'WINWORD' }
+        window_class: { equals: 'bosa_sdm_msword' }
+      - window_process: { equals: 'WINWORD' }
+        window_class: { equals: 'NUIDialog' }
+      - window_process: { equals: 'EXCEL' }
+        window_class: { equals: 'NUIDialog' }
+      - window_process: { equals: 'oklch-color-picker' }
       - window_class: { regex: 'HwndWrapper\[Flow\.Launcher.*?\]' }
-        window_title: { equals: "Settings" }
-      - window_process: { equals: "YourPhoneAppProxy" }
-      - window_process: { equals: "zen" }
-        window_title: { equals: "Sign in - Google Accounts — Zen Browser" }
+        window_title: { equals: 'Settings' }
+      - window_process: { equals: 'YourPhoneAppProxy' }
+      - window_process: { equals: 'zen' }
+        window_title: { regex: 'Sign [Ii]n - Google Accounts — Zen Browser' }
 
 keybindings:
   # Shift focus in a given direction.
-  - commands: ["focus --direction left"]
-    bindings: ["lwin+left"]
-  - commands: ["focus --direction right"]
-    bindings: ["lwin+right"]
-  - commands: ["focus --direction up"]
-    bindings: ["lwin+up"]
-  - commands: ["focus --direction down"]
-    bindings: ["lwin+down"]
+  - commands: ['focus --direction left']
+    bindings: ['lwin+left']
+  - commands: ['focus --direction right']
+    bindings: ['lwin+right']
+  - commands: ['focus --direction up']
+    bindings: ['lwin+up']
+  - commands: ['focus --direction down']
+    bindings: ['lwin+down']
 
   # Move focused window in a given direction.
-  - commands: ["move --direction left"]
-    bindings: ["lwin+shift+h", "lwin+shift+left"]
-  - commands: ["move --direction right"]
-    bindings: ["lwin+shift+l", "lwin+shift+right"]
-  - commands: ["move --direction up"]
-    bindings: ["lwin+shift+k", "lwin+shift+up"]
-  - commands: ["move --direction down"]
-    bindings: ["lwin+shift+j", "lwin+shift+down"]
+  - commands: ['move --direction left']
+    bindings: ['lwin+shift+h', 'lwin+shift+left']
+  - commands: ['move --direction right']
+    bindings: ['lwin+shift+l', 'lwin+shift+right']
+  - commands: ['move --direction up']
+    bindings: ['lwin+shift+k', 'lwin+shift+up']
+  - commands: ['move --direction down']
+    bindings: ['lwin+shift+j', 'lwin+shift+down']
 
   # Resize focused window by a percentage or pixel amount.
-  - commands: ["resize --width -2%"]
-    bindings: ["lwin+u"]
-  - commands: ["resize --width +2%"]
-    bindings: ["lwin+p"]
-  - commands: ["resize --height +2%"]
-    bindings: ["lwin+o"]
-  - commands: ["resize --height -2%"]
-    bindings: ["lwin+i"]
+  - commands: ['resize --width -2%']
+    bindings: ['lwin+u']
+  - commands: ['resize --width +2%']
+    bindings: ['lwin+p']
+  - commands: ['resize --height +2%']
+    bindings: ['lwin+o']
+  - commands: ['resize --height -2%']
+    bindings: ['lwin+i']
 
   # pause the wm
-  - commands: ["wm-toggle-pause"]
-    bindings: ["lwin+tab"]
+  - commands: ['wm-toggle-pause']
+    bindings: ['lwin+tab']
 
   # Change tiling direction. This determines where new tiling windows will be inserted.
-  - commands: ["toggle-tiling-direction"]
-    bindings: ["lwin+`"]
+  - commands: ['toggle-tiling-direction']
+    bindings: ['lwin+`']
 
   # Change the focused window to be tiling.
-  - commands: ["toggle-tiling"]
-    bindings: ["lwin+t"]
+  - commands: ['toggle-tiling']
+    bindings: ['lwin+t']
 
   # Change the focused window to be fullscreen.
-  - commands: ["toggle-fullscreen"]
-    bindings: ["lwin+f"]
+  - commands: ['toggle-fullscreen']
+    bindings: ['lwin+f']
 
   # Minimize focused window.
-  - commands: ["toggle-minimized"]
-    bindings: ["lwin+m"]
+  - commands: ['toggle-minimized']
+    bindings: ['lwin+m']
 
   # Close focused window.
-  - commands: ["close"]
-    bindings: ["lwin+shift+q"]
+  - commands: ['close']
+    bindings: ['lwin+shift+q']
 
   # Kill GlazeWM process safely.
-  - commands: ["wm-exit"]
-    bindings: ["lwin+escape"]
+  - commands: ['wm-exit']
+    bindings: ['lwin+escape']
 
   # Reload configuration file.
-  - commands: ["wm-reload-config"]
-    bindings: ["lwin+shift+r"]
+  - commands: ['wm-reload-config']
+    bindings: ['lwin+shift+r']
 
   # Redraw all windows.
-  - commands: ["wm-redraw"]
-    bindings: ["lwin+w"]
+  - commands: ['wm-redraw']
+    bindings: ['lwin+w']
 
   # Set transparency to none
-  - commands: ["set-transparency --opacity 100%"]
-    bindings: ["lwin+shift+t"]
+  - commands: ['set-transparency --opacity 100%']
+    bindings: ['lwin+shift+t']
 
   # Focus the next/previous/recent workspace
-  - commands: ["focus --next-workspace"]
-    bindings: ["lwin+s"]
-  - commands: ["focus --prev-workspace"]
-    bindings: ["lwin+a"]
-  - commands: ["focus --recent-workspace"]
-    bindings: ["lwin+d"]
+  - commands: ['focus --next-workspace']
+    bindings: ['lwin+s']
+  - commands: ['focus --prev-workspace']
+    bindings: ['lwin+a']
+  - commands: ['focus --recent-workspace']
+    bindings: ['lwin+d']
 
   # Change focus to a workspace defined in `workspaces` config.
-  - commands: ["focus --workspace 1"]
-    bindings: ["lwin+1"]
-  - commands: ["focus --workspace 2"]
-    bindings: ["lwin+2"]
-  - commands: ["focus --workspace 3"]
-    bindings: ["lwin+3"]
-  - commands: ["focus --workspace 4"]
-    bindings: ["lwin+4"]
-  - commands: ["focus --workspace 5"]
-    bindings: ["lwin+5"]
-  - commands: ["focus --workspace 6"]
-    bindings: ["lwin+6"]
-  - commands: ["focus --workspace 7"]
-    bindings: ["lwin+7"]
-  - commands: ["focus --workspace 8"]
-    bindings: ["lwin+8"]
-  - commands: ["focus --workspace 9"]
-    bindings: ["lwin+9"]
+  - commands: ['focus --workspace 1']
+    bindings: ['lwin+1']
+  - commands: ['focus --workspace 2']
+    bindings: ['lwin+2']
+  - commands: ['focus --workspace 3']
+    bindings: ['lwin+3']
+  - commands: ['focus --workspace 4']
+    bindings: ['lwin+4']
+  - commands: ['focus --workspace 5']
+    bindings: ['lwin+5']
+  - commands: ['focus --workspace 6']
+    bindings: ['lwin+6']
+  - commands: ['focus --workspace 7']
+    bindings: ['lwin+7']
+  - commands: ['focus --workspace 8']
+    bindings: ['lwin+8']
+  - commands: ['focus --workspace 9']
+    bindings: ['lwin+9']
 
   # Move focused window to a workspace defined in `workspaces` config.
-  - commands: ["move --workspace 1", "focus --workspace 1"]
-    bindings: ["lwin+shift+1"]
-  - commands: ["move --workspace 2", "focus --workspace 2"]
-    bindings: ["lwin+shift+2"]
-  - commands: ["move --workspace 3", "focus --workspace 3"]
-    bindings: ["lwin+shift+3"]
-  - commands: ["move --workspace 4", "focus --workspace 4"]
-    bindings: ["lwin+shift+4"]
-  - commands: ["move --workspace 5", "focus --workspace 5"]
-    bindings: ["lwin+shift+5"]
-  - commands: ["move --workspace 6", "focus --workspace 6"]
-    bindings: ["lwin+shift+6"]
-  - commands: ["move --workspace 7", "focus --workspace 7"]
-    bindings: ["lwin+shift+7"]
-  - commands: ["move --workspace 8", "focus --workspace 8"]
-    bindings: ["lwin+shift+8"]
-  - commands: ["move --workspace 9", "focus --workspace 9"]
-    bindings: ["lwin+shift+9"]
+  - commands: ['move --workspace 1', 'focus --workspace 1']
+    bindings: ['lwin+shift+1']
+  - commands: ['move --workspace 2', 'focus --workspace 2']
+    bindings: ['lwin+shift+2']
+  - commands: ['move --workspace 3', 'focus --workspace 3']
+    bindings: ['lwin+shift+3']
+  - commands: ['move --workspace 4', 'focus --workspace 4']
+    bindings: ['lwin+shift+4']
+  - commands: ['move --workspace 5', 'focus --workspace 5']
+    bindings: ['lwin+shift+5']
+  - commands: ['move --workspace 6', 'focus --workspace 6']
+    bindings: ['lwin+shift+6']
+  - commands: ['move --workspace 7', 'focus --workspace 7']
+    bindings: ['lwin+shift+7']
+  - commands: ['move --workspace 8', 'focus --workspace 8']
+    bindings: ['lwin+shift+8']
+  - commands: ['move --workspace 9', 'focus --workspace 9']
+    bindings: ['lwin+shift+9']

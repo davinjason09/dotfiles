@@ -51,8 +51,7 @@ let fish_completer = {|spans|
   fish --command $"complete '--do-complete=($spans | str replace --all "'" "\\'" | str join ' ')'"
   | from tsv --flexible --noheaders --no-infer
   | rename value description
-  # NOTE: remove value if it contains more than 1 word
-  | take while {|row| ($row.value | split row " " | length) == 1 }
+  | take while {|row| ($row.value | split row " " | length) == 1 } # NOTE: remove value if it contains more than 1 word
   | update value {|row|
     let value = $row.value
     let need_quote = ['\' ',' '[' ']' '(' ')' ' ' '\t' "'" '"' "`"] | any {$in in $value}

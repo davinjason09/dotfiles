@@ -1,5 +1,6 @@
+#:schema https://starship.rs/config-schema.json
 #:tombi format.disabled = true
-"$schema" = "https://starship.rs/config-schema.json"
+
 format = """
 [](surface0)\
 $os\
@@ -28,9 +29,9 @@ $line_break\
 $character
 """
 continuation_prompt = "[❯❯](bright-black) "
-scan_timeout = 400
+scan_timeout = 500
 palette = "catppuccin_mocha"
-#:tombi format.disabled = false
+
 
 [palettes.catppuccin_mocha]
   base      = "#1e1e2e"
