@@ -1,19 +1,18 @@
 local M = {}
 
 local opts = {
-  cmd = "mise",
-  args = "env --json",
   initial_path = vim.env.PATH,
 }
 
 local function get_data()
-  local full_command = opts.cmd .. " " .. opts.args
-  local env_sh = vim.fn.system(full_command)
+  local full_command = { "mise", "env", "--json" }
+  local env_sh = vim.system(full_command, { text = true }):wait()
 
-  if env_sh:find("^mise") ~= nil then return vim.notify(env_sh:match("^[^\n]*"), vim.log.levels.ERROR) end
+  -- Warn the user instead of returning nil
+  if env_sh.stderr ~= nil then vim.notify(vim.trim(env_sh.stderr), vim.log.levels.WARN) end
 
-  local ok, data = pcall(vim.json.decode, env_sh)
-  if not ok or data == nil then
+  local ok, data = pcall(vim.json.decode, env_sh.stdout)
+  if not ok or type(data) == "string" then
     return vim.notify('Invalid json returned by "' .. full_command .. '"', vim.log.levels.ERROR)
   end
 
@@ -26,7 +25,11 @@ local function load_env(data)
   end
 end
 
+M._did_setup = false
 M.setup = function()
+  if M._did_setup then return end
+  M._did_setup = true
+
   local data = get_data()
   if data == nil then return end
 
