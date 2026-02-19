@@ -244,17 +244,11 @@ map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
 map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 
 -- ╭─────────────────────────────────────────────────────────╮
--- │                        Terminal                         │
--- ╰─────────────────────────────────────────────────────────╯
-
-local Terminal = Utils.lazy_require("custom.terminal")
-map({ "n", "i", "x" }, "<C-`>", function() Terminal.toggle() end, { desc = "Toggle Terminal" })
-
--- ╭─────────────────────────────────────────────────────────╮
 -- │                           Git                           │
 -- ╰─────────────────────────────────────────────────────────╯
 
-map("n", "<leader>gg", function() Terminal.open("lazygit") end, { desc = "[G]it: Lazy[G]it" })
+---@diagnostic disable-next-line: undefined-field
+map("n", "<leader>gg", function() Snacks.picker.terminal({ cmd = "lazygit" }) end, { desc = "[G]it: Lazy[G]it" })
 map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "[G]it: [B]rowse (open)" })
 map({ "n", "x" }, "<leader>gY", function()
   Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })

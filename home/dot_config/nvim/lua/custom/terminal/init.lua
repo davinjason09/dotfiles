@@ -1,11 +1,12 @@
 local M = {}
+
 local actions = require("custom.terminal.actions")
 local state = require("custom.terminal.state")
 local utils = require("custom.terminal.utils")
 local config = state.config
 
+---@param id integer
 local function id_to_icon(id)
-  ---@type string[]
   local icons = { "󰎡", "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "󰎼" }
   local icon = ""
 
@@ -40,8 +41,14 @@ local function format_item(item, picker)
   return ret
 end
 
-local function find_term()
+---@param opts snacks.picker.terminal.Config
+local function find_term(opts, _)
   local items = {}
+
+  local cmd = opts.cmd
+  local created_id, _ = utils.get_term("cmd", { cmd })
+  if cmd and not created_id then utils.add_term(cmd, nil, { auto_close = true }) end
+  if #state.term_bufs == 0 then utils.add_term() end
 
   for id, term in pairs(state.term_bufs) do
     local buf = term.bufnr
@@ -96,110 +103,90 @@ local function setup_autocmd(picker)
   end)
 end
 
--- TODO: make this a source
+---@class snacks.picker.terminal.Config: snacks.picker.Config
+---@field cmd? string|string[]
+---@field finder fun(opts: snacks.picker.terminal.Config, ctx: snacks.picker.finder.ctx): snacks.picker.finder.result
+M.source = {
+  title = "Terminal",
+  focus = "list",
+  layout = config.picker_layout,
+  format = format_item,
+  finder = find_term,
+  on_show = function(picker)
+    ---@cast picker.opts snacks.picker.terminal.Config
+    local cmd = picker.opts.cmd
 
----@param cmd? string | string[]
-M.pick = function(cmd)
-  Snacks.picker.pick({
-    title = "Terminal",
-    focus = "list",
-    layout = config.picker_layout,
-    format = format_item,
-    finder = find_term,
-    on_show = function(picker)
-      --- @diagnostic disable-next-line: inject-field
-      picker.last_win = vim.fn.win_getid(vim.fn.winnr("#"))
-      picker:action("focus_preview")
-      setup_autocmd(picker)
+    ---@diagnostic disable-next-line: inject-field
+    picker.last_win = vim.fn.win_getid(vim.fn.winnr("#"))
+    picker:action("focus_preview")
+    setup_autocmd(picker)
 
-      local buf ---@type integer
-      if cmd then
-        buf = state.term_bufs[#state.term_bufs].bufnr
-      else
-        buf = state.last_term or state.term_bufs[1].bufnr
-      end
+    local buf ---@type integer
+    if cmd then
+      buf = state.term_bufs[#state.term_bufs].bufnr
+    else
+      buf = state.last_term or state.term_bufs[1].bufnr
+    end
 
-      utils.switch_term_buf(buf)
-    end,
-    on_close = function(picker)
-      picker:action("restore_win")
-
-      -- Clean buf that is deleted from the term list
-      for i = #state.buf_to_clear, 1, -1 do
-        vim.api.nvim_buf_delete(state.buf_to_clear[i], { force = true })
-      end
-
-      state.buf_to_clear = {}
-      vim.cmd("checktime")
-    end,
-    actions = actions.picker,
-    preview = function(ctx)
-      local cur_win = ctx.picker:current_win()
-
-      if state.last_win == "input" and cur_win ~= "input" then
-        local buf = state.last_term or state.term_bufs[ctx.item.idx].bufnr
-        utils.switch_term_buf(buf)
-
-        local action = cur_win == "list" and "stopinsert" or "startinsert"
-        vim.defer_fn(function() ctx.picker:action(action) end, 25)
-      end
-
-      -- HACK:
-      -- When the input is unhidden, the preview pane doesn't get updated, so as a workaround we
-      -- refresh the picker's list and then move the cursor to the current item.
-      if state.last_win ~= "input" and cur_win == "input" then
-        ctx.picker:find()
-        ctx.picker.list:move(ctx.item.idx)
-      end
-
-      state.last_win = cur_win
-      if cur_win ~= "input" then return end
-
-      Snacks.picker.preview.file(ctx)
-      ctx.preview:set_title("Previewing: " .. ctx.item.title)
-
-      -- HACK:
-      -- - If we ever use input to search and preview the terminal, `snacks_picker_loaded` field will
-      --   be set to true as the buffer is being previewed. However, when we close the picker, this
-      --   buffer will get deleted because the picker assume that it's part of the picker due to that
-      --   field being set to true.
-      -- - We don't want that, so we set the field to false here, after we done previewing it
-
-      ---@cast ctx.buf integer
-      vim.b[ctx.buf].snacks_picker_loaded = false
-    end,
-    win = {
-      input = { keys = config.keys.input },
-      list = { keys = config.keys.list },
-      preview = {
-        minimal = true,
-        fixbuf = false,
-        noautocmd = true,
-        keys = config.keys.preview,
-      },
-    },
-  })
-end
-
----@param cmd? string | string[]
-M.open = function(cmd)
-  local id, term = utils.get_term("cmd", { cmd })
-  if cmd and not id then utils.add_term(cmd, nil, { auto_close = true }) end
-  if #state.term_bufs == 0 then utils.add_term() end
-
-  local picker = Snacks.picker.get()[1]
-  if not picker then return M.pick(cmd) end
-
-  if cmd then
-    local buf = term and term.bufnr or state.term_bufs[#state.term_bufs].bufnr
     utils.switch_term_buf(buf)
-  end
-end
+  end,
+  on_close = function(picker)
+    picker:action("restore_win")
 
----@param cmd? string | string[]
-M.toggle = function(cmd)
-  local picker = Snacks.picker.get()[1]
-  return picker and picker:close() or M.open(cmd)
-end
+    -- Clean buf that is deleted from the term list
+    for i = #state.buf_to_clear, 1, -1 do
+      vim.api.nvim_buf_delete(state.buf_to_clear[i], { force = true })
+    end
+
+    state.buf_to_clear = {}
+    vim.cmd("checktime")
+  end,
+  actions = actions.picker,
+  preview = function(ctx)
+    local cur_win = ctx.picker:current_win()
+
+    if state.last_win == "input" and cur_win ~= "input" then
+      local buf = state.last_term or state.term_bufs[ctx.item.idx].bufnr
+      utils.switch_term_buf(buf)
+
+      local action = cur_win == "list" and "stopinsert" or "startinsert"
+      vim.defer_fn(function() ctx.picker:action(action) end, 25)
+    end
+
+    -- HACK:
+    -- When the input is unhidden, the preview pane doesn't get updated, so as a workaround we
+    -- refresh the picker's list and then move the cursor to the current item.
+    if state.last_win ~= "input" and cur_win == "input" then
+      ctx.picker:find()
+      ctx.picker.list:move(ctx.item.idx)
+    end
+
+    state.last_win = cur_win
+    if cur_win ~= "input" then return end
+
+    Snacks.picker.preview.file(ctx)
+    ctx.preview:set_title("Previewing: " .. ctx.item.title)
+
+    -- HACK:
+    -- - If we ever use input to search and preview the terminal, `snacks_picker_loaded` field will
+    --   be set to true as the buffer is being previewed. However, when we close the picker, this
+    --   buffer will get deleted because the picker assume that it's part of the picker due to that
+    --   field being set to true.
+    -- - We don't want that, so we set the field to false here, after we done previewing it
+
+    ---@cast ctx.buf integer
+    vim.b[ctx.buf].snacks_picker_loaded = false
+  end,
+  win = {
+    input = { keys = config.keys.input },
+    list = { keys = config.keys.list },
+    preview = {
+      minimal = true,
+      fixbuf = false,
+      noautocmd = true,
+      keys = config.keys.preview,
+    },
+  },
+}
 
 return M

@@ -140,8 +140,9 @@ return {
     { "z=",         function() Snacks.picker.spelling() end,        desc = "Spelling Suggestions" },
     -- Custom
     ---@diagnostic disable: undefined-field
-    { "<leader>dr", function() Snacks.picker.reload() end,  desc = "[D]ebug: [R]eload Plugins" },
-    { "<leader>so", function() Snacks.picker.options() end, desc = "[S]earch [O]ption" },
-    { "<leader>sz", function() Snacks.picker.chezmoi() end, desc = "[S]earch Che[z]moi File" },
+    { "<leader>dr", function() Snacks.picker.reload() end,   desc = "[D]ebug: [R]eload Plugins" },
+    { "<leader>so", function() Snacks.picker.options() end,  desc = "[S]earch [O]ption" },
+    { "<leader>sz", function() Snacks.picker.chezmoi() end,  desc = "[S]earch Che[z]moi File" },
+    { "<C-`>",      function() Snacks.picker.terminal() end, desc = "Open Terminal", mode = { "n", "i", "x" } },
   },
 }

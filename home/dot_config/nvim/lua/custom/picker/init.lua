@@ -4,6 +4,7 @@ M.sources = {
   chezmoi = require("custom.picker.chezmoi").source,
   options = require("custom.picker.options").source,
   reload = require("custom.picker.reload").source,
+  terminal = require("custom.terminal").source,
 }
 
 M._did_setup = false
