@@ -44,33 +44,24 @@ map({ "n", "x" }, "<A-s>", function() surround("#strike") end,    { desc = "Surr
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("TypstPinMain", { clear = true }),
-  callback = function(ev)
-    local allowed_main_name = { "main.typ" }
+  callback = function()
+    if vim.g.typst_main_file ~= nil then return end
 
-    local buf_name = vim.fn.fnamemodify(ev.file, ":t")
-    local buf_path = vim.fn.fnamemodify(ev.file, ":p:h")
-    local cwd = vim.fn.getcwd()
+    local root = vim.fs.root(vim.env.PWD, { "main.typ" }) -- Only main.typ is considered an entry point in a single/multi file setup
+    if not root then return end
+
     local client = vim.lsp.get_clients({ name = "tinymist" })[1]
-
     if not client then return end
-    if not vim.tbl_contains(allowed_main_name, buf_name) then return end
 
-    if vim.g.typst_main_file ~= nil then
-      local main_buf_path = vim.fn.fnamemodify(vim.g.typst_main_file, ":p:h")
-      if main_buf_path == cwd or buf_path ~= cwd then return end
-    end
-
-    vim.g.typst_main_file = ev.file
+    vim.g.typst_main_file = root .. "/main.typ"
     client:exec_cmd({
       title = "Pin main file",
       command = "tinymist.pinMain",
-      arguments = { ev.file },
+      arguments = { vim.g.typst_main_file },
     })
-    vim.notify(
-      ("Pinned %s as typst main file"):format(vim.fn.fnamemodify(ev.file, ":.")),
-      vim.log.levels.INFO,
-      { title = "tinymist" }
-    )
+
+    local shortname = vim.fn.fnamemodify(vim.g.typst_main_file, ":.")
+    vim.notify(("Pinned %s as typst main file"):format(shortname), vim.log.levels.INFO, { title = "tinymist" })
   end,
 })
 
