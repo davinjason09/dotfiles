@@ -108,15 +108,10 @@ M.githead = {
   branch_prefix = "",
   prefix_color = "",
   branch_color = palette.yellow,
-  branch_symbol = "",
+  branch_symbol = " ",
   branch_borders = "",
 
-  -- NOTE:
-  -- The options below should be show_behind_ahead, however it doesn't remove the
-  -- behind/ahead section when set to false
-  -- As it turns out, in the default config as seen on github, the option checks for
-  -- `options.behind_ahead` and not `options.show_behind_ahead`
-  behind_ahead = false,
+  show_behind_ahead_remote = false,
   show_stashes = false,
   show_state = false,
   show_state_prefix = false,
