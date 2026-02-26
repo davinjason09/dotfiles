@@ -306,7 +306,7 @@ widgets:
     type: 'yasb.grouper.GrouperWidget'
     options:
       class_name: 'control-grouper'
-      widgets: ['systray', 'wallpapers', 'wifi', 'volume', 'notifications']
+      widgets: ['systray', 'wallpapers', 'copilot', 'wifi', 'volume', 'notifications']
       hide_empty: true
 
   systray:
@@ -342,6 +342,32 @@ widgets:
         lazy_load_fadein: 200
         image_corner_radius: 8
         enable_cache: true
+
+  copilot:
+    type: 'yasb.copilot.CopilotWidget'
+    options:
+      label: '{icon}'
+      label_alt: '{used}/{allowance}'
+      token: '$env:YASB_GITHUB_TOKEN'
+      plan: 'pro'
+      tooltip: true
+      update_interval: 120
+      icons:
+        copilot: ''
+        error: ''
+      thresholds:
+        warning: 75
+        critical: 90
+      menu:
+        blur: false
+        alignment: 'center'
+        offset_top: 6
+        offset_left: 0
+        chart: true
+      animation:
+        enabled: true
+        type: 'fadeInOut'
+        duration: 200
 
   wifi:
     type: 'yasb.wifi.WifiWidget'

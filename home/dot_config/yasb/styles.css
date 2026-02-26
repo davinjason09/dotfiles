@@ -37,7 +37,7 @@ QPushButton {
   font-size: 10px;
   color: var(--text);
   font-weight: 700;
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
 }
 
 .yasb-bar {
@@ -57,7 +57,7 @@ QPushButton {
 }
 
 .tooltip {
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
   font-weight: 600;
   font-size: 10px;
   color: var(--text);
@@ -76,7 +76,7 @@ QPushButton {
   background-color: var(--crust);
   border-radius: 6px;
   padding: 2px;
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
   font-size: 10px;
   color: var(--text);
 }
@@ -115,7 +115,7 @@ QPushButton {
   font-size: 10px;
   margin: 0;
   color: var(--text);
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
 }
 
 .context-menu .submenu::item:disabled {
@@ -196,7 +196,7 @@ QPushButton {
 }
 
 .glazewm-workspaces .offline-status {
-  font-family: "JetBrainsMono NF";
+  font-family: 'JetBrainsMono NF';
   font-size: 10px;
 }
 
@@ -252,7 +252,7 @@ QPushButton {
 
 .taskbar-widget .app-container .app-title {
   padding: 0 -2px 0 1px;
-  font-family: "JetBrainsMono NF";
+  font-family: 'JetBrainsMono NF';
   font-size: 9.5px;
 }
 
@@ -273,7 +273,7 @@ QPushButton {
 
 .taskbar-preview .header .title {
   color: var(--text);
-  font-family: "JetBrainsMono NF";
+  font-family: 'JetBrainsMono NF';
   font-weight: 600;
   font-size: 10px;
 }
@@ -336,7 +336,7 @@ QPushButton {
   font-size: 14px;
   font-weight: 600;
   margin-left: 10px;
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
 }
 
 .media-menu .artist {
@@ -379,7 +379,7 @@ QPushButton {
 }
 
 .media-menu .btn {
-  font-family: "JetBrainsMono NF";
+  font-family: 'JetBrainsMono NF';
   font-size: 14px;
   font-weight: 400;
   margin: 10px 2px 0px 2px;
@@ -491,7 +491,7 @@ QPushButton {
 
 .media-menu .app-volume-container .mute-button,
 .media-menu .app-volume-container .unmute-button {
-  font: "JetBrainsMono NF";
+  font: 'JetBrainsMono NF';
   font-size: 13px;
   color: var(--subtext0);
   margin-top: 6px;
@@ -591,7 +591,7 @@ QPushButton {
 .calendar .calendar-table::item {
   background-color: rgba(17, 17, 27, 0);
   color: var(--text);
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
   border: none;
   outline: none;
 }
@@ -605,7 +605,7 @@ QPushButton {
 .calendar .day-label,
 .calendar .month-label,
 .calendar .date-label {
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
   font-size: 14px;
   color: var(--text);
   font-weight: 700;
@@ -790,7 +790,7 @@ QPushButton {
   padding-right: 2px;
 }
 
-.systray .pinned-container[forceshow="true"] {
+.systray .pinned-container[forceshow='true'] {
   background: var(--surface0);
 }
 
@@ -803,7 +803,7 @@ QPushButton {
   background-color: rgba(205, 214, 244, 0.2);
 }
 
-.systray .button[dragging="true"] {
+.systray .button[dragging='true'] {
   background-color: var(--overlay0);
   border: 1px solid var(--subtext0);
 }
@@ -860,6 +860,202 @@ QPushButton {
 }
 
 /*
+ * ╾╼ Copilot ╾─────────────────────────────────────────────────────────╼
+*/
+
+/* Bar widget */
+.copilot-widget {
+  font-family: 'JetBrainsMono NFP';
+  padding: 0 2px;
+}
+
+.copilot-widget .icon {
+  font-size: 10px;
+}
+
+.copilot-widget .label.warning,
+.copilot-widget .icon.warning {
+  color: var(--yellow);
+}
+
+.copilot-widget .label.critical,
+.copilot-widget .icon.critical {
+  color: var(--red);
+}
+
+/* Menu container */
+.copilot-menu {
+  background-color: rgba(17, 17, 27, 0.9);
+  border: 1px solid var(--sky);
+  border-radius: 6px;
+  font-family: 'JetBrainsMono NF';
+  min-width: 400px;
+}
+
+/* Header */
+.copilot-menu .header {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 400;
+  padding: 12px 0 12px 12px;
+}
+
+/* Section containers */
+.copilot-menu .section {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--surface0);
+  border-radius: 14px;
+  margin: 6px 12px;
+}
+
+.copilot-menu .section.progress-section {
+  background-color: transparent;
+  border: none;
+}
+
+.copilot-menu .section-title {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  margin-left: -3px;
+}
+
+.copilot-menu .section.progress-section .section-title {
+  font-size: 10px;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+
+/* Progress bar - track (background) */
+.copilot-menu .progress-bar {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* Progress bar - fill (foreground) */
+.copilot-menu .progress-bar .fill {
+  background-color: var(--yellow);
+  border-radius: 4px;
+}
+
+/* Progress bar states */
+.copilot-menu .progress-bar.warning .fill {
+  background-color: var(--peach);
+}
+
+.copilot-menu .progress-bar.critical .fill {
+  background-color: var(--red);
+}
+
+/* Progress section text */
+.copilot-menu .usage-count {
+  color: var(--overlay2);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.copilot-menu .usage-percent {
+  color: var(--overlay2);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.copilot-menu .reset-date {
+  color: var(--overlay2);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Spending section */
+.copilot-menu .stat-label {
+  color: var(--overlay2);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.copilot-menu .stat-value {
+  color: var(--overlay2);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.copilot-menu .stat-row.total .stat-value {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 600;
+}
+/* Model section - different colors for each model */
+.copilot-menu .model-name {
+  color: var(--overlay2);
+  font-weight: 600;
+  font-size: 10px;
+}
+
+.copilot-menu .model-count {
+  color: var(--overlay2);
+  font-weight: 600;
+  font-size: 10px;
+}
+
+.copilot-menu .progress-bar.model-0 .fill {
+  background-color: var(--lavender);
+}
+
+.copilot-menu .progress-bar.model-1 .fill {
+  background-color: var(--mauve);
+}
+
+.copilot-menu .progress-bar.model-2 .fill {
+  background-color: var(--maroon);
+}
+
+.copilot-menu .progress-bar.model-3 .fill {
+  background-color: var(--flamingo);
+}
+
+.copilot-menu .progress-bar.model-4 .fill {
+  background-color: var(--green);
+}
+
+/* Chart - line and fill color controlled by 'color' property */
+.copilot-menu .usage-chart {
+  color: var(--sky);
+}
+
+/* Error section */
+.copilot-menu .error-section {
+  background: transparent;
+  border: none;
+  padding: 32px 0;
+}
+
+.copilot-menu .error-icon {
+  color: var(--text);
+  font-size: 88px;
+}
+
+.copilot-menu .error-message {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Empty/loading state */
+.copilot-menu .empty-icon {
+  color: var(--text);
+  font-size: 88px;
+  padding-top: 32px;
+}
+
+.copilot-menu .empty-message {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 32px;
+}
+
+/*
  * ─[ Wifi ]─────────────────────────────────────────────────────────────
  */
 .wifi-widget {
@@ -881,7 +1077,7 @@ QPushButton {
 }
 
 .wifi-menu {
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
   background-color: rgba(17, 17, 27, 0.9);
   border: 1px solid var(--sky);
   border-radius: 6px;
@@ -901,7 +1097,7 @@ QPushButton {
 }
 
 .wifi-menu .header {
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
   font-size: 12px;
   font-weight: 600;
   padding: 12px;
@@ -914,7 +1110,7 @@ QPushButton {
 }
 
 .wifi-menu .error-message {
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
   font-size: 12px;
   font-weight: 600;
   margin-bottom: 2px;
@@ -943,7 +1139,7 @@ QPushButton {
   border-radius: 6px;
 }
 
-.wifi-menu .wifi-item[active="true"] {
+.wifi-menu .wifi-item[active='true'] {
   background-color: rgba(69, 71, 90, 0.9);
   font-size: 12px;
   border-radius: 6px;
@@ -951,30 +1147,30 @@ QPushButton {
 }
 
 .wifi-menu .wifi-item .icon {
-  font-family: "Segoe Fluent Icons";
+  font-family: 'Segoe Fluent Icons';
   font-size: 24px;
   margin-right: 10px;
 }
 
 .wifi-menu .wifi-item .name {
-  font-family: "JetBrainsMono NFP";
+  font-family: 'JetBrainsMono NFP';
   font-size: 12px;
   margin-right: 10px;
 }
 
 .wifi-menu .wifi-item .password {
-  font-family: "JetbrainsMono NFP";
+  font-family: 'JetbrainsMono NFP';
   background-color: transparent;
   font-size: 12px;
 }
 
 .wifi-menu .wifi-item .status {
-  font-family: "JetbrainsMono NFP";
+  font-family: 'JetbrainsMono NFP';
   font-size: 12px;
 }
 
 .wifi-menu .wifi-item .strength {
-  font-family: "JetbrainsMono NFP";
+  font-family: 'JetbrainsMono NFP';
   font-size: 10px;
 }
 
@@ -1012,7 +1208,7 @@ QPushButton {
 }
 
 .wifi-menu .footer .settings-button {
-  font-family: "JetbrainsMono NFP";
+  font-family: 'JetbrainsMono NFP';
   background-color: transparent;
   border: none;
   padding: 0 2px;
@@ -1022,7 +1218,7 @@ QPushButton {
 }
 
 .wifi-menu .footer .refresh-icon {
-  font-family: "Segoe Fluent Icons";
+  font-family: 'Segoe Fluent Icons';
   background-color: transparent;
   border: none;
   min-width: 26px;
