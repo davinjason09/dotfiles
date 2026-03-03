@@ -9,7 +9,7 @@ local function get_data()
   local env_sh = vim.system(full_command, { text = true }):wait()
 
   -- Warn the user instead of returning nil
-  if env_sh.stderr ~= nil then vim.notify(vim.trim(env_sh.stderr), vim.log.levels.WARN) end
+  if env_sh.stderr ~= nil then vim.schedule(function() vim.notify(vim.trim(env_sh.stderr), vim.log.levels.WARN) end) end
 
   local ok, data = pcall(vim.json.decode, env_sh.stdout)
   if not ok or type(data) == "string" then
