@@ -256,7 +256,7 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
 local function chezmoi_notify(msg, level, show)
   show = show or true
   if msg == "" or msg == nil or not show then return end
-  vim.schedule(function() vim.notify(msg, level or vim.log.levels.INFO, { title = "Chezmoi" }) end)
+  vim.schedule(function() vim.notify(vim.trim(msg), level or vim.log.levels.INFO, { title = "Chezmoi" }) end)
 end
 
 ---@param success_message? string
@@ -295,7 +295,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         { "apply", "--no-tty", "-k" },
         chezmoi_on_exit("Successfully applied files", function()
           if vim.fn.confirm("Fix conflict?", "&Yes\n&No", 2) == 1 then
-            require("custom.terminal").open({ "chezmoi", "apply" })
+            Snacks.picker.terminal({ cmd = { "chezmoi", "apply" } }) ---@diagnostic disable-line: undefined-field
           end
         end)
       )
