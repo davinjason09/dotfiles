@@ -7,7 +7,6 @@ alias vim="nvim"
 alias lg="lazygit"
 alias g="git"
 alias pwsh="cmd.exe /c start /min pwsh"
-alias edit="msedit"
 alias open="xdg-open"
 
 alias lazyvim="NVIM_APPNAME=lazyvim nvim"
