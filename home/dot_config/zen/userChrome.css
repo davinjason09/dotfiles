@@ -69,18 +69,10 @@
     }
   }
 
-  toolbar .toolbarbutton-1 {
-    &:not([disabled]) {
-      &:is(:hover:active, [open], [checked])
-        > :is(
-          .toolbarbutton-icon,
-          .toolbarbutton-text,
-          .toolbarbutton-badge-stack
-        ) {
-        background-color: var(--toolbarbutton-active-background);
-        color: var(--toolbarbutton-icon-fill);
-      }
-    }
+  .toolbarbutton-1:not(#tabs-newtab-button),
+  .urlbar-page-action,
+  .identity-box-button {
+    --toolbarbutton-icon-fill: #89dceb !important;
   }
 
   .identity-color-blue {
