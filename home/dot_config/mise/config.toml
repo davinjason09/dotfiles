@@ -15,8 +15,9 @@
   "npm:@astrojs/language-server"           = "latest"  # Astro
   "npm:@tailwindcss/language-server"       = "latest"  # Tailwind
   "npm:vscode-langservers-extracted"       = "latest"  # JSON
+  "http:jdtls"                             = { version = "1.57.0", url = "https://download.eclipse.org/jdtls/milestones/{{version}}/jdt-language-server-{{version}}-202602261110.tar.gz", bin_path = "bin" }
   # Formatter
-  "pipx:clang-format"                      = "latest"  # C++
+  "pipx:clang-format"                      = "latest"  # C++, Java
   "aqua:JohnnyMorganz/StyLua"              = "latest"  # Lua
   "aqua:mvdan/sh"                          = "latest"  # Bash
   "npm:bibtex-tidy"                        = "latest"  # Bibtex

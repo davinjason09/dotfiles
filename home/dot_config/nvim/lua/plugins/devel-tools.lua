@@ -59,6 +59,7 @@ return {
         cpp = { "clang-format" },
         css = { "oxfmt" },
         html = { "oxfmt" },
+        java = { "clang-format" },
         javascript = { "oxfmt" },
         javascriptreact = { "oxfmt" },
         json = { "oxfmt" },

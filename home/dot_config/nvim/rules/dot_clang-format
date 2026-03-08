@@ -1,4 +1,13 @@
+---
 BasedOnStyle: LLVM
+ColumnLimit: 120
+IndentWidth: 2
+IndentCaseLabels: true
+ReflowComments: Always
+SpacesBeforeTrailingComments: 2
+TabWidth: 2
+---
+Language: Cpp
 AccessModifierOffset: -2
 AlignConsecutiveMacros: Consecutive
 AlignEscapedNewlines: LeftWithLastLine
@@ -7,26 +16,28 @@ AllowShortCaseExpressionOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortCompoundRequirementOnASingleLine: true
 AllowShortEnumsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 AllowShortLambdasOnASingleLine: Inline
 AllowShortLoopsOnASingleLine: true
 BinPackArguments: false
 BinPackParameters: OnePerLine
 BreakStringLiterals: false
-ColumnLimit: 100
+DerivePointerAlignment: true
 EmptyLineBeforeAccessModifier: LogicalBlock
 IncludeBlocks: Regroup
-IndentCaseLabels: true
-IndentWidth: 2
 NamespaceIndentation: All
-PointerAlignment: Left
+# PointerAlignment: Left
 ReferenceAlignment: Pointer
-ReflowComments: Always
 RemoveEmptyLinesInUnwrappedLines: true
 SortUsingDeclarations: Lexicographic
 SpaceAroundPointerQualifiers: Default
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatementsExceptControlMacros
-SpacesBeforeTrailingComments: 2
-TabWidth: 2
+---
+Language: Java
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+BreakAfterJavaFieldAnnotations: true
+SortJavaStaticImport: After
+---
