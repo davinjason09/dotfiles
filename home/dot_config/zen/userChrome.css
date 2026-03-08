@@ -126,46 +126,35 @@ input {
 /* https://github.com/nalejandroveron/zen-better-spacing/ */
 /* with some modifications */
 
-:root:not([zen-single-toolbar="true"]) #nav-bar {
+:root:not([zen-single-toolbar='true']) #nav-bar {
   margin: 0.4rem 0;
   margin-bottom: 0rem !important;
 }
 
-:root:not([zen-single-toolbar="true"]):not([zen-compact-mode="true"])
-  #TabsToolbar-customization-target {
+:root:not([zen-single-toolbar='true']):not([zen-compact-mode='true']) #TabsToolbar-customization-target {
   margin-top: 0.8rem;
 }
 
-:root:not([zen-single-toolbar="true"])
-  #PersonalToolbar:not([collapsed="true"]) {
+:root:not([zen-single-toolbar='true']) #PersonalToolbar:not([collapsed='true']) {
   margin-bottom: 0.2rem;
 }
 
-:root[zen-single-toolbar="true"] #PersonalToolbar:not([collapsed="true"]) {
+:root[zen-single-toolbar='true'] #PersonalToolbar:not([collapsed='true']) {
   margin: 0.2rem 0;
 }
 
-:root:not([zen-compact-mode="true"])[zen-sidebar-expanded="true"]
-  #zen-sidebar-bottom-buttons {
+:root:not([zen-compact-mode='true'])[zen-sidebar-expanded='true'] #zen-sidebar-bottom-buttons {
   margin-bottom: 0.4rem;
 }
 
-:root:not([zen-compact-mode="true"]):not([zen-sidebar-expanded="true"])
-  #zen-sidebar-bottom-buttons {
+:root:not([zen-compact-mode='true']):not([zen-sidebar-expanded='true']) #zen-sidebar-bottom-buttons {
   margin-bottom: 1rem;
 }
 
-:root[zen-compact-mode="true"]:not([customizing]):not(
-    [inDOMFullscreen="true"]
-  ) {
-  @media -moz-pref("zen.view.compact.hide-toolbar") {
-    &:not([zen-single-toolbar="true"]) {
-      &
-        #zen-appcontent-navbar-wrapper:is(
-          [zen-has-hover],
-          [has-popup-menu],
-          [zen-compact-mode-active]
-        ) {
+:root[zen-compact-mode='true']:not([customizing]):not([inDOMFullscreen='true']) {
+  @media -moz-pref('zen.view.compact.hide-toolbar') {
+    &:not([zen-single-toolbar='true']) {
+      & #zen-appcontent-navbar-wrapper:is([zen-has-hover], [has-popup-menu], [zen-compact-mode-active]) {
         height: var(--zen-toolbar-height-with-bookmarks);
         padding-bottom: 12px !important;
         overflow: inherit;
@@ -174,11 +163,9 @@ input {
   }
 }
 
-:root:not([inDOMFullscreen="true"]):not([chromehidden~="location"]):not(
-    [chromehidden~="toolbar"]
-  ) {
+:root:not([inDOMFullscreen='true']):not([chromehidden~='location']):not([chromehidden~='toolbar']) {
   & #tabbrowser-tabbox #tabbrowser-tabpanels .browserSidebarContainer,
-  & #tabbrowser-tabpanels[dragging-split="true"] {
+  & #tabbrowser-tabpanels[dragging-split='true'] {
     &.browserSidebarContainer {
       padding-top: 0.6rem;
       overflow: inherit;
@@ -206,7 +193,7 @@ input {
 /* ------------------------- Hide toolbar -------------------------- */
 /* Based on: */
 /* https://github.com/zen-browser/theme-store/blob/main/themes/e34745fd-2b7f-4c16-b03a-6e29e5c3f20a/ */
-#zen-context-menu-compact-mode-hide-toolbar[disabled="true"] {
+#zen-context-menu-compact-mode-hide-toolbar[disabled='true'] {
   display: block;
 
   & label,
@@ -216,7 +203,7 @@ input {
 
   &::before,
   &::after {
-    content: "Native Hide Toolbar mode is disabled.\A\A To achieve a similar effect, try:";
+    content: 'Native Hide Toolbar mode is disabled.\A\A To achieve a similar effect, try:';
     font-size: 0.95rem;
     line-height: 1;
     width: 100%;
@@ -235,7 +222,7 @@ input {
   }
 }
 
-@media (-moz-bool-pref: "zen.view.compact.hide-toolbar") {
+@media (-moz-bool-pref: 'zen.view.compact.hide-toolbar') {
   #nav-bar,
   #zen-sidebar-top-buttons,
   #PersonalToolbar,
@@ -247,32 +234,20 @@ input {
 }
 
 :root {
-  --margin-top-fix-hide: calc(
-    (var(--zen-toolbar-height) + 50px) + var(--zen-element-separation)
-  );
-  --margin-top-fix-hide-reverse: calc(
-    ((var(--zen-toolbar-height) + 50px) * -1)
-  );
+  --margin-top-fix-hide: calc((var(--zen-toolbar-height) + 50px) + var(--zen-element-separation));
+  --margin-top-fix-hide-reverse: calc(((var(--zen-toolbar-height) + 50px) * -1));
 
-  &:not([zen-compact-mode="true"]):not([zen-single-toolbar="true"])
-    .browserContainer {
+  &:not([zen-compact-mode='true']):not([zen-single-toolbar='true']) .browserContainer {
     margin-top: calc(var(--zen-toolbar-height) * -1);
   }
 }
 
-:root:not([zen-compact-mode="true"]):not([zen-single-toolbar="true"]):has(
-    > body
-      #zen-main-app-wrapper
-      #browser
-      #zen-appcontent-wrapper
-      #zen-appcontent-navbar-wrapper:not([zen-has-hover])
+:root:not([zen-compact-mode='true']):not([zen-single-toolbar='true']):has(
+    > body #zen-main-app-wrapper #browser #zen-appcontent-wrapper #zen-appcontent-navbar-wrapper:not([zen-has-hover])
   ),
-:root[zen-compact-mode="true"][zen-single-toolbar="true"]
-  #navigator-toolbox:has(
-    > #titlebar:not(:hover),
-    > #titlebar > #TabsToolbar:hover
-  ),
-:root:not([zen-compact-mode="true"])[zen-single-toolbar="true"]
+:root[zen-compact-mode='true'][zen-single-toolbar='true']
+  #navigator-toolbox:has(> #titlebar:not(:hover), > #titlebar > #TabsToolbar:hover),
+:root:not([zen-compact-mode='true'])[zen-single-toolbar='true']
   #navigator-toolbox:is(:not(:hover), :has(> #titlebar > #TabsToolbar:hover)) {
   #nav-bar,
   #zen-sidebar-top-buttons {
@@ -367,7 +342,7 @@ input {
 }
 
 /* Limit to 5 visible results, prevent "dancing" */
-#urlbar[open] #urlbar-results > :nth-child(n + 7),
+#urlbar[open] #urlbar-results > :nth-child(n + 6),
 #urlbar[open] #reader-mode-button {
   display: none !important;
 }
@@ -410,7 +385,7 @@ input {
 /* https://github.com/JustAdumbPrsn/Zen-Nebula/blob/main/Nebula/modules/Animations(tabs).css */
 
 /* ------------------------ Glance Animation ----------------------- */
-.browserSidebarContainer.zen-glance-background.deck-selected {
+.browserSidebarContainer .zen-glance-background.deck-selected {
   filter: blur(5px) brightness(50%);
   transition: filter 0.1s ease-in-out;
 }
@@ -418,21 +393,25 @@ input {
 /* Right side glance button */
 .zen-glance-sidebar-container {
   left: 100% !important;
-  toolbarbutton {
+  & toolbarbutton {
     box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.07) !important;
-    border: rgba(180, 180, 180, 0.2) 0.2px solid;
+    background: color-mix(in srgb, rgb(24, 24, 24) 96%, var(--zen-primary-color)) !important;
+    border: var(--tab-selected-textcolor) 0.2px solid;
+
+    &:hover {
+      background: rgb(41, 41, 41) !important;
+    }
   }
 }
 
 /* --------------------- Tab Switch Animation --------------------- */
-#tabbrowser-tabpanels
-  > hbox:not(:has(.zen-glance-background)):not([zen-split="true"]) {
+#tabbrowser-tabpanels > hbox:not(:has(.zen-glance-background)):not([zen-split='true']) {
   &:is([zen-split]) {
     transition:
       all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.35),
       filter 0.1s ease-out !important;
   }
-  &:not(.zen-glance-background):not([zen-split="true"]) {
+  &:not(.zen-glance-background):not([zen-split='true']) {
     transition:
       all 0.2s cubic-bezier(0.175, 0.85, 0.52, 1.35),
       filter 0.18s ease-out !important;
@@ -442,10 +421,7 @@ input {
   }
 }
 
-#tabbrowser-tabpanels
-  > hbox.deck-selected:not(:has(.zen-glance-background)):not(
-    [zen-split="true"]
-  ) {
+#tabbrowser-tabpanels > hbox.deck-selected:not(:has(.zen-glance-background)):not([zen-split='true']) {
   &:not(.zen-glance-background) {
     scale: 1 !important;
     opacity: 1 !important;
@@ -466,25 +442,19 @@ tabpanels .browserStack browser {
 }
 
 /* Previous animation*/
-.browserStack:has(
-    #historySwipeAnimationPreviousArrow:not([style="translate: none;"])
-  )
-  browser {
+.browserStack:has(#historySwipeAnimationPreviousArrow:not([style='translate: none;'])) browser {
   scale: 0.95 !important;
   transform: translateX(3%) !important;
 }
 
 /* Next animation*/
-.browserStack:has(
-    #historySwipeAnimationNextArrow:not([style="translate: none;"])
-  )
-  browser {
+.browserStack:has(#historySwipeAnimationNextArrow:not([style='translate: none;'])) browser {
   scale: 0.95 !important;
   transform: translateX(-3%) !important;
 }
 
 /* smoothen trackpad gestures */
-.browserStack browser[style*="transform: none"] {
+.browserStack browser[style*='transform: none'] {
 }
 
 /* ----------------- Ctrl-Tab styling ------------------ */
@@ -573,11 +543,11 @@ slot:nth-child(1) {
 }
 
 /* Collapse inactive workspace */
-#zen-workspaces-button .subviewbutton:not([active="true"]) {
+#zen-workspaces-button .subviewbutton:not([active='true']) {
   display: none !important;
 }
 
-#zen-workspaces-button:hover .subviewbutton:not([active="true"]) {
+#zen-workspaces-button:hover .subviewbutton:not([active='true']) {
   display: flex !important;
 }
 
@@ -656,8 +626,7 @@ slot:nth-child(1) {
 }
 
 #zen-workspaces-button .subviewbutton:hover + .subviewbutton + .subviewbutton,
-#zen-workspaces-button
-  .subviewbutton:has(+ .subviewbutton + .subviewbutton:hover) {
+#zen-workspaces-button .subviewbutton:has(+ .subviewbutton + .subviewbutton:hover) {
   transform: scale(1) !important;
   z-index: 1 !important;
   opacity: 0.85 !important;
@@ -665,7 +634,7 @@ slot:nth-child(1) {
 
 /* Indicator dot */
 #zen-workspaces-button .subviewbutton::before {
-  content: "•";
+  content: '•';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -752,8 +721,8 @@ slot:nth-child(1) {
   }
 }
 
-.tab-background[selected=""]::after {
-  content: "";
+.tab-background[selected='']::after {
+  content: '';
   position: absolute;
   top: 0px;
   width: 3px;
@@ -769,39 +738,39 @@ slot:nth-child(1) {
 
 .zen-essentials-container > .tabbrowser-tab,
 #zen-welcome-initial-essentials-browser-sidebar-essentials .tabbrowser-tab {
-  @media -moz-pref("zen.theme.essentials-favicon-bg") {
+  @media -moz-pref('zen.theme.essentials-favicon-bg') {
     &[visuallyselected] > .tab-stack > .tab-background {
       background-color: #283040 !important;
     }
   }
 }
 
-.tabbrowser-tab[pending="true"] {
+.tabbrowser-tab[pending='true'] {
   filter: grayscale(1);
   opacity: 0.5;
 }
 
-@media (-moz-bool-pref: "theme.better-active-tab.on-right") {
-  .tab-background[selected=""]::after {
+@media (-moz-bool-pref: 'theme.better-active-tab.on-right') {
+  .tab-background[selected='']::after {
     right: 0px;
   }
 }
 
 /* No sidebar scrollbar */
-@media not (-moz-bool-pref: "theme.nosidebarscrollbar.before180b") {
+@media not (-moz-bool-pref: 'theme.nosidebarscrollbar.before180b') {
   #zen-tabs-wrapper {
     scrollbar-width: none !important;
   }
 }
 
-@media (-moz-bool-pref: "theme.nosidebarscrollbar.before180b") {
+@media (-moz-bool-pref: 'theme.nosidebarscrollbar.before180b') {
   #zen-browser-tabs-wrapper {
     scrollbar-width: none !important;
   }
 }
 
 .tab-icon-overlay {
-  #tabbrowser-tabs[orient="vertical"]:not([expanded]) &:not([crashed]),
+  #tabbrowser-tabs[orient='vertical']:not([expanded]) &:not([crashed]),
   &:not([crashed]) {
     &:is([soundplaying], [muted], [activemedia-blocked]) {
       background: var(--zen-colors-primary) !important;
@@ -809,7 +778,7 @@ slot:nth-child(1) {
   }
 }
 
-#tabbrowser-tabs[orient="vertical"] {
+#tabbrowser-tabs[orient='vertical'] {
   &:not([expanded]) {
     & .tab-close-button {
       padding: 2.5px !important;
@@ -836,11 +805,11 @@ slot:nth-child(1) {
 
 .zen-essentials-container > .tabbrowser-tab,
 #zen-welcome-initial-essentials-browser-sidebar-essentials .tabbrowser-tab {
-  &:not([visuallyselected], [multiselected="true"]) .tab-background {
+  &:not([visuallyselected], [multiselected='true']) .tab-background {
     background: #313244 !important;
   }
 
-  @media -moz-pref("zen.theme.essentials-favicon-bg") {
+  @media -moz-pref('zen.theme.essentials-favicon-bg') {
     &[visuallyselected] > .tab-stack > .tab-background {
       &::before {
         background: #89dceb !important;
@@ -855,7 +824,7 @@ tab-group[split-view-group] {
       background-color: #283040 !important;
     }
 
-    :root:not([zen-sidebar-expanded="true"]) & {
+    :root:not([zen-sidebar-expanded='true']) & {
       outline: 1px solid #89dceb !important;
     }
   }
@@ -934,7 +903,7 @@ tab-group[split-view-group] {
 
         &:not([hidden]) {
           &::before {
-            background-image: url("chrome://browser/skin/zen-icons/search-page.svg") !important;
+            background-image: url('chrome://browser/skin/zen-icons/search-page.svg') !important;
             background-repeat: no-repeat !important;
             padding-left: 25px !important;
           }
@@ -943,13 +912,11 @@ tab-group[split-view-group] {
     }
 
     &[hidden] {
-      transform: translateX(var(--findbar-transform-translateX))
-        translateY(var(--findbar-transform-translateY));
+      transform: translateX(var(--findbar-transform-translateX)) translateY(var(--findbar-transform-translateY));
     }
 
     @starting-style {
-      transform: translateX(var(--findbar-transform-translateX))
-        translateY(var(--findbar-transform-translateY));
+      transform: translateX(var(--findbar-transform-translateX)) translateY(var(--findbar-transform-translateY));
     }
   }
 }
@@ -965,12 +932,12 @@ tab-group[split-view-group] {
 }
 
 /* Disable dragable splitter */
-#sidebar-box[sidebarcommand="viewHistorySidebar"] + splitter {
+#sidebar-box[sidebarcommand='viewHistorySidebar'] + splitter {
   display: none !important;
 }
 
 /* Make sure content is not affect by history tab sliding in and out */
-#tabbrowser-tabbox[flex="1"][tabcontainer="tabbrowser-tabs"] {
+#tabbrowser-tabbox[flex='1'][tabcontainer='tabbrowser-tabs'] {
   will-change: unset !important;
 }
 
@@ -979,7 +946,7 @@ tab-group[split-view-group] {
 }
 
 /* History Tab Styles */
-#sidebar-box[sidebarcommand="viewHistorySidebar"] {
+#sidebar-box[sidebarcommand='viewHistorySidebar'] {
   order: none !important;
   height: 80% !important;
   width: 20em !important;
@@ -996,26 +963,24 @@ tab-group[split-view-group] {
   visibility: visible !important;
   opacity: 1 !important;
 
-  &[hidden="true"] {
+  &[hidden='true'] {
     display: flex !important;
-    transform: translateX(var(--floating-history-transform-translateX))
-      translateY(50%) !important;
+    transform: translateX(var(--floating-history-transform-translateX)) translateY(50%) !important;
   }
 
   @starting-style {
     display: flex !important;
-    transform: translateX(var(--floating-history-transform-translateX))
-      translateY(50%) !important;
+    transform: translateX(var(--floating-history-transform-translateX)) translateY(50%) !important;
   }
 
-  &[checked="true"] {
+  &[checked='true'] {
     display: flex !important;
     transform: translateX(0%) translateY(12%) !important;
   }
 }
 
 /* Inner Styles of History Tab */
-#sidebar-box[sidebarcommand="viewHistorySidebar"] box#sidebar-header {
+#sidebar-box[sidebarcommand='viewHistorySidebar'] box#sidebar-header {
   border-bottom: none !important;
 }
 
@@ -1035,19 +1000,11 @@ window#history-panel hbox#sidebar-search-container button#viewButton {
 }
 
 window#history-panel hbox#sidebar-search-container button#viewButton:hover {
-  background-color: color-mix(
-    in srgb,
-    currentColor 10%,
-    transparent
-  ) !important;
+  background-color: color-mix(in srgb, currentColor 10%, transparent) !important;
 }
 
 window#history-panel hbox#sidebar-search-container button#viewButton:active {
-  background-color: color-mix(
-    in srgb,
-    currentColor 15%,
-    transparent
-  ) !important;
+  background-color: color-mix(in srgb, currentColor 15%, transparent) !important;
 }
 
 window#history-panel hbox#sidebar-search-container {
