@@ -104,6 +104,8 @@ user_pref('privacy.query_stripping.enabled', false);
 user_pref('privacy.query_stripping.enabled.pbmode', true);
 user_pref('network.http.referer.XOriginPolicy', 0);
 user_pref('network.http.referer.XOriginTrimmingPolicy', 0);
+user_pref('network.lna.blocking', true);
+user_pref('network.lna.block_trackers', true);
 user_pref('privacy.partition.network_state', false);
 user_pref('browser.safebrowsing.downloads.remote.enabled', false);
 
