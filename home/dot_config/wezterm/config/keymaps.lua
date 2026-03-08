@@ -4,6 +4,8 @@ local act = wez.action
 local mod = {
   CTRL = "CTRL",
   CSHIFT = "CTRL|SHIFT",
+  CALT = "CTRL|ALT",
+  CSALT = "CTRL|SHIFT|ALT",
   LEADER = "LEADER",
 }
 
@@ -30,13 +32,13 @@ local keys = {
   { key = "l",          mods = mod.LEADER, action = act.ActivatePaneDirection("Right") },
   { key = "l",          mods = mod.CSHIFT, action = act.AdjustPaneSize({ "Right", 1 }) },
   { key = "LeftArrow",  mods = mod.LEADER, action = act.ActivatePaneDirection("Left") },
-  { key = "LeftArrow",  mods = mod.CSHIFT, action = act.AdjustPaneSize({ "Left", 1 }) },
+  { key = "LeftArrow",  mods = mod.CALT,   action = act.AdjustPaneSize({ "Left", 1 }) },
   { key = "DownArrow",  mods = mod.LEADER, action = act.ActivatePaneDirection("Down") },
-  { key = "DownArrow",  mods = mod.CSHIFT, action = act.AdjustPaneSize({ "Down", 1 }) },
+  { key = "DownArrow",  mods = mod.CALT,   action = act.AdjustPaneSize({ "Down", 1 }) },
   { key = "UpArrow",    mods = mod.LEADER, action = act.ActivatePaneDirection("Up") },
-  { key = "UpArrow",    mods = mod.CSHIFT, action = act.AdjustPaneSize({ "Up", 1 }) },
+  { key = "UpArrow",    mods = mod.CALT,   action = act.AdjustPaneSize({ "Up", 1 }) },
   { key = "RightArrow", mods = mod.LEADER, action = act.ActivatePaneDirection("Right") },
-  { key = "RightArrow", mods = mod.CSHIFT, action = act.AdjustPaneSize({ "Right", 1 }) },
+  { key = "RightArrow", mods = mod.CALT,   action = act.AdjustPaneSize({ "Right", 1 }) },
   { key = "0",          mods = mod.LEADER, action = act.PaneSelect({ mode = "SwapWithActive", alphabet = "1234567890" }) },
   { key = "r",          mods = mod.LEADER, action = act.RotatePanes("Clockwise") },
   { key = "R",          mods = mod.LEADER, action = act.RotatePanes("CounterClockwise") },
@@ -47,20 +49,20 @@ local keys = {
   { key = "0", mods = mod.CTRL, action = act.ResetFontSize },
 
   -- Copy Mode
-  { key = "X", mods = mod.CSHIFT, action = act.ActivateCopyMode },
-  { key = "C", mods = mod.CSHIFT, action = act.CopyTo("Clipboard") },
-  { key = "V", mods = mod.CSHIFT, action = act.PasteFrom("Clipboard") },
+  { key = "x", mods = mod.CSHIFT, action = act.ActivateCopyMode },
+  { key = "c", mods = mod.CSHIFT, action = act.CopyTo("Clipboard") },
+  { key = "v", mods = mod.CSHIFT, action = act.PasteFrom("Clipboard") },
 
   -- Other
   { key = "F5", mods = mod.CTRL,   action = act.ReloadConfiguration },
-  { key = "F",  mods = mod.CSHIFT, action = act.Search("CurrentSelectionOrEmptyString") },
+  { key = "f",  mods = mod.CSHIFT, action = act.Search("CurrentSelectionOrEmptyString") },
   { key = "k",  mods = mod.LEADER, action = act.ClearScrollback("ScrollbackOnly") },
   { key = "l",  mods = mod.LEADER, action = act.ShowDebugOverlay },
-  { key = "N",  mods = mod.CSHIFT, action = act.SpawnTab("CurrentPaneDomain") },
-  { key = "P",  mods = mod.CSHIFT, action = act.ActivateCommandPalette },
+  { key = "n",  mods = mod.CSHIFT, action = act.SpawnTab("CurrentPaneDomain") },
+  { key = "p",  mods = mod.CSHIFT, action = act.ActivateCommandPalette },
   { key = "q",  mods = mod.LEADER, action = act.CloseCurrentPane({ confirm = false }) },
-  { key = "T",  mods = mod.CSHIFT, action = act.ShowLauncher },
-  { key = "U",  mods = mod.CSHIFT, action = act.CharSelect({ copy_on_select = true, copy_to = "ClipboardAndPrimarySelection" }) },
+  { key = "t",  mods = mod.CSHIFT, action = act.ShowLauncher },
+  { key = "u",  mods = mod.CSHIFT, action = act.CharSelect({ copy_on_select = true, copy_to = "ClipboardAndPrimarySelection" }) },
   { key = "/",  mods = mod.LEADER, action = act.Search({ CaseInSensitiveString = "" }) },
 }
 
