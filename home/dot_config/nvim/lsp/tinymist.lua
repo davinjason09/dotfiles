@@ -36,8 +36,7 @@ end
 return {
   cmd = { "tinymist" },
   filetypes = { "typst" },
-  root_markers = { ".git", "template.typ", "main.typ" },
-  root_dir = vim.fs.root(0, ".git") or vim.fn.getcwd(),
+  root_markers = { { "lib.typ", "main.typ" }, ".git" },
   single_file_support = true,
   settings = {
     exportPdf = "never",
@@ -65,7 +64,7 @@ return {
     end
 
     local map = vim.keymap.set
-    map("n", "<leader>cp", function()
+    map("n", "<leader>cP", function()
       if not client then return vim.notify("Tinymist is not attached", vim.log.levels.WARN) end
 
       local file = vim.api.nvim_buf_get_name(bufnr)

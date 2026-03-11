@@ -14,7 +14,7 @@ return {
     cmd = { "TypstPreview", "TypstPreviewToggle", "TypstPreviewUpdate" },
     -- stylua: ignore
     keys = {
-      { "<leader>cP", "<CMD>TypstPreviewToggle<CR>", desc = "[C]ode: [P]review", ft = "typst" },
+      { "<leader>cp", "<CMD>TypstPreviewToggle<CR>", desc = "[C]ode: [P]review", ft = "typst" },
     },
     opts = {
       dependencies_bin = { tinymist = "tinymist" },
