@@ -47,13 +47,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function()
     if vim.g.typst_main_file ~= nil then return end
 
-    local root = vim.fs.root(vim.env.PWD, { "main.typ" }) -- Only main.typ is considered an entry point in a single/multi file setup
+    local root = vim.fs.find({ "main.typ" }, { limit = 5, type = "file", follow = true }) -- Only main.typ is considered an entry point in a single/multi file setup
     if not root then return end
 
     local client = vim.lsp.get_clients({ name = "tinymist" })[1]
     if not client then return end
 
-    vim.g.typst_main_file = root .. "/main.typ"
+    vim.g.typst_main_file = root[1]
     client:exec_cmd({
       title = "Pin main file",
       command = "tinymist.pinMain",
