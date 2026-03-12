@@ -18,6 +18,7 @@
     --toolbarbutton-icon-fill: #89dceb !important;
     --toolbarseparator-color: #7f849c !important;
     --toolbox-bgcolor-inactive: #181825 !important;
+    --zen-navigator-toolbox-background: #181825 !important;
     --zen-colors-border: #89dceb !important;
     --zen-colors-primary: #313244 !important;
     --zen-colors-secondary: #313244 !important;
@@ -26,6 +27,10 @@
     --zen-main-browser-background: #181825 !important;
     --zen-primary-color: #89dceb !important;
     --zen-themed-toolbar-bg: #181825 !important;
+  }
+
+  .zen-browser-generic-background {
+    --zen-main-browser-background: #181825 !important;
   }
 
   #permissions-granted-icon {
