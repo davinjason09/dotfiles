@@ -3,6 +3,7 @@ vim.filetype.add({
     [".chezmoiignore"] = "gitignore",
     [".chezmoiremove"] = "gitignore",
     [".clang-format"] = "yaml",
+    [".env"] = "sh",
     [".prettierignore"] = "gitignore",
     [".styluaignore"] = "gitignore",
     [".zshenv"] = "zsh",
@@ -18,9 +19,11 @@ vim.filetype.add({
     yml = "yaml",
   },
   pattern = {
-    ["%.env.*"] = "sh",
     [".*%.gitconfig"] = "gitconfig",
     ["tsconfig*.json"] = "json",
+    [".*%.example"] = function(path, buf)
+      return vim.filetype.match({ buf = buf, filename = path:gsub(".example", "") })
+    end,
     [".*"] = function(path, buf)
       if not path or not buf or vim.bo[buf].filetype == "bigfile" then return end
       if path ~= vim.api.nvim_buf_get_name(buf) then return end
