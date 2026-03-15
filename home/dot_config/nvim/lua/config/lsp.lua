@@ -96,12 +96,11 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
   callback = function()
     local server_configs = vim
       .iter(vim.api.nvim_get_runtime_file("lsp/*.lua", true))
-      :map(function(file)
-        -- Disable lsp if the first line starts with `-- disable`
-        local first_line = vim.fn.readfile(file, "", 1)[1] or ""
-
-        if first_line:match("^%-%-%s*disable") then return end
-        return vim.fn.fnamemodify(file, ":t:r")
+      :map(function(file) return vim.fn.fnamemodify(file, ":t:r") end)
+      :filter(function(lsp)
+        local settings = vim.lsp.config[lsp]
+        local auto_attach = type(settings.auto_attach) == "function" and settings.auto_attach() or settings.auto_attach
+        return settings.enabled ~= false and auto_attach ~= false
       end)
       :totable()
     vim.lsp.enable(server_configs)

@@ -1,7 +1,7 @@
--- disable
 ---@type vim.lsp.Config
 return {
   cmd = { "lua-language-server" },
+  enabled = false,
   filetypes = { "lua" },
   root_markers = {
     ".luacheckrc",
