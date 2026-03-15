@@ -58,7 +58,12 @@ end
 local hover = vim.lsp.buf.hover
 
 vim.lsp.buf.hover = function()
-  local client = assert(vim.lsp.get_clients({ bufnr = 0, method = "textDocument/hover" })[1])
+  local method = ms.textDocument_hover
+  local ok, client = pcall(vim.lsp.get_clients, { bufnr = 0, method = method })
+  if not ok then
+    return vim.notify(("No client in this buffer supports %s"):format(method), vim.log.levels.WARN, { title = "LSP" })
+  end
+
   local opts = Defaults.hover_opts --[[@as vim.lsp.buf.hover.Opts]]
   local ft = vim.bo[0].filetype
   local ft_icon, color = Snacks.util.icon(ft, "filetype")
@@ -66,7 +71,7 @@ vim.lsp.buf.hover = function()
   opts.title = {
     { "╼ ", "LSPHoverBorder" },
     { ft_icon, color },
-    { client.name or "LSP", "@text" },
+    { client[1].name or "LSP", "@text" },
     { " ╾", "LSPHoverBorder" },
   }
   opts.title_pos = "right"
@@ -75,7 +80,10 @@ end
 
 local register_capability = vim.lsp.handlers[ms.client_registerCapability]
 vim.lsp.handlers[ms.client_registerCapability] = function(err, res, ctx)
-  local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+  local ok, client = pcall(vim.lsp.get_client_by_id, ctx.client_id)
+  if not ok then
+    return vim.notify(("Client with id %s not found"):format(ctx.client_id), vim.log.levels.ERROR, { title = "LSP" })
+  end
 
   on_attach(client, vim.api.nvim_get_current_buf())
 
@@ -101,12 +109,19 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+  callback = function(ev)
+    local ok, client = pcall(vim.lsp.get_client_by_id, ev.data.client_id)
+    if not ok then
+      return vim.notify(
+        ("Client with id %s not found"):format(ev.data.client_id),
+        vim.log.levels.ERROR,
+        { title = "LSP" }
+      )
+    end
 
     if client.name == "copilot" then return end
 
-    on_attach(client, args.buf)
+    on_attach(client, ev.buf)
 
     require("custom.lsp.diagnostic").setup()
   end,
