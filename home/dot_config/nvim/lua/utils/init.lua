@@ -163,9 +163,8 @@ function M.get_icon(entry)
   end
 
   if is_default and entry.fs_type ~= "directory" then
-    local ext = vim.fn.fnamemodify(entry.path, ":e")
-    ext = ext ~= "" and ext or ""
-    icon, color, is_default = MiniIcons.get("filetype", ext)
+    local ft = vim.filetype.match({ filename = entry.path }) or ""
+    icon, color, is_default = MiniIcons.get("filetype", ft)
   end
 
   return icon .. " ", color, is_default
