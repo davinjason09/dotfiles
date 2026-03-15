@@ -18,9 +18,28 @@ def 0short [url: string] {
   http post https://envs.sh --content-type "multipart/form-data" { shorter: $url }
 }
 
-def cc [file: string] {
-  let clang_ver = clang --version | lines | parse --regex '(\d+)' | get capture0.0
-  do { zig c++ -O3 -Wall -Wno-vla-cxx-extension -std=c++20 -march=native -fsanitize=address -L$"/usr/lib/clang/($clang_ver)/lib/linux/" -lclang_rt.asan-x86_64 $file }
+def cc [file: path] {
+  let clang_ver = clang --version | lines | first | parse --regex '(\d+)' | get capture0.0
+  let lib = $"/usr/lib/clang/($clang_ver)/lib/linux/"
+  let asan = 'clang_rt.asan-x86_64'
+
+  let args = [ -O3 -Wall -march=native -fsanitize=address -L ($lib) -l ($asan) ($file) ]
+  let ext = $file | path parse | get extension
+
+  match $ext {
+    c   => { zig cc ...$args }
+    cpp => { zig c++ -std=c++20 -Wno-vla-cxx-extension ...$args }
+  }
+}
+
+def cc_run [file: path] {
+  cc $file
+  ./a.out
+}
+
+def cc_once [file: path] {
+  cc_run $file
+  try { rm ./a.out }
 }
 
 # Yeet package with style 😎
