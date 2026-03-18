@@ -13,11 +13,13 @@ return {
     opts_extend = { "ensure_installed" },
     opts = {
       ensure_installed = {
+        "autohotkey",
         "comment",
         "diff",
         "git_config",
         "gitignore",
         "json",
+        "pikchr",
         "printf",
         "regex",
         "vim",
@@ -29,6 +31,11 @@ return {
       elseif type(opts.ensure_installed) ~= "table" then
         return vim.notify("nvim-treesitter: ensure_installed should be a table!", vim.log.levels.ERROR)
       end
+
+      local register = Utils.treesitter.register_parser
+
+      register("pikchr", { owner = "exlee" })
+      register("autohotkey", { owner = "holy-tao", generate = true })
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "TSUpdate",
