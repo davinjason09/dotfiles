@@ -97,20 +97,14 @@ let external_completer = {|spans|
     $spans
   }
 
-  let fish_cmd = [
-    git chezmoi bat gum yay mise nvim bob cowsay cowthink
-    pdflatex latex sudo
-  ]
-
-  let zoxide_cmd = [
-    __zoxide_z __zoxide_zi
-  ]
+  let zoxide_cmd = [ __zoxide_z __zoxide_zi ]
+  let argc_cmd = glob $"($nu.default-config-dir)/completions/*" | each {|x| path parse | get stem }
 
   match $spans.0 {
-    $cmd if ($cmd in $fish_cmd) => $fish_completer
     $cmd if ($cmd in $zoxide_cmd) => $zoxide_completer
+    $cmd if ($cmd in $argc_cmd) => $argc_completer
     yeet => $yeet_completer
-    _ => $argc_completer
+    _ => $fish_completer
   } | do $in $spans
 }
 
