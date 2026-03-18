@@ -30,6 +30,15 @@ return {
         return vim.notify("nvim-treesitter: ensure_installed should be a table!", vim.log.levels.ERROR)
       end
 
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "TSUpdate",
+        callback = function()
+          for k, v in pairs(Utils.treesitter._update) do
+            require("nvim-treesitter.parsers")[k] = v
+          end
+        end,
+      })
+
       local TS = require("nvim-treesitter")
       TS.setup(opts)
       Utils.treesitter.get_installed(true)
