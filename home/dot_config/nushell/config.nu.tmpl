@@ -25,6 +25,7 @@ $env.WIN_D      = "/mnt/d"
 $env.WIN        = $env.WIN_C | path join "WINDOWS"
 $env.WIN_SYSTEM = $env.WIN   | path join "system32"
 $env.WIN_HOME   = $env.WIN_C | path join "Users" "{{ .windowsUsername }}"
+$env.PWSH_HOME  = $env.WIN_C | path join "Program Files" "Powershell" "7"
 {{- end }}
 
 path add [
@@ -39,6 +40,7 @@ path add [
   {{ if .isWSL -}}
   $env.WIN
   $env.WIN_SYSTEM
+  $env.PWSH_HOME
   {{- end }}
 ]
 
