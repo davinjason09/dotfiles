@@ -1,0 +1,53 @@
+#!/usr/bin/env nu
+
+def has [ appname: string ] {
+  which $appname | is-not-empty
+}
+
+def main [
+  tool_path: path
+  msi_name: string
+  --helper: string     # Helper name
+  --stop_cmd: string   # Stop command
+  --start_cmd: string  # Start command
+] {
+  let is_wsl = ($env | get -o IS_WSL | default false) == "true"
+  let has_cmd = (has cmd.exe)
+  let use_helper = if ($helper | is-not-empty) { has $helper } else { false }
+
+  if not ($tool_path | path exists) { return }
+
+  if $is_wsl and $has_cmd {
+    print $"WSL detected. Proceeding with update for ($msi_name)..."
+
+    try {
+      if $use_helper {
+        print $"Running helper stop: ($helper) ($stop_cmd)"
+        do { $"($helper) ($stop_cmd)" }
+      }
+
+      cp $"($tool_path)/($msi_name)" $"($env.WIN_HOME)/Downloads/"
+
+      cd $"($env.WIN_HOME)/Downloads"
+      print $"Running Windows Installer: ($msi_name)..."
+      cmd.exe /c $"start /wait msiexec.exe /i %USERPROFILE%\\Downloads\\($msi_name) /passive"
+
+    } catch { |err|
+      print $"An error occurred during installation: ($err.msg)"
+    }
+
+    if $use_helper {
+      print $"Running helper start: ($helper) ($start_cmd)"
+      do { $"($helper) ($start_cmd)" }
+    }
+
+    print "Update process complete."
+  } else {
+    print "Condition not met: Check IS_WSL and cmd.exe availability."
+    print [
+      ["Requirement", "Status"];
+      ["IS_WSL", $is_wsl],
+      ["cmd.exe", $has_cmd]
+    ] | table
+  }
+}
