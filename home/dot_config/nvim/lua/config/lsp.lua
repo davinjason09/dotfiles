@@ -13,17 +13,24 @@ local function on_attach(client, bufnr)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
   end
 
-  map("gs", function() Snacks.picker.lsp_symbols() end, "[G]oto [S]ymbol")
-  map("gr", function() Snacks.picker.lsp_references() end, "[G]oto [R]eferences")
-  map("gd", function() Snacks.picker.lsp_definitions() end, "[G]oto [D]efinition")
+  -- stylua: ignore start
+  map("gs", function() Snacks.picker.lsp_symbols() end,         "[G]oto [S]ymbol")
+  map("gr", function() Snacks.picker.lsp_references() end,      "[G]oto [R]eferences")
+  map("gd", function() Snacks.picker.lsp_definitions() end,     "[G]oto [D]efinition")
   map("gi", function() Snacks.picker.lsp_implementations() end, "[G]oto [I]mplementation")
-  map("gD", function() Snacks.picker.lsp_declarations() end, "[G]oto [D]eclaration")
-  map("gO", vim.lsp.buf.document_symbol, "[G]oto [O]utline")
+  map("gD", function() Snacks.picker.lsp_declarations() end,    "[G]oto [D]eclaration")
+  map("gO", function() vim.lsp.buf.document_symbol() end,       "[G]oto [O]utline")
+  -- stylua: ignore end
 
-  map("<leader>ca", require("tiny-code-action").code_action, "[C]ode: [A]ction", { "n", "v" })
-  map("<leader>cr", vim.lsp.buf.rename, "[C]ode: [R]ename (Symbol)")
-  map("<leader>cR", Snacks.rename.rename_file, "[C]ode: [R]ename (File)")
-  map("<leader>cd", Snacks.picker.diagnostics_buffer, "[C]ode: [D]iagnostics")
+  -- stylua: ignore start
+  ---@diagnostic disable: undefined-field
+  map("<leader>ca", function() Snacks.picker.code_action({ all = true }) end,           "[C]ode: [A]ction", { "n" })
+  map("<leader>ca", function() Snacks.picker.code_action({ mode = vim.fn.mode() }) end, "[C]ode: [A]ction", { "x" })
+  ---@diagnostic enable: undefined-field
+  map("<leader>cr", function() vim.lsp.buf.rename() end,               "[C]ode: [R]ename (Symbol)")
+  map("<leader>cR", function() Snacks.rename.rename_file() end,        "[C]ode: [R]ename (File)")
+  map("<leader>cd", function() Snacks.picker.diagnostics_buffer() end, "[C]ode: [D]iagnostics")
+  -- stylua: ignore end
 
   map("K", function() vim.lsp.buf.hover() end, "Hover Documentation")
 
