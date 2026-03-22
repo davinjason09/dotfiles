@@ -69,8 +69,8 @@ QPushButton {
 }
 
 /*
- * ╾╼ Context Menu ╾────────────────────────────────────────────────────╼
- */
+ * ─[ Context Menu ]─────────────────────────────────────────────────────
+*/
 .context-menu,
 .context-menu .menu-checkbox {
   background-color: var(--crust);
@@ -151,7 +151,7 @@ QPushButton {
 }
 
 /*
- * ╾╼ GlazeWM Grouper ╾─────────────────────────────────────────────────╼
+ * ─[ GlazeWM Grouper ]──────────────────────────────────────────────────
 */
 .glazewm-grouper .container {
   background-color: var(--surface0);
@@ -375,7 +375,7 @@ QPushButton {
   background-color: var(--overlay2);
   color: var(--overlay2);
   margin: 0px 2px;
-  border-radius: 4px;
+  border-radius: 3px;
   height: 8px;
   width: 8px;
 }
@@ -386,7 +386,7 @@ QPushButton {
   background-color: var(--teal);
   width: 24px;
   height: 8px;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 .glazewm-workspaces .ws-btn.populated {
@@ -409,7 +409,6 @@ QPushButton {
 /*
  * ─[ GlazeWM Tiling Direction ]─────────────────────────────────────────
  */
-
 .glazewm-tiling-direction .btn {
   font-size: 15px;
   color: var(--text);
@@ -423,9 +422,8 @@ QPushButton {
 }
 
 /*
- * ╾╼ Taskbar ╾─────────────────────────────────────────────────────────╼
+ * ─[ Taskbar ]──────────────────────────────────────────────────────────
 */
-
 .taskbar-widget {
   background-color: var(--surface0);
   border-radius: 6px;
@@ -526,8 +524,8 @@ QPushButton {
 }
 
 /*
- * ╾╼ Media Menu ╾──────────────────────────────────────────────────────╼
- */
+ * ─[ Media Menu ]───────────────────────────────────────────────────────
+*/
 .media-menu {
   min-width: 420px;
   max-width: 420px;
@@ -850,7 +848,7 @@ QPushButton {
 }
 
 /*
- * ╾╼ Panel Grouper ╾─────────────────────────────────────────────────╼
+ * ─[ Panel Grouper ]────────────────────────────────────────────────────
 */
 .panel-grouper .container {
   background-color: var(--surface0);
@@ -884,8 +882,8 @@ QPushButton {
 }
 
 /*
- * ─[ CPU ]───────────────────────────────────────────────────────────
- */
+ * ─[ CPU ]──────────────────────────────────────────────────────────────
+*/
 .cpu-widget {
   padding: 0 2px;
 }
@@ -1105,7 +1103,7 @@ QPushButton {
 }
 
 /*
- * ╾╼ Control Grouper ╾─────────────────────────────────────────────────╼
+ * ─[ Control Grouper ]──────────────────────────────────────────────────
 */
 .control-grouper .container {
   background-color: var(--surface0);
@@ -1208,10 +1206,8 @@ QPushButton {
 }
 
 /*
- * ╾╼ Copilot ╾─────────────────────────────────────────────────────────╼
+ * ─[ Copilot ]──────────────────────────────────────────────────────────
 */
-
-/* Bar widget */
 .copilot-widget {
   font-family: 'JetBrainsMono NFP';
   padding: 0 2px;
