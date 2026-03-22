@@ -41,15 +41,8 @@ local function format_item(item, picker)
   return ret
 end
 
----@param opts snacks.picker.terminal.Config
-local function find_term(opts, _)
+local function find_term()
   local items = {}
-
-  local cmd = opts.cmd
-  local created_id, _ = utils.get_term("cmd", { cmd })
-  if cmd and not created_id then utils.add_term(cmd, nil, { auto_close = true }) end
-  if #state.term_bufs == 0 then utils.add_term() end
-
   for id, term in pairs(state.term_bufs) do
     local buf = term.bufnr
     term_file = vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_name(buf) or ""
@@ -115,26 +108,30 @@ end
 M.source = {
   title = "Terminal",
   focus = "list",
+  show_empty = true,
   layout = config.picker_layout,
   format = format_item,
   finder = find_term,
   on_show = function(picker)
-    ---@cast picker.opts snacks.picker.terminal.Config
-    local cmd = picker.opts.cmd
-
     ---@diagnostic disable-next-line: inject-field
     picker.last_win = vim.fn.win_getid(vim.fn.winnr("#"))
     picker:action("focus_preview")
     setup_autocmd(picker)
 
-    local buf ---@type integer
-    if cmd then
-      buf = state.term_bufs[#state.term_bufs].bufnr
-    else
-      buf = state.last_term or state.term_bufs[1].bufnr
+    ---@cast picker.opts snacks.picker.terminal.Config
+    local cmd = picker.opts.cmd
+    local created_id, term = utils.get_term("cmd", { cmd })
+
+    if cmd and not created_id then
+      utils.add_term(cmd, nil, { auto_close = true })
+    elseif cmd and term then
+      state.last_term = term.bufnr
     end
 
-    utils.switch_term_buf(buf)
+    if #state.term_bufs == 0 then utils.add_term() end
+
+    picker:find()
+    utils.switch_term_buf(state.last_term or state.term_bufs[1].bufnr)
   end,
   on_close = function(picker)
     picker:action("restore_win")
@@ -188,7 +185,6 @@ M.source = {
     list = { keys = config.keys.list },
     preview = {
       minimal = true,
-      fixbuf = false,
       noautocmd = true,
       keys = config.keys.preview,
     },

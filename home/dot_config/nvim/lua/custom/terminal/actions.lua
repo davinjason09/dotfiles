@@ -39,6 +39,7 @@ M.picker = {
   startinsert = function() vim.cmd.startinsert() end,
   add_term = function(picker)
     utils.add_term()
+    picker:find()
     picker:action("focus_term")
     utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
   end,
@@ -54,6 +55,7 @@ M.picker = {
       end
 
       utils.add_term(cmd, nil, { persist = true })
+      picker:find()
       picker:action("focus_term")
       utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
     end)
