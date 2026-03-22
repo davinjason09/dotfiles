@@ -98,6 +98,16 @@ for _, key_opts in pairs(keys) do
   end
 end
 
+-- Spell + Harper
+Snacks.toggle({
+  name = "Spelling + Harper",
+  get = function() return vim.o.spell end,
+  set = function(state)
+    vim.o.spell = state
+    vim.lsp.enable("harper_ls", state)
+  end,
+}):map("<leader>us")
+
 -- ╭─────────────────────────────────────────────────────────╮
 -- │                        Utilities                        │
 -- ╰─────────────────────────────────────────────────────────╯
