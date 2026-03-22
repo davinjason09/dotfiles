@@ -907,44 +907,63 @@ QPushButton {
 }
 
 /*
- * ─[ Weather ]──────────────────────────────────────────────────────────
- */
-.weather-widget .icon {
+ * ─[ Open-Meteo (Weather) ]─────────────────────────────────────────────
+*/
+.open-meteo-widget {
+  padding: 0 0 0 2px;
+}
+
+.open-meteo-widget .icon {
   color: var(--yellow);
   font-size: 12px;
-  padding: 0 2px 0 3px;
 }
 
-.weather-widget .label {
+.open-meteo-widget .label {
   color: var(--text);
+  padding: 0 2px;
 }
 
-.weather-widget .label:hover {
+.open-meteo-widget .label.alt {
+  padding: 0 2px;
+}
+
+.open-meteo-widget .label:hover {
   color: var(--pink);
 }
 
-.weather-card {
+.open-meteo-card {
   background-color: rgba(17, 17, 27, 0.9);
   border: 1px solid var(--sky);
   border-radius: 6px;
 }
 
-.weather-card-today {
+.open-meteo-card-today {
   border: 1px solid var(--surface2);
   border-radius: 8px;
   background-color: rgba(17, 17, 27, 0.2);
 }
 
-.weather-card-today .label {
-  font-size: 12px;
+.open-meteo-card-today .label {
+  font-size: 10px;
+  padding: 0 40px;
 }
 
-.weather-card-today .label.location {
+.open-meteo-card-today .label.location {
   font-size: 24px;
   font-weight: 700;
 }
 
-.weather-card-today .label.alert {
+.open-meteo-card-today .label.sunrisesunset {
+  font-size: 13px;
+  padding: 0;
+}
+
+.open-meteo-card-today .label.sunrisesunset-icon {
+  font-size: 13px;
+  padding: 0;
+}
+
+.open-meteo-card-today .label.alert {
   font-size: 12px;
   font-weight: 700;
   background-color: var(--yellow);
@@ -954,28 +973,135 @@ QPushButton {
   padding: 5px 0;
 }
 
-.weather-card-day {
+.open-meteo-card-day {
   border: 1px solid var(--surface2);
   border-radius: 8px;
   background-color: rgba(17, 17, 27, 0.2);
 }
 
-.weather-card-day .label {
+.open-meteo-card-day.active {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--overlay1);
+}
+
+.open-meteo-card-day:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.open-meteo-card-day .label {
   font-size: 12px;
 }
 
-.weather-card .hourly-container {
+.open-meteo-card .hourly-container {
   border: 1px solid var(--surface2);
   background-color: var(--sapphire);
   border-radius: 8px;
   min-height: 150px;
 }
 
-.weather-card .hourly-data {
+.open-meteo-card .hourly-data {
   background-color: var(--yellow);
   color: var(--text);
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.open-meteo-card .hourly-data.temperature {
+  background-color: #c9be48;
+}
+
+.open-meteo-card .hourly-data.rain {
+  background-color: #4a90e2;
+}
+
+.open-meteo-card .hourly-data.snow {
+  background-color: #a0c4ff;
+}
+
+.open-meteo-card .hourly-data .hourly-rain-animation {
+  color: rgba(150, 200, 255, 40);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.open-meteo-card .hourly-data .hourly-snow-animation {
+  color: rgba(255, 255, 255, 150);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.open-meteo-card .hourly-data-buttons {
+  margin-top: 16px;
+  margin-left: 16px;
+}
+
+.open-meteo-card .hourly-data-button {
+  border-radius: 5px;
+  min-height: 24px;
+  min-width: 24px;
+  max-width: 24px;
+  max-height: 24px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.3);
+  border: 1px solid transparent;
+}
+
+.open-meteo-card .hourly-data-button.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--overlay1);
+}
+
+.open-meteo-card .search-head {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.open-meteo-card .search-description {
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  padding-bottom: 8px;
+}
+
+.open-meteo-card .no-data-icon {
+  font-size: 88px;
+}
+
+.open-meteo-card .no-data-text {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* search dialog */
+.open-meteo-card .search-input {
+  padding: 4px 8px;
+  border: 1px solid #5e6070;
+  border-radius: 6px;
+  background-color: rgba(17, 17, 27, 0.1);
+  color: var(--text);
+  font-size: 10px;
+}
+
+.open-meteo-card .search-input:focus {
+  border: 1px solid var(--sky);
+  background-color: rgba(17, 17, 27, 0.2);
+}
+
+.open-meteo-card .search-results {
+  border: 1px solid #45475a00;
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--text);
+  font-size: 9px;
+}
+
+.open-meteo-card .search-results::item {
+  padding: 2px;
+}
+
+.open-meteo-card .search-results::item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
 }
 
 /*

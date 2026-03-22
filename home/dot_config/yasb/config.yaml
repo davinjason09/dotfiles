@@ -370,52 +370,65 @@ widgets:
         thickness: 2
         size: 13
 
-  weather:
-    type: 'yasb.weather.WeatherWidget'
+  open_meteo:
+    type: yasb.open_meteo.OpenMeteoWidget
     options:
-      label: '<span>{icon}</span> {temp}'
-      label_alt: '<span>{icon}</span>{location}: <span></span>{min_temp},<span></span>{max_temp}, <span>󰖌</span>{humidity}'
-      api_key: '$env:YASB_WEATHER_API_KEY'
-      show_alerts: true
+      label: <span>{icon}</span> {temp}
+      label_alt: '<span>{icon}</span>{location}: <span></span>{min_temp} <span></span>{max_temp} <span>󰖌</span>{humidity}'
       update_interval: 3600
       hide_decimal: true
-      units: 'metric'
-      location: '$env:YASB_WEATHER_LOCATION'
+      units: metric
       callbacks:
-        on_left: 'toggle_card'
-        on_middle: 'do_nothing'
-        on_right: 'toggle_label'
+        on_left: toggle_card
+        on_middle: do_nothing
+        on_right: toggle_label
       icons:
-        sunnyDay: '󰖨'
-        clearNight: ''
-        cloudyDay: ''
-        cloudyNight: ''
-        rainyDay: ''
-        rainyNight: ''
-        blizzardDay: ''
-        blizzardNight: ''
-        snowyDay: '󰖘'
-        snowyNight: '󰖘'
-        foggyDay: ''
-        foggyNight: ''
-        thunderstormDay: ''
-        thunderstormNight: ''
-        default: ''
+        sunnyDay: 󰖨
+        clearNight: 
+        cloudyDay: 
+        cloudyNight: 
+        drizzleDay: 󰙾
+        drizzleNight: 󰙾
+        rainyDay: 
+        rainyNight: 
+        snowyDay: 󰖘
+        snowyNight: 󰖘
+        foggyDay: 
+        foggyNight: 
+        thunderstormDay: 
+        thunderstormNight: 
+        default: 
       weather_card:
         blur: false
-        alignment: 'right'
-        direction: 'down'
-        distance: 6
-        icon_size: 64
+        alignment: center
+        direction: down
+        icon_size: 48
         show_hourly_forecast: true
-        time_format: '24h'
+        time_format: 24h
         hourly_point_spacing: 76
-        hourly_icon_size: 32
+        hourly_icon_size: 24
         icon_smoothing: true
         temp_line_width: 2
-        current_line_color: '#585B70'
+        current_line_color: '#45475A'
         current_line_width: 2
-        current_line_style: 'dot'
+        current_line_style: dash
+        hourly_gradient:
+          enabled: true
+          top_color: '#8EAEE8'
+          bottom_color: '#2A3E68'
+        hourly_forecast_buttons:
+          enabled: true
+          default_view: temperature
+          snow_icon: 󰖘
+          rain_icon: 󰖖
+          temperature_icon: 󰖙
+        weather_animation:
+          enabled: true
+          snow_overrides_rain: true
+          temp_line_animation_style: both
+          rain_effect_intensity: 1
+          snow_effect_intensity: 1
+          scale_with_chance: true
 
   control-grouper:
     type: 'yasb.grouper.GrouperWidget'
