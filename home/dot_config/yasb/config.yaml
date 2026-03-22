@@ -438,18 +438,24 @@ widgets:
       hide_empty: true
 
   systray:
-    type: 'yasb.systray.SystrayWidget'
+    type: yasb.systray.SystrayWidget
     options:
-      label_collapsed: ''
-      label_expanded: ''
+      label_collapsed: '󰅁'
+      label_expanded: '󰅀'
       icon_size: 12
-      pin_click_modifier: 'shift'
-      class_name: 'systray'
+      pin_click_modifier: shift
+      use_hook: true
+      show_in_popup: true
       show_unpinned: false
       show_unpinned_button: true
       show_battery: true
-      show_volume: false
-      show_network: false
+      popup:
+        blur: false
+        round_corners: false
+        alignment: center
+        direction: down
+        offset_top: 6
+        offset_left: 0
 
   wallpapers:
     type: 'yasb.wallpapers.WallpapersWidget'

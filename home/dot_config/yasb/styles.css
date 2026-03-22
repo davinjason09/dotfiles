@@ -1146,9 +1146,9 @@ QPushButton {
 
 .systray .unpinned-visibility-btn {
   border: none;
-  font-size: 12px;
-  padding-left: -2px;
-  padding-right: -1px;
+  width: 7px;
+  font-size: 15px;
+  padding: 0 3px 0 1px;
 }
 
 .systray .unpinned-visibility-btn:checked {
@@ -1157,6 +1157,22 @@ QPushButton {
 
 .systray .unpinned-visibility-btn:hover {
   color: var(--pink);
+}
+
+.systray-popup {
+  background-color: rgba(17, 17, 27, 0.9);
+  border-radius: 6px;
+  border: 1px solid var(--sky);
+  padding: 4px;
+}
+
+.systray-popup .button {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.systray-popup .button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /*
