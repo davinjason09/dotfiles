@@ -65,6 +65,7 @@ return {
         json = { "oxfmt" },
         lua = { "stylua" },
         markdown = { "oxfmt" },
+        mdx = { "oxfmt" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         query = { lsp_format = "prefer" },
         sh = { "shfmt" },
