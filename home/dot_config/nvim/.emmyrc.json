@@ -14,7 +14,7 @@
     ],
     "checkThirdParty": false,
     "ignoreDir": ["/lua"],
-    "ignoreGlobs": ["**/*_spec.lua"]
+    "ignoreGlobs": ["**/*_spec.lua", "**/minit.lua", "**/busted.lua"]
   },
   "diagnostics": {
     "disable": [
