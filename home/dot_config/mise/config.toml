@@ -3,7 +3,11 @@
 [tools]
   # LSP
   "github:clangd/clangd"                   = "latest"  # C++
-  "github:EmmyLuaLs/emmylua-analyzer-rust" = { version = "latest", exe = "emmylua_ls", matching_regex = "^emmylua_ls" }  # Lua
+  "github:EmmyLuaLs/emmylua-analyzer-rust" = {
+    version        = "latest",
+    exe            = "emmylua_ls",
+    matching_regex = "^emmylua_ls"
+  }  # Lua
   "aqua:artempyanykh/marksman"             = "latest"  # Markdown
   "aqua:tombi-toml/tombi"                  = "latest"  # TOML
   "npm:bash-language-server"               = "latest"  # Bash
@@ -15,17 +19,45 @@
   "npm:@astrojs/language-server"           = "latest"  # Astro
   "npm:@tailwindcss/language-server"       = "latest"  # Tailwind
   "npm:vscode-langservers-extracted"       = "latest"  # JSON
-  "http:jdtls"                             = { version = "1.57.0", url = "https://download.eclipse.org/jdtls/milestones/{{version}}/jdt-language-server-{{version}}-202602261110.tar.gz", bin_path = "bin" }
+  "http:jdtls"                             = {
+    version  = "1.57.0",
+    url      = "https://download.eclipse.org/jdtls/milestones/{{version}}/jdt-language-server-{{version}}-202602261110.tar.gz",
+    bin_path = "bin"
+  }
   "aqua:Automattic/harper/harper-ls"       = "latest"  # English
+
   # Formatter
-  "pipx:clang-format"                      = "latest"  # C++, Java
-  "aqua:JohnnyMorganz/StyLua"              = "latest"  # Lua
-  "aqua:mvdan/sh"                          = "latest"  # Bash
-  "npm:bibtex-tidy"                        = "latest"  # Bibtex
-  "aqua:Enter-tainer/typstyle"             = "latest"  # Typst
-  "npm:oxfmt"                              = "latest"  # TS, TSX, JSON, CSS, YAML, Markdown, MDX
-  "aqua:biomejs/biome"                     = "latest"  # Astro (temp)
+  "pipx:clang-format"          = "latest"  # C++, Java
+  "aqua:JohnnyMorganz/StyLua"  = "latest"  # Lua
+  "aqua:mvdan/sh"              = "latest"  # Bash
+  "npm:bibtex-tidy"            = "latest"  # Bibtex
+  "aqua:Enter-tainer/typstyle" = "latest"  # Typst
+  "npm:oxfmt"                  = "latest"  # TS, TSX, JSON, CSS, YAML, Markdown, MDX
+  "aqua:biomejs/biome"         = "latest"  # Astro (temp)
+
   # Linter
-  "aqua:astral-sh/ruff"                    = "latest"  # Python
+  "aqua:astral-sh/ruff" = "latest"  # Python
+
   # Tools
-  "aqua:tree-sitter/tree-sitter"           = "latest"  # Treesitter (pacman is out of date)
+  "aqua:tree-sitter/tree-sitter" = "latest"  # Treesitter (pacman is out of date)
+
+  # Windows Tools
+  "github:amnweb/yasb"     = {
+    version       = "latest",
+    asset_pattern = "*-x64.msi",
+    bin           = "yasb.msi",
+    postinstall   = '''
+    install_msi $MISE_TOOL_INSTALL_PATH yasb.msi --helper=yasbc --stop_cmd="stop" --start_cmd="start"
+    '''
+  }
+  "github:glzr-io/glazewm" = {
+    version       = "latest",
+    asset_pattern = "standalone-*-x64.msi",
+    bin           = "glazewm.msi",
+    postinstall   = '''
+    install_msi $MISE_TOOL_INSTALL_PATH glazewm.msi --helper=glazewm --stop_cmd="command wm-exit" --start_cmd="start"
+    '''
+  }
+
+[settings]
+  experimental = true
