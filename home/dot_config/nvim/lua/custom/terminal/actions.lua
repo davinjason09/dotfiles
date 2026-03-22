@@ -109,6 +109,12 @@ M.picker = {
       picker:action(action)
     end, { default = item.item.name })
   end,
+  toggle_persist = function(_, item)
+    local name = state.term_bufs[item.idx].name
+    local is_persist = state.term_bufs[item.idx].opts.persist
+    state.term_bufs[item.idx].opts.persist = not is_persist
+    Snacks.notify.info(("Set Terminal (" .. name .. ") persistance to %s"):format(tostring(not is_persist)))
+  end,
   cycle_next = function() utils.cycle_term_buf("next") end,
   cycle_prev = function() utils.cycle_term_buf("prev") end,
   term_normal = function(picker)
