@@ -89,8 +89,7 @@ M.yatline = {
     },
     right = {
       section_a = {
-        { type = "string", custom = false, name = "date", params = { "%H:%M" } },
-        { type = "string", custom = true, name = "" },
+        { type = "string", custom = false, name = "date", params = { " %H:%M" } },
       },
       section_b = {
         { type = "string", custom = false, name = "hovered_size" },
