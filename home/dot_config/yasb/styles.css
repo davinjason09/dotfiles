@@ -162,6 +162,212 @@ QPushButton {
 }
 
 /*
+ * ─[ Quick Launch Widget ]──────────────────────────────────────────────
+*/
+.quick-launch-widget .icon {
+  font-size: 11px;
+  padding: 0 2px;
+  color: var(--sapphire);
+}
+
+.quick-launch-widget .icon:hover {
+  color: var(--lavender);
+}
+
+/* Quick Launch Popup - main window */
+.quick-launch-popup .container {
+  background-color: var(--base);
+  border: 1px solid var(--surface0);
+  border-radius: 8px;
+}
+
+/* Search bar container */
+.quick-launch-popup .search {
+  padding: 8px 12px;
+  background-color: transparent;
+  border-bottom: 1px solid var(--surface2);
+}
+
+/* Search loader line color */
+.quick-launch-popup .search .loader-line {
+  color: var(--sky);
+}
+
+.quick-launch-popup .search .search-icon {
+  font-family: 'Segoe Fluent Icons';
+  font-size: 16px;
+  color: var(--text);
+  padding-right: 8px;
+  min-width: 16px;
+}
+
+.quick-launch-popup .search .search-submit-icon {
+  font-family: 'Segoe Fluent Icons';
+  font-size: 16px;
+  color: var(--text);
+  min-width: 16px;
+}
+
+.quick-launch-popup .search .search-input {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 4px 0;
+}
+
+/* Search prefix styling (e.g., ">" for commands) */
+.quick-launch-popup .search .prefix {
+  background: var(--sapphire);
+  border-radius: 8px;
+  color: var(--base);
+  padding: -2px 8px 0px 8px;
+  margin-top: 2px;
+  margin-right: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  max-height: 28px;
+}
+
+/* Results list */
+.quick-launch-popup .results {
+  background: transparent;
+  padding: 6px 0;
+}
+
+/* Individual result item here you can set font szie for title */
+.quick-launch-popup .results-list-view {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.quick-launch-popup .results-list-view .description {
+  color: rgba(205, 214, 244, 0.6);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Result item hover and selected states */
+.quick-launch-popup .results-list-view::item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 2px 6px;
+}
+
+.quick-launch-popup .results-list-view::item:hover,
+.quick-launch-popup .results-list-view::item:selected {
+  background-color: var(--surface0);
+}
+
+/* Empty state when no results found */
+.quick-launch-popup .results-empty-text {
+  font-size: 24px;
+  color: var(--text);
+  padding-top: 8px;
+}
+
+/* Preview Pane */
+.quick-launch-popup .preview {
+  background: transparent;
+  border-left: 1px solid var(--surface0);
+}
+
+.quick-launch-popup .preview .preview-text {
+  font-size: 10px;
+  color: rgba(205, 214, 244, 0.85);
+  padding: 4px 8px;
+  background-color: rgba(205, 214, 244, 0.02);
+  border: none;
+}
+
+.quick-launch-popup .preview .preview-image {
+  background-color: rgba(205, 214, 244, 0.02);
+  padding: 8px 12px;
+}
+
+.quick-launch-popup .preview .preview-meta {
+  padding: 6px 12px;
+  border-top: 1px solid var(--surface0);
+}
+
+.quick-launch-popup .preview .preview-meta .preview-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+  margin-left: -2px;
+}
+
+.quick-launch-popup .preview .preview-meta .preview-subtitle {
+  font-size: 10px;
+  color: var(--text);
+  padding-bottom: 1px;
+}
+
+/* Preview inline edit form (.preview.edit) */
+.quick-launch-popup .preview.edit .preview-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 8px 12px 4px 12px;
+}
+
+.quick-launch-popup .preview.edit .preview-line-edit {
+  background: rgba(205, 214, 244, 0.02);
+  border: 1px solid var(--surface2);
+  border-radius: 4px;
+  font-size: 11px;
+  padding: 4px 6px;
+  margin: 0 12px;
+}
+
+.quick-launch-popup .preview.edit .preview-line-edit:focus {
+  border-color: var(--sky);
+}
+
+.quick-launch-popup .preview.edit .preview-text-edit {
+  background: rgba(205, 214, 244, 0.02);
+  border: 1px solid var(--surface2);
+  border-radius: 4px;
+  font-size: 11px;
+  padding: 4px 6px;
+  margin: 0 12px;
+}
+
+.quick-launch-popup .preview.edit .preview-text-edit:focus {
+  border-color: var(--sky);
+}
+
+.quick-launch-popup .preview.edit .preview-actions {
+  padding: 8px 12px;
+}
+
+.quick-launch-popup .preview.edit .preview-btn {
+  background: var(--surface0);
+  border: none;
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 16px;
+}
+
+.quick-launch-popup .preview.edit .preview-btn:hover {
+  background: var(--surface1);
+}
+
+.quick-launch-popup .preview.edit .preview-btn.save {
+  background: var(--sapphire);
+  color: var(--base);
+}
+
+.quick-launch-popup .preview.edit .preview-btn.save:hover {
+  background: var(--sky);
+}
+
+/*
  * ─[ GlazeWM Workspaces ]───────────────────────────────────────────────
  */
 .glazewm-workspaces .ws-btn {

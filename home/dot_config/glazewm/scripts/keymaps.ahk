@@ -5,8 +5,8 @@
   ExitApp
 }
 
-LauncherHotkey := "!{Space}"
-Lwin & Space::Send(LauncherHotkey)
+; App Launcher
+Lwin & Space::Send("^+{Space}")
 
 ~LWin:: {
   LWinDown := true

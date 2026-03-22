@@ -13,10 +13,6 @@ if (-not (Has-Started "yasb")) {
   yasbc start
 }
 
-if (-not (Has-Started "Flow.Launcher")) {
-  start FlowLauncher
-}
-
 start $HOME/.glzr/glazewm/scripts/keymaps.ahk
 start Everything --startup
 
