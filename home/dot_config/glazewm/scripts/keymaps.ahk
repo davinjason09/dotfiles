@@ -1,30 +1,24 @@
 #SingleInstance Force
 #Requires AutoHotkey v2.0
 
-^+Esc:: {
-  ExitApp
-}
+^+Esc::ExitApp()
 
 ; App Launcher
 Lwin & Space::Send("^+{Space}")
 
-~LWin:: {
+~LWin::{
   LWinDown := true
-  Send "{Blind}{vkE8}"
+  Send("{Blind}{vkE8}")
 }
 
-#^q:: {
-  RunWait("yasbc toggle-widget powermenu --follow-focus", ,"Hide")
-}
+; YASB Power Menu
+#^q::Send("^+q")
 
-#^w:: {
-  RunWait("yasbc toggle-widget wallpapers --follow-focus", , "Hide")
-}
+; YASB Wallpaper Menu
+#^w::Send("^+w")
 
-#Enter:: {
-  RunWait("wezterm", , "Hide")
-}
+; Terminal
+#Enter::RunWait("wezterm", , "Hide")
 
-#b:: {
-  RunWait("zen", , "Hide")
-}
+; Browser
+#b::RunWait("zen", , "Hide")
