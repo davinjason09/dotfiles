@@ -863,10 +863,15 @@ QPushButton {
  */
 .memory-widget {
   padding: 0 2px 0 0;
+  font-size: 10px;
+}
+
+.memory-widget .icon {
+  font-size: 10px;
 }
 
 .memory-widget .label {
-  color: var(--text);
+  padding-left: 2px;
 }
 
 .memory-widget .label.status-critical {
@@ -885,11 +890,16 @@ QPushButton {
  * ─[ CPU ]──────────────────────────────────────────────────────────────
 */
 .cpu-widget {
-  padding: 0 2px;
+  padding: 0 2px 0 0;
+  font-size: 10px;
+}
+
+.cpu-widget .icon {
+  font-size: 10px;
 }
 
 .cpu-widget .label {
-  color: var(--text);
+  padding-left: 2px;
 }
 
 .cpu-widget .label.status-critical {
@@ -1116,10 +1126,6 @@ QPushButton {
 /*
  * ─[ Systray ]──────────────────────────────────────────────────────────
  */
-.systray .pinned-container {
-  padding-right: 2px;
-}
-
 .systray .pinned-container[forceshow='true'] {
   background: var(--surface0);
 }
@@ -1215,6 +1221,13 @@ QPushButton {
 
 .copilot-widget .icon {
   font-size: 10px;
+  color: var(--lavender);
+}
+
+.copilot-widget .label {
+  padding-left: 4px;
+  font-size: 10px;
+  color: var(--lavender);
 }
 
 .copilot-widget .label.warning,

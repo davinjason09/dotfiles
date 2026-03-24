@@ -205,7 +205,6 @@ widgets:
         max_length: 12
       ignore_apps:
         classes: [Awake.MessageWindow, Windows.UI.Core.CoreWindow, LockScreenControllerProxyWindow]
-        titles: [Flow.Launcher]
 
   media:
     type: yasb.media.MediaWidget
@@ -321,8 +320,8 @@ widgets:
   memory:
     type: yasb.memory.MemoryWidget
     options:
-      label: MEM {virtual_mem_percent}%
-      label_alt: MEM {virtual_mem_outof}
+      label: <span>MEM</span> {virtual_mem_percent}%
+      label_alt: <span>MEM</span> {virtual_mem_used}/{virtual_mem_total}
       update_interval: 10000
       callbacks:
         on_left: toggle_label
@@ -341,8 +340,8 @@ widgets:
   cpu:
     type: yasb.cpu.CpuWidget
     options:
-      label: CPU {info[percent][total]}%
-      label_alt: CPU {info[histograms][cpu_percent]}
+      label: <span>CPU</span> {info[percent][total]}%
+      label_alt: <span>CPU</span> {info[histograms][cpu_percent]}
       update_interval: 2000
       cpu_thresholds:
         low: 25
@@ -401,6 +400,7 @@ widgets:
         blur: false
         alignment: center
         direction: down
+        offset_top: 4
         icon_size: 48
         show_hourly_forecast: true
         time_format: 24h
@@ -453,7 +453,7 @@ widgets:
         round_corners: false
         alignment: center
         direction: down
-        offset_top: 6
+        offset_top: 4
         offset_left: 0
 
   wallpapers:
@@ -482,8 +482,8 @@ widgets:
   copilot:
     type: yasb.copilot.CopilotWidget
     options:
-      label: '{icon}'
-      label_alt: '{used}/{allowance}'
+      label: <span>{icon}</span>
+      label_alt: <span>{icon}</span>{used}/{allowance}
       token: '$env:YASB_GITHUB_TOKEN'
       plan: pro
       tooltip: true
