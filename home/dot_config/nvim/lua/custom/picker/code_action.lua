@@ -159,7 +159,6 @@ local function get_code_actions(opts, ctx)
   local tmp_buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(tmp_buf, 0, -1, false, current_lines)
 
-  local branch = ""
   ---@async
   ---@param cb async fun(item: snacks.picker.finder.Item)
   return function(cb)
@@ -177,17 +176,14 @@ local function get_code_actions(opts, ctx)
         local s = assert(opts.range.start, "range must have a `start` property")
         local e = assert(opts.range["end"], "range must have a `end` property")
         params = vim.lsp.util.make_given_range_params(s, e, buf, encoding)
-        branch = "range"
         range = { s[1], e[1] }
       elseif mode == "v" or mode == "V" then
         local s = { vim.fn.getpos("'<")[2], vim.fn.getpos("'<")[3] }
         local e = { vim.fn.getpos("'>")[2], vim.fn.getpos("'>")[3] }
         params = vim.lsp.util.make_given_range_params(s, e, buf, encoding)
-        branch = "visual"
         range = { s[2], e[2] }
       else
         params = vim.lsp.util.make_range_params(0, encoding)
-        branch = "normal"
         range = opts.all and { 1, vim.fn.line("$") } or nil
       end
 
@@ -204,7 +200,6 @@ local function get_code_actions(opts, ctx)
       results = vim.tbl_isempty(results) and {} or vim.islist(results) and results or { results }
       results = Utils.dedup(results, { func = vim.json.encode }) ---@type (lsp.CodeAction|lsp.Command)[]
 
-      vim.print(branch)
       table.sort(results, function(a, b) return get_start(a) < get_start(b) end)
 
       if #results == 0 then return vim.notify("No code actions available", vim.log.levels.INFO) end
