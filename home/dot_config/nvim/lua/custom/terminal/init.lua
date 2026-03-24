@@ -43,16 +43,29 @@ end
 
 local function find_term()
   local items = {}
+
   for id, term in pairs(state.term_bufs) do
-    local buf = term.bufnr
-    term_file = vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_name(buf) or ""
+    if not vim.api.nvim_buf_is_valid(term.bufnr) then
+      if not term.opts.persist then goto continue end
+
+      local old_bufnr = term.bufnr
+      term.bufnr = vim.api.nvim_create_buf(false, true)
+
+      if state.last_term == old_bufnr then state.last_term = term.bufnr end
+      utils.open_term(term)
+    end
+
+    local term_file = vim.api.nvim_buf_get_name(term.bufnr) or ""
     table.insert(items, {
       item = term,
       text = id .. " " .. Snacks.picker.util.text(term, { "name", "bufnr" }),
       title = id_to_icon(id) .. " " .. term.name,
       file = term_file,
     })
+
+    ::continue::
   end
+
   return items
 end
 

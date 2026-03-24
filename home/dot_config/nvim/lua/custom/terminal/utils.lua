@@ -1,12 +1,25 @@
 local M = {}
 local state = require("custom.terminal.state")
 
----@param cmd string|string[]
----@param opts? table
----@return integer
-local function jobstart(cmd, opts)
-  opts = opts or {}
-  return vim.fn.jobstart(cmd, vim.tbl_isempty(opts) and vim.empty_dict() or opts)
+---@param term TermBuf
+M.open_term = function(term)
+  vim.api.nvim_buf_call(term.bufnr, function()
+    if vim.bo[term.bufnr].buftype == "terminal" then return end
+
+    local ok, res = pcall(vim.fn.jobstart, term.cmd, { term = true })
+
+    if not ok then
+      local message = ("%s\nSwitching to previous terminal.."):format(res:gsub("Vim:E%d+: ", ""))
+      vim.notify(message, vim.log.levels.ERROR)
+
+      table.insert(state.buf_to_clear, term.bufnr)
+      state.term_bufs = vim.tbl_filter(function(t) return t.bufnr ~= term.bufnr end, state.term_bufs)
+      return M.cycle_term_buf("prev")
+    end
+
+    term.job_id = res
+    vim.cmd("noh")
+  end)
 end
 
 ---@param key "bufnr"|"cmd"|"name"|"opts"|"job_id"
@@ -28,17 +41,20 @@ M.add_term = function(cmd, name, opts)
 
   opts = vim.tbl_extend("force", { persist = false, auto_close = false }, opts or {})
 
-  local term_name = cmd and (type(cmd) == "table" and cmd[1] or cmd) or name or "Terminal" --[[@as string]]
+  local parsed_cmd = Snacks.terminal.parse(cmd or vim.o.shell) ---@diagnostic disable-line: access-invisible
+  local term_name = cmd and parsed_cmd[1] or name or "Terminal"
   term_name = term_name:sub(1, 1):upper() .. term_name:sub(2)
 
   local term_buf = {
     bufnr = vim.api.nvim_create_buf(false, true),
-    cmd = Snacks.terminal.parse(cmd or vim.o.shell), ---@diagnostic disable-line: access-invisible
+    cmd = parsed_cmd,
     name = term_name,
     opts = opts,
   }
 
+  M.open_term(term_buf)
   table.insert(state.term_bufs, term_buf)
+  state.last_term = term_buf.bufnr
 end
 
 ---@param buf integer
@@ -50,16 +66,6 @@ M.switch_term_buf = function(buf)
     local id, term = M.get_term("bufnr", buf)
     if not id or not term then return end
 
-    if not vim.api.nvim_buf_is_valid(buf) then
-      local opts = term.opts or {} ---@type TermOpts
-
-      if opts.persist then
-        buf = vim.api.nvim_create_buf(false, true)
-        state.term_bufs[id].bufnr = buf
-        picker:find()
-      end
-    end
-
     state.last_term = buf
     picker.preview.win:set_buf(buf)
     picker.preview.win:map()
@@ -68,22 +74,8 @@ M.switch_term_buf = function(buf)
     picker.preview:set_title(term.name)
     picker:update_titles()
 
-    if vim.bo[buf].buftype ~= "terminal" then
-      local is_term = picker:current_win() == "preview"
-      if not is_term then picker:action("focus_term") end
-
-      state.term_bufs[id].job_id = jobstart(term.cmd, { term = true })
-
-      vim.cmd("noh")
-      vim.schedule(function() picker:find() end)
-
-      -- Since the input field is automatically hidden, focus to the list no matter whether if the
-      -- previous window was the input or not.
-      if not is_term then picker:action("focus_list") end
-    end
-
-    vim.cmd("checktime")
     vim.schedule(function() picker.list:move(id, true) end)
+    vim.cmd("checktime")
   end)
 end
 
