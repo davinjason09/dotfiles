@@ -119,15 +119,19 @@ end
 ---Deduplicate a list
 ---@generic T
 ---@param list T[]
+---@param opts? { func: fun(x: T) }
 ---@return T[]
-function M.dedup(list)
+function M.dedup(list, opts)
+  opts = opts or {}
   local ret = {}
   local seen = {}
 
   for _, v in ipairs(list) do
-    if not seen[v] then
+    local key = opts.func and opts.func(v) or v
+
+    if not seen[key] then
       table.insert(ret, v)
-      seen[v] = true
+      seen[key] = true
     end
   end
 
