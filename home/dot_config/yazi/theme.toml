@@ -1,48 +1,46 @@
-"$schema" = "https://yazi-rs.github.io/schemas/theme.json"
+#:schema https://yazi-rs.github.io/schemas/theme.json
 
 [mgr]
-  cwd = { fg = "#94E2D5" }
-
-  hovered         = { fg = "#1E1E2E", bg = "#89DCEB" }
-  preview_hovered = { fg = "#1E1E2E", bg = "#CDD6F4" }
-
-  find_keyword  = { fg = "#F9E2AF", italic = true }
-  find_position = { fg = "#F5C2E7", bg = "reset", italic = true }
-
+  cwd             = { fg = "#94E2D5" }
+  # Find
+  find_keyword    = { fg = "#F9E2AF", bold = true, italic = true, underline = true }
+  find_position   = { fg = "#F5C2E7", bg = "reset", italic = true }
+  # Marker
   marker_copied   = { fg = "#A6E3A1", bg = "#A6E3A1" }
   marker_cut      = { fg = "#F38BA8", bg = "#F38BA8" }
   marker_marked   = { fg = "#94E2D5", bg = "#94E2D5" }
   marker_selected = { fg = "#89DCEB", bg = "#89DCEB" }
-
-  count_copied   = { fg = "#1E1E2E", bg = "#A6E3A1" }
-  count_cut      = { fg = "#1E1E2E", bg = "#F38BA8" }
-  count_selected = { fg = "#1E1E2E", bg = "#89DCEB" }
-
-  border_style  = { fg = "#7F849C" }
-  border_symbol = "│"
-
-  syntect_theme = "~/.config/yazi/Catppuccin-mocha-custom.tmTheme"
+  # Count
+  count_copied    = { fg = "#1E1E2E", bg = "#A6E3A1" }
+  count_cut       = { fg = "#1E1E2E", bg = "#F38BA8" }
+  count_selected  = { fg = "#1E1E2E", bg = "#89DCEB" }
+  # Border
+  border_style    = { fg = "#7F849C" }
+  border_symbol   = "│"
+  syntect_theme   = "~/.config/yazi/Catppuccin-mocha-custom.tmTheme"
 
 [mode]
+  # Normal mode
   normal_alt  = { fg = "#89DCEB", bg = "#313244" }
   normal_main = { fg = "#1E1E2E", bg = "#89DCEB", bold = true }
-
+  # Select mode
   select_alt  = { fg = "#A6E3A1", bg = "#313244" }
   select_main = { fg = "#1E1E2E", bg = "#A6E3A1", bold = true }
-
-  unset_alt  = { fg = "#F2CDCD", bg = "#313244" }
-  unset_main = { fg = "#1E1E2E", bg = "#F2CDCD", bold = true }
+  # Unset mode
+  unset_alt   = { fg = "#F2CDCD", bg = "#313244" }
+  unset_main  = { fg = "#1E1E2E", bg = "#F2CDCD", bold = true }
 
 [status]
+  # Progress
   progress_error  = { fg = "#F38BA8", bg = "#45475A" }
   progress_label  = { fg = "#FFFFFF", bold = true }
   progress_normal = { fg = "#89B4FA", bg = "#45475A" }
-
-  perm_exec  = { fg = "#A6E3A1" }
-  perm_read  = { fg = "#F9E2AF" }
-  perm_sep   = { fg = "#B4BEFE" }
-  perm_type  = { fg = "#89B4FA" }
-  perm_write = { fg = "#F38BA8" }
+  # Permissions
+  perm_exec       = { fg = "#A6E3A1" }
+  perm_read       = { fg = "#F9E2AF" }
+  perm_sep        = { fg = "#B4BEFE" }
+  perm_type       = { fg = "#89B4FA" }
+  perm_write      = { fg = "#F38BA8" }
 
 [input]
   border   = { fg = "#89DCEB" }
@@ -59,7 +57,6 @@
   border  = { fg = "#89DCEB" }
   btn_no  = {}
   btn_yes = { reversed = true }
-  content = {}
   list    = {}
   title   = { fg = "#89DCEB" }
 
@@ -96,17 +93,15 @@
     # Media
     { mime = "image/*", fg = "#94E2D5" },
     { mime = "{audio,video}/*", fg = "#F9E2AF" },
-
     # Archives
-    { mime = "application/*zip", fg = "#F5C2E7" },
-    { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#F5C2E7" },
-
+    { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#F5C2E7" },
     # Documents
     { mime = "application/{pdf,doc,rtf}", fg = "#A6E3A1" },
-
+    # Virtual file system
+    { mime = "vfs/{absent,stale}", fg = "#9399B2" },
     # Fallback
-    { name = "*", fg = "#CDD6F4" },
-    { name = "*/", fg = "#89B4FA" },
+    { url = "*", fg = "#CDD6F4" },
+    { url = "*/", fg = "#89B4FA" },
   ]
 
 [spot]
@@ -122,7 +117,8 @@
     { if = "exec", text = "" },
     { if = "!dir", text = "" },
   ]
-  exts = [
+  dirs  = [{ name = ".git", text = "", fg = "#89B4FA" }]
+  exts  = [
     { name = "3gp", text = "", fg = "#FAB387" },
     { name = "3mf", text = "󰆧", fg = "#7F849C" },
     { name = "7z", text = "󰗄", fg = "#74C7EC" },

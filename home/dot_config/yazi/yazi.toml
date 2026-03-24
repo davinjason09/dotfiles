@@ -1,4 +1,4 @@
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+#:schema https://yazi-rs.github.io/schemas/yazi.json
 
 [mgr]
   linemode       = "size"
@@ -36,6 +36,6 @@
 
 [opener]
   extract = [
-    { run = 'ouch d -y %*', desc = "Extract here with ouch", for = "windows" },
+    { run = "ouch d -y %*", desc = "Extract here with ouch", for = "windows" },
     { run = 'ouch d -y "$@"', desc = "Extract here with ouch", for = "unix" },
   ]
