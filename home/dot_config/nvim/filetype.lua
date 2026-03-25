@@ -40,15 +40,27 @@ vim.filetype.add({
 
       return (size - lines) / lines > bigfile_opts.line_length and "bigfile" or nil
     end,
-    ["${HOME}/.local/share/chezmoi/.*"] = {
+    ["${HOME}/%.local/share/chezmoi/.*"] = {
       function(path, buf)
-        if path:match("/dot_*") then
-          return vim.filetype.match({ buf = buf, filename = path:gsub("/dot_", "/.") })
+        if not vim.uv.fs_stat(path) then return end
+
+        local filename = vim.fs.basename(path)
+        if filename:match("dot_") then
+          return vim.filetype.match({ buf = buf, filename = filename:gsub("dot_", ".") })
         end
 
-        for _, pattern in ipairs({ "external_", "executable_" }) do
-          if path:match(pattern) then
-            return vim.filetype.match({ buf = buf, filename = path:gsub(pattern, "") })
+        if filename:match("^external_") then
+          return vim.filetype.match({ buf = buf, filename = filename:gsub("external_", "") })
+        end
+
+        if filename:match("executable_") then
+          local shebang = vim.fn.readfile(path, "", 1)[1]
+
+          if shebang:match("^#!") then
+            local shell = shebang:match("^#!.*%s([^%s]+)") or shebang:match("^#!.*%/([^%s]+)")
+            return (shell and shell ~= "") and shell or "sh"
+          else
+            return "sh"
           end
         end
       end,
