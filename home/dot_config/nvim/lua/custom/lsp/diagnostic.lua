@@ -4,15 +4,15 @@ local M = {}
 -- Taken from https://github.com/joe-p/kickstart.nvim/blob/4f756cf63ec2d4eea293918e086096ff984eebc9/lua/joe-p/diagnostic.lua
 
 -- Get the window id of a buffer
----@param bufnr integer
-local function buf_to_win(bufnr)
+---@param buf integer
+local function buf_to_win(buf)
   local cur_win = vim.api.nvim_get_current_win()
 
   -- Check if the current window has the buffer
-  if vim.api.nvim_win_get_buf(cur_win) == bufnr then return cur_win end
+  if vim.api.nvim_win_get_buf(cur_win) == buf then return cur_win end
 
   -- Else, find a visible windows with this buffer
-  local win_ids = vim.fn.win_findbuf(bufnr)
+  local win_ids = vim.fn.win_findbuf(buf)
   local cur_tab = vim.api.nvim_get_current_tabpage()
 
   for _, win_id in ipairs(win_ids) do
@@ -102,7 +102,7 @@ end
 
 M._did_setup = false
 M.setup = function()
-  if M._did_setup then return true end
+  if M._did_setup then return end
   M._did_setup = true
 
   -- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.
@@ -143,7 +143,7 @@ M.setup = function()
     callback = function(ev)
       diag_cache[ev.buf] = {}
       vim.tbl_map(function(diag) diag_cache[ev.buf][diag.lnum + 1] = true end, vim.diagnostic.get(ev.buf))
-      vim.api.nvim_exec_autocmds("User", { pattern = "UpdateDiagnostic" })
+      vim.schedule(function() vim.api.nvim_exec_autocmds("User", { pattern = "UpdateDiagnostic" }) end)
     end,
   })
 

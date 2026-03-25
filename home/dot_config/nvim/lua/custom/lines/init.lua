@@ -65,8 +65,8 @@ M.setup = function()
       vim.schedule(function()
         local buf_list = U.get_bufs()
         local seen = {}
-        local items = vim.tbl_map(function(bufnr)
-          local path = vim.api.nvim_buf_get_name(bufnr)
+        local items = vim.tbl_map(function(buf)
+          local path = vim.api.nvim_buf_get_name(buf)
           local parts = vim.split(path, "/")
           return { path = path, parts = parts, depth = 1, name = parts[#parts] }
         end, buf_list)

@@ -103,10 +103,10 @@ end
 function M.setup()
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("CodeFormat", {}),
-    callback = function(args)
+    callback = function(ev)
       if vim.g.minifiles_active then return end
 
-      M.format({ buf = args.buf })
+      M.format({ buf = ev.buf })
     end,
     desc = "Code Format",
   })

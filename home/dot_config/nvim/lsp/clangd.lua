@@ -1,23 +1,23 @@
----@param bufnr integer
+---@param buf integer
 ---@param client vim.lsp.Client
-local function switch_source_header(bufnr, client)
+local function switch_source_header(buf, client)
   local method_name = "textDocument/switchSourceHeader"
   if not client or not client:supports_method(method_name) then
     return vim.notify(("Method %s is not supported by any servers active on the current buffer"):format(method_name))
   end
 
-  local params = vim.lsp.util.make_text_document_params(bufnr)
+  local params = vim.lsp.util.make_text_document_params(buf)
   client:request(method_name, params, function(err, result)
     if err then error(tostring(err)) end
     if not result then return vim.notify("Corresponding file cannot be determined") end
 
     vim.cmd.edit(vim.uri_to_fname(result))
-  end, bufnr)
+  end, buf)
 end
 
----@param bufnr integer
+---@param buf integer
 ---@param client vim.lsp.Client
-local function symbol_info(bufnr, client)
+local function symbol_info(buf, client)
   local method_name = "textDocument/symbolInfo"
 
   if not client or not client:supports_method(method_name) then
@@ -38,7 +38,7 @@ local function symbol_info(bufnr, client)
       focus = false,
       title = "Symbol Info",
     })
-  end, bufnr)
+  end, buf)
 end
 
 ---@class ClangdInitializeResult: lsp.InitializeResult
@@ -84,17 +84,17 @@ return {
     if init_result.offsetEncoding then client.offset_encoding = init_result.offsetEncoding end
   end,
   -- stylua: ignore
-  on_attach = function(client, bufnr)
-    vim.api.nvim_buf_create_user_command(bufnr, "ClangdSwitchSourceHeader", function()
-      switch_source_header(bufnr, client)
+  on_attach = function(client, buf)
+    vim.api.nvim_buf_create_user_command(buf, "ClangdSwitchSourceHeader", function()
+      switch_source_header(buf, client)
     end, { desc = "Switch between source/header" })
 
-    vim.api.nvim_buf_create_user_command( bufnr, "ClangdShowSymbolInfo", function()
-      symbol_info(bufnr, client)
+    vim.api.nvim_buf_create_user_command( buf, "ClangdShowSymbolInfo", function()
+      symbol_info(buf, client)
     end, { desc = "Show symbol info" })
 
     local function map(lhs, rhs, desc, mode)
-      vim.keymap.set(mode or "n", lhs, rhs, { buffer = bufnr, desc = desc })
+      vim.keymap.set(mode or "n", lhs, rhs, { buffer = buf, desc = desc })
     end
 
     map("<leader>ch", "<CMD>ClangdSwitchSourceHeader<CR>", "[C]ode: Switch Source/[H]eader")

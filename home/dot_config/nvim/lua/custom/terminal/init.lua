@@ -45,20 +45,20 @@ local function find_term()
   local items = {}
 
   for id, term in pairs(state.term_bufs) do
-    if not vim.api.nvim_buf_is_valid(term.bufnr) then
+    if not vim.api.nvim_buf_is_valid(term.buf) then
       if not term.opts.persist then goto continue end
 
-      local old_bufnr = term.bufnr
-      term.bufnr = vim.api.nvim_create_buf(false, true)
+      local old_buf = term.buf
+      term.buf = vim.api.nvim_create_buf(false, true)
 
-      if state.last_term == old_bufnr then state.last_term = term.bufnr end
+      if state.last_term == old_buf then state.last_term = term.buf end
       utils.open_term(term)
     end
 
-    local term_file = vim.api.nvim_buf_get_name(term.bufnr) or ""
+    local term_file = vim.api.nvim_buf_get_name(term.buf) or ""
     table.insert(items, {
       item = term,
-      text = id .. " " .. Snacks.picker.util.text(term, { "name", "bufnr" }),
+      text = id .. " " .. Snacks.picker.util.text(term, { "name", "buf" }),
       title = id_to_icon(id) .. " " .. term.name,
       file = term_file,
     })
@@ -84,21 +84,21 @@ local function setup_autocmd(picker)
       Snacks.notify.error("Terminal exited with code " .. vim.v.event.status .. ".", { title = "Terminal" })
     end
 
-    local _, term = utils.get_term("bufnr", ev.buf)
+    local _, term = utils.get_term("buf", ev.buf)
     local opts = term and term.opts or {} ---@type TermOpts
 
     if opts.persist then
       picker:close()
 
       if is_error then
-        state.term_bufs = vim.tbl_filter(function(t) return t.bufnr ~= ev.buf end, state.term_bufs)
+        state.term_bufs = vim.tbl_filter(function(t) return t.buf ~= ev.buf end, state.term_bufs)
         state.last_term = nil
       end
 
       return vim.api.nvim_buf_delete(ev.buf, { force = true })
     end
 
-    state.term_bufs = vim.tbl_filter(function(t) return t.bufnr ~= ev.buf end, state.term_bufs)
+    state.term_bufs = vim.tbl_filter(function(t) return t.buf ~= ev.buf end, state.term_bufs)
 
     if is_error then return end
 
@@ -138,13 +138,13 @@ M.source = {
     if cmd and not created_id then
       utils.add_term(cmd, nil, { auto_close = true })
     elseif cmd and term then
-      state.last_term = term.bufnr
+      state.last_term = term.buf
     end
 
     if #state.term_bufs == 0 then utils.add_term() end
 
     picker:find()
-    utils.switch_term_buf(state.last_term or state.term_bufs[1].bufnr)
+    utils.switch_term_buf(state.last_term or state.term_bufs[1].buf)
   end,
   on_close = function(picker)
     picker:action("restore_win")
@@ -162,7 +162,7 @@ M.source = {
     local cur_win = ctx.picker:current_win()
 
     if state.last_win == "input" and cur_win ~= "input" then
-      local buf = state.last_term or state.term_bufs[ctx.item.idx].bufnr
+      local buf = state.last_term or state.term_bufs[ctx.item.idx].buf
       utils.switch_term_buf(buf)
 
       local action = cur_win == "list" and "stopinsert" or "startinsert"

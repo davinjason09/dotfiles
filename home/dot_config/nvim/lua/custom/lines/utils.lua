@@ -19,9 +19,9 @@ M.update_events = function(opts)
           event_opts.pattern = event.pattern
           if event.callback then
             local callback = event.callback
-            event_opts.callback = function(args)
+            event_opts.callback = function(ev)
               clear_cache()
-              callback(self, args)
+              callback(self, ev)
             end
           end
           event = event[1]
@@ -104,7 +104,7 @@ end
 
 M.get_bufs = function()
   return vim.tbl_filter(
-    function(bufnr) return vim.api.nvim_get_option_value("buflisted", { buf = bufnr }) end,
+    function(buf) return vim.api.nvim_get_option_value("buflisted", { buf = buf }) end,
     vim.api.nvim_list_bufs()
   )
 end

@@ -33,7 +33,7 @@ M.picker = {
     if picker:current_win() == "input" then picker:action("clear_input") end
 
     picker:action("focus_term")
-    vim.schedule(function() utils.switch_term_buf(item.item.bufnr) end)
+    vim.schedule(function() utils.switch_term_buf(item.item.buf) end)
   end,
   focus_term = function(picker) picker:action("focus_preview") end,
   startinsert = function() vim.cmd.startinsert() end,
@@ -41,7 +41,7 @@ M.picker = {
     utils.add_term()
     picker:find()
     picker:action("focus_term")
-    utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
+    utils.switch_term_buf(state.term_bufs[#state.term_bufs].buf)
   end,
   add_term_cmd = function(picker)
     command_input("Command: ", function(cmd)
@@ -57,7 +57,7 @@ M.picker = {
       utils.add_term(cmd, nil, { persist = true })
       picker:find()
       picker:action("focus_term")
-      utils.switch_term_buf(state.term_bufs[#state.term_bufs].bufnr)
+      utils.switch_term_buf(state.term_bufs[#state.term_bufs].buf)
     end)
   end,
   delete_term = function(picker)
@@ -65,13 +65,13 @@ M.picker = {
     for _, item in pairs(term_bufs) do
       local term_buf = item.item
 
-      table.insert(state.buf_to_clear, term_buf.bufnr)
+      table.insert(state.buf_to_clear, term_buf.buf)
 
-      if state.last_term == term_buf.bufnr then vim.schedule(function() utils.cycle_term_buf("prev") end) end
+      if state.last_term == term_buf.buf then vim.schedule(function() utils.cycle_term_buf("prev") end) end
     end
 
     state.term_bufs = vim.tbl_filter(
-      function(t) return not vim.tbl_contains(state.buf_to_clear, t.bufnr) end,
+      function(t) return not vim.tbl_contains(state.buf_to_clear, t.buf) end,
       state.term_bufs
     )
 
@@ -101,7 +101,7 @@ M.picker = {
       picker:find()
       picker.list:move(item.idx, true)
 
-      if state.term_bufs[item.idx].bufnr == state.last_term then
+      if state.term_bufs[item.idx].buf == state.last_term then
         picker.preview:set_title(new_name)
         picker:update_titles()
       end

@@ -89,8 +89,8 @@ return {
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesWindowOpen",
-        callback = function(args)
-          local win_id = args.data.win_id
+        callback = function(ev)
+          local win_id = ev.data.win_id
 
           local config = vim.api.nvim_win_get_config(win_id)
           config.border = "rounded"
@@ -104,7 +104,7 @@ return {
       vim.api.nvim_create_autocmd("User", {
         group = group,
         pattern = { "MiniFilesActionRename", "MiniFilesActionMoved" },
-        callback = function(event) Snacks.rename.on_rename_file(event.data.from, event.data.to) end,
+        callback = function(ev) Snacks.rename.on_rename_file(ev.data.from, ev.data.to) end,
         desc = "LSP integrated file rename",
       })
 
@@ -131,7 +131,7 @@ return {
       vim.api.nvim_create_autocmd("User", {
         group = group,
         pattern = "MiniFilesActionCreate",
-        callback = function(event) on_create_file(event.data.to) end,
+        callback = function(ev) on_create_file(ev.data.to) end,
         desc = "LSP integrated file create",
       })
 
@@ -146,7 +146,7 @@ return {
       vim.api.nvim_create_autocmd("User", {
         group = group,
         pattern = "MiniFilesActionDelete",
-        callback = function(event) on_delete_file(event.data.from) end,
+        callback = function(ev) on_delete_file(ev.data.from) end,
         desc = "LSP integrated file delete",
       })
 
@@ -171,16 +171,16 @@ return {
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesBufferCreate",
-        callback = function(args)
-          local bufnr = args.data.buf_id
+        callback = function(ev)
+          local buf = ev.data.buf_id
           local map = vim.keymap.set
 
           map({ "n", "i", "x" }, "<C-s>", function()
             if vim.fn.mode() ~= "n" then Utils.edit.escape() end
             vim.defer_fn(MiniFiles.synchronize, 0)
-          end, { buffer = bufnr, desc = "Synchronize" })
-          map("n", "gy", yank_path, { buffer = bufnr, desc = "Yank path" })
-          map("n", "g.", toggle_dotfiles, { buffer = bufnr, desc = "Toggle dotfiles" })
+          end, { buffer = buf, desc = "Synchronize" })
+          map("n", "gy", yank_path, { buffer = buf, desc = "Yank path" })
+          map("n", "g.", toggle_dotfiles, { buffer = buf, desc = "Toggle dotfiles" })
         end,
       })
 

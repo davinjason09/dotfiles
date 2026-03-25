@@ -59,8 +59,8 @@ end
 M.setup = function()
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("CopilotStatus", { clear = true }),
-    callback = function(args)
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
+    callback = function(ev)
+      local client = vim.lsp.get_client_by_id(ev.data.client_id)
       if client and not is_copilot(client) then return end
 
       M.attach(client)

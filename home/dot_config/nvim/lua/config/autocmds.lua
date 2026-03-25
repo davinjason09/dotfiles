@@ -36,9 +36,9 @@ vim.api.nvim_create_autocmd("VimResized", {
 
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup("LastCursorPosition"),
-  callback = function(event)
+  callback = function(ev)
     local exclude = { "gitcommit" }
-    local buf = event.buf
+    local buf = ev.buf
 
     if vim.tbl_contains(exclude, vim.bo[buf].filetype) then return end
 
@@ -61,13 +61,13 @@ vim.api.nvim_create_autocmd("FileType", {
     "help",
     "qf",
   },
-  callback = function(args)
-    vim.bo[args.buf].buflisted = false
+  callback = function(ev)
+    vim.bo[ev.buf].buflisted = false
     vim.schedule(function()
       vim.keymap.set("n", "q", function()
         vim.cmd("close")
-        pcall(vim.api.nvim_buf_delete, args.buf, { force = true })
-      end, { buffer = args.buf, silent = true, desc = "Quit buffer" })
+        pcall(vim.api.nvim_buf_delete, ev.buf, { force = true })
+      end, { buffer = ev.buf, silent = true, desc = "Quit buffer" })
     end)
   end,
   desc = "Close certain buffer with <q>",
@@ -87,8 +87,8 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("BigfileSettings"),
   pattern = "bigfile",
-  callback = function(args)
-    local buf = args.buf
+  callback = function(ev)
+    local buf = ev.buf
     local ft = vim.filetype.match({ buf = buf }) or ""
     local path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":p:~:.")
 
@@ -122,8 +122,8 @@ local did_setup = false
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("BetterCheckhealth"),
   pattern = "checkhealth",
-  callback = function(args)
-    if args.file ~= "health://" then
+  callback = function(ev)
+    if ev.file ~= "health://" then
       vim.notify(" Running Healthchecks…", vim.log.levels.INFO, { title = "vim.health" })
       return vim.schedule(function()
         vim.cmd("hi Cursor blend=100")
@@ -141,7 +141,7 @@ vim.api.nvim_create_autocmd("FileType", {
       ["❌"] = { icon = " ", hl = "@error" },
     }
 
-    local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
+    local lines = vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
     local extmarks = {}
     lines = vim.tbl_map(function(s)
       s = s:gsub("^%s", "")
@@ -179,7 +179,7 @@ vim.api.nvim_create_autocmd("FileType", {
     })
 
     ---@diagnostic disable-next-line: access-invisible
-    local buf = win:open_buf()
+    local buf = win:open_buf() ---@type integer
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
     vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
 
@@ -201,8 +201,8 @@ vim.api.nvim_create_autocmd("FileType", {
       end
 
       did_setup = true
-      vim.api.nvim_buf_set_name(win.buf or 0, "health://")
-      vim.bo[0].filetype = "checkhealth"
+      vim.api.nvim_buf_set_name(buf, "health://")
+      vim.bo[buf].filetype = "checkhealth"
     end)
   end,
   desc = "Better Floating Checkhealth",
@@ -214,8 +214,8 @@ vim.api.nvim_create_autocmd("User", {
   callback = function()
     if not package.loaded["copilot"] then return end
 
-    local ok, copilot = pcall(require, "copilot.suggestion")
-    if ok then copilot.dismiss() end
+    local copilot = require("copilot.suggestion")
+    copilot.dismiss()
 
     vim.b.copilot_suggestion_hidden = true
   end,
@@ -241,12 +241,12 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
   group = default_term_close[1].group,
   nested = true,
   desc = "Automatically close terminal buffers when started with no arguments and exiting without an error",
-  callback = function(args)
-    if vim.v.event.status ~= 0 or vim.b[args.buf].managed_term then return end
+  callback = function(ev)
+    if vim.v.event.status ~= 0 or vim.b[ev.buf].managed_term then return end
 
-    local info = vim.api.nvim_get_chan_info(vim.bo[args.buf].channel)
+    local info = vim.api.nvim_get_chan_info(vim.bo[ev.buf].channel)
     local argv = info.argv or {}
-    if table.concat(argv, " ") == vim.o.shell then vim.api.nvim_buf_delete(args.buf, { force = true }) end
+    if table.concat(argv, " ") == vim.o.shell then vim.api.nvim_buf_delete(ev.buf, { force = true }) end
   end,
 })
 

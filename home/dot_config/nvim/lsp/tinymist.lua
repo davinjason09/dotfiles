@@ -1,14 +1,14 @@
 ---@param command_name string
 ---@param client vim.lsp.Client
----@param bufnr integer
+---@param buf integer
 ---@return fun():nil run_tinymist_command, string cmd_name, string cmd_desc
-local function create_tinymist_command(command_name, client, bufnr)
+local function create_tinymist_command(command_name, client, buf)
   local export_type = command_name:match("tinymist%.export(%w+)")
   local info_type = command_name:match("tinymist%.(%w+)")
   local cmd_display = export_type or info_type:gsub("^get", "Get"):gsub("^pin", "Pin")
 
   local function run_tinymist_command()
-    local arguments = { vim.api.nvim_buf_get_name(bufnr) }
+    local arguments = { vim.api.nvim_buf_get_name(buf) }
     local title_str = export_type and ("Export " .. cmd_display) or cmd_display
 
     ---@param err lsp.ResponseError?
@@ -24,7 +24,7 @@ local function create_tinymist_command(command_name, client, bufnr)
       title = title_str,
       command = command_name,
       arguments = arguments,
-    }, { bufnr = bufnr }, handler)
+    }, { bufnr = buf }, handler)
   end
 
   local cmd_name = (export_type and "TinymistExport" or "Tinymist") .. cmd_display ---@type string
@@ -42,7 +42,7 @@ return {
     exportPdf = "never",
     formatterMode = "typstyle",
   },
-  on_attach = function(client, bufnr)
+  on_attach = function(client, buf)
     for _, command in ipairs({
       "tinymist.exportSvg",
       "tinymist.exportPng",
@@ -58,29 +58,29 @@ return {
       "tinymist.getDocumentMetrics",
       "tinymist.pinMain",
     }) do
-      local cmd_func, cmd_name, cmd_desc = create_tinymist_command(command, client, bufnr)
+      local cmd_func, cmd_name, cmd_desc = create_tinymist_command(command, client, buf)
       -- stylua: ignore
-      vim.api.nvim_buf_create_user_command(bufnr, cmd_name, cmd_func, { nargs = 0, desc = cmd_desc }) 
+      vim.api.nvim_buf_create_user_command(buf, cmd_name, cmd_func, { nargs = 0, desc = cmd_desc }) 
     end
 
     local map = vim.keymap.set
     map("n", "<leader>cP", function()
       if not client then return vim.notify("Tinymist is not attached", vim.log.levels.WARN) end
 
-      local file = vim.api.nvim_buf_get_name(bufnr)
+      local file = vim.api.nvim_buf_get_name(buf)
 
       client:exec_cmd({
         title = "pin",
         command = "tinymist.pinMain",
         arguments = { file },
-      }, { bufnr = bufnr }, function(err)
+      }, { bufnr = buf }, function(err)
         if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
         local shortname = vim.fn.fnamemodify(file, ":.")
         vim.notify("Successfully pinned " .. shortname, vim.log.levels.INFO, { title = "tinymist" })
         vim.g.typst_main_file = file
       end)
-    end, { desc = "[C]ode: [P]in", buffer = bufnr })
+    end, { desc = "[C]ode: [P]in", buffer = buf })
 
     map("n", "<leader>cu", function()
       if not client then return vim.notify("Tinymist is not attached", vim.log.levels.WARN) end
@@ -93,13 +93,13 @@ return {
         title = "unpin",
         command = "tinymist.pinMain",
         arguments = { vim.v.null },
-      }, { bufnr = bufnr }, function(err)
+      }, { bufnr = buf }, function(err)
         if err then return vim.notify(err.code .. ": " .. err.message, vim.log.levels.ERROR) end
 
         local shortname = vim.fn.fnamemodify(vim.g.typst_main_file, ":.")
         vim.notify("Unpinned " .. shortname, vim.log.levels.INFO, { title = "tinymist" })
         vim.g.typst_main_file = nil
       end)
-    end, { desc = "[C]ode: [U]npin", buffer = bufnr })
+    end, { desc = "[C]ode: [U]npin", buffer = buf })
   end,
 }

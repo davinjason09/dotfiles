@@ -72,12 +72,12 @@ vim.filetype.add({
 vim.treesitter.language.register("markdown", { "blink-cmp-documentation", "mdx" })
 
 -- .tmpl file injection
-vim.treesitter.query.add_directive("inject-gotmpl!", function(_, _, bufnr, _, metadata)
-  local ok, buf_name = pcall(vim.api.nvim_buf_get_name, bufnr)
+vim.treesitter.query.add_directive("inject-gotmpl!", function(_, _, buf, _, metadata)
+  local ok, buf_name = pcall(vim.api.nvim_buf_get_name, buf)
   if not ok then return end
 
   local fname = vim.fs.basename(buf_name)
-  local ext = vim.filetype.match({ buf = bufnr, filename = fname:gsub("%.tmpl", "") })
+  local ext = vim.filetype.match({ buf = buf, filename = fname:gsub("%.tmpl", "") })
   metadata["injection.language"] = ext
 end, {})
 

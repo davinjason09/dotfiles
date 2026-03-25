@@ -2,15 +2,15 @@ local ms = vim.lsp.protocol.Methods
 
 -- Set up LSP keymaps and for the current buffer
 ---@param client vim.lsp.Client
----@param bufnr integer
-local function on_attach(client, bufnr)
+---@param buf integer
+local function on_attach(client, buf)
   ---@param lhs string
   ---@param rhs string|function
   ---@param desc string
   ---@param mode? string|string[]
   local function map(lhs, rhs, desc, mode)
     mode = mode or "n"
-    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+    vim.keymap.set(mode, lhs, rhs, { buffer = buf, desc = desc })
   end
 
   -- stylua: ignore start
@@ -39,9 +39,9 @@ local function on_attach(client, bufnr)
     map("[[", function() Snacks.words.jump(-vim.v.count1, true) end, "Previous Reference")
   end
 
-  Snacks.util.lsp.on({ method = ms.textDocument_inlayHint }, function(buf)
-    if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == "" then
-      vim.lsp.inlay_hint.enable(true, { bufnr = buf })
+  Snacks.util.lsp.on({ method = ms.textDocument_inlayHint }, function(bufnr)
+    if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].buftype == "" then
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
       Snacks.toggle.inlay_hints():map("<leader>uh")
     end
   end)

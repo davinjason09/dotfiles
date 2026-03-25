@@ -45,14 +45,14 @@ end
 ---@param action? lsp.CodeAction
 ---@param client vim.lsp.Client
 ---@param ctx lsp.CodeActionContext
----@param bufnr? integer
-local function apply(action, client, ctx, bufnr)
+---@param buf? integer
+local function apply(action, client, ctx, buf)
   if action == nil then return vim.notify("Error: No action to apply/action can't be applied", vim.log.levels.ERROR) end
 
   ctx = ctx or {}
 
-  if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-    local win = vim.fn.bufwinid(bufnr)
+  if buf and vim.api.nvim_buf_is_valid(buf) then
+    local win = vim.fn.bufwinid(buf)
     if win ~= -1 then vim.api.nvim_set_current_win(win) end
   end
 
@@ -68,14 +68,14 @@ end
 ---@param action lsp.CodeAction
 ---@param client vim.lsp.Client
 ---@param ctx lsp.CodeActionContext
----@param bufnr integer
+---@param buf integer
 ---@param resolved_from_preview? boolean
-M.code_action.apply_action = function(action, client, ctx, bufnr, resolved_from_preview)
+M.code_action.apply_action = function(action, client, ctx, buf, resolved_from_preview)
   if not client then return end
-  if resolved_from_preview then return apply(action, client, ctx, bufnr) end
+  if resolved_from_preview then return apply(action, client, ctx, buf) end
 
   local dyn_cap = client.dynamic_capabilities
-  local reg = dyn_cap and dyn_cap:get(ms.textDocument_codeAction, { bufnr = bufnr }) or {}
+  local reg = dyn_cap and dyn_cap:get(ms.textDocument_codeAction, { bufnr = buf }) or {}
   local support_resolve = vim.tbl_get(reg, "registerOptions", "resolveProvider")
     or client:supports_method(ms.codeAction_resolve)
 
@@ -85,10 +85,10 @@ M.code_action.apply_action = function(action, client, ctx, bufnr, resolved_from_
         return vim.notify("Error resolving action: " .. (err.message or "unknown error"), vim.log.levels.ERROR)
       end
 
-      apply(resolved_action or action, client, ctx, bufnr)
-    end, bufnr)
+      apply(resolved_action or action, client, ctx, buf)
+    end, buf)
   else
-    apply(action, client, ctx, bufnr)
+    apply(action, client, ctx, buf)
   end
 end
 
