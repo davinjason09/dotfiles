@@ -24,6 +24,7 @@
     url      = "https://download.eclipse.org/jdtls/milestones/{{version}}/jdt-language-server-{{version}}-202602261110.tar.gz",
     bin_path = "bin"
   }
+  "npm:@mdx-js/language-server"            = "latest"  # MDX
   "aqua:Automattic/harper/harper-ls"       = "latest"  # English
 
   # Formatter
