@@ -80,3 +80,11 @@ vim.treesitter.query.add_directive("inject-gotmpl!", function(_, _, bufnr, _, me
   local ext = vim.filetype.match({ buf = bufnr, filename = fname:gsub("%.tmpl", "") })
   metadata["injection.language"] = ext
 end, {})
+
+-- mise toml injection
+vim.treesitter.query.add_predicate("is-mise?", function(_, _, bufnr, _)
+  local filepath = vim.api.nvim_buf_get_name(tonumber(bufnr) or 0)
+  local split = vim.split(filepath, "/")
+  local filename = split[#split - 1] .. split[#split]
+  return filename:match(".*mise.*%.toml$") ~= nil
+end, { force = true, all = false })
