@@ -113,13 +113,19 @@ return {
       require("nvim-treesitter-textobjects").setup(opts)
 
       -- stylua: ignore
-      local map = function(buf, key, type, method, query, desc)
+      ---@param buf integer
+      ---@param key string
+      ---@param type "move"|"swap"
+      ---@param action string
+      ---@param desc string
+      local map = function(buf, key, type, action, query, desc)
         local mode = type == "move" and { "n", "x", "o" } or "n"
         vim.keymap.set(mode, key, function()
-          require("nvim-treesitter-textobjects." .. type)[method](query, "textobjects")
+          require("nvim-treesitter-textobjects." .. type)[action](query, "textobjects")
         end, { buffer = buf, desc = desc, silent = true })
       end
 
+      ---@param buf integer
       local function attach(buf)
         local ignored_ft = { "minifiles", "minifiles-help" }
         local ft = vim.bo[buf].filetype
@@ -128,7 +134,7 @@ return {
         if not Utils.treesitter.have(ft, "textobjects") then return end
 
         for type, mappings in pairs(opts) do
-          for method, keymaps in pairs(mappings.keys) do
+          for action, keymaps in pairs(mappings.keys) do
             for key, query in pairs(keymaps) do
               local desc = query:gsub("@", ""):gsub("%..*", "")
               desc = desc:sub(1, 1):upper() .. desc:sub(2)
@@ -136,7 +142,7 @@ return {
 
               if type == "move" then desc = desc .. (key:sub(2, 2) == key:sub(2, 2):upper() and " End" or " Start") end
 
-              if not (vim.wo.diff and key:find("[cC]")) then map(buf, key, type, method, query, desc) end
+              if not (vim.wo.diff and key:find("[cC]")) then map(buf, key, type, action, query, desc) end
             end
           end
         end
@@ -144,7 +150,7 @@ return {
 
       vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("TreesitterTextObject", { clear = true }),
-        callback = function(args) attach(args.buf) end,
+        callback = function(ev) attach(ev.buf) end,
       })
 
       vim.tbl_map(attach, vim.api.nvim_list_bufs())

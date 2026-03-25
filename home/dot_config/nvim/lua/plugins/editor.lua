@@ -19,7 +19,6 @@ return {
     "saghen/blink.pairs",
     event = { "InsertEnter", "BufReadPost", "BufNewFile" },
     build = "cargo build --release",
-    ---@module "blink-pairs"
     ---@type blink.pairs.Config
     opts = {
       mappings = {

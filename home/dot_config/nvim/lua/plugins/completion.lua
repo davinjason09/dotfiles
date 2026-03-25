@@ -7,6 +7,7 @@ return {
     { "rafamadriz/friendly-snippets" },
     { "MeanderingProgrammer/render-markdown.nvim" },
   },
+  ---@type blink.cmp.Config
   opts = {
     appearance = { kind_icons = Defaults.icons.kind },
     completion = {
@@ -32,7 +33,6 @@ return {
           min_width = 30,
           border = "rounded",
         },
-        ---@param opts blink.cmp.CompletionDocumentationDrawOpts
         draw = function(opts)
           local buf = opts.window.buf ---@type integer
           local win = opts.window:get_win()

@@ -3,7 +3,7 @@
 -- ╾╼ Terminal ╾──────────────────────────────────────────────────────╼
 
 ---@alias TermOpts { persist?: boolean, auto_close?: boolean }
----@alias TermBuf { bufnr: integer, name: string, cmd?: string | string[], opts?: TermOpts, job_id: integer }
+---@alias TermBuf { buf: integer, name: string, cmd?: string | string[], opts?: TermOpts, job_id: integer }
 
 -- ╾╼ Color Palette ╾─────────────────────────────────────────────────╼
 

@@ -57,7 +57,6 @@ return {
 
       -- Create some toggle mappings
       -- stylua: ignore start
-      Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
       Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
       Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }) :map("<leader>uc")
       Snacks.toggle.diagnostics():map("<leader>ud")

@@ -52,7 +52,7 @@ M.indentexpr = function() return M.have(nil, "indents") and require("nvim-treesi
 ---@param name string
 ---@param owner string
 ---@return string?
----@return ("path" | "url")?
+---@return ("path"|"url")?
 local function path_or_url(name, owner)
   if not (name and owner) then
     return vim.notify("register_parser: Either `name` or `owner` is empty!", vim.log.levels.WARN)

@@ -28,6 +28,7 @@ end
 ---Register all text-objects with which-key
 ---@param opts table WhichKey options
 ai.whichkey = function(opts)
+  ---@type { [1]:string, desc?: string, icon?: string }[]
   local objects = {
     { " ", desc = "whitespace" },
     { '"', desc = '" string' },
