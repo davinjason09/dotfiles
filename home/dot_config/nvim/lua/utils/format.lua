@@ -11,15 +11,15 @@ local M = setmetatable({}, {
 M.formatter = nil
 
 ---Set formatexpr to conform or LSP
-function M.formatexpr()
+M.formatexpr = function()
   if Utils.has("conform.nvim") then return require("conform").formatexpr() end
 
   return vim.lsp.formatexpr({ timeout_ms = 3000 })
 end
 
 ---Check if formatting is enabled for the current buffer
----@param buf? number
-function M.enabled(buf)
+---@param buf? integer
+M.enabled = function(buf)
   buf = (buf == nil or buf == 0) and vim.api.nvim_get_current_buf() or buf
   local global_format = vim.g.autoformat
   local buffer_format = vim.b[buf].autoformat
@@ -34,7 +34,7 @@ end
 ---Enable or disable autoformatting
 ---@param enable? boolean
 ---@param buf? boolean
-function M.enable(enable, buf)
+M.enable = function(enable, buf)
   if enable == nil then enable = true end
 
   if buf then
@@ -47,11 +47,11 @@ end
 
 ---Toggle autoformatting
 ---@param buf? boolean
-function M.toggle(buf) M.enable(not M.enabled(), buf) end
+M.toggle = function(buf) M.enable(not M.enabled(), buf) end
 
 ---Info about the current format settings
----@param buf? number
-function M.info(buf)
+---@param buf? integer
+M.info = function(buf)
   buf = buf or vim.api.nvim_get_current_buf()
   local global_format = vim.g.autoformat == nil or vim.g.autoformat
   local buffer_format = vim.b[buf].autoformat
@@ -72,7 +72,7 @@ end
 
 ---Format the current buffer
 ---@param opts? { force?: boolean, buf?: number }
-function M.format(opts)
+M.format = function(opts)
   opts = opts or {}
 
   local buf = opts.buf or vim.api.nvim_get_current_buf()
@@ -88,7 +88,7 @@ end
 ---Check if there is a formatter config in the current or parent directory
 ---@param dir string
 ---@param formatter string
-function M.has_config(dir, formatter)
+M.has_config = function(dir, formatter)
   return vim.fs.root(dir, function(name, _)
     local possible_names = Defaults.formatter_rules[formatter]
 
@@ -100,7 +100,7 @@ function M.has_config(dir, formatter)
   end)
 end
 
-function M.setup()
+M.setup = function()
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("CodeFormat", {}),
     callback = function(ev)
@@ -120,7 +120,7 @@ function M.setup()
   vim.api.nvim_create_user_command("CodeFormatInfo", function() M.info() end, { desc = "Formatter Info (Buffer)" })
 end
 
-function M.snacks_toggle(buf)
+M.snacks_toggle = function(buf)
   return Snacks.toggle({
     name = "Auto Format (" .. (buf and "Buffer" or "Global") .. ")",
     get = function()

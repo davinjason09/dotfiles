@@ -8,7 +8,7 @@ M.palette = {}
 
 ---Fill the palette with the default colorscheme
 ---@param palette CtpColors<string>
-function M.filling_palette(palette) M.palette = palette end
+M.filling_palette = function(palette) M.palette = palette end
 
 M.bigfile = {
   size = 1024 * 1024 * 1.5,
@@ -334,5 +334,162 @@ M.noice_cmdline_format = function()
     },
   }
 end
+
+-- ---@class CmdlineFormat_
+-- ---@field winopts? vim.api.keyset.win_config | fun(state: CmdlineStates): vim.api.keyset.win_config
+-- ---@field offset? number | fun(state: CmdlineStates, lines: string[]): number)
+-- ---@field icon? table<string, string> | fun(state: CmdlineStates, lines: string[]): table<string, string>
+-- ---@field winhl? string
+-- ---@field ft? string | fun(state: CmdlineStates): string
+-- ---@field condition? fun(state: CmdlineStates, lines: string[]): boolean
+-- ---@field style? "bottom" | "default"
+--
+-- ---@type table<string, CmdlineFormat_>
+-- M.cmdline_format = {
+--   default = {
+--     winopts = {
+--       title = {
+--         { "", "CmdSky" },
+--         { ("  v%s "):format(Utils.nvim_version()), "CmdSkyBg" },
+--         { "", "CmdSky" },
+--       },
+--       title_pos = "right",
+--     },
+--     offset = 0,
+--     icon = { { "  ", "CmdSky" } },
+--     winhl = "FloatBorder:CmdSky,Normal:Normal",
+--     ft = "vim",
+--   },
+--   set = {
+--     condition = function(_, lines) return lines[#lines]:match("^set%s") end,
+--     winopts = {
+--       title = {
+--         { "", "CmdGreen" },
+--         { "  Set ", "CmdGreenBg" },
+--         { "", "CmdGreen" },
+--       },
+--       title_pos = "right",
+--     },
+--     offset = 4,
+--     winhl = "FloatBorder:CmdGreen,Normal:Normal",
+--     icon = { { "  ", "CmdGreen" } },
+--     ft = "vim",
+--   },
+--   search_up = {
+--     condition = function(state) return state.firstc == "/" end,
+--     winhl = "Normal:CmdSearchBg",
+--     icon = { { "   ", "CmdSearch" } },
+--     ft = "regex",
+--     style = "bottom",
+--   },
+--   search_down = {
+--     condition = function(state) return state.firstc == "?" end,
+--     winhl = "Normal:CmdSearchBg",
+--     icon = { { "   ", "CmdSearch" } },
+--     ft = "regex",
+--     style = "bottom",
+--   },
+--   substitute = {
+--     condition = function(_, lines) return lines[#lines]:match("^%S*s/") end,
+--     offset = function(_, lines) return #lines[#lines]:match("^(%S*)s/") end,
+--     winhl = "FloatBorder:CmdYellow,Normal:CmdBottom",
+--     icon = { { "  Replace: ", "CmdYellow" } },
+--     ft = "regex",
+--     style = "bottom",
+--   },
+--   lua_eval = {
+--     condition = function(_, lines) return lines[#lines]:match("^=") end,
+--     winopts = {
+--       title = {
+--         { "", "CmdSky" },
+--         { ("  %s "):format(_VERSION), "CmdSkyBg" },
+--         { "", "CmdSky" },
+--       },
+--       title_pos = "right",
+--     },
+--     offset = 1,
+--     winhl = "FloatBorder:CmdSky,Normal:Normal",
+--     icon = { { "  ", "CmdSky" } },
+--     ft = function(state) return state.pos < 1 and "vim" or "lua" end,
+--   },
+--   lua = {
+--     condition = function(_, lines) return lines[#lines]:match("^lua%s") end,
+--     winopts = {
+--       title = {
+--         { "", "CmdViolet" },
+--         { ("  %s "):format(_VERSION), "CmdVioletBg" },
+--         { "", "CmdViolet" },
+--       },
+--       title_pos = "right",
+--     },
+--     offset = 4,
+--     winhl = "FloatBorder:CmdViolet,Normal:Normal",
+--     icon = { { "  ", "CmdViolet" } },
+--     ft = function(state) return state.pos < 4 and "vim" or "lua" end,
+--   },
+--   calculator = {
+--     condition = function(state) return state.firstc == "=" end,
+--     winopts = {
+--       title = {
+--         { "", "CmdGreen" },
+--         { "  Calculate ", "CmdGreenBg" },
+--         { "", "CmdGreen" },
+--       },
+--       title_pos = "right",
+--     },
+--     offset = 0,
+--     winhl = "FloatBorder:CmdGreen,Normal:Normal",
+--     icon = { { " 󰇼 ", "CmdGreen" } },
+--     ft = "vim",
+--   },
+--   help = {
+--     condition = function(_, lines) return lines[#lines]:match("^%s*[hH]e?l?p?%s") end,
+--     winopts = {
+--       title = {
+--         { "", "CmdBlue" },
+--         { "  Help ", "CmdBlueBg" },
+--         { "", "CmdBlue" },
+--       },
+--       title_pos = "right",
+--     },
+--     offset = function(_, lines) return #lines[#lines]:match("^%s*([hH]e?l?p?%s)") end,
+--     winhl = "FloatBorder:CmdBlue,Normal:Normal",
+--     icon = { { "  ", "CmdSky" } },
+--     ft = "text",
+--   },
+--   shell = {
+--     condition = function(_, lines) return lines[#lines]:match("^!") end,
+--     winopts = {
+--       title = {
+--         { "", "CmdOrange" },
+--         { "  Shell ", "CmdOrangeBg" },
+--         { "", "CmdOrange" },
+--       },
+--       title_pos = "right",
+--     },
+--     offset = 1,
+--     winhl = "FloatBorder:CmdOrange,Normal:Normal",
+--     icon = { { "  ", "CmdGreen" } },
+--     ft = function(state) return state.pos < 1 and "vim" or "bash" end,
+--   },
+--   prompt = {
+--     condition = function(state) return state.prompt ~= "" end,
+--     winopts = function(state)
+--       return {
+--         title = {
+--           { "", "CmdLavender" },
+--           {
+--             (" %s "):format(state.prompt and vim.trim(state.prompt:gsub(":", ""))) or "Input:",
+--             "CmdLavenderBg",
+--           },
+--           { "", "CmdLavender" },
+--         },
+--         title_pos = "center",
+--       }
+--     end,
+--     winhl = "FloatBorder:CmdLavender,Normal:Normal",
+--     icon = { { "  ", "CmdSky" } },
+--   },
+-- }
 
 return M
