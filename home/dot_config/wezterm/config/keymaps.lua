@@ -68,6 +68,6 @@ local keys = {
 
 return {
   disable_default_key_bindings = true,
-  leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 1500 },
+  leader = { key = "Space", mods = "ALT", timeout_milliseconds = 1500 },
   keys = keys,
 }
