@@ -143,7 +143,7 @@ def yeet [...packages] {
       gum confirm --default=no " Do you want to remove these packages?"
     }
 
-    yay -Rns ($removed_packages | str join " ")
+    yay -Rns ...$removed_packages
   } catch {
     with-env { GUM_LOG_LEVEL_FOREGROUND: $theme.sky } {
       gum log --level info "\nCancelling..."
