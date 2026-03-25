@@ -20,6 +20,7 @@ $env.XDG_CACHE_HOME  = $env.HOME | path join ".cache"
 $env.DOTFILES        = $env.HOME | path join "dotfiles"
 
 {{ if .isWSL -}}
+$env.IS_WSL     = true
 $env.WIN_C      = "/mnt/c"
 $env.WIN_D      = "/mnt/d"
 $env.WIN        = $env.WIN_C | path join "WINDOWS"

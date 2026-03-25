@@ -150,18 +150,3 @@ def yeet [...packages] {
     }
   }
 }
-
-@complete external
-def --wrapped glazewm [...rest: string] {
-  let sub = ($rest | first 2)
-
-  if $sub.0 == command and (($sub | length) > 1 and $sub.1 == clear-stale) {
-    ^glazewm query windows
-    | from json
-    | get data.windows
-    | where displayState == hiding
-    | each {|x| ^glazewm command --id $x.id ignore | from json }
-  } else {
-    ^glazewm ...$rest
-  }
-}
