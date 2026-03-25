@@ -69,7 +69,7 @@ vim.filetype.add({
   },
 })
 
-vim.treesitter.language.register("markdown", "blink-cmp-documentation")
+vim.treesitter.language.register("markdown", { "blink-cmp-documentation", "mdx" })
 
 -- .tmpl file injection
 vim.treesitter.query.add_directive("inject-gotmpl!", function(_, _, bufnr, _, metadata)
