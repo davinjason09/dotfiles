@@ -867,7 +867,8 @@ QPushButton {
 }
 
 .memory-widget .icon {
-  font-size: 10px;
+  font-size: 12px;
+  color: var(--flamingo);
 }
 
 .memory-widget .label {
@@ -886,6 +887,86 @@ QPushButton {
   padding: 0 2px 0 0;
 }
 
+.memory-popup {
+  background-color: rgba(17, 17, 27, 0.9);
+  border: 1px solid var(--sky);
+  border-radius: 6px;
+  min-width: 300px;
+}
+
+.memory-popup .header {
+  background: transparent;
+  padding: 12px 16px;
+}
+
+.memory-popup .header .text {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.memory-popup .header .pin-btn {
+  font-size: 12px;
+  font-family: 'Segoe Fluent Icons';
+  background: transparent;
+  border: none;
+  padding: 6px;
+  color: rgba(205, 214, 244, 0.6);
+}
+
+.memory-popup .header .pin-btn:hover {
+  color: rgba(205, 214, 244, 0.8);
+}
+
+.memory-popup .header .pin-btn.pinned {
+  color: var(--text);
+}
+
+.memory-popup .graph-container {
+  background: transparent;
+  min-height: 64px;
+}
+
+.memory-popup .memory-graph {
+  color: var(--sky);
+}
+
+.memory-popup .memory-graph-grid {
+  color: rgba(205, 214, 244, 0.05);
+}
+
+.memory-popup .graph-title {
+  font-size: 10px;
+  color: rgba(205, 214, 244, 0.5);
+  padding: 0px 0px 4px 14px;
+}
+
+.memory-popup .stats {
+  background: transparent;
+  padding: 12px;
+}
+
+.memory-popup .stats .stat-item {
+  background-color: rgba(205, 214, 244, 0.03);
+  border: 1px solid rgba(205, 214, 244, 0.04);
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin: 4px;
+}
+
+.memory-popup .stats .stat-label {
+  font-size: 10px;
+  color: rgba(205, 214, 244, 0.65);
+  font-weight: 400;
+  padding: 6px 4px 2px 4px;
+}
+
+.memory-popup .stats .stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0 4px 8px 4px;
+}
+
 /*
  * ─[ CPU ]──────────────────────────────────────────────────────────────
 */
@@ -895,7 +976,8 @@ QPushButton {
 }
 
 .cpu-widget .icon {
-  font-size: 10px;
+  font-size: 12px;
+  color: var(--mauve);
 }
 
 .cpu-widget .label {
@@ -912,6 +994,86 @@ QPushButton {
 
 .cpu-widget .progress-circle {
   padding: 0 2px 0 0;
+}
+
+.cpu-popup {
+  background-color: rgba(17, 17, 27, 0.9);
+  border: 1px solid var(--sky);
+  border-radius: 6px;
+  min-width: 300px;
+}
+
+.cpu-popup .header {
+  background: transparent;
+  padding: 12px 16px;
+}
+
+.cpu-popup .header .text {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.cpu-popup .header .pin-btn {
+  font-size: 12px;
+  font-family: 'Segoe Fluent Icons';
+  background: transparent;
+  border: none;
+  padding: 6px;
+  color: rgba(205, 214, 244, 0.6);
+}
+
+.cpu-popup .header .pin-btn:hover {
+  color: rgba(205, 214, 244, 0.8);
+}
+
+.cpu-popup .header .pin-btn.pinned {
+  color: var(--text);
+}
+
+.cpu-popup .graph-container {
+  background: transparent;
+  min-height: 64px;
+}
+
+.cpu-popup .cpu-graph {
+  color: var(--sky);
+}
+
+.cpu-popup .cpu-graph-grid {
+  color: rgba(205, 214, 244, 0.05);
+}
+
+.cpu-popup .graph-title {
+  font-size: 10px;
+  color: rgba(205, 214, 244, 0.5);
+  padding: 0px 0px 4px 14px;
+}
+
+.cpu-popup .stats {
+  background: transparent;
+  padding: 12px;
+}
+
+.cpu-popup .stats .stat-item {
+  background-color: rgba(205, 214, 244, 0.03);
+  border: 1px solid rgba(205, 214, 244, 0.04);
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin: 4px;
+}
+
+.cpu-popup .stats .stat-label {
+  font-size: 10px;
+  color: rgba(205, 214, 244, 0.65);
+  font-weight: 400;
+  padding: 6px 4px 2px 4px;
+}
+
+.cpu-popup .stats .stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0 4px 8px 4px;
 }
 
 /*
