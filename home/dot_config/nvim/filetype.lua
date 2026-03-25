@@ -36,7 +36,7 @@ vim.filetype.add({
       if size > bigfile_opts.size then return "bigfile" end
 
       local lines = vim.api.nvim_buf_line_count(buf)
-      if lines <= 0 then return end
+      if lines == 0 then return nil end
 
       return (size - lines) / lines > bigfile_opts.line_length and "bigfile" or nil
     end,
@@ -82,9 +82,11 @@ vim.treesitter.query.add_directive("inject-gotmpl!", function(_, _, buf, _, meta
 end, {})
 
 -- mise toml injection
-vim.treesitter.query.add_predicate("is-mise?", function(_, _, bufnr, _)
-  local filepath = vim.api.nvim_buf_get_name(tonumber(bufnr) or 0)
-  local split = vim.split(filepath, "/")
+vim.treesitter.query.add_predicate("is-mise?", function(_, _, buf, _)
+  local ok, buf_name = pcall(vim.api.nvim_buf_get_name, buf)
+  if not ok then return end
+
+  local split = vim.split(buf_name, "/")
   local filename = split[#split - 1] .. split[#split]
   return filename:match(".*mise.*%.toml$") ~= nil
 end, { force = true, all = false })
