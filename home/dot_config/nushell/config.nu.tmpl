@@ -30,14 +30,14 @@ $env.PWSH_HOME  = $env.WIN_C | path join "Program Files" "Powershell" "7"
 {{- end }}
 
 path add [
-  ($env.XDG_CONFIG_HOME | path join "scripts")
-  ($env.HOME | path join ".local" "bin")
-  "/usr/local/sbin"
-  "/usr/local/bin"
   "/usr/bin"
+  "/usr/bin/core_perl"
   "/usr/bin/site_perl"
   "/usr/bin/vendor_perl"
-  "/usr/bin/core_perl"
+  "/usr/local/bin"
+  "/usr/local/sbin"
+  ($env.HOME | path join ".local" "bin")
+  ($env.XDG_CONFIG_HOME | path join "scripts")
   {{ if .isWSL -}}
   $env.WIN
   $env.WIN_SYSTEM
@@ -45,37 +45,35 @@ path add [
   {{- end }}
 ]
 
-if (has chezmoi) {
-  $env.CHEZMOI_HOME = do { chezmoi source-path } | str trim
-}
+if (has chezmoi) { $env.CHEZMOI_HOME = do { chezmoi source-path } | str trim }
 
-if (has bob) {
-  path add ($env.XDG_DATA_HOME | path join "bob" "nvim-bin")
-}
+mut paths = []
+
+if (has bob) { $paths ++= [($env.XDG_DATA_HOME | path join "bob" "nvim-bin")] }
 
 if (has go) {
   $env.GOPATH = $env.HOME | path join "code" "go"
-  path add ($env.GOPATH | path join "bin")
+  $paths ++= [($env.GOPATH | path join "bin")]
 }
 
 if (has cargo) {
   $env.CARGO_HOME = $env.HOME | path join ".cargo"
-  path add ($env.CARGO_HOME | path join "bin")
+  $paths ++= [($env.CARGO_HOME | path join "bin")]
 
-  if (has sccache) {
-    $env.RUSTC_WRAPPER = ($env.CARGO_HOME | path join "bin" "sccache")
-  }
+  if (has sccache) { $env.RUSTC_WRAPPER = ($env.CARGO_HOME | path join "bin" "sccache") }
 }
 
 let $bun_dir = $env.HOME | path join ".bun"
 if ($bun_dir | path exists) {
   $env.BUN_INSTALL = $bun_dir
-  path add ($env.BUN_INSTALL | path join "bin")
+  $paths ++= [($env.BUN_INSTALL | path join "bin")]
 }
 
-if ("/usr/lib/rustup/bin" | path exists) {
-  path add "/usr/lib/rustup/bin"
-}
+if ("/usr/lib/rustup/bin" | path exists) { $paths ++= ["/usr/lib/rustup/bin"] }
+
+if (has mise) { $paths ++= [($env.HOME | path join ".local" "share" "mise" "shims")] }
+
+path add $paths
 
 $env.EDITOR = if (has nvim) { "nvim" } else { "vim" }
 $env.VISUAL = $env.EDITOR

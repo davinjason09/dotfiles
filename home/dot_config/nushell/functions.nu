@@ -3,7 +3,7 @@ def has [command] {
 }
 
 def --env "path add" [paths] {
-  $env.PATH = ($env.PATH | split row (char esep) | append $paths | uniq)
+  $env.PATH = ($env.PATH | append $paths | uniq)
 }
 
 def get-clock-icon []: [nothing -> string] {
