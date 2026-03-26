@@ -62,3 +62,6 @@
 
 [settings]
   experimental = true
+
+[hooks]
+  postinstall = "mise prune --tools --yes"
