@@ -17,35 +17,20 @@ return {
   },
   {
     "saghen/blink.pairs",
-    event = { "InsertEnter", "BufReadPost", "BufNewFile" },
+    event = { "InsertEnter", "BufReadPre", "BufNewFile" },
     build = "cargo build --release",
     ---@type blink.pairs.Config
     opts = {
       mappings = {
         enabled = true,
         cmdline = false,
+        wrap = {
+          ["<C-b>"] = "motion",
+          ["<C-S-b>"] = "motion_reverse",
+          ["<C-l>"] = "treesitter",
+          ["<C-h>"] = "treesitter_reverse",
+        },
         pairs = {
-          ["["] = {
-            {
-              "[",
-              "]()",
-              languages = { "markdown", "markdown_inline" },
-              when = function(ctx) return ctx:text_before_cursor(1) == "!" end,
-              priority = 100,
-            },
-            {
-              "[",
-              "]",
-              space = function(ctx)
-                return not ctx.ts:is_language("markdown")
-                  -- ignore markdown todo items (bullets and numbered)
-                  or (
-                    not ctx:text_before_cursor():match("^%s*[%*%-+]%s+%[%s*$")
-                    and not ctx:text_before_cursor():match("^%s*%d+%.%s+%[%s*$")
-                  )
-              end,
-            },
-          },
           ['"'] = {
             {
               '"',
@@ -61,10 +46,7 @@ return {
         cmdline = false,
         groups = { "BlinkPairsYellow", "BlinkPairsPurple", "BlinkPairsBlue" },
         unmatched_group = "BlinkPairsUnmatched",
-        matchparen = {
-          enabled = true,
-          group = "BlinkPairsMatchParen",
-        },
+        matchparen = { enabled = true },
       },
       debug = false,
     },

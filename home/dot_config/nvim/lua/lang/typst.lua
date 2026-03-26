@@ -9,6 +9,25 @@ return {
     },
   },
   {
+    "saghen/blink.pairs",
+    ---@type blink.pairs.Config
+    opts = {
+      mappings = {
+        pairs = {
+          ["*"] = {
+            {
+              "*",
+              when = function(ctx)
+                return ctx.ts:blacklist("asterisk").matches and not ctx:text_before_cursor():match("^#import")
+              end,
+              languages = { "typst" },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
     "chomosuke/typst-preview.nvim",
     ft = "typst",
     cmd = { "TypstPreview", "TypstPreviewToggle", "TypstPreviewUpdate" },

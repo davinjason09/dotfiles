@@ -9,6 +9,36 @@ return {
     },
   },
   {
+    "saghen/blink.pairs",
+    ---@type blink.pairs.Config
+    opts = {
+      mappings = {
+        pairs = {
+          ["["] = {
+            {
+              "[",
+              "]()",
+              languages = { "markdown", "markdown_inline" },
+              when = function(ctx) return ctx:text_before_cursor(1) == "!" end,
+              priority = 100,
+            },
+            {
+              "[",
+              "]",
+              space = function(ctx)
+                return not ctx.ts:is_language("markdown")
+                  or (
+                    not ctx:text_before_cursor():match("^%s*[%*%-+]%s+%[%s*$")
+                    and not ctx:text_before_cursor():match("^%s*%d+%.%s+%[%s*$")
+                  )
+              end,
+            },
+          },
+        },
+      },
+    },
+  },
+  {
     "brianhuster/live-preview.nvim",
     dependencies = { "folke/snacks.nvim" },
     ft = { "markdown" },
