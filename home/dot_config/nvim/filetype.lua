@@ -84,7 +84,7 @@ end, {})
 -- mise toml injection
 vim.treesitter.query.add_predicate("is-mise?", function(_, _, buf, _)
   local ok, buf_name = pcall(vim.api.nvim_buf_get_name, buf)
-  if not ok then return end
+  if not ok or buf_name == "" then return end
 
   local split = vim.split(buf_name, "/")
   local filename = split[#split - 1] .. split[#split]
