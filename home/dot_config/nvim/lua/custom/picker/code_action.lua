@@ -126,7 +126,7 @@ local function format_item(item)
   local ret = {}
   local k = item.item
 
-  local icon, hl = unpack(icon_map[item.kind])
+  local icon, hl = unpack(icon_map[item.kind] or icon_map["codeAction"])
   local split = vim.split(k.action.title:gsub("%(", "- ("), " - ", { plain = true })
   ret[#ret + 1] = { icon, hl }
   ret[#ret + 1] = { "  " }
