@@ -59,6 +59,7 @@ return {
       },
       ghost_text = { enabled = true },
     },
+    fuzzy = { implementation = "rust" },
     signature = {
       enabled = true,
       window = {
@@ -89,7 +90,7 @@ return {
     },
     keymap = {
       preset = "none",
-      ["<C-l>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
       ["<CR>"] = { "accept", "fallback" },
 
       ["<Tab>"] = { "snippet_forward", "fallback" },
@@ -100,6 +101,8 @@ return {
 
       ["<C-u>"] = { "scroll_documentation_up", "scroll_signature_up", "fallback" },
       ["<C-d>"] = { "scroll_documentation_down", "scroll_signature_down", "fallback" },
+
+      ["<C-e>"] = { "hide", "fallback" },
     },
     cmdline = {
       completion = {
@@ -125,7 +128,7 @@ return {
       end,
       keymap = {
         preset = "none",
-        ["<C-l>"] = { "show", "fallback" },
+        ["<C-Space>"] = { "show", "fallback" },
         ["<Tab>"] = { "show_and_insert", "select_next", "fallback" },
         ["<S-Tab>"] = { "select_prev", "fallback" },
 
@@ -143,6 +146,8 @@ return {
 
         ["<Up>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
+
+        ["<C-e>"] = { "hide", "fallback" },
       },
     },
   },
