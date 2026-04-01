@@ -17,10 +17,7 @@ def --wrapped nvim [
     print "Started socat for Discord IPC"
   }
 
-  with-env {
-    NVIM_APPNAME: $app
-    LLS_Addons: $"($env.HOME)/Code/LLS-Addons/addons"
-  } { ^nvim ...$rest }
+  with-env { NVIM_APPNAME: $app } { ^nvim ...$rest }
 }
 
 def rm_nvim_cache [appname: string] {
