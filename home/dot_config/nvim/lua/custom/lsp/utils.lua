@@ -1,6 +1,5 @@
 local M = {}
 
-local ms = vim.lsp.protocol.Methods
 M.code_action = {}
 
 ---@param root_dir string
@@ -75,12 +74,12 @@ M.code_action.apply_action = function(action, client, ctx, buf, resolved_from_pr
   if resolved_from_preview then return apply(action, client, ctx, buf) end
 
   local dyn_cap = client.dynamic_capabilities
-  local reg = dyn_cap and dyn_cap:get(ms.textDocument_codeAction, { bufnr = buf }) or {}
+  local reg = dyn_cap and dyn_cap:get("textDocument/codeAction", { bufnr = buf }) or {}
   local support_resolve = vim.tbl_get(reg, "registerOptions", "resolveProvider")
-    or client:supports_method(ms.codeAction_resolve)
+    or client:supports_method("codeAction/resolve")
 
   if action.edit == nil and client and support_resolve then
-    client:request(ms.codeAction_resolve, action, function(err, resolved_action)
+    client:request("codeAction/resolve", action, function(err, resolved_action)
       if err and not action.command then
         return vim.notify("Error resolving action: " .. (err.message or "unknown error"), vim.log.levels.ERROR)
       end

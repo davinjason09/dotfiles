@@ -1,5 +1,3 @@
-local ms = vim.lsp.protocol.Methods
-
 -- Set up LSP keymaps and for the current buffer
 ---@param client vim.lsp.Client
 ---@param buf integer
@@ -39,14 +37,14 @@ local function on_attach(client, buf)
     map("[[", function() Snacks.words.jump(-vim.v.count1, true) end, "Previous Reference")
   end
 
-  Snacks.util.lsp.on({ method = ms.textDocument_inlayHint }, function(bufnr)
+  Snacks.util.lsp.on({ method = "textDocument/inlayHint" }, function(bufnr)
     if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].buftype == "" then
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
       Snacks.toggle.inlay_hints():map("<leader>uh")
     end
   end)
 
-  if client:supports_method(ms.textDocument_signatureHelp) then
+  if client:supports_method("textDocument/signatureHelp") then
     local blink = Utils.lazy_require("blink.cmp")
 
     map("<C-k>", function()
@@ -55,7 +53,7 @@ local function on_attach(client, buf)
     end, "Signature Help", "i")
   end
 
-  Snacks.util.lsp.on({ method = ms.textDocument_foldingRange }, function()
+  Snacks.util.lsp.on({ method = "textDocument/foldingRange" }, function()
     vim.api.nvim_set_option_value("foldmethod", "expr", { scope = "local" })
     vim.api.nvim_set_option_value("foldexpr", "v:lua.vim.lsp.foldexpr()", { scope = "local" })
   end)
@@ -65,7 +63,7 @@ end
 local hover = vim.lsp.buf.hover
 
 vim.lsp.buf.hover = function()
-  local method = ms.textDocument_hover
+  local method = "textDocument/hover" ---@type vim.lsp.protocol.Methods
   local ok, client = pcall(vim.lsp.get_clients, { bufnr = 0, method = method })
   if not ok then
     return vim.notify(("No client in this buffer supports %s"):format(method), vim.log.levels.WARN, { title = "LSP" })
@@ -85,8 +83,8 @@ vim.lsp.buf.hover = function()
   return hover(opts)
 end
 
-local register_capability = vim.lsp.handlers[ms.client_registerCapability]
-vim.lsp.handlers[ms.client_registerCapability] = function(err, res, ctx)
+local register_capability = vim.lsp.handlers["client/registerCapability"]
+vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
   local ok, client = pcall(vim.lsp.get_client_by_id, ctx.client_id)
   if not ok then
     return vim.notify(("Client with id %s not found"):format(ctx.client_id), vim.log.levels.ERROR, { title = "LSP" })

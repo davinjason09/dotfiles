@@ -1,6 +1,5 @@
 local M = {}
 
-local ms = vim.lsp.protocol.Methods
 local lsp_utils = require("custom.lsp.utils")
 
 ---@param n integer
@@ -168,7 +167,7 @@ local function get_code_actions(opts, ctx)
       end)
     end)
 
-    L.request(buf, ms.textDocument_codeAction, function(client)
+    L.request(buf, "textDocument/codeAction", function(client)
       local params, range
       local encoding = client.offset_encoding
 
