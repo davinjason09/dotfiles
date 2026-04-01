@@ -1,6 +1,6 @@
 general:
   # Commands to run when the WM has started
-  startup_commands: ['shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1']
+  startup_commands: ['shell-exec --hide-window pwsh %HOMEPATH%/.glzr/glazewm/scripts/start.ps1']
 
   # Commands to run just before the WM is shutdown.
   shutdown_commands: []
@@ -8,7 +8,7 @@ general:
   # Commands to run after the WM config is reloaded.
   config_reload_commands:
     [
-      'shell-exec --hide-window powershell %HOMEPATH%/.glzr/glazewm/scripts/start.ps1',
+      'shell-exec --hide-window pwsh %HOMEPATH%/.glzr/glazewm/scripts/start.ps1',
       'shell-exec --hide-window yasbc reload',
     ]
 
