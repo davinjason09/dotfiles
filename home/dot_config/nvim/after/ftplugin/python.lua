@@ -61,4 +61,4 @@ local indent = tonumber(indent_width) or 2
 vim.opt_local.tabstop = indent
 vim.opt_local.shiftwidth = indent
 vim.opt_local.softtabstop = indent
-vim.opt_local.expandtab = vim.tbl_get(settings, "format") or "space" ~= "tab"
+vim.opt_local.expandtab = (vim.tbl_get(settings, "format") or "space") ~= "tab"
