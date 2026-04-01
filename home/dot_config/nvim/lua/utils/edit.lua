@@ -76,15 +76,14 @@ end
 
 -- Emacs-like paste
 ---@param key "p" | "P"
-  local opts = {}
-
 M.paste = function(key)
   if vim.fn.getreg('"') == "" then return end
-  if vim.fn.getregtype('"') == "V" and vim.fn.mode() == "n" then M.save_cursor_pos() end
-  if key == "p" then opts.row = 1 end
+
+  local is_normal = vim.fn.mode() == "n"
+  if is_normal and vim.fn.getregtype('"') == "V" then M.save_cursor_pos() end
 
   vim.cmd("normal! " .. vim.v.count1 .. key)
-  M.restore_cursor(opts)
+  M.restore_cursor({ row = key == "p" and 1 or 0 })
 end
 
 -- Smart delete
