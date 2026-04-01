@@ -8,7 +8,7 @@ vim.api.nvim_create_user_command(
   "LspLog",
   function()
     Snacks.win({
-      file = vim.lsp.get_log_path(),
+      file = vim.lsp.log.get_filename(),
       border = "rounded",
     }):set_title("LSP Log", "center")
   end,
