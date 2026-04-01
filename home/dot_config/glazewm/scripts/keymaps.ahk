@@ -1,6 +1,9 @@
 #SingleInstance Force
 #Requires AutoHotkey v2.0
 
+; Run MemReduct
+Send("^{F1}")
+
 ^+Esc::ExitApp()
 
 ; App Launcher
