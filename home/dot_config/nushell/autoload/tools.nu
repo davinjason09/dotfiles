@@ -78,19 +78,30 @@ def cc [file: path] {
   let ext = $file | path parse | get extension
 
   match $ext {
-    c   => { zig cc ...$args }
-    cpp => { zig c++ -std=c++20 -Wno-vla-cxx-extension ...$args }
+    c    => { zig cc ...$args }
+    cpp  => { zig c++ -std=c++20 -Wno-vla-cxx-extension ...$args }
+    java => { javac $file }
   }
 }
 
-def cc_run [file: path] {
-  cc $file
-  ./a.out
+def cc_run [
+  file: path
+  --remove-bin
+] {
+  let parsed = $file | path parse
+
+  match ($parsed | get extension) {
+    c | cpp  => {
+      cc $file
+      ./a.out
+      if $remove_bin { try { rm ./a.out } }
+    }
+    java => { java $file }
+  }
 }
 
 def cc_once [file: path] {
-  cc_run $file
-  try { rm ./a.out }
+  cc_run $file --remove-bin
 }
 
 # Yeet package with style 😎
