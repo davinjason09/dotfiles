@@ -35,7 +35,7 @@ let scheme = {
   operator: $theme.sky
   string: $theme.green
   virtual_text: $theme.surface2
-  variable: { fg: $theme.flamingo attr: i }
+  variable: { fg: $theme.rosewater attr: i }
   filepath: $theme.yellow
 }
 
@@ -150,7 +150,7 @@ $env.config.color_config = {
   shape_string: $scheme.string
   shape_string_interpolation: $theme.flamingo
   shape_raw_string: $scheme.string
-  shape_externalarg: $theme.flamingo
+  shape_externalarg: $theme.rosewater
 }
 
 $env.config.highlight_resolved_externals = true
