@@ -76,7 +76,7 @@ map("x", "P", function() Utils.edit.paste("p") end, { desc = "Paste with yank", 
 
 -- stylua: ignore end
 
--- Smart delete
+---@type { [1]: string, desc?: string, mode?: string|string[] }[]
 local keys = {
   { "d", desc = "Delete" },
   { "dd", mode = "n" },
@@ -86,15 +86,15 @@ local keys = {
   { "X" },
 }
 
-for _, key_opts in pairs(keys) do
-  local mode = { key_opts.mode } or { "n", "v" }
+-- Smart delete
+for _, opts in pairs(keys) do
+  local key = opts[1]
+  local desc = opts.desc or "which_key_ignore"
+  local mode = opts.mode or { "n", "v" }
+  mode = type(mode) == "string" and { mode } or mode
 
-  local opts = { expr = true }
-  if key_opts.desc then opts.desc = key_opts.desc or "which_key_ignore" end
-
-  local key = key_opts[1]
   for _, m in ipairs(mode) do
-    map(m, key, function() return Utils.edit.smart_delete(key, m) end, opts)
+    map(m, key, function() return Utils.edit.smart_delete(key, m) end, { expr = true, desc = desc })
   end
 end
 
