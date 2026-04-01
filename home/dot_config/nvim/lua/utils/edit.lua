@@ -9,6 +9,8 @@ end
 
 M.escape = function() vim.api.nvim_feedkeys(Snacks.util.keycode("<ESC>"), "n", false) end
 
+M.enter = function() vim.api.nvim_feedkeys(Snacks.util.keycode("<CR>"), "n", false) end
+
 ---Save the current cursor position
 M.save_cursor_pos = function() vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0) end
 
@@ -49,11 +51,8 @@ M.add_line = function(dir)
 
   if not vim.bo.modifiable then return end
 
-  -- In Vim command mode, execute the command with enter
-  if ft == "vim" and buftype == "nofile" then
-    local CR = Snacks.util.keycode("<CR>")
-    vim.fn.feedkeys(CR, "n")
-  end
+  -- Inside cmdline-window, execute the command with enter
+  if ft == "vim" and buftype == "nofile" then M.enter() end
 
   local cmd = dir == "down" and "%s] %sj" or "%s[ %sk"
   local count = vim.v.count1
