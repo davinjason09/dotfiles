@@ -94,6 +94,7 @@ local MainStatusLine = {
 }
 
 return {
+  condition = function() return not cond.buffer_matches({ filetype = { "snacks_dashboard" } }) end,
   hl = { bg = "crust" },
   static = {
     -- stylua: ignore
