@@ -39,6 +39,19 @@ return {
       if default then icon = icon_opts.fallback[cat or "file"] end
       return icon, hl
     end
+
+    Snacks.config.style("news", {
+      width = 0.6,
+      height = 0.6,
+      wo = {
+        spell = false,
+        wrap = false,
+        signcolumn = "yes",
+        statuscolumn = " ",
+        conceallevel = 2,
+        concealcursor = "nvic",
+      },
+    })
   end,
   -- stylua: ignore
   keys = {

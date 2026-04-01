@@ -15,6 +15,17 @@ vim.api.nvim_create_user_command(
   { desc = "LSP Log" }
 )
 
+vim.api.nvim_create_user_command(
+  "News",
+  function()
+    Snacks.win({
+      style = "news",
+      file = vim.fs.joinpath(vim.env.VIMRUNTIME, "doc", "news.txt"),
+      border = "rounded",
+    }):set_title("Neovim News", "center")
+  end,
+  { desc = "Neovim News" }
+)
 
 vim.api.nvim_create_user_command("TermToggle", function()
   local picker = Snacks.picker.get()[1]
