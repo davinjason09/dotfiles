@@ -28,11 +28,5 @@ vim.api.nvim_create_user_command(
 )
 
 vim.api.nvim_create_user_command("TermToggle", function()
-  local picker = Snacks.picker.get()[1]
-  if picker then
-    picker:close()
-    vim.schedule(Utils.edit.escape)
-  else
-    require("custom.terminal").open()
-  end
+  Snacks.picker.terminal() ---@diagnostic disable-line: undefined-field
 end, { desc = "Toggle Terminal" })
