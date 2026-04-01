@@ -3,21 +3,18 @@ local M = {}
 
 M.CREATE_UNDO = Snacks.util.keycode("<C-g>u")
 
-function M.create_undo()
+M.create_undo = function()
   if vim.api.nvim_get_mode().mode == "i" then vim.api.nvim_feedkeys(M.CREATE_UNDO, "n", false) end
 end
 
-function M.escape()
-  local ESC = Snacks.util.keycode("<ESC>")
-  vim.fn.feedkeys(ESC, "n")
-end
+M.escape = function() vim.api.nvim_feedkeys(Snacks.util.keycode("<ESC>"), "n", false) end
 
 ---Save the current cursor position
-function M.save_cursor_pos() vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0) end
+M.save_cursor_pos = function() vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0) end
 
 ---Restore the cursor position
 ---@param offset? {row: number, col: number} The offset to move the cursor
-function M.restore_cursor(offset)
+M.restore_cursor = function(offset)
   if vim.b.cursor_pos then
     local cursor_pos = vim.b.cursor_pos
 
@@ -46,7 +43,7 @@ end
 
 ---Add new line without entering insert mode
 ---@param dir "down" | "up"
-function M.add_line(dir)
+M.add_line = function(dir)
   local ft = vim.bo.filetype
   local buftype = vim.bo.buftype
 
@@ -65,7 +62,7 @@ function M.add_line(dir)
 end
 
 -- Preserve cursor when commenting
-function M.comment()
+M.comment = function()
   M.save_cursor_pos()
   local mode = vim.fn.mode()
 
@@ -80,9 +77,9 @@ end
 
 -- Emacs-like paste
 ---@param key "p" | "P"
-function M.paste(key)
   local opts = {}
 
+M.paste = function(key)
   if vim.fn.getreg('"') == "" then return end
   if vim.fn.getregtype('"') == "V" and vim.fn.mode() == "n" then M.save_cursor_pos() end
   if key == "p" then opts.row = 1 end
@@ -95,7 +92,7 @@ end
 ---@param key string
 ---@param mode string
 ---@return string
-function M.smart_delete(key, mode)
+M.smart_delete = function(key, mode)
   if mode == "n" then
     local line = vim.api.nvim_get_current_line()
     return (line:match("^%s*$") and '"_' or "") .. key
