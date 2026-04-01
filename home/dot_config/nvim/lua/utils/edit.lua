@@ -96,15 +96,7 @@ M.smart_delete = function(key, mode)
     return (line:match("^%s*$") and '"_' or "") .. key
   else
     local lines = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { type = vim.fn.mode() })
-    local all_space = true
-
-    for _, line in ipairs(lines) do
-      if not line:match("^%s*$") then
-        all_space = false
-        break
-      end
-    end
-
+    local all_space = table.concat(lines, ""):match("^%s*$")
     return (all_space and '"_' or "") .. key
   end
 end
