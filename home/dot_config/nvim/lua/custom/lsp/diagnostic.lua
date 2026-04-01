@@ -47,7 +47,7 @@ end
 
 ---@param diagnostic vim.Diagnostic
 local function virtual_lines_format(diagnostic)
-  if vim.fn.line(".") ~= diagnostic.lnum + 1 then return nil end
+  if vim.fn.line(".") ~= diagnostic.lnum + 1 or vim.wo.wrap then return nil end
 
   local buf = diagnostic.bufnr or vim.api.nvim_get_current_buf()
   local win = buf_to_win(buf)
@@ -74,8 +74,8 @@ local function virtual_text_format(diagnostic)
   -- Possible symbols = ■   󰨓 󱓻 󰝤
   if ft == "lazy" then return ("󱓻 %s "):format(diagnostic.message) end
 
-  -- Don't show the virtual text of the current line, we're using virtual lines instead
-  if vim.fn.line(".") == diagnostic.lnum + 1 then return nil end
+  -- Don't show the virtual text of the current line, we're using virtual lines instead, unless buffer wrap is on
+  if vim.fn.line(".") == diagnostic.lnum + 1 and not vim.wo.wrap then return nil end
 
   -- Shorter names for some sources
   -- Taken from https://github.com/MariaSolOs/dotfiles/blob/8cdc092c0c340f669bef33a932f235dcde3c2019/.config/nvim/lua/lsp.lua#L153
