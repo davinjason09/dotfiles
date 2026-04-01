@@ -500,7 +500,6 @@ widgets:
     options:
       label: <span>{icon}</span>
       label_alt: <span>{icon}</span>{used}/{allowance}
-      token: '$env:YASB_GITHUB_TOKEN'
       plan: pro
       tooltip: true
       update_interval: 120
