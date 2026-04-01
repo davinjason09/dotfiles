@@ -1,5 +1,5 @@
-{{- $gitEmail := promptStringOnce . "email" "What is your git email address? " -}}
-{{- $gitUsername := promptStringOnce . "name" "What is your git username? " -}}
+{{- $gitEmail := promptStringOnce . "email" "What is your git email address" -}}
+{{- $gitUsername := promptStringOnce . "name" "What is your git username" -}}
 
 {{- $isWSL := (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 
