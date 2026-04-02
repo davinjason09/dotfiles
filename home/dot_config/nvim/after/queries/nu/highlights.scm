@@ -11,3 +11,5 @@
   (param_short_flag_identifier)
   (short_flag_identifier)
 ] @variable.parameter
+
+"finally" @keyword.exception
