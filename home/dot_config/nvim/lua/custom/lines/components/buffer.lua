@@ -31,6 +31,8 @@ local BufferName = {
         fg = (self.is_active or self.has_diagnostic) and self.text_hl or "surface1",
         bold = self.is_active,
         italic = self.is_active,
+        sp = "sky",
+        underline = self.is_active,
       }
     end,
   },
@@ -40,10 +42,7 @@ local BufferName = {
 
       if #bufname > self.max_name_len then bufname = bufname:sub(1, self.max_name_len - 1) .. "…" end
 
-      local icon = Defaults.icons.diagnostics[self.diag_type] or ""
-      if icon ~= "" then icon = " " .. vim.trim(icon) end
-
-      return ("%s%s%s "):format(bufname, icon, (" "):rep(self.pad))
+      return ("%s %s%s "):format(bufname, self.diag_icon, (" "):rep(self.pad))
     end,
     hl = function(self)
       return {
@@ -59,14 +58,11 @@ local BufferCloseButton = {
   {
     condition = function(self) return not vim.api.nvim_get_option_value("modified", { buf = self.bufnr }) end,
     provider = "",
-    hl = function(self) return { fg = self.is_active and "red" or "surface2" } end,
+    hl = function(self) return { fg = self.is_active and "red" or "surface2", sp = "sky", underline = self.is_active } end,
     on_click = {
-      callback = function(_, bufnr)
-        vim.schedule(function()
-          if vim.api.nvim_buf_is_valid(bufnr) then Snacks.bufdelete(bufnr) end
-          vim.cmd.redrawtabline()
-        end)
-      end,
+      callback = vim.schedule_wrap(function(_, buf)
+        if vim.api.nvim_buf_is_valid(buf) then Snacks.bufdelete(buf) end
+      end),
       minwid = function(self) return self.bufnr end,
       name = "heirline_close_buffer_callback",
     },
@@ -76,7 +72,7 @@ local BufferCloseButton = {
   {
     condition = function(self) return vim.api.nvim_get_option_value("modified", { buf = self.bufnr }) end,
     provider = " ",
-    hl = { fg = "peach" },
+    hl = function(self) return { fg = "peach", sp = "sky", underline = self.is_active } end,
   },
 }
 
@@ -85,25 +81,13 @@ return {
     self.filename = vim.api.nvim_buf_get_name(self.bufnr)
     self.min_width = 20
 
-    self.info = #vim.diagnostic.get(self.bufnr, { severity = vim.diagnostic.severity.INFO })
-    self.hints = #vim.diagnostic.get(self.bufnr, { severity = vim.diagnostic.severity.HINT })
-    self.errors = #vim.diagnostic.get(self.bufnr, { severity = vim.diagnostic.severity.ERROR })
-    self.warnings = #vim.diagnostic.get(self.bufnr, { severity = vim.diagnostic.severity.WARN })
+    local diagnostic = vim.split(vim.diagnostic.status(self.bufnr), "[%s:%d]-%s-%%#%w-#", { trimempty = true })[1]
+    local icon_hl = { [""] = "red", [""] = "teal", [""] = "sky", [""] = "yellow" }
 
-    self.has_diagnostic = (self.errors > 0 or self.warnings > 0 or self.info > 0 or self.hints > 0)
-    self.text_hl = "text"
-    self.diag_type = ""
-    if self.errors > 0 then
-      self.text_hl = "red"
-      self.diag_type = "ERROR"
-    elseif self.warnings > 0 then
-      self.text_hl = "yellow"
-      self.diag_type = "WARN"
-    elseif self.info > 0 then
-      self.text_hl = "sky"
-      self.diag_type = "INFO"
-    elseif self.hints > 0 then
-      self.text_hl = "teal"
+    self.text_hl, self.diag_icon = "text", ""
+    self.has_diagnostic = diagnostic ~= nil
+    if self.has_diagnostic then
+      self.text_hl, self.diag_icon = icon_hl[diagnostic], diagnostic
     end
   end,
   hl = function(self)

@@ -31,11 +31,8 @@ local FilePrettyPath = {
 
 local FileInfo = {
   {
-    condition = function(self) return (self.errors > 0 or self.warnings > 0 or self.hints > 0 or self.info > 0) end,
-    provider = function(self)
-      local icon = Defaults.icons.diagnostics[self.diag_type] or ""
-      return ("%s%s"):format(icon ~= "" and " " or "", vim.trim(icon))
-    end,
+    condition = function(self) return self.has_diagnostic end,
+    provider = function(self) return (" %s"):format(self.diag_icon) end,
     hl = function(self) return { fg = self.text_hl } end,
   },
   {
@@ -65,24 +62,13 @@ return {
   init = function(self)
     self.filename = vim.api.nvim_buf_get_name(0)
 
-    self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-    self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-    self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-    self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+    local diagnostic = vim.split(vim.diagnostic.status(self.bufnr), "[%s:%d]-%s-%%#%w-#", { trimempty = true })[1]
+    local icon_hl = { [""] = "red", [""] = "teal", [""] = "sky", [""] = "yellow" }
 
-    self.text_hl = "text"
-    self.diag_type = ""
-    if self.errors > 0 then
-      self.text_hl = "red"
-      self.diag_type = "ERROR"
-    elseif self.warnings > 0 then
-      self.text_hl = "yellow"
-      self.diag_type = "WARN"
-    elseif self.info > 0 then
-      self.text_hl = "sky"
-      self.diag_type = "INFO"
-    elseif self.hints > 0 then
-      self.text_hl = "teal"
+    self.text_hl, self.diag_icon = "text", ""
+    self.has_diagnostic = diagnostic ~= nil
+    if self.has_diagnostic then
+      self.text_hl, self.diag_icon = icon_hl[diagnostic], diagnostic
     end
   end,
   {
