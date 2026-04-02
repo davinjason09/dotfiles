@@ -2,7 +2,9 @@ local BufferName = {
   init = function(self)
     self.icon, self.color = Snacks.util.icon(self.filename, "file")
     self.color = Snacks.util.color(self.color)
-    self.bufname = self.buf_map[self.filename] or { parent = "", tail = "" }
+
+    local buf_map = self.buf_map or {}
+    self.bufname = buf_map[self.filename] or { parent = "", tail = "" }
 
     self.max_name_len = self.min_width - #self.icon
     local fullname = self.bufname.parent .. self.bufname.tail
@@ -11,7 +13,9 @@ local BufferName = {
     if self.pad == 0 then self.pad = 1 end
   end,
   on_click = {
-    callback = function(_, minwid) vim.api.nvim_win_set_buf(0, minwid) end,
+    callback = function(_, buf)
+      if not vim.wo.winfixbuf then vim.api.nvim_win_set_buf(0, buf) end
+    end,
     minwid = function(self) return self.bufnr end,
     name = "heirline_buffer_callback",
   },
