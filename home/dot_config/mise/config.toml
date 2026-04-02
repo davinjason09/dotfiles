@@ -26,6 +26,7 @@
   }
   "npm:@mdx-js/language-server"            = "latest"  # MDX
   "aqua:Automattic/harper/harper-ls"       = "latest"  # English
+  "npm:@github/copilot-language-server"    = "latest"  # Copilot
 
   # Formatter
   "pipx:clang-format"          = "latest"  # C++, Java
