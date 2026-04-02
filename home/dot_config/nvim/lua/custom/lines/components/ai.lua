@@ -89,9 +89,7 @@ M.Copilot = {
     },
   },
   condition = function()
-    return Utils.is_loaded("copilot.lua")
-      and M.get_status() ~= nil
-      and not vim.tbl_isempty(vim.lsp.get_clients({ name = "copilot", bufnr = 0 }))
+    return M.get_status() ~= nil and not vim.tbl_isempty(vim.lsp.get_clients({ name = "copilot", bufnr = 0 }))
   end,
   update = { "User", pattern = { "UpdateSpinner", "UpdateCopilotStatus" } },
   {
