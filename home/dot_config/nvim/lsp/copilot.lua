@@ -56,4 +56,48 @@ return {
   settings = {
     telemetry = { telemetryLevel = "off" },
   },
+  on_attach = function(client, buf)
+    vim.api.nvim_buf_create_user_command(
+      buf,
+      "LspCopilotSignIn",
+      function() sign_in(buf, client) end,
+      { desc = "Sign in Copilot with GitHub" }
+    )
+    vim.api.nvim_buf_create_user_command(
+      buf,
+      "LspCopilotSignOut",
+      function() sign_out(buf, client) end,
+      { desc = "Sign out Copilot with GitHub" }
+    )
+
+    local map = vim.keymap.set
+    local comp = Utils.edit.completion
+
+    -- Accept suggestion by word
+    map("i", "<C-Right>", function()
+      if vim.lsp.inline_completion.get({ on_accept = comp.accept_word }) then return "<C-Right>" end
+    end, { expr = true, replace_keycodes = true, buf = buf })
+
+    -- Accept suggestion by line
+    map("i", "<C-S-Right>", function()
+      if not vim.lsp.inline_completion.get({ on_accept = comp.accept_line }) then return "<C-S-Right>" end
+    end, { expr = true, replace_keycodes = true, buf = buf })
+
+    -- Accept suggestion without change
+    map("i", "<C-Down>", function()
+      if not vim.lsp.inline_completion.get() then return "<C-Down>" end
+    end, { expr = true, replace_keycodes = true, buf = buf })
+
+    -- Cycle to next suggestion
+    map("i", "<M-]>", function() vim.lsp.inline_completion.select() end)
+
+    -- Cycle to prev suggestion
+    map("i", "<M-[>", function() vim.lsp.inline_completion.select({ count = -1 }) end)
+  end,
+  on_exit = vim.schedule_wrap(function()
+    local unmap = vim.api.nvim_buf_del_keymap
+    unmap(0, "i", "<C-Right>")
+    unmap(0, "i", "<C-S-Right>")
+    unmap(0, "i", "<C-Down>")
+  end),
 }

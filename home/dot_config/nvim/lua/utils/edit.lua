@@ -101,4 +101,61 @@ M.smart_delete = function(key, mode)
   end
 end
 
+M.completion = {}
+
+---@param item vim.lsp.inline_completion.Item
+---@return string?
+local function get_insert_text(item)
+  local text = item.insert_text
+
+  if type(text) == "table" and text.value then return text.value end
+  return type(text) == "string" and text or ""
+end
+
+---@param item vim.lsp.inline_completion.Item
+---@param new_text string
+local function set_insert_text(item, new_text)
+  local text = item.insert_text
+  vim.print(new_text, text)
+
+  if type(text) == "table" then
+    item.insert_text = vim.tbl_extend("force", text, { value = new_text })
+  else
+    item.insert_text = new_text
+  end
+
+  return item
+end
+
+---@param item vim.lsp.inline_completion.Item
+local function get_next_word(item)
+  local text = get_insert_text(item)
+
+  local start_row = item.range.start_row
+  local start_col = item.range.start_col
+
+  local cursor_row, cursor_col = unpack(vim.api.nvim_win_get_cursor(0))
+  cursor_row = cursor_row - 1
+
+  local cur_line = vim.api.nvim_buf_get_text(0, start_row, start_col, cursor_row, cursor_col, {})
+  local cur_text = table.concat(cur_line, "\n")
+
+  local adjusted = vim.startswith(text, cur_text) and text:sub(#cur_text + 1) or text
+  local next_word = adjusted:match("[%s:]*[^%s][%w_]*[(%[]?[)%]]?") or adjusted
+
+  return cur_text .. next_word
+end
+
+---@param item vim.lsp.inline_completion.Item
+local function get_next_line(item)
+  local text = get_insert_text(item)
+  return vim.split(text, "\n", { trimempty = true })[1] or text
+end
+
+---@param item vim.lsp.inline_completion.Item
+M.completion.accept_word = function(item) return set_insert_text(item, get_next_word(item)) end
+
+---@param item vim.lsp.inline_completion.Item
+M.completion.accept_line = function(item) return set_insert_text(item, get_next_line(item)) end
+
 return M
