@@ -37,6 +37,11 @@ local function on_attach(client, buf)
     map("[[", function() Snacks.words.jump(-vim.v.count1, true) end, "Previous Reference")
   end
 
+  Snacks.util.lsp.on(
+    { method = "textDocument/inlineCompletion" },
+    function(bufnr) vim.lsp.inline_completion.enable(true, { bufnr = bufnr }) end
+  )
+
   Snacks.util.lsp.on({ method = "textDocument/inlayHint" }, function(bufnr)
     if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].buftype == "" then
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })

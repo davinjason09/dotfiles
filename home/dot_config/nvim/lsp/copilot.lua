@@ -75,7 +75,7 @@ return {
 
     -- Accept suggestion by word
     map("i", "<C-Right>", function()
-      if vim.lsp.inline_completion.get({ on_accept = comp.accept_word }) then return "<C-Right>" end
+      if not vim.lsp.inline_completion.get({ on_accept = comp.accept_word }) then return "<C-Right>" end
     end, { expr = true, replace_keycodes = true, buf = buf })
 
     -- Accept suggestion by line
@@ -99,5 +99,7 @@ return {
     unmap(0, "i", "<C-Right>")
     unmap(0, "i", "<C-S-Right>")
     unmap(0, "i", "<C-Down>")
+    unmap(0, "i", "<M-]>")
+    unmap(0, "i", "<M-[>")
   end),
 }
