@@ -77,7 +77,7 @@ vim.treesitter.query.add_directive("inject-gotmpl!", function(_, _, buf, _, meta
   if not ok then return end
 
   local fname = vim.fs.basename(buf_name)
-  local ext = vim.filetype.match({ buf = buf, filename = fname:gsub("%.tmpl", "") })
+  local ext = vim.filetype.match({ buf = buf, filename = fname:gsub("%.tmpl", ""):gsub("dot_", ".") })
   metadata["injection.language"] = ext
 end, {})
 
