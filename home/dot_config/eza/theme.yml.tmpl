@@ -202,12 +202,6 @@ filenames:
   constraints.txt:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: 󱘎, style: { foreground: "{{ .colors.mauve }}" } }
-  # HACK:
-  # same case as the zsh file extension, this folder has .lua behind it, making the glyph
-  # got overidden, as I don't have a file named copilot.lua, it will be just fine... I hope
-  copilot.lua:
-    filename: { foreground: "{{ .colors.blue }}" }
-    icon: { glyph: , style: { foreground: "{{ .colors.blue }}" } }
   devcontainer.json:
     filename: { foreground: "{{ .colors.text }}" }
     icon: { glyph: , style: { foreground: "{{ .colors.sapphire }}" } }
