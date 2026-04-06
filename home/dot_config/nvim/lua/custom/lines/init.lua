@@ -44,17 +44,6 @@ M.setup = function()
     end,
   })
 
-  -- HACK: update the showtabline to make sure the tabline macro component gets updated
-  vim.api.nvim_create_autocmd({ "RecordingEnter", "RecordingLeave" }, {
-    callback = function()
-      if #M._buflist_cache > 1 then
-        vim.o.showtabline = 2
-      elseif vim.o.showtabline ~= 1 then
-        vim.o.showtabline = 1
-      end
-    end,
-  })
-
   vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "BufEnter", "BufAdd", "BufDelete", "TermOpen" }, {
     callback = function(ev)
       if not vim.api.nvim_get_option_value("buflisted", { buf = ev.buf }) then return end
