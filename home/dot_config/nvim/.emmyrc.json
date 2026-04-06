@@ -8,7 +8,7 @@
     "workspaceRoots": ["lua"],
     "library": ["$VIMRUNTIME", "$XDG_DATA_HOME/nvim/lazy/lazy.nvim/lua", "$XDG_DATA_HOME/nvim/lazy"],
     "checkThirdParty": false,
-    "ignoreDir": ["/lua"],
+    "ignoreDir": ["/lua", "$XDG_DATA_HOME/nvim/lazy/wezterm-types/"],
     "ignoreGlobs": ["**/*_spec.lua", "**/minit.lua", "**/busted.lua"]
   },
   "diagnostics": {
@@ -19,7 +19,8 @@
       "need-check-nil",
       "param-type-mismatch",
       "unnecessary-if",
-      "unnecessary-assert"
+      "unnecessary-assert",
+      "redundant-parameter"
     ]
   }
 }
