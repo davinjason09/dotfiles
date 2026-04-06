@@ -40,6 +40,7 @@ gui:
       - '⠏'
     rate: 50
 git:
+  overrideGpg: true
   pagers:
     - colorArg: always
       pager: delta --dark --paging=never --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
