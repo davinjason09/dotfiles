@@ -29,7 +29,7 @@ M.Status = {
     pattern = "GitSigns*",
     callback = function() U.redraw(vim.o.showtabline ~= 2 and "stl" or "tab") end,
   },
-  { provider = " " },
+  Comp.Space(),
   {
     provider = function()
       local count = vim.b.gitsigns_status_dict.added or 0

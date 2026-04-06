@@ -1,16 +1,10 @@
 local U = require("custom.lines.utils")
 
 return {
-  -- stylua: ignore
   static = {
     clock_icons = { "󱑋", "󱑌", "󱑍", "󱑎", "󱑏", "󱑐", "󱑑", "󱑒", "󱑓", "󱑔", "󱑕", "󱑖" },
   },
-  update = {
-    "ModeChanged",
-    "User",
-    pattern = { "*:*", "UpdateTime" },
-    callback = function() U.redraw() end,
-  },
+  update = { "ModeChanged", "User", pattern = { "*:*", "UpdateTime" }, callback = function() U.redraw() end },
   provider = function(self)
     local hour = os.date("%I")
     local icon = self.clock_icons[tonumber(hour)]

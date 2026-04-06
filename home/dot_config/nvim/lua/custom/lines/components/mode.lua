@@ -54,12 +54,7 @@ return {
     },
   },
   init = U.update_events({ "BufEnter" }),
-  update = {
-    "ModeChanged",
-    "User",
-    pattern = { "*:*", "GitSigns*" },
-    callback = function() U.redraw() end,
-  },
+  update = { "ModeChanged", "User", pattern = { "*:*", "GitSigns*" }, callback = function() U.redraw() end },
   provider = function(self) return (" %s %s "):format(self:mode_icon(), self.mode_map[vim.fn.mode(1)]) end,
   hl = function(self) return { fg = "mantle", bg = self:mode_color(), bold = true } end,
   Comp.Separator({
