@@ -1,50 +1,93 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
-[tools]
+[settings]
+  experimental = true
+
+[tool_alias]
   # LSP
-  "github:clangd/clangd"                   = "latest"  # C++
-  "github:EmmyLuaLs/emmylua-analyzer-rust" = {
-    version        = "latest",
-    exe            = "emmylua_ls",
-    matching_regex = "^emmylua_ls"
-  }  # Lua
-  "aqua:artempyanykh/marksman"             = "latest"  # Markdown
-  "aqua:tombi-toml/tombi"                  = "latest"  # TOML
-  "npm:bash-language-server"               = "latest"  # Bash
-  "aqua:Myriad-Dreamin/tinymist"           = "latest"  # Typst
-  "npm:yaml-language-server"               = "latest"  # YAML
-  "github:ribru17/ts_query_ls"             = "latest"  # Treesitter Query
-  "github:astral-sh/ty"                    = "latest"  # Python
-  "npm:@typescript/native-preview"         = "latest"  # Typescript
-  "npm:@astrojs/language-server"           = "latest"  # Astro
-  "npm:@tailwindcss/language-server"       = "latest"  # Tailwind
-  "npm:vscode-langservers-extracted"       = "latest"  # JSON
-  "http:jdtls"                             = {
-    version  = "1.57.0",
-    url      = "https://download.eclipse.org/jdtls/milestones/{{version}}/jdt-language-server-{{version}}-202602261110.tar.gz",
-    bin_path = "bin"
-  }
-  "npm:@mdx-js/language-server"            = "latest"  # MDX
-  "aqua:Automattic/harper/harper-ls"       = "latest"  # English
-  "npm:@github/copilot-language-server"    = "latest"  # Copilot
+  marksman  = "aqua:artempyanykh/marksman"  # Markdown
+  harper_ls = "aqua:Automattic/harper/harper-ls"  # English
+  tinymist  = "aqua:Myriad-Dreamin/tinymist"  # Typst
+  tombi     = "aqua:tombi-toml/tombi"  # TOML
+
+  ty          = "github:astral-sh/ty"  # Python
+  clangd      = "github:clangd/clangd"  # C++
+  emmylua_ls  = "github:EmmyLuaLs/emmylua-analyzer-rust"  # Lua
+  ts_query_ls = "github:ribru17/ts_query_ls"  # Treesitter Query
+
+  jdtls = "http:jdtls"  # Java
+
+  astro_ls     = "npm:@astrojs/language-server"  # Astro
+  bash_ls      = "npm:bash-language-server"  # Bash
+  copilot      = "npm:@github/copilot-language-server"  # Copilot
+  mdx_analyzer = "npm:@mdx-js/language-server"  # MDX
+  tailwind_ls  = "npm:@tailwindcss/language-server"  # Tailwind
+  tsgo         = "npm:@typescript/native-preview"  # Typescript
+  json_ls      = "npm:vscode-langservers-extracted"  # JSON
+  yaml_ls      = "npm:yaml-language-server"  # YAML
 
   # Formatter
-  "pipx:clang-format"          = "latest"  # C++, Java
-  "aqua:JohnnyMorganz/StyLua"  = "latest"  # Lua
-  "aqua:mvdan/sh"              = "latest"  # Bash
-  "npm:bibtex-tidy"            = "latest"  # Bibtex
-  "aqua:Enter-tainer/typstyle" = "latest"  # Typst
-  "npm:oxfmt"                  = "latest"  # TS, TSX, JSON, CSS, YAML, Markdown, MDX
-  "aqua:biomejs/biome"         = "latest"  # Astro (temp)
+  biome  = "aqua:biomejs/biome"  # Astro (temp)
+  stylua = "aqua:JohnnyMorganz/StyLua"  # Lua
+  shfmt  = "aqua:mvdan/sh"  # Bash
+
+  luafmt = "github:EmmyLuaLs/emmylua-analyzer-rust"  # Lua
+
+  bibtex-tidy = "npm:bibtex-tidy"  # Bibtex
+  oxfmt       = "npm:oxfmt"  # TS, TSX, JSON, CSS, YAML, Markdown, MDX
+
+  clang_format = "pipx:clang-format"  # C++, Java
 
   # Linter
-  "aqua:astral-sh/ruff" = "latest"  # Python
+  ruff = "aqua:astral-sh/ruff"  # Python
 
   # Tools
-  "aqua:tree-sitter/tree-sitter" = "latest"  # Treesitter (pacman is out of date)
+  tree-sitter = "aqua:tree-sitter/tree-sitter"
 
   # Windows Tools
-  "github:amnweb/yasb"     = {
+  yasb    = "github:amnweb/yasb"
+  glazewm = "github:glzr-io/glazewm"
+
+[tools]
+  astro_ls     = "latest"
+  bash_ls      = "latest"
+  clangd       = "latest"
+  copilot      = "latest"
+  emmylua_ls   = { version = "latest", platforms = { linux-x64 = { asset_pattern = "emmylua_ls-linux-x64-*.tar.gz" } } }
+  harper_ls    = "latest"
+  jdtls        = {
+    version  = "1.57.0",
+    url      = "https://download.eclipse.org/jdtls/milestones/{{ version }}/jdt-language-server-{{ version }}-202602261110.tar.gz",
+    bin_path = "bin"
+  }
+  json_ls      = "latest"
+  marksman     = "latest"
+  mdx_analyzer = "latest"
+  tailwind_ls  = "latest"
+  tinymist     = "latest"
+  tombi        = "latest"
+  ts_query_ls  = "latest"
+  tsgo         = "latest"
+  ty           = "latest"
+  yaml_ls      = "latest"
+
+  # Formatter
+  bibtex-tidy  = "latest"
+  biome        = "latest"
+  clang_format = "latest"
+  luafmt       = { version = "latest", platforms = { linux-x64 = { asset_pattern = "luafmt-linux-x64-*.tar.gz" } } }
+  oxfmt        = "latest"
+  shfmt        = "latest"
+  stylua       = "latest"
+
+  # Linter
+  ruff = "latest"
+
+  # Tools
+  tree-sitter = "latest"
+
+  # Windows Tools
+  yasb    = {
     version       = "latest",
     asset_pattern = "*-x64.msi",
     bin           = "yasb.msi",
@@ -52,7 +95,7 @@
     install_msi $MISE_TOOL_INSTALL_PATH yasb.msi --helper=yasbc --stop_cmd="stop" --start_cmd="start"
     '''
   }
-  "github:glzr-io/glazewm" = {
+  glazewm = {
     version       = "latest",
     asset_pattern = "standalone-*-x64.msi",
     bin           = "glazewm.msi",
@@ -60,9 +103,6 @@
     install_msi $MISE_TOOL_INSTALL_PATH glazewm.msi --helper=glazewm --stop_cmd="command wm-exit" --start_cmd="start"
     '''
   }
-
-[settings]
-  experimental = true
 
 [hooks]
   postinstall = "mise prune --tools --yes"
