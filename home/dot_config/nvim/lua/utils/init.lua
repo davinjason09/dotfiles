@@ -15,18 +15,8 @@ setmetatable(M, {
 ---Get current nvim version
 ---@return string #The current nvim version
 M.nvim_version = function()
-  local v = vim.version() ---@diagnostic disable-line: call-non-callable
-  return ("%d.%d.%d"):format(v.major, v.minor, v.patch)
-end
-
----Load a module lazily
----@param modname string The path to the module
----@return table #A table that lazily loads the module
-M.lazy_require = function(modname)
-  return setmetatable({}, {
-    __index = function(_, key) return require(modname)[key] end,
-    __newindex = function(_, key, value) require(modname)[key] = value end,
-  })
+  local v = vim.fn.api_info().version ---@type vim.Version
+  return ("%d.%d.%d%s"):format(v.major, v.minor, v.patch, v.prerelease and "-dev" or "")
 end
 
 ---Get the specified plugin
@@ -92,15 +82,15 @@ M.lazy_notify = function()
   local orig = vim.notify
   vim.notify = temp
 
-  local timer = assert(vim.uv.new_timer())
-  local check = assert(vim.uv.new_check())
+  local timer, check = assert(vim.uv.new_timer()), assert(vim.uv.new_check())
 
   local replay = function()
     timer:stop()
     check:stop()
-    if vim.notify == temp then
-      vim.notify = orig -- put back the original notify if needed
-    end
+
+    -- put back the original notify if needed
+    if vim.notify == temp then vim.notify = orig end
+
     vim.schedule(function()
       for _, notif in ipairs(notifs) do
         vim.notify(vim.F.unpack_len(notif))
@@ -145,7 +135,7 @@ end
 ---@return string, string, boolean The icon, color, and whether it's a default icon
 M.get_icon = function(entry)
   local MiniIcons = _G.MiniIcons or require("mini.icons")
-  local name = vim.fn.fnamemodify(entry.path, ":t")
+  local name = vim.fs.basename(entry.path)
   local icon, color, is_default = MiniIcons.get(entry.fs_type, name)
 
   if name == "init.lua" and entry.fs_type == "file" then
@@ -179,14 +169,8 @@ end
 ---@return string[] A list of LSP client names
 M.get_lsp_clients = function()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
-  local attached = {}
-
-  for _, client in ipairs(clients) do
-    if client.name ~= "copilot" then table.insert(attached, client.name) end
-  end
-
-  M.dedup(attached)
-  return attached
+  local attached = vim.iter(clients):map(function(c) return c.name ~= "copilot" and c.name or nil end):totable()
+  return M.dedup(attached)
 end
 
 ---Clear LSP log if it exceeds a certain size
