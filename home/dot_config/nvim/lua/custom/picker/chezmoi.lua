@@ -7,7 +7,7 @@ M.source = {
   hidden = true,
   title = "Chezmoi Files",
   finder = function(opts, ctx)
-    local cwd = vim.env.CHEZMOI_HOME .. (opts.kind and "/dot_config/" .. opts.kind or "")
+    local cwd = vim.fs.joinpath(vim.env.CHEZMOI_HOME, opts.kind and "dot_config", opts.kind or "")
     ctx.picker:set_cwd(cwd)
 
     if opts.kind and opts.kind ~= "" then ctx.picker.title = "Config Files" end

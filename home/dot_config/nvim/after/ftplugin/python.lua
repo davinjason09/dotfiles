@@ -27,7 +27,7 @@ local function parse_settings()
   require("custom.scripts.watch").start(root, function(_, file)
     if not file then return end
 
-    local ext = vim.fn.fnamemodify(file, ":e")
+    local ext = vim.fs.ext(file)
     if ext ~= "toml" then return end
 
     vim.schedule(function()

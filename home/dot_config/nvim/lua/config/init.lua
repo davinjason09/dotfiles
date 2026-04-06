@@ -45,7 +45,7 @@ M.title = function()
 
   filename = vim.tbl_contains(title_ignore_ft, ft) and "" or filename .. " "
 
-  local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+  local cwd = vim.fs.basename(vim.fn.getcwd())
   return string.format("%s%s-  %s", icon, filename, cwd)
 end
 
