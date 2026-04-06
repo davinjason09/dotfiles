@@ -10,7 +10,7 @@ return {
     Comp.Buffer,
     { provider = " ", hl = { fg = "overlay2" } },
     { provider = " ", hl = { fg = "overlay2" } },
-    function() return require("custom.lines")._buflist_cache end,
+    function() return require("custom.lines.utils").State.buflist_cache end,
     false
   ),
   Common.Align,

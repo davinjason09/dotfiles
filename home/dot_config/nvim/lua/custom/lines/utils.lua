@@ -1,5 +1,9 @@
 local M = {}
 
+M.State = {
+  buflist_cache = {},
+}
+
 -- ╾╼ General Utilities ╾─────────────────────────────────────────────╼
 
 ---An `init` function to build multiple update events which is not supported yet by Heirline's update field

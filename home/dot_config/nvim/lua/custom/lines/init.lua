@@ -1,7 +1,5 @@
 local M = {}
 
-M._buflist_cache = {}
-
 M.Statusline = require("custom.lines.statusline")
 
 M.Tabline = require("custom.lines.tabline")
@@ -31,14 +29,14 @@ M.setup = function()
       vim.schedule(function()
         local buffers = U.get_bufs()
         for i, v in ipairs(buffers) do
-          M._buflist_cache[i] = v
+          U.State.buflist_cache[i] = v
         end
 
-        for i = #buffers + 1, #M._buflist_cache do
-          M._buflist_cache[i] = nil
+        for i = #buffers + 1, #U.State.buflist_cache do
+          U.State.buflist_cache[i] = nil
         end
 
-        if #M._buflist_cache > 1 then
+        if #U.State.buflist_cache > 1 then
           vim.o.showtabline = 2
         elseif vim.o.showtabline ~= 1 then -- otherwise it breaks startup screen
           vim.o.showtabline = 1
