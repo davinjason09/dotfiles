@@ -8,14 +8,13 @@ M.setup = function()
   local Comp = require("custom.lines.components")
   local U = require("custom.lines.utils")
 
-  -- Setup clock update timer
-  vim.uv.new_timer():start(
-    (60 - tonumber(os.date("%S"))) * 1000,
-    60000,
-    vim.schedule_wrap(function() vim.api.nvim_exec_autocmds("User", { pattern = "UpdateTime", modeline = false }) end)
-  )
+  for _, comp in pairs(Comp) do
+    if type(comp) == "function" then goto continue end
 
-  Comp.AI.setup()
+    local comp_setup = vim.tbl_get(comp, "setup")
+    if comp_setup and type(comp_setup) == "function" then comp_setup() end
+    ::continue::
+  end
 
   local has_enter = false
   vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "BufAdd", "BufDelete", "BufEnter" }, {
