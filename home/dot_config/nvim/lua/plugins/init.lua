@@ -34,20 +34,20 @@ return {
     ---@param icon_opts? { fallback: { dir: string, file: string }? }
     Snacks.util.icon = function(name, cat, icon_opts)
       icon_opts = icon_opts or { fallback = { dir = " ", file = " " } }
+
       local icon, hl, default = Utils.get_icon({ fs_type = cat or "file", path = name })
+
       cat = cat == "directory" and "dir" or cat
       if default then icon = icon_opts.fallback[cat or "file"] end
       return icon, hl
     end
 
-    Snacks.config.style("news", {
+    Snacks.config.style("small_float", {
+      style = "minimal",
       width = 0.6,
       height = 0.6,
       wo = {
-        spell = false,
-        wrap = false,
         signcolumn = "yes",
-        statuscolumn = " ",
         conceallevel = 2,
         concealcursor = "nvic",
       },

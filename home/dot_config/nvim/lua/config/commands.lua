@@ -19,7 +19,7 @@ vim.api.nvim_create_user_command(
   "News",
   function()
     Snacks.win({
-      style = "news",
+      style = "small_float",
       file = vim.fs.joinpath(vim.env.VIMRUNTIME, "doc", "news.txt"),
       border = "rounded",
     }):set_title("Neovim News", "center")
