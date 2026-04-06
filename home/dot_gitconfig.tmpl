@@ -1,10 +1,14 @@
 [user]
   email = {{ .gitEmail }}
   name = {{ .gitUsername }}
+  signingkey = ~/.ssh/id_ed25519.pub
 
 [alias]
   edit = commit --ammend --only
   undo = reset --soft HEAD^
+
+[commit]
+  gpgsign = true
 
 [core]
   autocrlf = false
@@ -33,6 +37,9 @@
   colorMoved = default
   mnemonicPrefix = true
   renamed = true
+
+[gpg]
+  format = ssh
 
 [include]
   path = ~/.config/delta/themes/catppuccin.gitconfig
