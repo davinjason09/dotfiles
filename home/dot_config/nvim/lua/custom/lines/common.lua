@@ -9,13 +9,11 @@ M.components = {
   ---@return table
   Space = function(n) return { provider = (" "):rep(n or 1) } end,
 
-  ---@alias SeparatorHL { fg?: string, bg?: string } | fun(self: table): { fg?: string, bg?: string }
-
   ---@alias SepOpts {
   ---  icon: string,
   ---  init?: (string | table)[],
-  ---  hl: SeparatorHL,
-  ---  update?: string | table | (string | table)[] | fun(self: table): boolean
+  ---  hl: { fg?: string, bg?: string } | (fun(self: table): { fg?: string, bg?: string }),
+  ---  update?: string | table | (string | table)[] | (fun(self: table): boolean)
   ---}
 
   ---@param opts SepOpts

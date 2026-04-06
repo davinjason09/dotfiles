@@ -52,7 +52,7 @@ M.redraw = function(what)
 end
 
 ---Timer for spinner
-local timer ---@type uv_timer_t?
+local timer ---@type uv.uv_timer_t?
 local timer_running = false
 
 M.start_spinner = function()
