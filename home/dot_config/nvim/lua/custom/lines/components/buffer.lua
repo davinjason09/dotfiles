@@ -1,3 +1,5 @@
+local U = require("custom.lines.utils")
+
 local BufferName = {
   init = function(self)
     self.icon, self.color = Snacks.util.icon(self.filename, "file")
@@ -55,6 +57,7 @@ local BufferName = {
 }
 
 local BufferCloseButton = {
+  fallthrough = false,
   {
     condition = function(self) return not vim.api.nvim_get_option_value("modified", { buf = self.bufnr }) end,
     provider = "",
@@ -70,7 +73,6 @@ local BufferCloseButton = {
   },
   -- If buffer has changes, notify user instead and don't show the close icon
   {
-    condition = function(self) return vim.api.nvim_get_option_value("modified", { buf = self.bufnr }) end,
     provider = " ",
     hl = function(self) return { fg = "peach", sp = "sky", underline = self.is_active } end,
   },
@@ -103,11 +105,12 @@ return {
     hl = function(self) return { bg = self.is_active and "base" or "mantle", fg = "crust" } end,
   },
   {
-    update = { "User", "DiagnosticChanged", "BufEnter", pattern = { "UpdateBufName", "UpdateDiagnostic", "*" } },
+    init = U.update_events({ { "User", pattern = "UpdateBufName", callback = function() U.redraw("tab") end } }),
+    update = { "DiagnosticChanged", "BufEnter", "WinClosed", callback = function() U.redraw("tab") end },
     BufferName,
   },
   {
-    update = { "BufModifiedSet", "BufEnter" },
+    update = { "BufModifiedSet", "BufEnter", "WinClosed" },
     BufferCloseButton,
   },
   {
