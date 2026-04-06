@@ -1,3 +1,5 @@
+local U = require("custom.lines.utils")
+
 local FileIcons = {
   init = function(self)
     self.icon, self.color = Snacks.util.icon(self.filename, "file")
@@ -9,23 +11,24 @@ local FileIcons = {
 
 local FilePrettyPath = {
   init = function(self)
-    local U = require("custom.lines.utils")
-    self.path = U.pretty_path(self.filename, "relative")
-    self.path_split = vim.split(self.path, "/")
+    self.path = U.pretty_path(self.filename, { type = "relative", split = true })
+    self.parents_shorten = vim.fs.dirname(vim.fn.pathshorten(vim.fs.relpath(".", self.filename)))
   end,
+  hl = function(self) return { fg = self.text_hl, bg = "crust" } end,
   {
+    flexible = 1,
     condition = function() return vim.bo.filetype ~= "help" end,
-    provider = function(self)
-      if self.path == "" then return "[No Name]" end
-      if self.path:find("scratch") then return "[Scratch] " end
-      if #self.path_split == 1 then return "" end
-      return table.concat(self.path_split, "/", 1, #self.path_split - 1) .. "/"
-    end,
-    hl = function(self) return { fg = self.text_hl, bg = "crust" } end,
+    { provider = function(self) return self.filename:find("scratch") ~= nil and "[Scratch] " or self.path.parents end },
+    { provider = function(self) return self.parents_shorten end },
+    { provider = function(self) return vim.fn.pathshorten(self.path.parents) end },
   },
   {
-    provider = function(self) return self.path_split[#self.path_split] end,
-    hl = function(self) return { fg = self.text_hl, bg = "crust", bold = true } end,
+    condition = function(self) return self.path.parents ~= "" and self.path.basename ~= "[No Name]" end,
+    provider = "/",
+  },
+  {
+    provider = function(self) return self.path.basename end,
+    hl = { bold = true },
   },
 }
 
@@ -36,12 +39,11 @@ local FileInfo = {
     hl = function(self) return { fg = self.text_hl } end,
   },
   {
-    condition = function()
-      local filename = vim.fn.expand("%")
-      return filename ~= ""
-        and not filename:match("^%a+://")
+    condition = function(self)
+      return self.filename ~= ""
+        and not self.filename:match("^%a+://")
         and vim.bo.buftype == ""
-        and vim.fn.filereadable(filename) == 0
+        and vim.fn.filereadable(self.filename) == 0
     end,
     provider = " [New]",
     hl = { fg = "green" },
@@ -76,11 +78,11 @@ return {
     FileIcons,
   },
   {
-    update = { "User", "BufEnter", pattern = { "UpdateDiagnostic", "*" } },
+    update = { "DiagnosticChanged", "BufEnter", callback = function() U.redraw("stl") end },
     FilePrettyPath,
   },
   {
-    update = { "BufEnter", "BufModifiedSet" },
+    update = { "DiagnosticChanged", "BufEnter", "BufModifiedSet", callback = function() U.redraw("stl") end },
     FileInfo,
   },
 }
