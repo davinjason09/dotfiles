@@ -7,4 +7,4 @@
   "text" @type
   (#eq? @keyword "INJECT")
   (#match? @type "[a-z_<>]")
-  (#set! "priority" 126))
+  (#set! priority 126))

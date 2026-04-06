@@ -5,13 +5,13 @@
 ; https://github.com/LazyVim/LazyVim/blob/main/queries/lua/highlights.scm
 ((identifier) @namespace.builtin
   (#any-of? @namespace.builtin "vim" "Snacks" "Utils" "Defaults")
-  (#set! "priority" 130))
+  (#set! priority 130))
 
 (dot_index_expression
   table: (identifier) @namespace.builtin
   field: (identifier)
   (#any-of? @namespace.builtin "vim" "Snacks" "Utils" "Defaults")
-  (#set! "priority" 130))
+  (#set! priority 130))
 
 ; ╾╼ Highlight as @property even if the value is a function ╾──────────╼
 ; NOTE:
@@ -19,7 +19,7 @@
 ; always use the @property highlight no matter if the identifier matched any of the @module.builtin
 (field
   name: (identifier) @property
-  (#set! "priority" 130))
+  (#set! priority 130))
 
 ; ╾╼ Set 2nd argument of `vim.split` and `vim.gsplit` to regex ╾─────────╼
 ; Taken from: https://github.com/ribru17/.dotfiles/blob/master/.config/nvim/queries/lua/highlights.scm
@@ -36,28 +36,28 @@
 ; ╾╼ Emmylua highlight override ╾─────────────────────────────────────────╼
 ((identifier) @module.builtin
   (#any-of? @module.builtin "_G" "debug" "io" "jit" "math" "os" "package" "string" "table" "utf8")
-  (#set! "priority" 128))
+  (#set! priority 128))
 
 (function_declaration
   [
     "function"
     "end"
   ] @keyword.function
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (function_definition
   [
     "function"
     "end"
   ] @keyword.function
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (do_statement
   [
     "do"
     "end"
   ] @keyword
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (while_statement
   [
@@ -65,14 +65,14 @@
     "do"
     "end"
   ] @keyword.repeat
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (repeat_statement
   [
     "repeat"
     "until"
   ] @keyword.repeat
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (if_statement
   [
@@ -82,7 +82,7 @@
     "then"
     "end"
   ] @keyword.conditional
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (elseif_statement
   [
@@ -90,14 +90,14 @@
     "then"
     "end"
   ] @keyword.conditional
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (else_statement
   [
     "else"
     "end"
   ] @keyword.conditional
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (for_statement
   [
@@ -105,26 +105,26 @@
     "do"
     "end"
   ] @keyword.repeat
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 ([
   (false)
   (true)
 ] @boolean
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 ((nil) @constant.builtin
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 ([
   "and"
   "not"
   "or"
 ] @keyword.operator
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 ("return" @keyword.return
-  (#set! "priority" 126))
+  (#set! priority 126))
 
 (ERROR
   [
@@ -133,4 +133,4 @@
     "while"
     "do"
   ] @keyword.conditional
-  (#set! "priority" 126))
+  (#set! priority 126))
