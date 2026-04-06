@@ -108,9 +108,19 @@ Snacks.toggle({
   end,
 }):map("<leader>us")
 
+-- Toggle copilot
+Snacks.toggle({
+  name = "Copilot",
+  get = function() return vim.lsp.is_enabled("copilot") end,
+  set = function(state) vim.lsp.enable("copilot", state) end,
+}):map("<leader>at")
+
 -- ╭─────────────────────────────────────────────────────────╮
 -- │                        Utilities                        │
 -- ╰─────────────────────────────────────────────────────────╯
+
+-- Restart the editor
+map("n", "<leader>dR", "<CMD>restart<CR>", { desc = "Restart the editor" })
 
 -- HACK: update heirline mode immediately after pressing the visual mode keys
 -- While the autocommand solution (nvim/lua/config/autocmds.lua) works to update the statusline during
