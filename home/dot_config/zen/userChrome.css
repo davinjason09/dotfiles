@@ -346,8 +346,6 @@ input {
   min-width: 60% !important;
 }
 
-/* Limit to 5 visible results, prevent "dancing" */
-#urlbar[open] #urlbar-results > :nth-child(n + 6),
 #urlbar[open] #reader-mode-button {
   display: none !important;
 }
