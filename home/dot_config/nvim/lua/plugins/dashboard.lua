@@ -19,12 +19,12 @@ return {
       sections = {
         function()
           local is_small_screen = vim.o.lines < 45 or vim.o.columns < 65
-          local logo = is_small_screen and "logo-small" or "logo-large"
+          local logo = ("%s.cat"):format(is_small_screen and "logo-small" or "logo-large")
 
           return {
             section = "terminal",
             align = "center",
-            cmd = "cat " .. vim.fn.stdpath("config") .. "/static/" .. logo .. ".cat; sleep 100ms",
+            cmd = "cat " .. vim.fs.joinpath(vim.fn.stdpath("config"), "static", logo) .. "; sleep 100ms",
             indent = is_small_screen and 10 or 6,
             padding = 1,
             height = is_small_screen and 8 or 19,
