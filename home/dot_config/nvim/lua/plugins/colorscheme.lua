@@ -189,6 +189,7 @@ return {
           SnacksPickerSelected      = { fg = colors.text,      bg = colors.surface0, style = { "bold" } },
           SnacksPickerMatch         = { fg = colors.sky,       bg = colors.none,     style = { "bold" } },
           SnacksPickerInput         = { fg = colors.text,      bg = colors.mantle },
+          SnacksWinBar              = { fg = colors.blue,      bg = colors.mantle },
           SnacksWinBorder           = { fg = colors.sky,       bg = colors.mantle },
           SnacksTerminalNormal      = { fg = colors.text,      bg = colors.mantle },
           SnacksTerminalBorder      = { fg = colors.sky,       bg = colors.mantle },
@@ -249,8 +250,9 @@ return {
           QuickFixLineNr  = { link = "qfLineNr" },
 
           -- CheckHealth
-          CheckHealthTitle = { fg = colors.mantle, bg = colors.sky, style = { "bold" } },
+          CheckHealthTitle   = { fg = colors.mantle, bg = colors.sky,    style = { "bold" } },
           CheckHealthTitleBg = { fg = colors.sky },
+          CheckHealthReport  = { fg = colors.yellow, bg = colors.mantle, style = { "bold" } },
         }
       end,
     })

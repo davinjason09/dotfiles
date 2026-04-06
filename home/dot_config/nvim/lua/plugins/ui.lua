@@ -76,21 +76,6 @@ return {
             },
             view = "mini",
           },
-          -- Disable default healthcheck notification
-          {
-            filter = {
-              event = "notify",
-              cond = function(msg) return msg:content() == '""' or msg:content() == '"Running healthchecks..."' end,
-            },
-            opts = { skip = true },
-          },
-          {
-            filter = {
-              event = "notify",
-              find = "Running Health",
-            },
-            view = "mini",
-          },
           {
             filter = {
               event = "msg_show",

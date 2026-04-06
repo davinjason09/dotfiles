@@ -56,7 +56,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("CloseWithQ"),
   pattern = {
-    "checkhealth",
     "gitsigns-blame",
     "help",
     "qf",
@@ -118,21 +117,33 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Set up diagnostic on 'Lazy' filetype, if it hasn't been setup",
 })
 
-local did_setup = false
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("BetterCheckhealth"),
-  pattern = "checkhealth",
-  callback = function(ev)
-    if ev.file ~= "health://" then
-      vim.notify(" Running Healthchecks…", vim.log.levels.INFO, { title = "vim.health" })
-      return vim.schedule(function()
-        vim.cmd("hi Cursor blend=100")
-        vim.opt_local.guicursor:append("a:Cursor/lCursor")
-        vim.api.nvim_win_set_config(0, { hide = true })
-      end)
-    end
+---@return integer?
+local function get_checkhealth_win()
+  local wins = vim.api.nvim_list_wins()
 
-    if did_setup then return end
+  for _, id in ipairs(wins) do
+    local buf = vim.api.nvim_win_get_buf(id)
+    if vim.bo[buf].ft == "checkhealth" then return id end
+  end
+
+  return nil
+end
+
+vim.api.nvim_create_autocmd("Progress", {
+  group = augroup("BetterCheckhealth"),
+  pattern = { "vim.health" },
+  callback = function(ev)
+    local data = ev.data
+    if data.status ~= "success" then
+      vim.notify_once(" Running Healthchecks…", vim.log.levels.INFO, { title = "vim.health" })
+
+      vim.cmd("hi Cursor blend=100")
+      vim.opt_local.guicursor:append("a:Cursor/lCursor")
+
+      vim.bo[ev.buf].filetype = "checkhealth"
+      vim.api.nvim_win_set_config(0, { hide = true })
+      return
+    end
 
     local ns_id = vim.api.nvim_create_namespace("checkhealth_icons")
     local icon_map = {
@@ -145,16 +156,14 @@ vim.api.nvim_create_autocmd("FileType", {
     local extmarks = {}
     lines = vim.tbl_map(function(s)
       s = s:gsub("^%s", "")
-      local ext = vim
-        .iter(icon_map)
-        :map(function(emoji, val)
-          local col = s:find(emoji)
-          if col ~= nil then
-            s = s:gsub(emoji, val.icon)
-            return { col - 1, col, val.hl }
-          end
-        end)
-        :totable()
+      -- stylua: ignore
+      local ext = vim.iter(icon_map):map(function(emoji, val)
+        local col = s:find(emoji)
+        if col ~= nil then
+          s = s:gsub(emoji, val.icon)
+          return { col - 1, col, val.hl }
+        end
+      end):totable()
 
       table.insert(extmarks, ext)
       return s
@@ -162,20 +171,15 @@ vim.api.nvim_create_autocmd("FileType", {
 
     local win = Snacks.win({
       show = false,
-      border = "rounded",
-      width = 0.8,
-      height = 0.8,
-      minimal = true,
-      ft = "checkhealth",
-      style = "minimal",
-      wo = { concealcursor = "nvic" },
+      style = "small_float",
       title_pos = "center",
+      border = "rounded",
+      wo = { signcolumn = "no" },
       title = {
         { "", "CheckHealthTitleBg" },
         { "  Checkhealth ", "CheckHealthTitle" },
         { "", "CheckHealthTitleBg" },
       },
-      on_close = function() did_setup = false end,
     })
 
     ---@diagnostic disable-next-line: access-invisible
@@ -183,29 +187,41 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
     vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
 
+    local issue_url = assert(Utils.report({ open = false }))
+    _G.nvim_bugreport_open = function() vim.ui.open(issue_url) end
+
     vim.schedule(function()
-      vim.api.nvim_win_close(0, false)
       vim.cmd("hi Cursor blend=0")
       vim.opt_local.guicursor:remove("a:Cursor/lCursor")
 
+      local che_win = get_checkhealth_win()
+      if not che_win then
+        return vim.notify("No checkhealth window found!", vim.log.levels.ERROR, { title = "vim.health" })
+      end
+
+      vim.api.nvim_win_close(che_win, false)
       win:show()
+
       for i, line in ipairs(extmarks) do
         for _, ext in ipairs(line) do
           if vim.tbl_isempty(ext) then return end
-
-          vim.api.nvim_buf_set_extmark(buf, ns_id, i - 1, ext[1], {
-            end_col = ext[2],
-            hl_group = ext[3],
-          })
+          vim.api.nvim_buf_set_extmark(buf, ns_id, i - 1, ext[1], { end_col = ext[2], hl_group = ext[3] })
         end
       end
 
-      did_setup = true
+      local w = win:win_valid() and win.win ---@type integer
       vim.api.nvim_buf_set_name(buf, "health://")
       vim.bo[buf].filetype = "checkhealth"
+      vim.wo[w].winbar = "%#CheckHealthReport#%@v:lua.nvim_bugreport_open@ Click to Create Bug Report on GitHub%X%*"
+
+      vim.api.nvim_create_autocmd("BufDelete", {
+        buffer = buf,
+        once = true,
+        command = "lua _G.nvim_bugreport_open = nil",
+      })
     end)
   end,
-  desc = "Better Floating Checkhealth",
+  desc = "Fancy Checkhealth",
 })
 
 -- Remove the default TermClose autocmd
