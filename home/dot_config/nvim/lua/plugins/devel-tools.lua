@@ -11,43 +11,39 @@ return {
         }
       end)
     end,
+    ---@type conform.setupOpts
     opts = {
       default_format_opts = {
         timeout_ms = 3000,
         lsp_format = "fallback",
       },
+      ---@type table<string, conform.FileFormatterConfig>
       formatters = {
         biome = {
           args = { "check", "--write", "--stdin-file-path", "$FILENAME" },
           append_args = function(_, ctx)
-            if not Utils.format.has_config(ctx.dirname, "biome") then
-              return { "--config-path", vim.fn.stdpath("config") .. "/rules/biome.json" }
-            end
+            if Utils.format.has_config(ctx.dirname, "biome") then return {} end
+            return { "--config-path", vim.fs.joinpath(vim.fn.stdpath("config"), "rules", "biome.json") }
           end,
         },
         ["clang-format"] = {
           prepend_args = function(_, ctx)
-            if not Utils.format.has_config(ctx.dirname, "clang-format") then
-              return { "-style=file:" .. vim.fn.stdpath("config") .. "/rules/.clang-format" }
-            end
+            if Utils.format.has_config(ctx.dirname, "clang-format") then return {} end
+            return { "-style=file:" .. vim.fs.joinpath(vim.fn.stdpath("config"), "rules", ".clang-format") }
           end,
         },
         injected = { options = { ignore_errors = true } },
         oxfmt = {
           prepend_args = function(_, ctx)
-            if not Utils.format.has_config(ctx.dirname, "oxfmt") then
-              return { "-c", vim.fn.stdpath("config") .. "/rules/.oxfmtrc.json" }
-            end
+            if Utils.format.has_config(ctx.dirname, "oxfmt") then return {} end
+            return { "-c", vim.fs.joinpath(vim.fn.stdpath("config"), "rules", ".oxfmtrc.json") }
           end,
         },
-        shfmt = {
-          prepend_args = { "-i", "2", "-ci" },
-        },
+        shfmt = { prepend_args = { "-i", "2", "-ci" } },
         stylua = {
           prepend_args = function(_, ctx)
-            if not Utils.format.has_config(ctx.dirname, "stylua") then
-              return { "--config-path", vim.fn.stdpath("config") .. "/rules/stylua.toml" }
-            end
+            if Utils.format.has_config(ctx.dirname, "stylua") then return {} end
+            return { "--config-path", vim.fs.joinpath(vim.fn.stdpath("config"), "rules", "stylua.toml") }
           end,
         },
       },
@@ -72,7 +68,7 @@ return {
         toml = { "tombi" },
         typescript = { "oxfmt" },
         typescriptreact = { "oxfmt" },
-        typst = { "typstyle", lsp_format = "prefer" },
+        typst = { "injected", lsp_format = "prefer" },
         yaml = { "oxfmt" },
         zsh = { "shfmt" },
         ["_"] = { "trim_whitespace" },
