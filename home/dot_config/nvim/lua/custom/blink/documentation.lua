@@ -36,14 +36,12 @@ local lang_parse = {
     }
     -- stylua: ignore end
 
-    local indent = 2
-    local is_code = false
+    local indent, is_code = 2, false
     local unclosed = {}
     local lang = nil
     for i, line in ipairs(docs) do
       if line:match("```") then
-        is_code = not is_code
-        indent = 2
+        indent, is_code = 2, not is_code
 
         local cur_lang = line:match("```(%w+)")
         if cur_lang and not lang and is_code then
@@ -56,13 +54,13 @@ local lang_parse = {
       elseif is_code then
         local word = line:match("^%s*([%w]+)")
 
-        if word and DEC_INDENT[word] or line:find("^%s*}") then indent = math.max(2, indent - 2) end
+        if word and DEC_INDENT[word] or line:find("^%s*}") ~= nil then indent = math.max(2, indent - 2) end
 
         docs[i] = line:gsub("^%s+", (" "):rep(indent))
 
         if word and INC_INDENT[word] or line:find("{$") then indent = indent + 2 end
 
-        if line:find("end[%l]+$") then indent = math.max(2, indent - 2) end
+        if line:find("end[%l]+$") ~= nil then indent = math.max(2, indent - 2) end
       else
         docs[i] = line:gsub("^([^%`%s])", " %1"):gsub("$", " ")
       end
