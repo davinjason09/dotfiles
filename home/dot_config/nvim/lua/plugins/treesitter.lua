@@ -19,6 +19,7 @@ return {
         "git_config",
         "gitignore",
         "json",
+        "powershell",
         "pikchr",
         "printf",
         "regex",
@@ -34,7 +35,7 @@ return {
 
       local register = Utils.treesitter.register_parser
 
-      register("pikchr", { owner = "exlee" })
+      register("pikchr", { owner = "exlee", revision = "58546e862c3f75de41a017ef9b1904c99499414c" })
       register("autohotkey", { owner = "holy-tao", generate = true })
 
       vim.api.nvim_create_autocmd("User", {
