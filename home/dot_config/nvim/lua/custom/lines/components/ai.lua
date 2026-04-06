@@ -102,10 +102,10 @@ M.Copilot = {
     update = { "User", pattern = "UpdateCopilotStatus" },
     provider = function(self) return (" %s "):format(self.icon[(M.get_status() or {}).kind]) end,
     hl = function(self)
-      local state = M.get_status() or {}
+      local copilot_state = M.get_status() or {}
 
-      if state.busy then return { fg = self.color["InProgress"] } end
-      return { fg = self.color[state.kind] }
+      if copilot_state.busy then return { fg = self.color["InProgress"] } end
+      return { fg = self.color[copilot_state.kind] }
     end,
   },
 }
