@@ -1,15 +1,17 @@
 ---@class Utils.edit
 local M = {}
 
-M.CREATE_UNDO = Snacks.util.keycode("<C-g>u")
+M.CREATE_UNDO = vim.keycode("<C-g>u")
+M.ENTER = vim.keycode("<CR>")
+M.ESCAPE = vim.keycode("<ESC>")
 
 M.create_undo = function()
   if vim.api.nvim_get_mode().mode == "i" then vim.api.nvim_feedkeys(M.CREATE_UNDO, "n", false) end
 end
 
-M.escape = function() vim.api.nvim_feedkeys(Snacks.util.keycode("<ESC>"), "n", false) end
+M.escape = function() vim.api.nvim_feedkeys(M.ESCAPE, "n", false) end
 
-M.enter = function() vim.api.nvim_feedkeys(Snacks.util.keycode("<CR>"), "n", false) end
+M.enter = function() vim.api.nvim_feedkeys(M.ENTER, "n", false) end
 
 ---Save the current cursor position
 M.save_cursor_pos = function() vim.b.cursor_pos = vim.api.nvim_win_get_cursor(0) end
@@ -35,10 +37,10 @@ M.restore_cursor = function(offset)
     vim.b.cursor_pos = nil
   else
     vim.schedule(function()
-      if vim.fn.line("'c") ~= 0 then
-        vim.cmd("normal! g`c")
-        vim.api.nvim_buf_del_mark(0, "c")
-      end
+      if vim.fn.line("'c") == 0 then return end
+
+      vim.cmd("normal! g`c")
+      vim.api.nvim_buf_del_mark(0, "c")
     end)
   end
 end
@@ -49,10 +51,9 @@ M.add_line = function(dir)
   local ft = vim.bo.filetype
   local buftype = vim.bo.buftype
 
-  if not vim.bo.modifiable then return end
-
   -- Inside cmdline-window, execute the command with enter
   if ft == "vim" and buftype == "nofile" then M.enter() end
+  if not vim.bo.modifiable then return end
 
   local cmd = dir == "down" and "%s] %sj" or "%s[ %sk"
   local count = vim.v.count1
