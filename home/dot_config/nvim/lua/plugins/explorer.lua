@@ -27,10 +27,10 @@ return {
         function()
           local MiniFiles = _G.MiniFiles or require("mini.files")
           local buf_name = vim.api.nvim_buf_get_name(0)
-          local dir_name = vim.fn.fnamemodify(buf_name, ":p:h")
+          local dir_name = vim.fs.dirname(buf_name)
 
           -- Open the directory of the currently edited file
-          -- IF it doesn't exist, open cwd()
+          -- If it doesn't exist, open cwd()
           local path = vim.uv.cwd()
           if vim.fn.filereadable(buf_name) == 1 then
             path = buf_name
@@ -46,7 +46,7 @@ return {
         "<leader>ET",
         function()
           local MiniFiles = _G.MiniFiles or require("mini.files")
-          MiniFiles.open(vim.fn.stdpath("data") .. "/mini.files/trash", true)
+          MiniFiles.open(vim.fs.joinpath(vim.fn.stdpath("data"), "mini.files", "trash"), true)
         end,
         desc = "[E]xplorer: [T]rash",
       },
@@ -62,10 +62,8 @@ return {
       -- the screen.
       -- So as a workaround, we disable `use_as_default_explorer` and do this instead on a scheduled
       -- event.
-      if vim.fn.argc(-1) ~= 0 then
-        local arg = vim.fn.argv(0) --[[@as string]]
-        if vim.fn.isdirectory(arg) == 1 then vim.schedule(MiniFiles.open) end
-      end
+      local is_dir = vim.fn.argc(-1) ~= 0 and vim.fn.isdirectory(vim.fn.argc(0)) == 1
+      if is_dir then vim.schedule(function() MiniFiles.open() end) end
 
       -- NOTE:
       -- Handle cases when we open another floating window that makes the explorer to be out of focus
@@ -177,7 +175,7 @@ return {
 
           map({ "n", "i", "x" }, "<C-s>", function()
             if vim.fn.mode() ~= "n" then Utils.edit.escape() end
-            vim.defer_fn(MiniFiles.synchronize, 0)
+            vim.schedule(MiniFiles.synchronize)
           end, { buffer = buf, desc = "Synchronize" })
           map("n", "gy", yank_path, { buffer = buf, desc = "Yank path" })
           map("n", "g.", toggle_dotfiles, { buffer = buf, desc = "Toggle dotfiles" })
@@ -241,6 +239,11 @@ return {
           if #explorers == 0 then Snacks.explorer() end
         end,
         desc = "[E]xplorer: [T]ree",
+      },
+      {
+        "<leader>Ey",
+        function() Snacks.picker.terminal({ cmd = "yazi" }) end, ---@diagnostic disable-line: undefined-field
+        desc = "[E]xplorer: [y]azi",
       },
     },
   },
