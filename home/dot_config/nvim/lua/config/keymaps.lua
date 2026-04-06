@@ -47,8 +47,8 @@ map("x", "$", "g_", { silent = true })
 
 -- Add new line without entering insert mode
 -- NOTE: requires Neovim 0.11+ due to the new ]<space> and [<space> mappings
-map("n", "<S-CR>", function() Utils.edit.add_line("up") end, { silent = true } )
-map("n", "<CR>",   function() Utils.edit.add_line("down") end, { silent = true } )
+map("n", "<S-CR>", function() Utils.edit.add_line("up") end,   { expr = true, silent = true } )
+map("n", "<CR>",   function() Utils.edit.add_line("down") end, { expr = true, silent = true } )
 
 -- stylua: ignore end
 
@@ -65,14 +65,14 @@ end, { expr = true, desc = "Yank until the end" })
 -- stylua: ignore start
 
 -- Preserve cursor when commenting
-map({ "n", "x" }, "<leader>/", Utils.edit.comment, { desc = "Comment / Uncomment" })
-map("i",          "<C-/>",     Utils.edit.comment, { desc = "Comment / Uncomment" })
+map({ "n", "x" }, "<leader>/", function() Utils.edit.comment() end, { desc = "Comment / Uncomment" })
+map("i",          "<C-/>",     function() Utils.edit.comment() end, { desc = "Comment / Uncomment" })
 
 -- Emacs paste behavior
-map("n", "p", function() Utils.edit.paste("p") end, { desc = "Paste (After)", silent = true })
-map("n", "P", function() Utils.edit.paste("P") end, { desc = "Paste (Before)", silent = true })
+map("n", "p", function() Utils.edit.paste("p") end, { desc = "Paste (After)",         silent = true })
+map("n", "P", function() Utils.edit.paste("P") end, { desc = "Paste (Before)",        silent = true })
 map("x", "p", function() Utils.edit.paste("P") end, { desc = "Paste without yanking", silent = true })
-map("x", "P", function() Utils.edit.paste("p") end, { desc = "Paste with yank", silent = true })
+map("x", "P", function() Utils.edit.paste("p") end, { desc = "Paste with yank",       silent = true })
 
 -- stylua: ignore end
 
@@ -123,13 +123,12 @@ local mode_keys = { "v", "V", "\22" }
 for _, key in ipairs(mode_keys) do
   map("n", key, function()
     vim.cmd("normal! " .. key)
-
     if vim.fn.reg_recording() ~= "" or vim.fn.reg_executing() ~= "" then return end
-
     vim.schedule(function() require("which-key").show({ defer = key ~= "v" }) end)
   end)
 end
 
+-- stylua: ignore start
 -- Unmap default gr
 ---@param key string
 ---@param mode string | string[]
@@ -143,7 +142,6 @@ remove("grr", "n")
 remove("gri", "n")
 remove("grt", "n")
 
--- stylua: ignore start
 -- Removed functionality
 map({ "n", "x" }, "s", "<NOP>", { silent = true })
 
@@ -194,15 +192,13 @@ map("o", "N", "'nN'[v:searchforward]",      { expr = true, desc = "Prev search r
 
 -- Location and Quickfix List
 map("n", "<leader>xl", function()
-  local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
-
-  if not success and err then vim.notify(err, vim.log.levels.ERROR) end
+  local ok, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
+  if not ok and err then vim.notify(err, vim.log.levels.ERROR) end
 end, { desc = "Location List" })
 
 map("n", "<leader>xq", function()
-  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
-
-  if not success and err then vim.notify(err, vim.log.levels.ERROR) end
+  local ok, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+  if not ok and err then vim.notify(err, vim.log.levels.ERROR) end
 end, { desc = "Quickfix List" })
 
 -- Undo Breakpoints
@@ -239,7 +235,7 @@ map("n", "<leader>br", function() require("custom.lines.utils").close_in_directi
 -- Windows
 map("n", "<leader>|",  "<C-w>v", { desc = "Split Window Right [|]", remap = true })
 map("n", "<leader>_",  "<C-w>s", { desc = "Split Window Below [_]", remap = true })
-map("n", "<leader>wd", "<C-w>c", { desc = "Delete Window", remap = true })
+map("n", "<leader>wd", "<C-w>c", { desc = "Delete Window",          remap = true })
 
 -- Resize
 map("n", "<C-Down>",  "<CMD>resize +2<CR>",          { desc = "Increase Window Height" })
