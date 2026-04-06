@@ -187,4 +187,76 @@ M.clear_lsp_log = function()
   end
 end
 
+---@return string
+local function detect_terminal()
+  local e = vim.env
+  if e.TERM_PROGRAM then
+    local v = e.TERM_PROGRAM_VERSION ---@type string?
+    return e.TERM_PROGRAM_VERSION and (e.TERM_PROGRAM .. " " .. v) or e.TERM_PROGRAM
+  end
+
+  -- stylua: ignore
+  local map = {
+    KITTY_WINDOW_ID    = "kitty",
+    ALACRITTY_SOCKET   = "alacritty",
+    ALACRITTY_LOG      = "alacritty",
+    WEZTERM_EXECUTABLE = "wezterm",
+    KONSOLE_VERSION    = function() return "konsole " .. e.KONSOLE_VERSION end,
+    VTE_VERSION        = function() return "vte " .. e.VTE_VERSION end,
+  }
+
+  for key, val in pairs(map) do
+    local env = e[key] --- @type string?
+    if env then return type(val) == "string" and val or val() end
+  end
+
+  return "unknown"
+end
+
+---@param opts { open: boolean }
+---@return string?
+M.report = function(opts)
+  opts = vim.tbl_extend("force", { open = true }, opts)
+
+  local version_out = vim.api.nvim_exec2("version", { output = true }).output
+  local nvim_version = version_out:match("NVIM (v[^\n]+)") or "unknown"
+  local commit = (version_out:match("%+g(%x+)") or ""):sub(1, 12) ---@type string
+
+  local os_info = vim.uv.os_uname()
+  local os_string = os_info.sysname .. " " .. os_info.release
+  local terminal = detect_terminal()
+  local term_env = vim.env.TERM or "unknown"
+
+  local msg = [[
+    ## Problem
+
+    Describe the problem (concisely).
+
+    ## Steps to reproduce
+
+    ```
+    nvim --clean
+    ```
+
+    ## Expected behavior
+
+    ## System info
+
+    - Nvim version (nvim -v): `%s` neovim/neovim@%s
+    - Vim (not Nvim) behaves the same?: ?
+    - Operating system/version: %s
+    - Terminal name/version: %s
+    - $TERM environment variable: `%s`
+    - Installation: ?
+
+  ]]
+  local body = vim.text.indent(0, (msg):format(nvim_version, commit, os_string, terminal, term_env))
+  local encoded_body = vim.uri_encode(body) --- @type string
+  local issue_url = "https://github.com/neovim/neovim/issues/new?type=Bug&body=" .. encoded_body
+
+  if not opts.open then return issue_url end
+
+  vim.ui.open(issue_url)
+end
+
 return M

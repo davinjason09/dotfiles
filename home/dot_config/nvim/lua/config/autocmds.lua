@@ -208,27 +208,6 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Better Floating Checkhealth",
 })
 
-vim.api.nvim_create_autocmd("User", {
-  group = augroup("HideCopilotSuggestion"),
-  pattern = "BlinkCmpMenuOpen",
-  callback = function()
-    if not package.loaded["copilot"] then return end
-
-    local copilot = require("copilot.suggestion")
-    copilot.dismiss()
-
-    vim.b.copilot_suggestion_hidden = true
-  end,
-  desc = "Hide Copilot suggestion when BlinkCmp menu is open",
-})
-
-vim.api.nvim_create_autocmd("User", {
-  group = augroup("ShowCopilotSuggestion"),
-  pattern = "BlinkCmpMenuClose",
-  callback = function() vim.b.copilot_suggestion_hidden = false end,
-  desc = "Show Copilot suggestion when BlinkCmp menu is closed",
-})
-
 -- Remove the default TermClose autocmd
 local default_term_close = vim.api.nvim_get_autocmds({
   group = "nvim.terminal",
