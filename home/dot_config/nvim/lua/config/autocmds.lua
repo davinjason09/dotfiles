@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function(ev)
     local buf = ev.buf
     local ft = vim.filetype.match({ buf = buf }) or ""
-    local path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":p:~:.")
+    local path = vim.fs.relpath(".", vim.api.nvim_buf_get_name(buf))
 
     Snacks.notify.warn({
       ("Big file detected `%s`."):format(path),
@@ -249,17 +249,17 @@ vim.api.nvim_create_autocmd({ "TermClose" }, {
 ---@param level? vim.log.levels
 ---@param show? boolean
 local function chezmoi_notify(msg, level, show)
-  show = show or true
-  if msg == "" or msg == nil or not show then return end
-  vim.schedule(function() vim.notify(vim.trim(msg), level or vim.log.levels.INFO, { title = "Chezmoi" }) end)
+  if (msg == "" or msg == nil) or (show ~= nil and not show) then return end
+
+  level = level or vim.log.levels.INFO
+  vim.schedule(function() vim.notify(vim.trim(msg), level, { title = "Chezmoi", id = "chezmoi" }) end)
 end
 
 ---@param success_message? string
 ---@param handle_error? fun()
 ---@param opts? { verbose: boolean }
 local function chezmoi_on_exit(success_message, handle_error, opts)
-  local default_opts = { verbose = false }
-  opts = vim.tbl_deep_extend("force", default_opts, opts or {})
+  opts = vim.tbl_deep_extend("force", { verbose = false }, opts or {})
   success_message = success_message or ""
 
   ---@param obj vim.SystemCompleted
@@ -303,7 +303,7 @@ vim.api.nvim_create_autocmd("User", {
   group = augroup("ChezmoiUpdateLazyLock"),
   pattern = { "LazyDone", "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
   callback = vim.schedule_wrap(function()
-    local lock_file = vim.fs.normalize(vim.fn.stdpath("config") .. "/lazy-lock.json")
+    local lock_file = vim.fs.joinpath(vim.fn.stdpath("config"), "lazy-lock.json")
 
     chezmoi({ "diff", lock_file }, function(obj)
       if obj.code ~= 0 or obj.stdout == "" then return end
