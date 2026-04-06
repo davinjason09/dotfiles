@@ -89,10 +89,10 @@ return {
     end, { expr = true, replace_keycodes = true, buf = buf })
 
     -- Cycle to next suggestion
-    map("i", "<M-]>", function() vim.lsp.inline_completion.select() end)
+    map("i", "<M-]>", function() vim.lsp.inline_completion.select() end, { buffer = buf })
 
     -- Cycle to prev suggestion
-    map("i", "<M-[>", function() vim.lsp.inline_completion.select({ count = -1 }) end)
+    map("i", "<M-[>", function() vim.lsp.inline_completion.select({ count = -1 }) end, { buffer = buf })
   end,
   on_exit = vim.schedule_wrap(function()
     local unmap = vim.api.nvim_buf_del_keymap
