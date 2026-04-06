@@ -1,5 +1,5 @@
 return {
-  "Saghen/blink.cmp",
+  "saghen/blink.cmp",
   version = "1.*",
   event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
@@ -48,8 +48,9 @@ return {
           end
 
           vim.defer_fn(function()
-            win = opts.window:get_win()
+            win = opts.window:get_win() ---@type integer
 
+            vim.wo[win].signcolumn = "no"
             if win then
               vim.bo[buf].ft = "blink-cmp-documentation"
               vim.schedule(function() render({ buf = buf, event = "BlinkDraw" }) end)
@@ -134,7 +135,7 @@ return {
               return cmp.accept()
             end
 
-            return vim.fn.feedkeys(Snacks.util.keycode("<CR>"), "n")
+            Utils.edit.enter()
           end,
         },
 
