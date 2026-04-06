@@ -43,10 +43,7 @@ M.redraw = function(what)
   what = what or "stl"
 
   if what == "all" then
-    vim.schedule(function()
-      vim.cmd.redrawstatus()
-      vim.cmd.redrawtabline()
-    end)
+    vim.schedule(function() vim.cmd("redrawstatus | redrawtabline") end)
   elseif what == "tab" then
     vim.schedule(function() vim.cmd.redrawtabline() end)
   else
@@ -84,26 +81,28 @@ M.stop_spinner = function()
   end)
 end
 
+---@alias PrettyPathOpts { type: "absolute"|"relative", split: boolean?, truncate: boolean? }
+
 ---Get the pretty path for a file
 ---@param filename string
----@param path_type "absolute" | "relative"
----@return string
-M.pretty_path = function(filename, path_type)
-  local pattern = path_type == "absolute" and ":~" or ":."
-  filename = vim.fn.fnamemodify(filename, pattern)
+---@param opts PrettyPathOpts
+---@return string|{ parents: string, basename: string }
+M.pretty_path = function(filename, opts)
+  opts = vim.tbl_extend("force", { type = "relative", split = false, truncate = true }, opts) ---@type PrettyPathOpts
 
-  local splits = vim.split(filename, "/")
-  local output = ""
-  if #splits > 3 then
-    output = ("%s/…/%s"):format(
-      path_type == "absolute" and table.concat(splits, "/", 1, 2) or splits[1],
-      table.concat(splits, "/", #splits - 1, #splits)
-    )
+  local fname = vim.fn.fnamemodify(filename, opts.type == "absolute" and ":~" or ":.")
+  local parents, basename = vim.fs.dirname(fname), vim.fs.basename(fname)
+
+  parents = (parents ~= "." and parents ~= "") and parents or ""
+  basename = (basename ~= "." and basename ~= "") and basename or "[No Name]"
+
+  if opts.truncate then parents = parents:gsub("%f[^/][%w%d%p]+%f[/]", "…") end
+
+  if opts.split then
+    return { parents = parents, basename = basename }
   else
-    output = table.concat(splits, "/")
+    return ("%s%s%s"):format(parents, basename ~= "[No Name]" and "/" or "", basename)
   end
-
-  return output
 end
 
 M.get_bufs = function()
