@@ -122,15 +122,17 @@ return {
   {
     "folke/todo-comments.nvim",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-    opts = {},
+    opts = {
+      search = {
+        pattern = [[(?:\/\/|--(\[\[)?|\*|#\|?|%\{?|;|\{-)[\t ]*(?:(KEYWORDS):)]],
+      },
+    },
     -- stylua: ignore
     keys = {
-      ---@diagnostic disable: undefined-field
-      { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "[S]earch [T]ODO", },
-      { "<leader>sT", function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "[S]earch [T]ODO/FIX/FIXME", },
+      { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "[S]earch [T]ODO", }, ---@diagnostic disable-line: undefined-field
+      { "<leader>sT", function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "[S]earch [T]ODO/FIX/FIXME", }, ---@diagnostic disable-line: undefined-field
       { "[T", function() require("todo-comments").jump_prev() end, desc = "Prev TODO" },
       { "]T", function() require("todo-comments").jump_next() end, desc = "Next TODO" },
-      ---@diagnostic enable: undefined-field
     },
   },
 }
