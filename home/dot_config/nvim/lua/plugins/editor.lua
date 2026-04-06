@@ -79,7 +79,11 @@ return {
         spelling = { enabled = false },
       },
       icons = Defaults.which_key_rules,
+      disable = {
+        ft = { "minifiles", "minifiles-help" },
+      },
       spec = {
+        -- stylua: ignore
         {
           mode = { "n", "v" },
           { "<leader>c", group = "code" },
@@ -94,17 +98,8 @@ return {
           { "<leader>sn", group = "noice" },
           { "<leader>u", group = "ui" },
           { "<leader>x", group = "diagnostics/quickfix" },
-          {
-            "<leader>b",
-            group = "buffer",
-            expand = function() return require("which-key.extras").expand.buf() end,
-          },
-          {
-            "<leader>w",
-            group = "windows",
-            proxy = "<C-w>",
-            expand = function() return require("which-key.extras").expand.win() end,
-          },
+          { "<leader>b", group = "buffer",  expand = function() return require("which-key.extras").expand.buf() end, },
+          { "<leader>w", group = "windows", expand = function() return require("which-key.extras").expand.win() end, proxy = "<C-w>", },
           { "[", group = "prev" },
           { "]", group = "next" },
           { "g", group = "goto" },
@@ -114,6 +109,7 @@ return {
           { "s", group = "surround" },
           { "z", group = "fold" },
         },
+        { "<leader>a", group = "ai", icon = { icon = "", hl = "@field" } },
         { "sn", desc = "Update `n` lines" },
       },
     },
