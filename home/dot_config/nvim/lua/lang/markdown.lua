@@ -59,7 +59,6 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
     ft = { "markdown" },
-    ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
       enabled = true,
@@ -72,13 +71,13 @@ return {
         -- stylua: ignore
         custom = {
           inprogress = { raw = "[~]", rendered = "", highlight = "RenderMarkdownH6" },
-          pending    = { raw = "[/]", rendered = "󱫫", highlight = "RenderMarkdownH2" },
+          todo       = { raw = "[/]", rendered = "󱫫", highlight = "RenderMarkdownH2" },
           cancelled  = { raw = "[-]", rendered = "", highlight = "RenderMarkdownError" },
           starred    = { raw = "[*]", rendered = "", highlight = "RenderMarkdownH3" },
-          bookmark   = { raw = "[b]", rendered = "", highlight = "RenderMarkdownH2" },
           question   = { raw = "[?]", rendered = "", highlight = "RenderMarkdownHint" },
-          info       = { raw = "[i]", rendered = "", highlight = "RenderMarkdownInfo" },
           warning    = { raw = "[!]", rendered = "", highlight = "RenderMarkdownHint" },
+          bookmark   = { raw = "[b]", rendered = "", highlight = "RenderMarkdownH2" },
+          info       = { raw = "[i]", rendered = "", highlight = "RenderMarkdownInfo" },
         },
       },
       code = {
