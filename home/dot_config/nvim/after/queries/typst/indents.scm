@@ -1,5 +1,7 @@
 ; extends
 
+(context) @indent.begin
+
 (math
   (formula)) @indent.auto
 
@@ -10,16 +12,11 @@
   (#set! indent.immediate 1))
 
 [
-  (block)
-  (group)
-  (tagged
-    (content))
-  (group
-    (content))
-  (code
-    (content))
-  (math)
-] @indent.begin
+  ")"
+  "]"
+  "}"
+  "$"
+] @indent.end @indent.branch
 
 [
   (item
@@ -28,19 +25,6 @@
   (ERROR)
 ] @indent.auto
 
-[
-  "("
-  ")"
-  "["
-  "]"
-  "{"
-  "}"
-  "$"
-] @indent.branch
-
-[
-  ")"
-  "]"
-  "}"
-  "$"
-] @indent.end
+((ERROR
+  (call)) @indent.begin
+  (#set! indent.immediate 1))
