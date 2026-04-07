@@ -89,13 +89,14 @@ return {
   },
   {
     "eero-lehtinen/oklch-color-picker.nvim",
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile", "BufEnter" },
     version = "*",
     opts = {
       highlight = {
         style = "virtual_left",
         virtual_text = Defaults.icons.kind.Color,
-        ignore_ft = { "blink-cmp-menu", "noice", "lazy" },
+        ignore_ft = { "blink-cmp-menu", "noice", "lazy", "snacks_picker_list" },
+        enabled_lsps = { "tailwindcss", "emmylua_ls" },
       },
       patterns = {
         hex = { priority = -1, "%f[^\"':%s>]()#%x%x%x+%f[%W%p%s%c%z]()" },
