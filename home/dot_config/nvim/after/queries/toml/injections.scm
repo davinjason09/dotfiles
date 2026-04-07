@@ -41,6 +41,7 @@
 ((pair
   (bare_key) @key
   (string) @injection.content @injection.language)
+  (#is-mise?)
   (#any-of? @key "run" "postinstall" "preinstall" "cd" "enter" "leave")
   (#match? @injection.language "^['\"]{3}\n* #!(/\\w+)+/env\\s+\\w+")
   (#gsub! @injection.language "^.*#!/.*/env%s+([^%s\n]+).*" "%1")
@@ -50,6 +51,7 @@
 ((pair
   (bare_key) @key
   (string) @injection.content @injection.language)
+  (#is-mise?)
   (#any-of? @key "run" "postinstall" "preinstall" "cd" "enter" "leave")
   (#match? @injection.language "^['\"]{3}\n* #!(/\\w+)+\\s*\n")
   (#gsub! @injection.language "^.*#!/.*/([^/%s\n]+).*" "%1")
@@ -59,6 +61,7 @@
 ((pair
   (bare_key) @key
   (string) @injection.content)
+  (#is-mise?)
   (#any-of? @key "run" "postinstall" "preinstall" "cd" "enter" "leave")
   (#match? @injection.content "^['\"]{3}")
   (#not-match? @injection.content "^['\"]{3}\n* #!")
@@ -69,6 +72,7 @@
 ((pair
   (bare_key) @key
   (string) @injection.content)
+  (#is-mise?)
   (#any-of? @key "run" "postinstall" "preinstall" "cd" "enter" "leave")
   (#not-match? @injection.content "^['\"]{3}")
   (#set! injection.language "bash")
