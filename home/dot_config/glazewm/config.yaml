@@ -148,6 +148,11 @@ window_rules:
       - window_process: { equals: 'ShareX' }
         window_title: { regex: 'ShareX - *' }
 
+  - commands: ['set-tiling']
+    match:
+      - window_process: { equals: 'sioyek' }
+        window_class: { equals: 'Qt5152QWindowIcon' }
+
 keybindings:
   # Shift focus in a given direction.
   - commands: ['focus --direction left']
