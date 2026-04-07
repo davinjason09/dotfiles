@@ -6,10 +6,7 @@ local function on_attach(client, buf)
   ---@param rhs string|function
   ---@param desc string
   ---@param mode? string|string[]
-  local function map(lhs, rhs, desc, mode)
-    mode = mode or "n"
-    vim.keymap.set(mode, lhs, rhs, { buffer = buf, desc = desc })
-  end
+  local function map(lhs, rhs, desc, mode) vim.keymap.set(mode or "n", lhs, rhs, { buffer = buf, desc = desc }) end
 
   -- stylua: ignore start
   map("gs", function() Snacks.picker.lsp_symbols() end,         "[G]oto [S]ymbol")
@@ -37,31 +34,42 @@ local function on_attach(client, buf)
     map("[[", function() Snacks.words.jump(-vim.v.count1, true) end, "Previous Reference")
   end
 
-  Snacks.util.lsp.on(
-    { method = "textDocument/inlineCompletion" },
-    function(bufnr) vim.lsp.inline_completion.enable(true, { bufnr = bufnr }) end
-  )
+  -- NOTE:
+  -- Most color swatched is handled by "eero-lehtinen/oklch-color-picker.nvim" as not all LSP implements
+  -- textDocument/documentColor. So we only enable this as long as `vim.lsp.document_color` is enabled
+  -- in the current buffer, and let "eero-lehtinen/oklch-color-picker.nvim" handle it
+  if client:supports_method("textDocument/documentColor") then
+    -- Defer 100ms because a race condition is possible between this autocmd with the plugin's autocmd
+    vim.defer_fn(function()
+      local is_enabled = vim.lsp.document_color.is_enabled({ bufnr = buf })
+      vim.lsp.document_color.enable(is_enabled, { bufnr = buf }, { style = "󱓻 " })
+    end, 10)
+  end
 
-  Snacks.util.lsp.on({ method = "textDocument/inlayHint" }, function(bufnr)
-    if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].buftype == "" then
-      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  if client:supports_method("textDocument/inlineCompletion") then
+    vim.lsp.inline_completion.enable(true, { bufnr = buf })
+  end
+
+  if client:supports_method("textDocument/inlayHint") then
+    if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buftype == "" then
+      vim.lsp.inlay_hint.enable(true, { bufnr = buf })
       Snacks.toggle.inlay_hints():map("<leader>uh")
     end
-  end)
+  end
 
   if client:supports_method("textDocument/signatureHelp") then
-    local blink = Utils.lazy_require("blink.cmp")
-
     map("<C-k>", function()
+      local blink = require("blink.cmp")
+
       if blink.is_signature_visible() then blink.hide_signature() end
       vim.lsp.buf.signature_help(Defaults.hover_opts --[[@as vim.lsp.buf.signature_help.Opts]])
     end, "Signature Help", "i")
   end
 
-  Snacks.util.lsp.on({ method = "textDocument/foldingRange" }, function()
+  if client:supports_method("textDocument/foldingRange") then
     vim.api.nvim_set_option_value("foldmethod", "expr", { scope = "local" })
     vim.api.nvim_set_option_value("foldexpr", "v:lua.vim.lsp.foldexpr()", { scope = "local" })
-  end)
+  end
 end
 
 -- Override default LSP hover and signature help to use a custom border and max size
@@ -127,8 +135,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         { title = "LSP" }
       )
     end
-
-    if client.name == "copilot" then return end
 
     on_attach(client, ev.buf)
 
