@@ -84,12 +84,11 @@ return {
     self.min_width = 20
 
     local diagnostic = vim.split(vim.diagnostic.status(self.bufnr), "[%s:%d]-%s-%%#%w-#", { trimempty = true })[1]
-    local icon_hl = { [""] = "red", [""] = "teal", [""] = "sky", [""] = "yellow" }
 
     self.text_hl, self.diag_icon = "text", ""
     self.has_diagnostic = diagnostic ~= nil
     if self.has_diagnostic then
-      self.text_hl, self.diag_icon = icon_hl[diagnostic], diagnostic
+      self.text_hl, self.diag_icon = self.icon_to_hl[diagnostic], diagnostic
     end
   end,
   hl = function(self)

@@ -115,6 +115,13 @@ return {
     },
     mode_color = function(self) return self.mode_colors[vim.fn.mode()][1] end,
     mode_icon = function(self) return self.mode_colors[vim.fn.mode()][2] end,
+
+    icon_to_hl = {
+      [""] = "red",
+      [""] = "teal",
+      [""] = "sky",
+      [""] = "yellow",
+    },
   },
 
   fallthrough = false,

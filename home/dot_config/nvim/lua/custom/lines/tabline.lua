@@ -3,6 +3,9 @@ local Common = require("custom.lines.common").components
 local utils = require("heirline.utils")
 
 return {
+  static = {
+    icon_to_hl = { [""] = "red", [""] = "teal", [""] = "sky", [""] = "yellow" },
+  },
   Comp.Offset("left"),
   Comp.Misc.Tabline.Left,
   Comp.Macro,
