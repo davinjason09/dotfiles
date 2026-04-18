@@ -103,6 +103,3 @@
     install_msi $MISE_TOOL_INSTALL_PATH glazewm.msi --helper=glazewm --stop_cmd="command wm-exit" --start_cmd="start"
     '''
   }
-
-[hooks]
-  postinstall = "mise prune --tools --yes"
