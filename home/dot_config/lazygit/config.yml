@@ -3,7 +3,7 @@
 gui:
   sidePanelWidth: 0.2
   tabWidth: 2
-  nerdFontsVersion: ''
+  fileTreeSortOrder: foldersFirst
   theme:
     activeBorderColor:
       - '#89dceb'
@@ -28,16 +28,16 @@ gui:
     '*': '#b4befe'
   spinner:
     frames:
-      - '⠋'
-      - '⠙'
-      - '⠹'
-      - '⠸'
-      - '⠼'
-      - '⠴'
-      - '⠦'
-      - '⠧'
-      - '⠇'
-      - '⠏'
+      - ⠋
+      - ⠙
+      - ⠹
+      - ⠸
+      - ⠼
+      - ⠴
+      - ⠦
+      - ⠧
+      - ⠇
+      - ⠏
     rate: 50
 git:
   overrideGpg: true
@@ -45,9 +45,9 @@ git:
     - colorArg: always
       pager: delta --dark --paging=never --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
 customCommands:
-  - key: 'C'
-    command: 'meteor'
-    description: 'commit with conventional commit'
-    context: 'files'
-    loadingText: 'opening commitizen commit tool'
+  - key: C
+    command: meteor
+    description: commit with conventional commit
+    context: files
+    loadingText: opening commitizen commit tool
     output: terminal
