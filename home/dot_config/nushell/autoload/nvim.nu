@@ -1,7 +1,11 @@
+def list_appnames [] {
+  glob $"($env.XDG_CONFIG_HOME)/{nv*,*vim}" --depth 1 | path split | each {|x| $x | last}
+}
+
 @complete external
 def --wrapped nvim [
-  --app (-A): string # [cfgfile]: Use NVIM_APPNAME [cfgfile]
-  ...rest: string    # file arguments to open nvim
+  --app (-A): string@list_appnames # [cfgfile]: Use NVIM_APPNAME [cfgfile]
+  ...rest: string                       # file arguments to open nvim
 ] {
   let setup_socat = ($rest | split row " " | any {|x| $x in [-Es -es --embed --headless]})
 
@@ -20,7 +24,7 @@ def --wrapped nvim [
   with-env { NVIM_APPNAME: $app } { ^nvim ...$rest }
 }
 
-def rm_nvim_cache [appname: string] {
+def rm_nvim_cache [appname: string@list_appnames] {
   try { rm -r $"($env.XDG_DATA_HOME)/($appname)" }
   try { rm -r $"($env.XDG_STATE_HOME)/($appname)" }
   try { rm -r $"($env.XDG_CACHE_HOME)/($appname)" }
