@@ -1,11 +1,15 @@
+{{ if .isWSL -}}
+alias nu-open = %open
+{{- end }}
 alias nu-ls = %ls
 
 alias reload = exec nu
 alias lg = lazygit
 alias g = git
-alias nu-open = open
-alias core-ls = ls
-alias open = xdg-open
+{{ if .isWSL -}}
+alias open = wslview
+{{- end }}
+
 let IGNORE_GLOB = "'.DS_STORE|*ntuser*|*NTUSER*'"
 let EZA_OPTS = [ --git --group-directories-first --icons=always --color=always --time-style '+%Y-%m-%d %H:%M:%S' -I $IGNORE_GLOB ]
 
