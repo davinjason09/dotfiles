@@ -79,11 +79,14 @@
 
     button,
     groupbox menulist {
-      background: #313244 !important;
       color: #cdd6f4 !important;
     }
 
     .main-content {
+      background-color: #11111b !important;
+    }
+
+    .sticky-content {
       background-color: #11111b !important;
     }
 
