@@ -1,3 +1,4 @@
+---@type Config
 return {
   allow_win32_input_mode = false,
   enable_kitty_keyboard = true,

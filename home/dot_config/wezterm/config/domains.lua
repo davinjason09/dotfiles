@@ -7,6 +7,7 @@ for _, item in ipairs(wsl_domains) do
   item.default_prog = { "/usr/bin/nu", "-l" }
 end
 
+---@type Config
 return {
   ssh_domains = ssh_domains,
   wsl_domains = wsl_domains,

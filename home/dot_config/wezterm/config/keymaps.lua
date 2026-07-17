@@ -66,6 +66,7 @@ local keys = {
   { key = "/",  mods = mod.LEADER, action = act.Search({ CaseInSensitiveString = "" }) },
 }
 
+---@type Config
 return {
   disable_default_key_bindings = true,
   leader = { key = "Space", mods = "ALT", timeout_milliseconds = 1500 },
