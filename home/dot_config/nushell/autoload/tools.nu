@@ -8,16 +8,6 @@ def --env yz [...args] {
 	rm -fp $tmp
 }
 
-# Upload file to envs.sh
-def 0file [file: path] {
-  http post https://envs.sh --content-type "multipart/form-data" { file: (open -r $file | into binary) }
-}
-
-# Shorten link using envs.sh
-def 0short [url: string] {
-  http post https://envs.sh --content-type "multipart/form-data" { shorter: $url }
-}
-
 def cc [file: path] {
   let clang_ver = clang --version | lines | first | parse --regex '(\d+)' | get capture0.0
   let lib = $"/usr/lib/clang/($clang_ver)/lib/linux/"
@@ -28,7 +18,7 @@ def cc [file: path] {
 
   match $ext {
     c    => { zig cc ...$args }
-    cpp  => { zig c++ -std=c++20 -Wno-vla-cxx-extension ...$args }
+    cpp  => { zig c++ -std=c++20 -Wno-vla-cxx-extension -Wno-nullability-completeness ...$args }
     java => { javac $file }
   }
 }
@@ -41,8 +31,7 @@ def cc_run [
 
   match ($parsed | get extension) {
     c | cpp  => {
-      cc $file
-      ./a.out
+      cc $file; ./a.out
       if $remove_bin { try { rm ./a.out } }
     }
     java => { java $file }
@@ -87,7 +76,7 @@ def yeet [...packages] {
 
   let formatted = $removed_packages | each {|x| $"- ($x)\n" } | str join ""
   with-env {
-    GUM_FORMAT_THEME: ($nu.home-dir | path join ".config" "glamour" "catppuccin.json")
+    GUM_FORMAT_THEME: ($env.XDG_CONFIG_HOME | path join "glamour" "catppuccin.json")
   } {
     $"# Package to remove:\n($formatted)" | gum format
   }
@@ -109,4 +98,8 @@ def yeet [...packages] {
       gum log --level info "\nCancelling..."
     }
   }
+}
+
+def run_pwsh [ ...rest ] {
+  pwsh -Noprofile -c ...$rest
 }
