@@ -16,7 +16,7 @@ def get-clock-icon []: [nothing -> string] {
 }
 
 def get-git-root []: [nothing -> string] {
-  git rev-parse --show-toplevel | complete | get stdout | str trim
+  do { git rev-parse --show-toplevel } | complete | get stdout | str trim
 }
 
 def get-title []: [nothing -> string] {
@@ -24,7 +24,7 @@ def get-title []: [nothing -> string] {
   let git_dir = $env.LAST_REPO
 
   if ($git_dir | is-not-empty) {
-    let prefix = $" ($git_dir | split row '/' | last)"
+    let prefix = $" ($git_dir | path basename)"
     $path = ($path | str replace $git_dir $prefix)
   }
 

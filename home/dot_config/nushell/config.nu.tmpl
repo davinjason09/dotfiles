@@ -45,11 +45,16 @@ path add [
   {{- end }}
 ]
 
-if (has chezmoi) { $env.CHEZMOI_HOME = do { chezmoi source-path } | str trim }
-
 mut paths = []
 
+if (has chezmoi) { $env.CHEZMOI_HOME = do { chezmoi source-path } | str trim }
+
 if (has bob) { $paths ++= [($env.XDG_DATA_HOME | path join "bob" "nvim-bin")] }
+
+if (has mise) {
+  $env.MISE_HOME = $env.XDG_DATA_HOME | path join "mise"
+  $paths ++= [($env.MISE_HOME | path join "shims")]
+}
 
 if (has go) {
   $env.GOPATH = $env.HOME | path join "code" "go"
@@ -71,14 +76,12 @@ if ($bun_dir | path exists) {
 
 if ("/usr/lib/rustup/bin" | path exists) { $paths ++= ["/usr/lib/rustup/bin"] }
 
-if (has mise) { $paths ++= [($env.HOME | path join ".local" "share" "mise" "shims")] }
-
 path add $paths
 
 $env.EDITOR = if (has nvim) { "nvim" } else { "vim" }
 $env.VISUAL = $env.EDITOR
 
-# ╾╼ Config ╾────────────────────────────────────────────────────────────╼
+# ╾╼ Config ╾──────────────────────────────────────────────────────────╼
 $env.config.buffer_editor = 'nvim'
 $env.config.show_banner = false
 $env.config.use_kitty_protocol = true
@@ -89,9 +92,9 @@ $env.config.shell_integration.osc633 = false
 $env.config.table.missing_value_symbol = $"(ansi red)(ansi reset)"
 
 $env.config.cursor_shape = {
-  emacs: "line"
-  vi_insert: "line"
-  vi_normal: "block"
+  emacs: line
+  vi_insert: line
+  vi_normal: block
 }
 
 $env.config.history = {

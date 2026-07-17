@@ -2,7 +2,6 @@ $env.FZF_DEFAULT_COMMAND = "fd . --strip-cwd-prefix --exclude '.git' --exclude '
 $env.FZF_CTRL_T_COMMAND = $env.FZF_DEFAULT_COMMAND
 $env.FZF_ALT_C_COMMAND = "fd . --type=d --strip-cwd-prefix --exclude '.git' --exclude 'node_modules' --color=always --no-ignore-parent --unrestricted"
 
-
 $env.FZF_DEFAULT_OPTS = "
   --color='
     fg:#CDD6F4,     fg+:#BAC2DE,     bg+:#181825,     bg:-1
