@@ -6,11 +6,7 @@ general:
   shutdown_commands: []
 
   # Commands to run after the WM config is reloaded.
-  config_reload_commands:
-    [
-      'shell-exec --hide-window pwsh %HOMEPATH%/.glzr/glazewm/scripts/start.ps1',
-      'shell-exec --hide-window yasbc reload',
-    ]
+  config_reload_commands: ['shell-exec --hide-window pwsh %HOMEPATH%/.glzr/glazewm/scripts/start.ps1']
 
   # Whether to automatically focus windows underneath the cursor.
   focus_follows_cursor: false
@@ -147,6 +143,8 @@ window_rules:
         window_title: { regex: 'Sign [Ii]n - Google Accounts — Zen Browser' }
       - window_process: { equals: 'ShareX' }
         window_title: { regex: 'ShareX - *' }
+      - window_process: { equals: 'pwsh' }
+        window_title: { regex: 'WinUtil *' }
 
   - commands: ['set-tiling']
     match:
