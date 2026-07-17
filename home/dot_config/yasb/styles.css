@@ -429,7 +429,6 @@ QPushButton {
   border-radius: 6px;
   border: 1px solid var(--surface2);
   padding: 1px 0;
-  min-width: 0px;
 }
 
 .taskbar-widget .app-container {
@@ -883,7 +882,7 @@ QPushButton {
   color: var(--pink);
 }
 
-.memory-widget .progress-circle {
+.memory-widget .progress-container {
   padding: 0 2px 0 0;
 }
 
@@ -992,7 +991,7 @@ QPushButton {
   color: var(--pink);
 }
 
-.cpu-widget .progress-circle {
+.cpu-widget .progress-container {
   padding: 0 2px 0 0;
 }
 
