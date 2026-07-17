@@ -10,17 +10,17 @@
 
 [tool_alias]
   # LSP
-  marksman  = "aqua:artempyanykh/marksman"  # Markdown
-  harper_ls = "aqua:Automattic/harper/harper-ls"  # English
-  tinymist  = "aqua:Myriad-Dreamin/tinymist"  # Typst
-  tombi     = "aqua:tombi-toml/tombi"  # TOML
+  marksman = "aqua:artempyanykh/marksman"  # Markdown
+  tinymist = "aqua:Myriad-Dreamin/tinymist"  # Typst
 
   ty          = "github:astral-sh/ty"  # Python
+  harper_ls   = "github:Automattic/harper"  # English
   clangd      = "github:clangd/clangd"  # C++
   emmylua_ls  = "github:EmmyLuaLs/emmylua-analyzer-rust"  # Lua
   ts_query_ls = "github:ribru17/ts_query_ls"  # Treesitter Query
+  just_ls     = "github:terror/just-lsp"  # Justfile
 
-  jdtls = "http:jdtls"  # Java
+  # jdtls = "http:jdtls"  # Java
 
   astro_ls     = "npm:@astrojs/language-server"  # Astro
   bash_ls      = "npm:bash-language-server"  # Bash
@@ -31,23 +31,26 @@
   json_ls      = "npm:vscode-langservers-extracted"  # JSON
   yaml_ls      = "npm:yaml-language-server"  # YAML
 
+  tombi = "pipx:tombi"  # TOML
+
   # Formatter
-  biome  = "aqua:biomejs/biome"  # Astro (temp)
   stylua = "aqua:JohnnyMorganz/StyLua"  # Lua
   shfmt  = "aqua:mvdan/sh"  # Bash
 
   luafmt = "github:EmmyLuaLs/emmylua-analyzer-rust"  # Lua
 
+  biome       = "npm:@biomejs/biome"  # Astro (temp)
   bibtex-tidy = "npm:bibtex-tidy"  # Bibtex
   oxfmt       = "npm:oxfmt"  # TS, TSX, JSON, CSS, YAML, Markdown, MDX
 
   clang_format = "pipx:clang-format"  # C++, Java
 
   # Linter
-  ruff = "aqua:astral-sh/ruff"  # Python
+  ruff = "github:astral-sh/ruff"  # Python
 
   # Tools
   tree-sitter = "aqua:tree-sitter/tree-sitter"
+  usage       = "github:jdx/usage"
 
   # Windows Tools
   yasb    = "github:amnweb/yasb"
@@ -59,13 +62,12 @@
   clangd       = "latest"
   copilot      = "latest"
   emmylua_ls   = { version = "latest", platforms = { linux-x64 = { asset_pattern = "emmylua_ls-linux-x64-*.tar.gz" } } }
-  harper_ls    = "latest"
-  jdtls        = {
-    version  = "1.58.0",
-    url      = "https://download.eclipse.org/jdtls/milestones/{{ version }}/jdt-language-server-{{ version }}-202604151538.tar.gz",
-    bin_path = "bin"
+  harper_ls    = {
+    version   = "latest",
+    platforms = { linux-x64 = { asset_pattern = "harper-ls-x86_64-*linux*.tar.gz" } }
   }
   json_ls      = "latest"
+  just_ls      = "latest"
   marksman     = "latest"
   mdx_analyzer = "latest"
   tailwind_ls  = "latest"
@@ -90,6 +92,7 @@
 
   # Tools
   tree-sitter = "latest"
+  usage       = "latest"
 
   # Windows Tools
   yasb    = {
