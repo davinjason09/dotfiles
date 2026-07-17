@@ -23,7 +23,7 @@ def main [
     try {
       if $use_helper {
         print $"Running helper stop: ($helper) ($stop_cmd)"
-        do { $"($helper) ($stop_cmd)" }
+        run-external $helper $stop_cmd
       }
 
       cp $"($tool_path)/($msi_name)" $"($env.WIN_HOME)/Downloads/"
@@ -32,13 +32,13 @@ def main [
       print $"Running Windows Installer: ($msi_name)..."
       cmd.exe /c $"start /wait msiexec.exe /i %USERPROFILE%\\Downloads\\($msi_name) /passive"
 
-    } catch { |err|
+    } catch {|err|
       print $"An error occurred during installation: ($err.msg)"
     }
 
     if $use_helper {
       print $"Running helper start: ($helper) ($start_cmd)"
-      do { $"($helper) ($start_cmd)" }
+      run-external $helper $start_cmd
     }
 
     print "Update process complete."
