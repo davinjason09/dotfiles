@@ -1,9 +1,8 @@
 local wez = require("wezterm") ---@type Wezterm
 
+---@type Config
 return {
   font_size = 7.75,
-  command_palette_font_size = 7.75,
-  char_select_font_size = 7.75,
 
   font = wez.font_with_fallback({
     "JetBrainsMono Nerd Font",
@@ -43,6 +42,17 @@ return {
       }),
     },
   },
+
+  command_palette_font = wez.font("JetBrainsMono Nerd Font"),
+  command_palette_font_size = 7.75,
+  command_palette_bg_color = "#181825",
+  command_palette_rows = 15,
+  command_palette_fg_color = "#CDD6F4",
+
+  char_select_font = wez.font("JetBrainsMono Nerd Font"),
+  char_select_font_size = 7.75,
+  char_select_bg_color = "#181825",
+  char_select_fg_color = "#CDD6F4",
 
   underline_thickness = 2,
   underline_position = -4,
