@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "theme": "catppuccin",
+  "keybinds": {
+    "leader": "ctrl+x",
+    "app_exit": "ctrl+c,<leader>z",
+    "sidebar_toggle": "<leader>b",
+    "messages_first": "ctrl+g",
+    "messages_last": "ctrl+shift+g",
+    "input_select_line_home": "ctrl+shift+home",
+    "input_select_line_end": "ctrl+shift+end",
+    "input_select_word_backward": "ctrl+shift+left",
+    "input_select_word_forward": "ctrl+shift+right"
+  },
+  "plugin": ["@slkiser/opencode-quota", "oh-my-opencode-slim"]
+}
