@@ -1,7 +1,12 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [settings]
-  experimental = true
+  color_theme                  = "catppuccin"
+  github_attestations          = false
+  cargo.binstall               = true
+  npm.package_manager          = "bun"
+  pipx.uvx                     = true
+  minimum_release_age_excludes = ["ty", "tsgo"]
 
 [tool_alias]
   # LSP
