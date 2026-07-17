@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/EmmyLuaLs/emmylua-analyzer-rust/refs/heads/main/crates/emmylua_code_analysis/resources/schema.json",
+  "runtime": {
+    "version": "Lua5.5"
+  },
+  "workspace": {
+    "library": ["$XDG_CONFIG_HOME/yazi/plugins/types.yazi/", "$XDG_CONFIG_HOME/yazi/plugins/"],
+    "ignoreDir": ["flavors"],
+    "checkThirdParty": false
+  },
+  "diagnostics": {
+    "disable": [
+      "assign-type-mismatch",
+      "global-in-non-module",
+      "missing-fields",
+      "need-check-nil",
+      "param-type-not-match",
+      "unnecessary-if",
+      "unnecessary-assert",
+      "unresolved-require"
+    ]
+  }
+}
