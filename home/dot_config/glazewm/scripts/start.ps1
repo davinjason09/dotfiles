@@ -13,8 +13,13 @@ if (-not (Has-Started "yasb")) {
   yasbc start
 }
 
-start $HOME/.glzr/glazewm/scripts/keymaps.ahk
-start Everything --startup
+if (-not (Has-Started "Autohotkey64")) {
+  start $HOME/.glzr/glazewm/scripts/keymaps.ahk
+}
+
+if (-not (Has-Started "Everything")) {
+  start Everything --startup
+}
 
 if (-not (Has-Started "kanata-tray")) {
   start kanata-tray
