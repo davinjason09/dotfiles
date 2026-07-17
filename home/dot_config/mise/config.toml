@@ -53,8 +53,9 @@
   usage       = "github:jdx/usage"
 
   # Windows Tools
-  yasb    = "github:amnweb/yasb"
-  glazewm = "github:glzr-io/glazewm"
+  yasb          = "github:amnweb/yasb"
+  glazewm       = "github:glzr-io/glazewm"
+  tacky-borders = "github:lukeyou05/tacky-borders"
 
 [tools]
   astro_ls     = "latest"
@@ -95,7 +96,7 @@
   usage       = "latest"
 
   # Windows Tools
-  yasb    = {
+  yasb          = {
     version       = "latest",
     asset_pattern = "*-x64.msi",
     bin           = "yasb.msi",
@@ -103,11 +104,20 @@
     install_msi $MISE_TOOL_INSTALL_PATH yasb.msi --helper=yasbc --stop_cmd="stop" --start_cmd="start"
     '''
   }
-  glazewm = {
+  glazewm       = {
     version       = "latest",
     asset_pattern = "standalone-*-x64.msi",
     bin           = "glazewm.msi",
     postinstall   = '''
     install_msi $MISE_TOOL_INSTALL_PATH glazewm.msi --helper=glazewm --stop_cmd="command wm-exit" --start_cmd="start"
+    '''
+  }
+  tacky-borders = {
+    version     = "latest",
+    postinstall = '''
+    pwsh -Noprofile -c 'Stop-ScheduledTask -TaskName "Tacky-Borders"'
+    sleep 0.1s
+    cp "$MISE_TOOL_INSTALL_PATH/tacky-borders.exe" "$WIN_HOME/bin"
+    pwsh -Noprofile -c 'Start-ScheduledTask -TaskName "Tacky-Borders"'
     '''
   }
