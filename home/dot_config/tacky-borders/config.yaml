@@ -190,40 +190,40 @@ global:
 # Per-application configuration overrides
 window_rules:
   - match: Class
-    name: 'Windows.UI.Core.CoreWindow'
+    name: Windows.UI.Core.CoreWindow
     enabled: False
 
   - match: Class
-    name: 'MsiDialogCloseClass'
+    name: MsiDialogCloseClass
     enabled: True
 
   - match: Class
-    name: 'XamlExplorerHostIslandWindow'
+    name: XamlExplorerHostIslandWindow
     enabled: False
 
   - match: Class
-    name: 'zBubbleBaseClass'
+    name: zBubbleBaseClass
     enabled: False
 
   - match: Title
-    name: 'Picture-in-Picture'
+    name: Picture-in-Picture
     enabled: False
 
   - match: Process
-    name: 'yasb'
-    enabled: False
-
-  - match: Title
-    name: 'Flow.Launcher'
+    name: yasb
     enabled: False
 
   - match: Process
-    name: 'tacky-borders'
+    name: tacky-borders
     enabled: False
 
   - match: Title
-    name: 'Recording toolbar'
+    name: Recording toolbar
     enabled: False
+
+  - match: Process
+    name: sioyek
+    enabled: True
 
   # Example rule:
   # - match: Class                   # Match based on Class, Title, or Process
